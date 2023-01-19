@@ -7,7 +7,7 @@ namespace DataAccess.Entities
     public class User : IdentityUser<int>
     {
         [Required]
-        public string FullName { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         public string Email { get; set; }
