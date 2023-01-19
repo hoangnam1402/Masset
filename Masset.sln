@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Masset", "Masset\Masset.csproj", "{F7558D42-5C2B-43A3-83FD-32488713AEFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masset", "Masset\Masset.csproj", "{F7558D42-5C2B-43A3-83FD-32488713AEFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{EAC2F9FE-3641-4CD5-85BA-D0A69CE74FAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F7558D42-5C2B-43A3-83FD-32488713AEFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7558D42-5C2B-43A3-83FD-32488713AEFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7558D42-5C2B-43A3-83FD-32488713AEFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC2F9FE-3641-4CD5-85BA-D0A69CE74FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC2F9FE-3641-4CD5-85BA-D0A69CE74FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC2F9FE-3641-4CD5-85BA-D0A69CE74FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC2F9FE-3641-4CD5-85BA-D0A69CE74FAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

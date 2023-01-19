@@ -1,8 +1,8 @@
-﻿using Masset.Data.Enums;
+﻿using DataAccess.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace Masset.Data.Entities
+namespace DataAccess.Entities
 {
     public class User : IdentityUser<int>
     {
@@ -17,6 +17,6 @@ namespace Masset.Data.Entities
         [Required]
         public UserTypeEnum Role { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
 }
