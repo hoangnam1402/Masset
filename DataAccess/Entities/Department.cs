@@ -1,6 +1,6 @@
 ﻿namespace DataAccess.Entities
 {
-    public class AssetType
+    public class Department
     {
         public int Id { get; set; }
         public string? Name { get; set; }
