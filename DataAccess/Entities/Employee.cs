@@ -8,7 +8,7 @@
         public string? Phone { get; set; }
         public string? JobRole { get; set; }
         public Department? Department { get; set; }
-        public int? DepartmentId { get; set; }
+        public int? DepartmentID { get; set; }
         public string? Address { get; set; }
     }
 }

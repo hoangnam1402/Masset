@@ -4,12 +4,12 @@
     {
         public int Id { get; set; }
         public Asset? Asset { get; set; }
-        public string? AssetId { get; set; }
+        public int? AssetID { get; set; }
         public Supplier? Supplier { get; set; }
-        public string? SupplierId { get; set; }
+        public int? SupplierID { get; set; }
         public AssetType? Type { get; set; }
-        public string? TypeId { get; set; }
-        public DateOnly? StartDate { get; set; }
-        public DateOnly? EndDate { get; set; }
+        public int? TypeID { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }
