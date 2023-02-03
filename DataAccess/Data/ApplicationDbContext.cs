@@ -1,11 +1,12 @@
-﻿using DataAccess.Entities;
+﻿using DataAccess.Data.Seeds;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -32,6 +33,10 @@ namespace DataAccess.Data
                     entityType.SetTableName(tableName.Substring(6));
                 }
             }
+
+            //Seed
+            builder.ApplyConfiguration(new DefaultEmployee());
+
         }
     }
 }
