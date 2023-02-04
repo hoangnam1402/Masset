@@ -12,6 +12,11 @@ namespace Masset.Controllers
     {
         private readonly IEmployeeService _employeeService;
 
+        public EmployeeController(IEmployeeService employeeService)
+        {
+            _employeeService = employeeService;
+        }
+
         [HttpPost]
         public async Task<EmployeeResponseDto> Login([FromBody] EmployeeLoginDto employeeLoginDto)
         {
@@ -27,7 +32,7 @@ namespace Masset.Controllers
 
             var e = await _employeeService.LoginEmployee(employeeLoginDto);
 
-            if (await _employeeService.LoginEmployee(employeeLoginDto) != null)
+            if (e == null)
             {
                 var error = "Username or password is incorrect. Please try again";
                 return new EmployeeResponseDto

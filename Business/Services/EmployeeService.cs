@@ -14,6 +14,12 @@ namespace Business.Services
         private readonly IBaseRepository<Employee> _employeeRepository;
         private readonly IMapper _mapper;
 
+        public EmployeeService(IBaseRepository<Employee> employeeRepository, IMapper mapper)
+        {
+            _employeeRepository=employeeRepository;
+            _mapper=mapper;
+        }
+
         public async Task<EmployeeDto> CreateEmployee(EmployeeCreateDto employeeCreateRequest)
         {
             Ensure.Any.IsNotNull(employeeCreateRequest);
@@ -39,8 +45,8 @@ namespace Business.Services
             {
                 return null;
             }
-            var employee = _mapper.Map<EmployeeDto>(result);
-            return employee;
+            return _mapper.Map<EmployeeDto>(result); ;
         }
+
     }
 }

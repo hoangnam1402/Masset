@@ -1,4 +1,5 @@
 global using DataAccess.Data;
+using Business;
 using DataAccess;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDataAccessorLayer(builder.Configuration);
+builder.Services.AddBusinessLayer();
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
