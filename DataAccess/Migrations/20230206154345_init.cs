@@ -145,8 +145,7 @@ namespace DataAccess.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -394,7 +393,7 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "Id", "Address", "DepartmentID", "Email", "JobRole", "Password", "Phone", "UserName" },
-                values: new object[] { 1, null, null, null, null, "Staff", null, "Staff" });
+                values: new object[] { new Guid("b2f76edf-646f-4ccc-8b88-4072ce863e07"), null, null, null, null, "staff", null, "staff" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assets_BrandID",

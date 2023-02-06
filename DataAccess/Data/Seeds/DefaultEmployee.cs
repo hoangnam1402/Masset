@@ -9,7 +9,7 @@ namespace DataAccess.Data.Seeds
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.HasData(
-                new Employee() { Id = 1, UserName = "Staff", Password = "Staff" }
+                new Employee() { Id = Guid.NewGuid(), UserName = "staff", Password = "staff" }
             );
         }
 

@@ -32,7 +32,9 @@ namespace Business.Services
                 return null;
             }
 
+            Guid id = Guid.NewGuid();
             var newEmployee = _mapper.Map<Employee>(employeeCreateRequest);
+            newEmployee.Id = id;
 
             var result = await _employeeRepository.Add(newEmployee);
             if (result != null)

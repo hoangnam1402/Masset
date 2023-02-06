@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230203152424_init")]
+    [Migration("20230206154345_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -219,11 +219,9 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -255,9 +253,9 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Password = "Staff",
-                            UserName = "Staff"
+                            Id = new Guid("b2f76edf-646f-4ccc-8b88-4072ce863e07"),
+                            Password = "staff",
+                            UserName = "staff"
                         });
                 });
 

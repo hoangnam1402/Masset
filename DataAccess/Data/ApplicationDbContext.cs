@@ -36,7 +36,6 @@ namespace DataAccess.Data
 
             //Seed
             builder.ApplyConfiguration(new DefaultEmployee());
-
         }
     }
 }
