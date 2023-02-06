@@ -24,6 +24,14 @@ namespace Business.Services
         {
             Ensure.Any.IsNotNull(employeeCreateRequest);
 
+            var isExist = await _employeeRepository.Entities
+                .FirstOrDefaultAsync(x => x.UserName == employeeCreateRequest.UserName);
+
+            if (isExist != null)
+            {
+                return null;
+            }
+
             var newEmployee = _mapper.Map<Employee>(employeeCreateRequest);
 
             var result = await _employeeRepository.Add(newEmployee);
@@ -46,6 +54,18 @@ namespace Business.Services
                 return null;
             }
             return _mapper.Map<EmployeeDto>(result); ;
+        }
+
+        public async Task<bool> ValidationData(EmployeeLoginDto employeeDto)
+        {
+            var result = await _employeeRepository.Entities
+                .FirstOrDefaultAsync(x => x.UserName == employeeDto.UserName
+                && x.Password == employeeDto.Password);
+            if (result == null)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

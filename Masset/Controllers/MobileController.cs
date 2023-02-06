@@ -1,24 +1,23 @@
 ﻿using Business.Interfaces;
 using Contracts.Dtos.EmployeeDtos;
-using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masset.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class MobileController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(IEmployeeService employeeService)
+        public MobileController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
         }
 
         [HttpPost]
-        public async Task<EmployeeResponseDto> CreateEmployee([FromBody] EmployeeCreateDto employeeDto)
+        public async Task<EmployeeResponseDto> Login([FromBody] EmployeeLoginDto employeeLoginDto)
         {
-            if (string.IsNullOrEmpty(employeeDto.UserName) || string.IsNullOrEmpty(employeeDto.Password))
+            if (string.IsNullOrEmpty(employeeLoginDto.UserName) || string.IsNullOrEmpty(employeeLoginDto.Password))
             {
                 var error = "Username and password is required.";
                 return new EmployeeResponseDto
@@ -28,11 +27,11 @@ namespace Masset.Controllers
                 };
             }
 
-            var e = await _employeeService.CreateEmployee(employeeDto);
+            var e = await _employeeService.LoginEmployee(employeeLoginDto);
 
             if (e == null)
             {
-                var error = "Username exist. Please try again";
+                var error = "Username or password is incorrect. Please try again";
                 return new EmployeeResponseDto
                 {
                     Error = true,
@@ -54,6 +53,5 @@ namespace Masset.Controllers
             };
             return result;
         }
-
     }
 }
