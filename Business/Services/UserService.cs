@@ -17,7 +17,14 @@ namespace Business.Services
         private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
         private UserManager<User> _userManager;
-        private readonly IHttpContextAccessor _httpcontext;
+
+        public UserService(IBaseRepository<User> userRepository, IMapper mapper, UserManager<User> userManager)
+        {
+            _userRepository=userRepository;
+            _mapper=mapper;
+            _userManager=userManager;
+        }
+
         public async Task<PagedResponseModel<UserDto>> GetByPageAsync(
             BaseQueryCriteria baseQueryCriteria,
             CancellationToken cancellationToken)
@@ -60,14 +67,7 @@ namespace Business.Services
         {
             Ensure.Any.IsNotNull(userCreateRequest);
 
-            var claims = _httpcontext.HttpContext.User.Claims.ToList();
-            Dictionary<string, string> claimsDictionary = new Dictionary<string, string>();
-            foreach (var claim in claims)
-            {
-                claimsDictionary.Add(claim.Type, claim.Value);
-            }
-
-            var password = "123456";
+            var password = "abc123";
 
             var newUser = _mapper.Map<User>(userCreateRequest);
             newUser.UserName = userCreateRequest.UserName;
@@ -88,17 +88,25 @@ namespace Business.Services
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
 
             if (user == null)
-            {
                 throw new NotFoundException("Not Found!");
-            }
 
             user.Status = userRequest.Status;
+            user.Email = userRequest.Email;
+            user.PhoneNumber = userRequest.PhoneNumber;
 
             var userUpdated = await _userRepository.Update(user);
 
             var userUpdatedDto = _mapper.Map<UserDto>(userUpdated);
 
             return userUpdatedDto;
+        }
+
+        public async Task<bool> IsExist(int id)
+        {
+            if (await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) == null)
+                return false;
+            else
+                return true;
         }
 
         #region Private Method

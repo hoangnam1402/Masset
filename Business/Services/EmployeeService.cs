@@ -70,5 +70,12 @@ namespace Business.Services
             return false;
         }
 
+        public async Task<bool> IsExist(Guid id)
+        {
+            if (await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) != null )
+                return true;
+            else
+                return false;
+        }
     }
 }

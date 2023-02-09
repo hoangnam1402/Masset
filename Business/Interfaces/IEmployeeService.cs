@@ -6,5 +6,6 @@ namespace Business.Interfaces
     {
         Task<EmployeeDto> CreateEmployee(EmployeeCreateDto employeeCreateRequest);
         Task<EmployeeDto> LoginEmployee(EmployeeLoginDto employeeLoginRequest);
+        Task<bool> IsExist(Guid id);
     }
 }

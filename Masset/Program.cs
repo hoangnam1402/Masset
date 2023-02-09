@@ -5,10 +5,11 @@ using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDataAccessorLayer(builder.Configuration);
+builder.Services.AddDataAccessorLayer(config);
 builder.Services.AddBusinessLayer();
 builder.Services.AddIdentity<User, IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

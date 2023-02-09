@@ -16,44 +16,24 @@ namespace Masset.Controllers
         }
 
         [HttpPost]
-        public async Task<EmployeeResponseDto> CreateEmployee([FromBody] EmployeeCreateDto employeeDto)
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeCreateDto employeeDto)
         {
             if (string.IsNullOrEmpty(employeeDto.UserName) || string.IsNullOrEmpty(employeeDto.Password))
             {
-                var error = "Username and password is required.";
-                return new EmployeeResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
+                return BadRequest("Username and password is required.");
             }
-
-            var e = await _employeeService.CreateEmployee(employeeDto);
-
-            if (e == null)
+            else
             {
-                var error = "Username exist. Please try again";
-                return new EmployeeResponseDto
+                var result = await _employeeService.CreateEmployee(employeeDto);
+                if (result != null)
                 {
-                    Error = true,
-                    Message = error,
-                };
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Username exist.");
+                }
             }
-
-            EmployeeResponseDto result = new EmployeeResponseDto()
-            {
-                Id = e.Id,
-                UserName = e.UserName,
-                Email = e.Email,
-                Phone = e.Phone,
-                JobRole = e.JobRole,
-                DepartmentID = e.DepartmentID,
-                Address = e.Address,
-                Error = false,
-                Message = "",
-            };
-            return result;
         }
-
     }
 }
