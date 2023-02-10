@@ -34,36 +34,24 @@ namespace Masset.Controllers
         [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _userService.GetById(id);
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
+            if(!await _userService.IsExist(id))
                 return BadRequest("Not found user with id: " + id);
-            }
+
+            var result = await _userService.GetById(id);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userRequest)
         {
             if (string.IsNullOrEmpty(userRequest.UserName))
-            {
-                return BadRequest("Username is required");
-            }
-            else
-            {
-                var result = await _userService.RegisterUser(userRequest);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return BadRequest(result);
-                }
-            }
+                return BadRequest("Username is required.");
+
+            if (await _userService.IsExist(userRequest.UserName))
+                return BadRequest("UserName is exist!!!");
+
+            var result = await _userService.RegisterUser(userRequest);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
@@ -73,16 +61,13 @@ namespace Masset.Controllers
             [FromBody] UserUpdateDto userRequest)
         {
             if (string.IsNullOrEmpty(userRequest.UserName))
-            {
-                return BadRequest("Username and Status is required");
-            }
+                return BadRequest("Username and Status is required.");
 
             if (!await _userService.IsExist(id))
-                return BadRequest("Id not exist");
+                return BadRequest("Id not exist!!!");
 
-            var updatedUser = await _userService.UpdateAsync(id, userRequest);
-
-            return Ok(updatedUser);
+            var result = await _userService.UpdateAsync(id, userRequest);
+            return Ok(result);
         }
 
     }

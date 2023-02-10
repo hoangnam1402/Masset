@@ -55,12 +55,8 @@ namespace Business.Services
         {
             var user = await _userRepository.GetById(id);
             if (user != null)
-            {
-                var userDto = _mapper.Map<UserDto>(user);
-
-                return userDto;
-            }
-            return null;
+                return _mapper.Map<UserDto>(user);
+            throw new NotFoundException("Not Found!");
         }
 
         public async Task<UserDto> RegisterUser(UserCreateDto userCreateRequest)
@@ -76,11 +72,8 @@ namespace Business.Services
 
             var result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
-            {
                 return _mapper.Map<UserDto>(newUser);
-            }
-            return null;
-
+            throw new NotFoundException("Not Found!");
         }
 
         public async Task<UserDto> UpdateAsync(int id, UserUpdateDto userRequest)
@@ -95,15 +88,20 @@ namespace Business.Services
             user.PhoneNumber = userRequest.PhoneNumber;
 
             var userUpdated = await _userRepository.Update(user);
-
-            var userUpdatedDto = _mapper.Map<UserDto>(userUpdated);
-
-            return userUpdatedDto;
+            return _mapper.Map<UserDto>(userUpdated);
         }
 
         public async Task<bool> IsExist(int id)
         {
             if (await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) == null)
+                return false;
+            else
+                return true;
+        }
+
+        public async Task<bool> IsExist(string userName)
+        {
+            if (await _userRepository.Entities.FirstOrDefaultAsync(x => x.UserName == userName) == null)
                 return false;
             else
                 return true;

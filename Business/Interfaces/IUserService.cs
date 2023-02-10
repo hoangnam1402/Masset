@@ -10,5 +10,6 @@ namespace Business.Interfaces
         Task<UserDto> GetById(int id);
         Task<UserDto> UpdateAsync(int id, UserUpdateDto userRequest);
         Task<bool> IsExist(int id);
+        Task<bool> IsExist(string userName);
     }
 }
