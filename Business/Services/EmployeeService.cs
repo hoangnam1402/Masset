@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Business.Interfaces;
 using Contracts.Dtos.EmployeeDtos;
-using Contracts.Exceptions;
-using DataAccess.Data;
 using DataAccess.Entities;
 using EnsureThat;
 using Microsoft.EntityFrameworkCore;
@@ -24,14 +22,6 @@ namespace Business.Services
         {
             Ensure.Any.IsNotNull(employeeCreateRequest);
 
-            var isExist = await _employeeRepository.Entities
-                .FirstOrDefaultAsync(x => x.UserName == employeeCreateRequest.UserName);
-
-            if (isExist != null)
-            {
-                return null;
-            }
-
             Guid id = Guid.NewGuid();
             var newEmployee = _mapper.Map<Employee>(employeeCreateRequest);
             newEmployee.Id = id;
@@ -51,28 +41,31 @@ namespace Business.Services
             var result = await _employeeRepository.Entities
                 .FirstOrDefaultAsync(x => x.UserName == employeeLoginRequest.UserName 
                 && x.Password == employeeLoginRequest.Password);
-            if (result == null)
-            {
-                return null;
-            }
             return _mapper.Map<EmployeeDto>(result); ;
         }
 
-        public async Task<bool> ValidationData(EmployeeLoginDto employeeDto)
+        public async Task<bool> LoginFail(EmployeeLoginDto employeeDto)
         {
             var result = await _employeeRepository.Entities
                 .FirstOrDefaultAsync(x => x.UserName == employeeDto.UserName
                 && x.Password == employeeDto.Password);
+
             if (result == null)
-            {
                 return true;
-            }
             return false;
         }
 
         public async Task<bool> IsExist(Guid id)
         {
             if (await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) != null )
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> IsExist(string userName)
+        {
+            if (await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.UserName == userName) != null )
                 return true;
             else
                 return false;

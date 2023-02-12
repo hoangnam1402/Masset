@@ -27,9 +27,7 @@ namespace Masset.Controllers
                 };
             }
 
-            var e = await _employeeService.LoginEmployee(employeeLoginDto);
-
-            if (e == null)
+            if (await _employeeService.LoginFail(employeeLoginDto))
             {
                 var error = "Username or password is incorrect. Please try again";
                 return new EmployeeResponseDto
@@ -38,6 +36,8 @@ namespace Masset.Controllers
                     Message = error,
                 };
             }
+
+            var e = await _employeeService.LoginEmployee(employeeLoginDto);
 
             EmployeeResponseDto result = new EmployeeResponseDto()
             {

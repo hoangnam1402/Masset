@@ -1,6 +1,5 @@
 ﻿using Business.Interfaces;
 using Contracts.Dtos.EmployeeDtos;
-using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masset.Controllers
@@ -19,21 +18,16 @@ namespace Masset.Controllers
         public async Task<IActionResult> CreateEmployee([FromBody] EmployeeCreateDto employeeDto)
         {
             if (string.IsNullOrEmpty(employeeDto.UserName) || string.IsNullOrEmpty(employeeDto.Password))
-            {
                 return BadRequest("Username and password is required.");
-            }
+            if(await _employeeService.IsExist(employeeDto.UserName))
+                return BadRequest("Username exist.");
+
+            var result = await _employeeService.CreateEmployee(employeeDto);
+
+            if (result != null)
+                return Ok(result);
             else
-            {
-                var result = await _employeeService.CreateEmployee(employeeDto);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return BadRequest("Username exist.");
-                }
-            }
+                return BadRequest("Somethink go wrong.");
         }
     }
 }

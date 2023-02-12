@@ -3,10 +3,8 @@ using Business.Extensions;
 using Business.Interfaces;
 using Contracts;
 using Contracts.Dtos.UserDtos;
-using Contracts.Exceptions;
 using DataAccess.Entities;
 using EnsureThat;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -56,7 +54,8 @@ namespace Business.Services
             var user = await _userRepository.GetById(id);
             if (user != null)
                 return _mapper.Map<UserDto>(user);
-            throw new NotFoundException("Not Found!");
+            //throw new NotFoundException("Not Found!");
+            return null;
         }
 
         public async Task<UserDto> RegisterUser(UserCreateDto userCreateRequest)
@@ -73,15 +72,12 @@ namespace Business.Services
             var result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
                 return _mapper.Map<UserDto>(newUser);
-            throw new NotFoundException("Not Found!");
+            return null;
         }
 
         public async Task<UserDto> UpdateAsync(int id, UserUpdateDto userRequest)
         {
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (user == null)
-                throw new NotFoundException("Not Found!");
 
             user.Status = userRequest.Status;
             user.Email = userRequest.Email;
@@ -93,7 +89,7 @@ namespace Business.Services
 
         public async Task<bool> IsExist(int id)
         {
-            if (await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) == null)
+            if (await _userRepository.GetById(id) == null)
                 return false;
             else
                 return true;

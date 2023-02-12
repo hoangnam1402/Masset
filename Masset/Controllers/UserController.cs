@@ -2,7 +2,6 @@
 using Contracts;
 using Contracts.Dtos.UserDtos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masset.Controllers
@@ -46,12 +45,15 @@ namespace Masset.Controllers
         {
             if (string.IsNullOrEmpty(userRequest.UserName))
                 return BadRequest("Username is required.");
-
             if (await _userService.IsExist(userRequest.UserName))
                 return BadRequest("UserName is exist!!!");
 
             var result = await _userService.RegisterUser(userRequest);
-            return Ok(result);
+
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest("Somethink go wrong.");
         }
 
         [HttpPut("{id}")]
