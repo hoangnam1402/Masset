@@ -16,7 +16,7 @@ namespace Business
             //services.AddTransient<IAssetService, AssetService>();
             //services.AddTransient<IAssetCategoryService, AssetCategoryService>();
             //services.AddTransient<IAssignmentService, AssignmentService>();
-            //services.AddScoped<IAuthManager, AuthManager>();
+            services.AddScoped<IAuthManager, AuthManager>();
         }
 
     }

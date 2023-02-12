@@ -1,5 +1,6 @@
 ﻿using Business.Interfaces;
 using Contracts;
+using Contracts.Dtos;
 using Contracts.Dtos.UserDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,12 @@ namespace Masset.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IAuthManager _authManager;
+
+        public UserController(IUserService userService, IAuthManager authManager)
         {
             _userService = userService;
+            _authManager=authManager;
         }
 
         [HttpGet]
@@ -53,7 +57,23 @@ namespace Masset.Controllers
             if (result != null)
                 return Ok(result);
             else
-                return BadRequest("Somethink go wrong.");
+                return BadRequest("Something go wrong.");
+        }
+
+        [HttpPost, Route("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto userRequest)
+        {
+            if (string.IsNullOrEmpty(userRequest.UserName))
+                return BadRequest("Username is required.");
+            //if (await _userService.IsExist(userRequest.UserName))
+            //    return BadRequest("UserName is exist!!!");
+
+            var result = await _authManager.LoginUser(userRequest);
+
+            if (result)
+                return Ok(result);
+            else
+                return BadRequest("Something go wrong.");
         }
 
         [HttpPut("{id}")]

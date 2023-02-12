@@ -1,4 +1,5 @@
 ﻿using Business.Interfaces;
+using Contracts.Dtos;
 using Contracts.Dtos.EmployeeDtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace Masset.Controllers
         }
 
         [HttpPost]
-        public async Task<EmployeeResponseDto> Login([FromBody] EmployeeLoginDto employeeLoginDto)
+        public async Task<EmployeeResponseDto> Login([FromBody] LoginDto employeeLoginDto)
         {
             if (string.IsNullOrEmpty(employeeLoginDto.UserName) || string.IsNullOrEmpty(employeeLoginDto.Password))
             {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Business.Interfaces;
+using Contracts.Dtos;
 using Contracts.Dtos.EmployeeDtos;
 using DataAccess.Entities;
-using EnsureThat;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
@@ -20,8 +20,6 @@ namespace Business.Services
 
         public async Task<EmployeeDto> CreateEmployee(EmployeeCreateDto employeeCreateRequest)
         {
-            Ensure.Any.IsNotNull(employeeCreateRequest);
-
             Guid id = Guid.NewGuid();
             var newEmployee = _mapper.Map<Employee>(employeeCreateRequest);
             newEmployee.Id = id;
@@ -34,17 +32,15 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<EmployeeDto> LoginEmployee(EmployeeLoginDto employeeLoginRequest)
+        public async Task<EmployeeDto> LoginEmployee(LoginDto employeeLoginRequest)
         {
-            Ensure.Any.IsNotNull(employeeLoginRequest);
-
             var result = await _employeeRepository.Entities
                 .FirstOrDefaultAsync(x => x.UserName == employeeLoginRequest.UserName 
                 && x.Password == employeeLoginRequest.Password);
             return _mapper.Map<EmployeeDto>(result); ;
         }
 
-        public async Task<bool> LoginFail(EmployeeLoginDto employeeDto)
+        public async Task<bool> LoginFail(LoginDto employeeDto)
         {
             var result = await _employeeRepository.Entities
                 .FirstOrDefaultAsync(x => x.UserName == employeeDto.UserName

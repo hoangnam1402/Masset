@@ -1,6 +1,6 @@
-﻿namespace Contracts.Dtos.EmployeeDtos
+﻿namespace Contracts.Dtos
 {
-    public class EmployeeLoginDto
+    public class LoginDto
     {
         public string? UserName { get; set; }
         public string? Password { get; set; }

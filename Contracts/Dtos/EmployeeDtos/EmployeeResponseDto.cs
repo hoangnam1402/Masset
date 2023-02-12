@@ -1,6 +1,4 @@
-﻿using Contracts.Dtos.DepartmentDtos;
-
-namespace Contracts.Dtos.EmployeeDtos
+﻿namespace Contracts.Dtos.EmployeeDtos
 {
     public class EmployeeResponseDto
     {

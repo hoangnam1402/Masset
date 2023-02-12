@@ -4,7 +4,6 @@ using Business.Interfaces;
 using Contracts;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
-using EnsureThat;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +13,7 @@ namespace Business.Services
     {
         private readonly IBaseRepository<User> _userRepository;
         private readonly IMapper _mapper;
-        private UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
 
         public UserService(IBaseRepository<User> userRepository, IMapper mapper, UserManager<User> userManager)
         {
@@ -27,7 +26,6 @@ namespace Business.Services
             BaseQueryCriteria baseQueryCriteria,
             CancellationToken cancellationToken)
         {
-
             var userQuery = UserFilter(
                 _userRepository.Entities.AsQueryable(),
                 baseQueryCriteria);
@@ -60,8 +58,6 @@ namespace Business.Services
 
         public async Task<UserDto> RegisterUser(UserCreateDto userCreateRequest)
         {
-            Ensure.Any.IsNotNull(userCreateRequest);
-
             var password = "abc123";
 
             var newUser = _mapper.Map<User>(userCreateRequest);
