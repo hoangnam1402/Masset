@@ -2,6 +2,7 @@
 using Contracts;
 using Contracts.Dtos;
 using Contracts.Dtos.UserDtos;
+using Masset.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +13,12 @@ namespace Masset.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IAuthManager _authManager;
+        private readonly IAuthService _authService;
 
-        public UserController(IUserService userService, IAuthManager authManager)
+        public UserController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
-            _authManager=authManager;
+            _authService=authService;
         }
 
         [HttpGet]
@@ -63,12 +64,10 @@ namespace Masset.Controllers
         [HttpPost, Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto userRequest)
         {
-            if (string.IsNullOrEmpty(userRequest.UserName))
+            if (string.IsNullOrEmpty(userRequest.UserName) || string.IsNullOrEmpty(userRequest.Password))
                 return BadRequest("Username is required.");
-            //if (await _userService.IsExist(userRequest.UserName))
-            //    return BadRequest("UserName is exist!!!");
 
-            var result = await _authManager.LoginUser(userRequest);
+            var result = await _authService.ValidateUser(userRequest);
 
             if (result)
                 return Ok(result);

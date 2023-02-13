@@ -62,8 +62,7 @@ namespace Business.Services
 
             var newUser = _mapper.Map<User>(userCreateRequest);
             newUser.UserName = userCreateRequest.UserName;
-            newUser.Status = DataAccess.Enums.UserStatusEnums.Active;
-            newUser.NewAccount = true;
+            newUser.IsActive = true;
 
             var result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
@@ -75,7 +74,7 @@ namespace Business.Services
         {
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
 
-            user.Status = userRequest.Status;
+            user.IsActive = userRequest.IsActive;
             user.Email = userRequest.Email;
             user.PhoneNumber = userRequest.PhoneNumber;
 
