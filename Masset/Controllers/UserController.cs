@@ -85,7 +85,7 @@ namespace Masset.Controllers
                 return BadRequest("Username and Status is required.");
 
             if (!await _userService.IsExist(id))
-                return BadRequest("Id not exist!!!");
+                return BadRequest("User not exist!!!");
 
             var result = await _userService.UpdateAsync(id, userRequest);
             return Ok(result);

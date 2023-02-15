@@ -19,7 +19,8 @@ namespace Business
             CreateMap<EmployeeDto, Employee>(memberList: AutoMapper.MemberList.None);
             CreateMap<LoginDto, Employee>(memberList: AutoMapper.MemberList.None);
             CreateMap<EmployeeCreateDto, Employee>(memberList: AutoMapper.MemberList.None);
-            CreateMap<EmployeeResponseDto, Employee>(memberList: AutoMapper.MemberList.None);
+            CreateMap<EmployeeUpdateDto, Employee>(memberList: AutoMapper.MemberList.None);
+
 
             //User
             CreateMap<UserDto, User>(memberList: AutoMapper.MemberList.None);
@@ -33,8 +34,8 @@ namespace Business
             //Employee
             CreateMap<Employee, EmployeeDto>();
             CreateMap<Employee, LoginDto>();
+            CreateMap<Employee, EmployeeUpdateDto>();
             CreateMap<Employee, EmployeeCreateDto>();
-            CreateMap<Employee, EmployeeResponseDto>(memberList: AutoMapper.MemberList.None);
 
             //User
             CreateMap<User, UserDto>();

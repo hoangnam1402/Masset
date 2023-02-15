@@ -38,17 +38,27 @@ namespace Masset.Controllers
                 };
             }
 
-            var e = await _employeeService.LoginEmployee(employeeLoginDto);
+            var emloyee = await _employeeService.LoginEmployee(employeeLoginDto);
+
+            if(emloyee.isDelete)
+            {
+                var error = "Employee is not available. Please contact admin";
+                return new EmployeeResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
 
             EmployeeResponseDto result = new EmployeeResponseDto()
             {
-                Id = e.Id,
-                UserName = e.UserName,
-                Email = e.Email,
-                Phone = e.Phone,
-                JobRole = e.JobRole,
-                DepartmentID = e.DepartmentID,
-                Address = e.Address,
+                Id = emloyee.Id,
+                UserName = emloyee.UserName,
+                Email = emloyee.Email,
+                Phone = emloyee.Phone,
+                JobRole = emloyee.JobRole,
+                DepartmentID = emloyee.DepartmentID,
+                Address = emloyee.Address,
                 Error = false,
                 Message = "",
             };

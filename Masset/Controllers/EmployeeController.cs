@@ -1,5 +1,7 @@
 ﻿using Business.Interfaces;
+using Contracts;
 using Contracts.Dtos.EmployeeDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masset.Controllers
@@ -22,12 +24,49 @@ namespace Masset.Controllers
             if(await _employeeService.IsExist(employeeDto.UserName))
                 return BadRequest("Username exist.");
 
-            var result = await _employeeService.CreateEmployee(employeeDto);
+            var result = await _employeeService.CreateAsync(employeeDto);
 
             if (result != null)
                 return Ok(result);
             else
                 return BadRequest("Somethink go wrong.");
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetEmployee([FromQuery] BaseQueryCriteria assetCriteria,
+                                                               CancellationToken cancellationToken)
+        {
+            var responses = await _employeeService.GetByPageAsync(assetCriteria, cancellationToken);
+            return Ok(responses);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateEmployee([FromRoute] Guid id,
+                                                [FromBody] EmployeeUpdateDto employeeUpdateDto)
+        {
+            if (string.IsNullOrEmpty(employeeUpdateDto.UserName))
+                return BadRequest("Username is required.");
+            if(!await _employeeService.IsExist(id))
+                return BadRequest("Employee not exist!!!");
+
+            var result = await _employeeService.UpdateAsync(id, employeeUpdateDto);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            if (!await _employeeService.IsExist(id))
+                return BadRequest("Employee not exist!!!");
+            if (await _employeeService.IsDelete(id))
+                return BadRequest("Employee has been deleted!!!");
+
+            var result = await _employeeService.DeleteAsync(id);
+            return Ok(result);
+        }
+
     }
 }
