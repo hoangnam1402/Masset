@@ -48,7 +48,6 @@ namespace Masset.Controllers
             }
 
             User user = await _userManager.FindByNameAsync(userRequest.UserName);
-
             var token = await _authService.CreateToken();
 
             UserResponseDto result = new UserResponseDto()

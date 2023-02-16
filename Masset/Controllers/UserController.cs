@@ -13,12 +13,10 @@ namespace Masset.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IAuthService _authService;
 
-        public UserController(IUserService userService, IAuthService authService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _authService=authService;
         }
 
         [HttpGet]
@@ -56,20 +54,6 @@ namespace Masset.Controllers
             var result = await _userService.RegisterUser(userRequest);
 
             if (result != null)
-                return Ok(result);
-            else
-                return BadRequest("Something go wrong.");
-        }
-
-        [HttpPost, Route("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto userRequest)
-        {
-            if (string.IsNullOrEmpty(userRequest.UserName) || string.IsNullOrEmpty(userRequest.Password))
-                return BadRequest("Username is required.");
-
-            var result = await _authService.ValidateUser(userRequest);
-
-            if (result)
                 return Ok(result);
             else
                 return BadRequest("Something go wrong.");

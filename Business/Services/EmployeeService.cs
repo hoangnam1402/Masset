@@ -128,6 +128,32 @@ namespace Business.Services
             return result!=null;
         }
 
+        public async Task<EmployeeDto> GetByIdAsync(Guid id)
+        {
+            var result = await _employeeRepository.Entities
+                .Include(s => s.Department)
+                .FirstOrDefaultAsync(x => x.Id==id);
+
+            if (result == null)
+                return null;
+            return _mapper.Map<EmployeeDto>(result);
+
+        }
+
+        public async Task<bool> ChangePassword(Guid id, EmployeeDto employeeDto)
+        {
+            var employee = await _employeeRepository.Entities
+                .Include(s => s.Department)
+                .FirstOrDefaultAsync(x => x.Id==id);
+
+            employee = _mapper.Map<EmployeeDto, Employee>(employeeDto, employee);
+
+            var result = await _employeeRepository.Update(employee);
+
+            return result!=null;
+        }
+
+
         #region Private Method
         private IQueryable<Employee> EmployeeFilter(
             IQueryable<Employee> employeeQuery,

@@ -74,12 +74,12 @@ namespace Business.Services
         {
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
 
-            user.IsActive = userRequest.IsActive;
-            user.Email = userRequest.Email;
-            user.PhoneNumber = userRequest.PhoneNumber;
+            user = _mapper.Map<UserUpdateDto, User>(userRequest, user);
 
-            var userUpdated = await _userRepository.Update(user);
-            return _mapper.Map<UserDto>(userUpdated);
+            var result = await _userRepository.Update(user);
+            if (result == null)
+                return null;
+            return _mapper.Map<UserDto>(result);
         }
 
         public async Task<bool> IsExist(int id)

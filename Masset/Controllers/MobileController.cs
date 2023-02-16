@@ -64,5 +64,89 @@ namespace Masset.Controllers
             };
             return result;
         }
+
+        [HttpPut("{id}")]
+        public async Task<EmployeeResponseDto> ChangePassword([FromRoute] Guid id, 
+                                                            [FromBody] ChangePasswordDto employeeRequest)
+        {
+            if (!await _employeeService.IsExist(id))
+            {
+                var error = "Employee not exist!!!";
+                return new EmployeeResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (employeeRequest.CurrentPassword == employeeRequest.NewPassword)
+            {
+                var error = "The new password cannot be the same as the old password";
+                return new EmployeeResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (await _employeeService.IsDelete(id))
+            {
+                var error = "Employee has been deleted!!!";
+                return new EmployeeResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var emloyee = await _employeeService.GetByIdAsync(id);
+
+            if (emloyee == null)
+            {
+                var error = "Something go wrong.";
+                return new EmployeeResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (emloyee.Password == employeeRequest.CurrentPassword)
+            {
+                var error = "Password is incorrect. Please try again";
+                return new EmployeeResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var changePasswordSuccess = await _employeeService.ChangePassword(id, emloyee);
+            if(!changePasswordSuccess)
+            {
+                var error = "Something go wrong";
+                return new EmployeeResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            EmployeeResponseDto result = new EmployeeResponseDto()
+            {
+                Id = emloyee.Id,
+                UserName = emloyee.UserName,
+                Email = emloyee.Email,
+                Phone = emloyee.Phone,
+                JobRole = emloyee.JobRole,
+                DepartmentID = emloyee.DepartmentID,
+                Address = emloyee.Address,
+                Error = false,
+                Message = "",
+            };
+
+            return result;
+        }
+
     }
 }
