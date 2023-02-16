@@ -61,18 +61,19 @@ namespace Business.Services
             else
                 return false;
         }
-        public async Task<bool> IsDelete(Guid id)
+
+        public async Task<bool> IsExist(string userName)
         {
-            var result = await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-            if (result != null && result.IsDelete)
+            if (await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.UserName == userName) != null)
                 return true;
             else
                 return false;
         }
 
-        public async Task<bool> IsExist(string userName)
+        public async Task<bool> IsDelete(Guid id)
         {
-            if (await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.UserName == userName) != null)
+            var result = await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
+            if (result != null && result.IsDelete)
                 return true;
             else
                 return false;
@@ -142,9 +143,7 @@ namespace Business.Services
 
         public async Task<bool> ChangePassword(Guid id, EmployeeDto employeeDto)
         {
-            var employee = await _employeeRepository.Entities
-                .Include(s => s.Department)
-                .FirstOrDefaultAsync(x => x.Id==id);
+            var employee = await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id==id);
 
             employee = _mapper.Map<EmployeeDto, Employee>(employeeDto, employee);
 

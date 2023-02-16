@@ -1,16 +1,15 @@
-﻿using DataAccess.Enums;
+﻿using Contracts.Dtos.AssetTypeDtos;
+using Contracts.Dtos.BrandsDtos;
+using Contracts.Dtos.LocationDtos;
+using Contracts.Dtos.SupplierDtos;
+using DataAccess.Enums;
 
-namespace DataAccess.Entities
+namespace Contracts.Dtos.AssetDtos
 {
-    public class Asset
+    public class AssetCreateAndUpdateDto
     {
-        public int Id { get; set; }
         public string? Name { get; set; }
         public string? Tag { get; set; }
-        public AssetType? Type { get; set; }
-        public Supplier? Supplier { get; set; }
-        public Location? Location { get; set; }
-        public Brands? Brand { get; set; }
         public int? TypeID { get; set; }
         public int? SupplierID { get; set; }
         public int? LocationID { get; set; }

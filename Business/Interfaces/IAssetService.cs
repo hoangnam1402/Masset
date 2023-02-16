@@ -5,9 +5,9 @@ namespace Business.Interfaces
 {
     public interface IAssetService
     {
-        Task<PagedResponseModel<AssetDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken, int userid);
-        //Task<AssetDTO> CreateAsset(AssetCreateDTO assetCreateRequest, int userid);
-        //Task<AssetDTO> UpdateAsset(int id, AssetUpdateDTO assetUpdateRequest);
-        Task<bool> DeleteAsset(int id);
+        Task<PagedResponseModel<AssetDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
+        Task<AssetDto> CreateAsync(AssetCreateAndUpdateDto assetCreateRequest);
+        Task<AssetDto> UpdateAsync(int id, AssetCreateAndUpdateDto assetUpdateRequest);
+        Task<bool> DeleteAsync(int id);
     }
 }
