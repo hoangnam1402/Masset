@@ -7,10 +7,10 @@ namespace Contracts.Dtos.AssetDtos
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Tag { get; set; }
-        public int? TypeID { get; set; }
-        public int? SupplierID { get; set; }
-        public int? LocationID { get; set; }
-        public int? BrandID { get; set; }
+        public string? Type { get; set; }
+        public string? Supplier { get; set; }
+        public string? Location { get; set; }
+        public string? Brand { get; set; }
         public string? Serial { get; set; }
         public int? Cost { get; set; }
         public int? Warranty { get; set; }
