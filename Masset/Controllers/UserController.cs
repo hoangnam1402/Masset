@@ -40,6 +40,9 @@ namespace Masset.Controllers
                 return BadRequest("Not found user with id: " + id);
 
             var result = await _userService.GetById(id);
+
+            if (result == null)
+                return BadRequest("Not Found !");
             return Ok(result);
         }
 

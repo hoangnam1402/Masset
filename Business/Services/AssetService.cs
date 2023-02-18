@@ -4,6 +4,7 @@ using Business.Interfaces;
 using Contracts;
 using Contracts.Dtos.AssetDtos;
 using DataAccess.Entities;
+using DataAccess.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
@@ -48,11 +49,15 @@ namespace Business.Services
             };
         }
 
-        public async Task<AssetDto> CreateAsync(AssetCreateAndUpdateDto assetCreateRequest)
+        public async Task<AssetDto> CreateAsync(AssetCreateDto assetCreateRequest)
         {
-            assetCreateRequest.IsDelete = false;
-
             var newAsset = _mapper.Map<Asset>(assetCreateRequest);
+
+            newAsset.CreateDay = DateTime.Now;
+            newAsset.UpdateDay = DateTime.Now;
+            newAsset.Status = AssetStatusEnums.ReadyToDeploy;
+            newAsset.IsDeleted = false;
+
             var result = await _assetRepository.Add(newAsset);
             if (result != null)
             {
@@ -61,41 +66,81 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<AssetDto> UpdateAsync(int id, AssetCreateAndUpdateDto assetUpdateRequest)
+        public async Task<AssetDto> UpdateAsync(int id, AssetUpdateDto assetUpdateRequest)
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id==id);
 
-            asset = _mapper.Map<AssetCreateAndUpdateDto, Asset>(assetUpdateRequest, asset);
+            asset = _mapper.Map<AssetUpdateDto, Asset>(assetUpdateRequest, asset);
 
-            var assetUpdated = await _assetRepository.Update(asset);
+            asset.UpdateDay = DateTime.Now;
 
-            var assetUpdatedDTO = _mapper.Map<AssetDto>(assetUpdated);
+            var result = await _assetRepository.Update(asset);
 
-            return assetUpdatedDTO;
+            if (result != null)
+                return _mapper.Map<AssetDto>(result);
+            else
+                return null;
         }
         public async Task<bool> DeleteAsync(int id)
         {
             var asset = await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
 
-            //if (asset == null)
-            //{
-            //    throw new NotFoundException("Not Found!");
-            //}
-            //if (asset.State == AssetStateEnum.Assigned)
-            //{
-            //    throw new ErrorException("Cannot delete when state asset is assigned");
-            //}
-            //if (asset.IsDeleted == true)
-            //{
-            //    throw new ErrorException("Asset has been deleted before");
-            //}
-            asset.IsDelete = true;
+            asset.IsDeleted = true;
 
             var assetDelete = await _assetRepository.Update(asset);
 
             return assetDelete!=null;
         }
+
+        public async Task<AssetDto> GetByTagAsync(string tag)
+        {
+            var result = await _assetRepository.Entities
+                .Include(s => s.Supplier)
+                .Include(s => s.Type)
+                .Include(s => s.Location)
+                .Include(s => s.Brand)
+                .FirstOrDefaultAsync(x => x.Tag == tag);
+
+            if (result != null)
+                return _mapper.Map<AssetDto>(result);
+            return null;
+        }
+
+        public async Task<bool> IsDelete(int id)
+        {
+            var result = await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
+            if (result != null && result.IsDeleted)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> IsExist(int id)
+        {
+            if (await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) != null)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> IsExist(string tag)
+        {
+            if (await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Tag == tag) != null)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> IsDelete(string tag)
+        {
+            var result = await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Tag == tag);
+            if (result != null && result.IsDeleted)
+                return true;
+            else
+                return false;
+        }
+
 
         #region Private Method
         private IQueryable<Asset> AssetFilter(
@@ -114,7 +159,7 @@ namespace Business.Services
             }
 
             //not showing deleted asset
-            assetQuery = assetQuery.Where(x => x.IsDelete==false);
+            assetQuery = assetQuery.Where(x => x.IsDeleted == false);
 
             return assetQuery;
         }

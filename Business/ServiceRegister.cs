@@ -13,7 +13,7 @@ namespace Business
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
-            //services.AddTransient<IAssetService, AssetService>();
+            services.AddTransient<IAssetService, AssetService>();
             //services.AddTransient<IAssetCategoryService, AssetCategoryService>();
             //services.AddTransient<IAssignmentService, AssignmentService>();
         }

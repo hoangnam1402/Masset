@@ -25,7 +25,7 @@ namespace Business.Services
             Guid id = Guid.NewGuid();
             var newEmployee = _mapper.Map<Employee>(employeeCreateRequest);
             newEmployee.Id = id;
-            newEmployee.IsDelete = false;
+            newEmployee.IsDeleted = false;
 
             var result = await _employeeRepository.Add(newEmployee);
             if (result != null)
@@ -73,7 +73,7 @@ namespace Business.Services
         public async Task<bool> IsDelete(Guid id)
         {
             var result = await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-            if (result != null && result.IsDelete)
+            if (result != null && result.IsDeleted)
                 return true;
             else
                 return false;
@@ -122,7 +122,7 @@ namespace Business.Services
         {
             var employee = await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
 
-            employee.IsDelete = true;
+            employee.IsDeleted = true;
 
             var result = await _employeeRepository.Update(employee);
 
@@ -138,7 +138,6 @@ namespace Business.Services
             if (result == null)
                 return null;
             return _mapper.Map<EmployeeDto>(result);
-
         }
 
         public async Task<bool> ChangePassword(Guid id, EmployeeDto employeeDto)

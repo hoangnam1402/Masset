@@ -1,5 +1,6 @@
 ﻿using Business.Interfaces;
 using Contracts.Dtos;
+using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.EmployeeDtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,11 @@ namespace Masset.Controllers
     public class MobileController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        public MobileController(IEmployeeService employeeService)
+        private readonly IAssetService _assetService;
+        public MobileController(IEmployeeService employeeService, IAssetService assetService)
         {
             _employeeService = employeeService;
+            _assetService=assetService;
         }
 
         [HttpPost]
@@ -40,7 +43,7 @@ namespace Masset.Controllers
 
             var emloyee = await _employeeService.LoginEmployee(employeeLoginDto);
 
-            if(emloyee.isDelete)
+            if(emloyee.isDeleted)
             {
                 var error = "Employee is not available. Please contact admin";
                 return new EmployeeResponseDto
@@ -148,5 +151,61 @@ namespace Masset.Controllers
             return result;
         }
 
+        [HttpGet("{id}/{tag}")]
+        public async Task<AssetResponseDto> GetAsset([FromRoute] Guid id, string tag)
+        {
+            if (!await _employeeService.IsExist(id) || !await _assetService.IsExist(tag))
+            {
+                var error = "Employee or Asset not exist!!!";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (await _employeeService.IsDelete(id) || await _assetService.IsDelete(tag))
+            {
+                var error = "Employee or Asset has been deleted!!!";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var asset = await _assetService.GetByTagAsync(tag);
+            if (asset == null)
+            {
+                var error = "Something go wrong";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            AssetResponseDto result = new AssetResponseDto()
+            {
+                Id = asset.Id,
+                Name = asset.Name,
+                Tag = asset.Tag,
+                TypeID = asset.TypeID,
+                SupplierID = asset.SupplierID,
+                LocationID = asset.LocationID,
+                BrandID = asset.BrandID,
+                Serial = asset.Serial,
+                Cost = asset.Cost,
+                Warranty = asset.Warranty,
+                Status = asset.Status,
+                Description = asset.Description,
+                CreateDay = asset.CreateDay,
+                UpdateDay = asset.UpdateDay,
+                Error = false,
+                Message = "",
+            };
+
+            return result;
+        }
     }
 }

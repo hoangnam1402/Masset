@@ -9,8 +9,8 @@ namespace DataAccess.Data.Seeds
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.HasData(
-                new Employee() { Id = Guid.NewGuid(), UserName = "test1", Password = "test", IsDelete = false },
-                new Employee() { Id = Guid.NewGuid(), UserName = "test2", Password = "test", IsDelete = true }
+                new Employee() { Id = Guid.NewGuid(), UserName = "test1", Password = "test", IsDeleted = false },
+                new Employee() { Id = Guid.NewGuid(), UserName = "test2", Password = "test", IsDeleted = true }
             );
         }
 

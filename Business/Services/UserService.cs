@@ -52,7 +52,6 @@ namespace Business.Services
             var user = await _userRepository.GetById(id);
             if (user != null)
                 return _mapper.Map<UserDto>(user);
-            //throw new NotFoundException("Not Found!");
             return null;
         }
 

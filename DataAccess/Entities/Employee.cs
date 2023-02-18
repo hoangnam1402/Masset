@@ -14,6 +14,6 @@ namespace DataAccess.Entities
         public Department? Department { get; set; }
         public int? DepartmentID { get; set; }
         public string? Address { get; set; }
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

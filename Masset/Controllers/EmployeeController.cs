@@ -34,10 +34,10 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetEmployee([FromQuery] BaseQueryCriteria assetCriteria,
+        public async Task<IActionResult> GetEmployee([FromQuery] BaseQueryCriteria queryCriteria,
                                                                CancellationToken cancellationToken)
         {
-            var responses = await _employeeService.GetByPageAsync(assetCriteria, cancellationToken);
+            var responses = await _employeeService.GetByPageAsync(queryCriteria, cancellationToken);
             return Ok(responses);
         }
 
@@ -52,7 +52,10 @@ namespace Masset.Controllers
                 return BadRequest("Employee not exist!!!");
 
             var result = await _employeeService.UpdateAsync(id, employeeUpdateDto);
-            return Ok(result);
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest("Somethink go wrong.");
         }
 
         [HttpDelete("{id}")]
@@ -62,7 +65,7 @@ namespace Masset.Controllers
             if (!await _employeeService.IsExist(id))
                 return BadRequest("Employee not exist!!!");
             if (await _employeeService.IsDelete(id))
-                return BadRequest("Employee has been deleted!!!");
+                return BadRequest("Employee has been deleted before.");
 
             var result = await _employeeService.DeleteAsync(id);
             return Ok(result);
