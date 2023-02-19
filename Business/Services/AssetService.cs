@@ -82,6 +82,24 @@ namespace Business.Services
             else
                 return null;
         }
+
+        public async Task<AssetDto> UpdateAsync(string tag, AssetUpdateDto assetUpdateRequest)
+        {
+            var asset = await _assetRepository.Entities
+                .FirstOrDefaultAsync(x => x.Tag==tag);
+
+            asset = _mapper.Map<AssetUpdateDto, Asset>(assetUpdateRequest, asset);
+
+            asset.UpdateDay = DateTime.Now;
+
+            var result = await _assetRepository.Update(asset);
+
+            if (result != null)
+                return _mapper.Map<AssetDto>(result);
+            else
+                return null;
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             var asset = await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);

@@ -17,7 +17,8 @@ namespace DataAccess.Entities
         public int? LocationID { get; set; }
         public int? BrandID { get; set; }
         public int? Cost { get; set; }
-        public DateTime PurchaseDay { get; set; }
+        public DateTime? CreateDay { get; set; }
+        public DateTime? UpdateDay { get; set; }
         public int? Warranty { get; set; }
         public AssetStatusEnums Status { get; set; }
         public string? Description { get; set; }

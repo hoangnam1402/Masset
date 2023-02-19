@@ -51,9 +51,6 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PurchaseDay")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Serial")
                         .HasColumnType("nvarchar(max)");
 
@@ -140,6 +137,9 @@ namespace DataAccess.Migrations
                     b.Property<int?>("Cost")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreateDay")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -148,9 +148,6 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PurchaseDay")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
@@ -166,6 +163,9 @@ namespace DataAccess.Migrations
 
                     b.Property<int?>("TypeID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("Warranty")
                         .HasColumnType("int");
@@ -263,14 +263,14 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b43abeda-b020-42fb-9d50-db84c55342b3"),
+                            Id = new Guid("085a6120-1859-4255-90e9-0e54a605366b"),
                             IsDeleted = false,
                             Password = "test",
                             UserName = "test1"
                         },
                         new
                         {
-                            Id = new Guid("58a2df31-e3f1-496d-ad57-34acce452544"),
+                            Id = new Guid("6b392053-f50f-4d40-9c95-06446d65b0ed"),
                             IsDeleted = true,
                             Password = "test",
                             UserName = "test2"

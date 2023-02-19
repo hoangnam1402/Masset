@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230215100412_add-isDelete-to-employee")]
-    partial class addisDeletetoemployee
+    [Migration("20230219055843_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,17 +38,20 @@ namespace DataAccess.Migrations
                     b.Property<int?>("Cost")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreateDay")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("LocationID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PurchaseDay")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Serial")
                         .HasColumnType("nvarchar(max)");
@@ -64,6 +67,9 @@ namespace DataAccess.Migrations
 
                     b.Property<int?>("TypeID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("Warranty")
                         .HasColumnType("int");
@@ -133,6 +139,9 @@ namespace DataAccess.Migrations
                     b.Property<int?>("Cost")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreateDay")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -141,9 +150,6 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PurchaseDay")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
@@ -159,6 +165,9 @@ namespace DataAccess.Migrations
 
                     b.Property<int?>("TypeID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("Warranty")
                         .HasColumnType("int");
@@ -232,7 +241,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDelete")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("JobRole")
@@ -256,15 +265,15 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1f41f6b5-6f2c-422c-834a-e09f8330fe52"),
-                            IsDelete = false,
+                            Id = new Guid("085a6120-1859-4255-90e9-0e54a605366b"),
+                            IsDeleted = false,
                             Password = "test",
                             UserName = "test1"
                         },
                         new
                         {
-                            Id = new Guid("8cbfc86f-8ad8-4d94-b2f8-d1f2cccffe7b"),
-                            IsDelete = true,
+                            Id = new Guid("6b392053-f50f-4d40-9c95-06446d65b0ed"),
+                            IsDeleted = true,
                             Password = "test",
                             UserName = "test2"
                         });

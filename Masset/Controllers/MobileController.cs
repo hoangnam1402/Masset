@@ -207,5 +207,63 @@ namespace Masset.Controllers
 
             return result;
         }
+
+        [HttpPost("{id}/{tag}")]
+        public async Task<AssetResponseDto> UpdateAsset([FromRoute] Guid id, string tag,
+                                                        [FromBody] AssetUpdateDto assetequest)
+        {
+            if (!await _employeeService.IsExist(id) || !await _assetService.IsExist(tag))
+            {
+                var error = "Employee or Asset not exist!!!";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (await _employeeService.IsDelete(id) || await _assetService.IsDelete(tag))
+            {
+                var error = "Employee or Asset has been deleted!!!";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var asset = await _assetService.UpdateAsync(tag, assetequest);
+            if (asset == null)
+            {
+                var error = "Something go wrong";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            AssetResponseDto result = new AssetResponseDto()
+            {
+                Id = asset.Id,
+                Name = asset.Name,
+                Tag = asset.Tag,
+                Type = asset.Type == null ? null : asset.Type.Name,
+                Supplier = asset.Supplier == null ? null : asset.Supplier.Name,
+                Location = asset.Location == null ? null : asset.Location.Name,
+                Brand = asset.Brand == null ? null : asset.Brand.Name,
+                Serial = asset.Serial,
+                Cost = asset.Cost,
+                Warranty = asset.Warranty,
+                Status = asset.Status,
+                Description = asset.Description,
+                CreateDay = asset.CreateDay,
+                UpdateDay = asset.UpdateDay,
+                Error = false,
+                Message = "",
+            };
+
+            return result;
+        }
     }
 }

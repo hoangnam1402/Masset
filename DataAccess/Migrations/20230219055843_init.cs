@@ -119,8 +119,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    NewAccount = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -152,7 +151,8 @@ namespace DataAccess.Migrations
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     JobRole = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DepartmentID = table.Column<int>(type: "int", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,10 +199,12 @@ namespace DataAccess.Migrations
                     BrandID = table.Column<int>(type: "int", nullable: true),
                     Serial = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cost = table.Column<int>(type: "int", nullable: true),
-                    PurchaseDay = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Warranty = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -243,7 +245,8 @@ namespace DataAccess.Migrations
                     LocationID = table.Column<int>(type: "int", nullable: true),
                     BrandID = table.Column<int>(type: "int", nullable: true),
                     Cost = table.Column<int>(type: "int", nullable: true),
-                    PurchaseDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Warranty = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -392,8 +395,13 @@ namespace DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "Address", "DepartmentID", "Email", "JobRole", "Password", "Phone", "UserName" },
-                values: new object[] { new Guid("b2f76edf-646f-4ccc-8b88-4072ce863e07"), null, null, null, null, "staff", null, "staff" });
+                columns: new[] { "Id", "Address", "DepartmentID", "Email", "IsDeleted", "JobRole", "Password", "Phone", "UserName" },
+                values: new object[] { new Guid("085a6120-1859-4255-90e9-0e54a605366b"), null, null, null, false, null, "test", null, "test1" });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "Address", "DepartmentID", "Email", "IsDeleted", "JobRole", "Password", "Phone", "UserName" },
+                values: new object[] { new Guid("6b392053-f50f-4d40-9c95-06446d65b0ed"), null, null, null, true, null, "test", null, "test2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assets_BrandID",
