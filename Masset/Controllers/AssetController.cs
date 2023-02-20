@@ -20,26 +20,27 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAssets(
-        [FromQuery] BaseQueryCriteria queryCriteria,
-        CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAssets([FromQuery] BaseQueryCriteria queryCriteria,
+                                                               CancellationToken cancellationToken)
         {
-            var responses = await _assetService.GetByPageAsync(
-                                            queryCriteria,
-                                            cancellationToken);
+            var responses = await _assetService.GetByPageAsync(queryCriteria, cancellationToken);
             return Ok(responses);
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create([FromBody] AssetCreateDto assetCreateDto)
+        public async Task<IActionResult> Create([FromBody] AssetCreateDto createDto)
         {
-            if (string.IsNullOrEmpty(assetCreateDto.Name) || string.IsNullOrEmpty(assetCreateDto.Tag))
-                return BadRequest("Asset name and tag is required.");
-            if (await _assetService.IsExist(assetCreateDto.Tag))
-                return BadRequest("Asset tag is exist!!!");
+            if (string.IsNullOrEmpty(createDto.Name) || 
+                string.IsNullOrEmpty(createDto.Tag) ||
+                string.IsNullOrEmpty(createDto.Serial) ||
+                createDto.Warranty != null ||
+                createDto.Cost != null)
+                return BadRequest("Asset name, tag, serial, warranty and cost is required.");
+            if (await _assetService.IsExist(createDto.Tag))
+                return BadRequest("Asset tag has been used before!!!");
 
-            var result = await _assetService.CreateAsync(assetCreateDto);
+            var result = await _assetService.CreateAsync(createDto);
             if (result != null)
                 return Ok(result);
             else
@@ -49,16 +50,14 @@ namespace Masset.Controllers
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id,
-                                                [FromBody] AssetUpdateDto assetUpdateDTO)
+                                                [FromBody] AssetUpdateDto updateDTO)
         {
-            if (string.IsNullOrEmpty(assetUpdateDTO.Name) || string.IsNullOrEmpty(assetUpdateDTO.Tag))
-                return BadRequest("Asset name and tag is required.");
+            if (string.IsNullOrEmpty(updateDTO.Name))
+                return BadRequest("Asset name is required.");
             if (!await _assetService.IsExist(id))
                 return BadRequest("Asset not exist!!!");
-            //if (await _assetService.IsExist(assetUpdateDTO.Tag))
-            //    return BadRequest("Asset tag is exist!!!");
 
-            var result = await _assetService.UpdateAsync(id, assetUpdateDTO);
+            var result = await _assetService.UpdateAsync(id, updateDTO);
             if (result != null)
                 return Ok(result);
             else
@@ -98,5 +97,20 @@ namespace Masset.Controllers
             QrBitmap.Save(qrStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             return File(qrStream.ToArray(), "image/bmp");
         }
+
+        [HttpGet("id")]
+        [Authorize]
+        public async Task<IActionResult> GetById(int id)
+        {
+            if (!await _assetService.IsExist(id))
+                return BadRequest("Not Asset with id: " + id);
+
+            var result = await _assetService.GetByIdAsync(id);
+
+            if (result == null)
+                return BadRequest("Not Found !");
+            return Ok(result);
+        }
+
     }
 }

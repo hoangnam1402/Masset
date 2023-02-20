@@ -79,26 +79,27 @@ namespace Business.Services
                 return false;
         }
 
-        public async Task<PagedResponseModel<EmployeeDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken)
+        public async Task<PagedResponseModel<EmployeeDto>> GetByPageAsync(
+            BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken)
         {
             var employeeQuery = EmployeeFilter(
                 _employeeRepository.Entities.AsQueryable(),
                 baseQueryCriteria);
 
-            var employees = await employeeQuery
+            var result = await employeeQuery
                 .AsNoTracking()
                 .Include("Department")
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
 
-            var dtos = _mapper.Map<IList<EmployeeDto>>(employees.Items);
+            var dtos = _mapper.Map<IList<EmployeeDto>>(result.Items);
 
             return new PagedResponseModel<EmployeeDto>
             {
-                CurrentPage = employees.CurrentPage,
-                TotalPages = employees.TotalPages,
-                TotalItems = employees.TotalItems,
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                TotalItems = result.TotalItems,
                 Items = dtos
             };
         }
@@ -157,7 +158,7 @@ namespace Business.Services
             IQueryable<Employee> employeeQuery,
             BaseQueryCriteria baseQueryCriteria)
         {
-            if (!String.IsNullOrEmpty(baseQueryCriteria.Search))
+            if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 employeeQuery = employeeQuery.Where(b =>
                     b.UserName.Contains(baseQueryCriteria.Search) ||

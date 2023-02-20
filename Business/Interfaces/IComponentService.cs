@@ -1,0 +1,18 @@
+﻿using Contracts;
+using Contracts.Dtos.ComponentDtos;
+
+namespace Business.Interfaces
+{
+    public interface IComponentService
+    {
+        Task<PagedResponseModel<ComponentDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
+        Task<ComponentDto> GetByIdAsync(int id);
+        Task<ComponentDto> CreateAsync(ComponentCreateDto createRequest);
+        Task<ComponentDto> UpdateAsync(int id, ComponentUpdateDto updateRequest);
+        Task<bool> DeleteAsync(int id);
+        Task<bool> IsExist(int id);
+        Task<bool> IsExist(string name);
+        Task<bool> IsDelete(int id);
+
+    }
+}

@@ -71,5 +71,19 @@ namespace Masset.Controllers
             return Ok(result);
         }
 
+        [HttpGet("id")]
+        [Authorize]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            if (!await _employeeService.IsExist(id))
+                return BadRequest("Not Employee with id: " + id);
+
+            var result = await _employeeService.GetByIdAsync(id);
+
+            if (result == null)
+                return BadRequest("Somethink go wrong.");
+            return Ok(result);
+        }
+
     }
 }

@@ -8,8 +8,8 @@ namespace Business.Interfaces
     {
         Task<PagedResponseModel<EmployeeDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
         Task<EmployeeDto> GetByIdAsync(Guid id);
-        Task<EmployeeDto> CreateAsync(EmployeeCreateDto employeeCreateRequest);
-        Task<EmployeeDto> UpdateAsync(Guid id, EmployeeUpdateDto employeeUpdateRequest);
+        Task<EmployeeDto> CreateAsync(EmployeeCreateDto createRequest);
+        Task<EmployeeDto> UpdateAsync(Guid id, EmployeeUpdateDto updateRequest);
         Task<EmployeeDto> LoginEmployee(LoginDto loginRequest);
         Task<bool> ChangePassword(Guid id, EmployeeDto employeeDto);
         Task<bool> DeleteAsync(Guid id);

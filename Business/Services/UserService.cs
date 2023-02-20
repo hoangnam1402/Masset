@@ -30,19 +30,19 @@ namespace Business.Services
                 _userRepository.Entities.AsQueryable(),
                 baseQueryCriteria);
 
-            var users = await userQuery
+            var result = await userQuery
                 .AsNoTracking()
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
 
-            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users.Items);
+            var usersDto = _mapper.Map<IEnumerable<UserDto>>(result.Items);
 
             return new PagedResponseModel<UserDto>
             {
-                CurrentPage = users.CurrentPage,
-                TotalPages = users.TotalPages,
-                TotalItems = users.TotalItems,
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                TotalItems = result.TotalItems,
                 Items = usersDto
             };
         }
@@ -102,7 +102,7 @@ namespace Business.Services
             IQueryable<User> userQuery,
             BaseQueryCriteria baseQueryCriteria)
         {
-            if (!String.IsNullOrEmpty(baseQueryCriteria.Search))
+            if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 userQuery = userQuery.Where(b =>
                     b.UserName.Contains(baseQueryCriteria.Search) || b.Email.Contains(baseQueryCriteria.Search));

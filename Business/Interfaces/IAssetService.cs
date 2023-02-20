@@ -7,9 +7,10 @@ namespace Business.Interfaces
     {
         Task<PagedResponseModel<AssetDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
         Task<AssetDto> GetByTagAsync(string tag);
-        Task<AssetDto> CreateAsync(AssetCreateDto assetCreateRequest);
-        Task<AssetDto> UpdateAsync(int id, AssetUpdateDto assetUpdateRequest);
-        Task<AssetDto> UpdateAsync(string tag, AssetUpdateDto assetUpdateRequest);
+        Task<AssetDto> GetByIdAsync(int id);
+        Task<AssetDto> CreateAsync(AssetCreateDto createRequest);
+        Task<AssetDto> UpdateAsync(int id, AssetUpdateDto updateRequest);
+        Task<AssetDto> UpdateAsync(string tag, AssetUpdateDto updateRequest);
         Task<bool> DeleteAsync(int id);
         Task<bool> IsExist(int id);
         Task<bool> IsExist(string tag);

@@ -37,12 +37,12 @@ namespace Masset.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             if(!await _userService.IsExist(id))
-                return BadRequest("Not found user with id: " + id);
+                return BadRequest("Not User with id: " + id);
 
             var result = await _userService.GetById(id);
 
             if (result == null)
-                return BadRequest("Not Found !");
+                return BadRequest("Somethink go wrong.");
             return Ok(result);
         }
 

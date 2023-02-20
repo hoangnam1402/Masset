@@ -28,7 +28,7 @@ namespace Business.Services
                 _assetRepository.Entities.AsQueryable(),
                 baseQueryCriteria);
 
-            var assets = await assetQuery
+            var result = await assetQuery
                 .AsNoTracking()
                 .Include("Type")
                 .Include("Supplier")
@@ -38,20 +38,20 @@ namespace Business.Services
                     baseQueryCriteria,
                     cancellationToken);
 
-            var dtos = _mapper.Map<IList<AssetDto>>(assets.Items);
+            var dtos = _mapper.Map<IList<AssetDto>>(result.Items);
 
             return new PagedResponseModel<AssetDto>
             {
-                CurrentPage = assets.CurrentPage,
-                TotalPages = assets.TotalPages,
-                TotalItems = assets.TotalItems,
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                TotalItems = result.TotalItems,
                 Items = dtos
             };
         }
 
-        public async Task<AssetDto> CreateAsync(AssetCreateDto assetCreateRequest)
+        public async Task<AssetDto> CreateAsync(AssetCreateDto createRequest)
         {
-            var newAsset = _mapper.Map<Asset>(assetCreateRequest);
+            var newAsset = _mapper.Map<Asset>(createRequest);
 
             newAsset.CreateDay = DateTime.Now;
             newAsset.UpdateDay = DateTime.Now;
@@ -66,12 +66,12 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<AssetDto> UpdateAsync(int id, AssetUpdateDto assetUpdateRequest)
+        public async Task<AssetDto> UpdateAsync(int id, AssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id==id);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            asset = _mapper.Map<AssetUpdateDto, Asset>(assetUpdateRequest, asset);
+            asset = _mapper.Map<AssetUpdateDto, Asset>(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
 
@@ -83,12 +83,12 @@ namespace Business.Services
                 return null;
         }
 
-        public async Task<AssetDto> UpdateAsync(string tag, AssetUpdateDto assetUpdateRequest)
+        public async Task<AssetDto> UpdateAsync(string tag, AssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Tag==tag);
 
-            asset = _mapper.Map<AssetUpdateDto, Asset>(assetUpdateRequest, asset);
+            asset = _mapper.Map<AssetUpdateDto, Asset>(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
 
@@ -119,6 +119,20 @@ namespace Business.Services
                 .Include(s => s.Location)
                 .Include(s => s.Brand)
                 .FirstOrDefaultAsync(x => x.Tag == tag);
+
+            if (result != null)
+                return _mapper.Map<AssetDto>(result);
+            return null;
+        }
+
+        public async Task<AssetDto> GetByIdAsync(int id)
+        {
+            var result = await _assetRepository.Entities
+                .Include(s => s.Supplier)
+                .Include(s => s.Type)
+                .Include(s => s.Location)
+                .Include(s => s.Brand)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (result != null)
                 return _mapper.Map<AssetDto>(result);
@@ -165,7 +179,7 @@ namespace Business.Services
             IQueryable<Asset> assetQuery,
             BaseQueryCriteria baseQueryCriteria)
         {
-            if (!String.IsNullOrEmpty(baseQueryCriteria.Search))
+            if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 assetQuery = assetQuery.Where(b =>
                     b.Name.Contains(baseQueryCriteria.Search) ||

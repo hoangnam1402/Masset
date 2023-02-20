@@ -1,5 +1,6 @@
 ﻿using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
+using Contracts.Dtos.ComponentDtos;
 using Contracts.Dtos.EmployeeDtos;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
@@ -32,6 +33,11 @@ namespace Business
             CreateMap<AssetDto, Asset>(memberList: AutoMapper.MemberList.None);
             CreateMap<AssetCreateDto, Asset>(memberList: AutoMapper.MemberList.None);
             CreateMap<AssetUpdateDto, Asset>(memberList: AutoMapper.MemberList.None);
+
+            //Component
+            CreateMap<ComponentDto, Component>(memberList: AutoMapper.MemberList.None);
+            CreateMap<ComponentCreateDto, Component>(memberList: AutoMapper.MemberList.None);
+            CreateMap<ComponentUpdateDto, Component>(memberList: AutoMapper.MemberList.None);
         }
 
         private void FromDataAccessorLayer()
@@ -52,6 +58,11 @@ namespace Business
             CreateMap<Asset, AssetDto>();
             CreateMap<Asset, AssetCreateDto>();
             CreateMap<Asset, AssetUpdateDto>();
+
+            //Component
+            CreateMap<Component, ComponentDto>();
+            CreateMap<Component, ComponentCreateDto>();
+            CreateMap<Component, ComponentUpdateDto>();
         }
     }
 }

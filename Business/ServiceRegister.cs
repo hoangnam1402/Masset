@@ -14,6 +14,7 @@ namespace Business
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IAssetService, AssetService>();
+            services.AddTransient<IComponentService, ComponentService>();
             //services.AddTransient<IAssetCategoryService, AssetCategoryService>();
             //services.AddTransient<IAssignmentService, AssignmentService>();
         }
