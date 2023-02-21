@@ -1,13 +1,15 @@
-﻿using DataAccess.Enums;
+﻿using Contracts.Dtos.AssetDtos;
+using Contracts.Dtos.SupplierDtos;
+using DataAccess.Enums;
 
-namespace DataAccess.Entities
+namespace Contracts.Dtos.MaintenanceDtos
 {
-    public class Maintenance
+    public class MaintenanceDto
     {
         public int Id { get; set; }
-        public Asset? Asset { get; set; }
+        public AssetDto? Asset { get; set; }
         public int? AssetID { get; set; }
-        public Supplier? Supplier { get; set; }
+        public SupplierDto? Supplier { get; set; }
         public int? SupplierID { get; set; }
         public MaintenanceTypeEnums? Type { get; set; }
         public DateTime? StartDate { get; set; }

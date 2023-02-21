@@ -70,7 +70,7 @@ namespace Masset.Controllers
             if (!await _componentService.IsExist(id))
                 return BadRequest("Component not exist!!!");
             if (await _componentService.IsDelete(id))
-                return BadRequest("Component don't have any Available Quantity to delete.");
+                return BadRequest("Component has been deleted before.");
 
             var result = await _componentService.DeleteAsync(id);
             if (result)

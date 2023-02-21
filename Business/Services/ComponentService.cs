@@ -28,6 +28,7 @@ namespace Business.Services
             newComponent.UpdateDay = DateTime.Now;
             newComponent.Status = AssetStatusEnums.ReadyToDeploy;
             newComponent.AvailableQuantity = createRequest.Quantity;
+            newComponent.IsDeleted = false;
 
             var result = await _componentRepository.Add(newComponent);
             if (result != null)
@@ -42,7 +43,7 @@ namespace Business.Services
             var component = await _componentRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            component.AvailableQuantity = 0;
+            component.IsDeleted = true;
 
             var assetDelete = await _componentRepository.Update(component);
 
@@ -50,7 +51,7 @@ namespace Business.Services
         }
 
         public async Task<PagedResponseModel<ComponentDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, 
-                                                                    CancellationToken cancellationToken)
+                                                                        CancellationToken cancellationToken)
         {
             var componentQuery = ComponentFilter(
                 _componentRepository.Entities.AsQueryable(),
@@ -110,7 +111,7 @@ namespace Business.Services
         public async Task<bool> IsDelete(int id)
         {
             var result = await _componentRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-            if (result != null && result.AvailableQuantity == 0)
+            if (result != null && result.IsDeleted)
                 return true;
             else
                 return false;
@@ -146,6 +147,9 @@ namespace Business.Services
                     b.Brand.Name.Contains(baseQueryCriteria.Search)
                     );
             }
+
+            //not showing deleted asset
+            componentQuery = componentQuery.Where(x => x.IsDeleted == false);
 
             return componentQuery;
         }

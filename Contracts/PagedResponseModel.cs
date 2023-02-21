@@ -8,6 +8,6 @@
 
         public int TotalPages { get; set; }
 
-        public IEnumerable<TModel> Items { get; set; }
+        public IEnumerable<TModel>? Items { get; set; }
     }
 }

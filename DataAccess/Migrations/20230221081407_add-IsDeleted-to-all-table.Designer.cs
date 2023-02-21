@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230221081407_add-IsDeleted-to-all-table")]
+    partial class addIsDeletedtoalltable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,14 +293,14 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4367b750-c7d9-4e58-88c7-74579deda45a"),
+                            Id = new Guid("6186b522-d2bf-4926-9f2c-bccb8d74f083"),
                             IsDeleted = false,
                             Password = "test",
                             UserName = "test1"
                         },
                         new
                         {
-                            Id = new Guid("a3707e3f-2e93-49b2-b470-68616c02a0ee"),
+                            Id = new Guid("86073254-02e8-4742-a0af-03ccf71c50c3"),
                             IsDeleted = true,
                             Password = "test",
                             UserName = "test2"
@@ -350,7 +352,7 @@ namespace DataAccess.Migrations
                     b.Property<int?>("SupplierID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Type")
+                    b.Property<int?>("TypeID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -358,6 +360,8 @@ namespace DataAccess.Migrations
                     b.HasIndex("AssetID");
 
                     b.HasIndex("SupplierID");
+
+                    b.HasIndex("TypeID");
 
                     b.ToTable("Maintenances");
                 });
@@ -688,9 +692,15 @@ namespace DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("SupplierID");
 
+                    b.HasOne("DataAccess.Entities.AssetType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeID");
+
                     b.Navigation("Asset");
 
                     b.Navigation("Supplier");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

@@ -34,8 +34,8 @@ namespace Masset.Controllers
             if (string.IsNullOrEmpty(createDto.Name) || 
                 string.IsNullOrEmpty(createDto.Tag) ||
                 string.IsNullOrEmpty(createDto.Serial) ||
-                createDto.Warranty != null ||
-                createDto.Cost != null)
+                createDto.Warranty is null or 0 ||
+                createDto.Cost is null or 0)
                 return BadRequest("Asset name, tag, serial, warranty and cost is required.");
             if (await _assetService.IsExist(createDto.Tag))
                 return BadRequest("Asset tag has been used before!!!");

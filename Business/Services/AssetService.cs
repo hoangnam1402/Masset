@@ -49,7 +49,7 @@ namespace Business.Services
             };
         }
 
-        public async Task<AssetDto> CreateAsync(AssetCreateDto createRequest)
+        public async Task<AssetDto?> CreateAsync(AssetCreateDto createRequest)
         {
             var newAsset = _mapper.Map<Asset>(createRequest);
 
@@ -66,7 +66,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<AssetDto> UpdateAsync(int id, AssetUpdateDto updateRequest)
+        public async Task<AssetDto?> UpdateAsync(int id, AssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -83,7 +83,7 @@ namespace Business.Services
                 return null;
         }
 
-        public async Task<AssetDto> UpdateAsync(string tag, AssetUpdateDto updateRequest)
+        public async Task<AssetDto?> UpdateAsync(string tag, AssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Tag==tag);
@@ -111,7 +111,7 @@ namespace Business.Services
             return assetDelete!=null;
         }
 
-        public async Task<AssetDto> GetByTagAsync(string tag)
+        public async Task<AssetDto?> GetByTagAsync(string tag)
         {
             var result = await _assetRepository.Entities
                 .Include(s => s.Supplier)
@@ -125,7 +125,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<AssetDto> GetByIdAsync(int id)
+        public async Task<AssetDto?> GetByIdAsync(int id)
         {
             var result = await _assetRepository.Entities
                 .Include(s => s.Supplier)

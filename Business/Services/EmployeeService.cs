@@ -170,7 +170,7 @@ namespace Business.Services
             }
 
             //not showing deleted asset
-            //employeeQuery = employeeQuery.Where(x => x.IsDeleted==false);
+            employeeQuery = employeeQuery.Where(x => x.IsDeleted==false);
 
             return employeeQuery;
         }
