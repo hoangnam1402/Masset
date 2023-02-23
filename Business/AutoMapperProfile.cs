@@ -1,6 +1,7 @@
 ﻿using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.ComponentDtos;
+using Contracts.Dtos.DepreciationDtos;
 using Contracts.Dtos.EmployeeDtos;
 using Contracts.Dtos.MaintenanceDtos;
 using Contracts.Dtos.UserDtos;
@@ -42,7 +43,13 @@ namespace Business
 
             //Maintenance
             CreateMap<MaintenanceDto, Maintenance>(memberList: AutoMapper.MemberList.None);
-            CreateMap<MaintenanceCreateAndUpdateDto, Maintenance>(memberList: AutoMapper.MemberList.None);
+            CreateMap<MaintenanceCreateDto, Maintenance>(memberList: AutoMapper.MemberList.None);
+            CreateMap<MaintenanceUpdateDto, Maintenance>(memberList: AutoMapper.MemberList.None);
+
+            //Depreciation
+            CreateMap<DepreciationDto, Depreciation>(memberList: AutoMapper.MemberList.None);
+            CreateMap<DepreciationCreateDto, Depreciation>(memberList: AutoMapper.MemberList.None);
+            CreateMap<DepreciationUpdateDto, Depreciation>(memberList: AutoMapper.MemberList.None);
         }
 
         private void FromDataAccessorLayer()
@@ -71,7 +78,13 @@ namespace Business
 
             //Maintenance
             CreateMap<Maintenance, MaintenanceDto>();
-            CreateMap<Maintenance, MaintenanceCreateAndUpdateDto>();
+            CreateMap<Maintenance, MaintenanceCreateDto>();
+            CreateMap<Maintenance, MaintenanceUpdateDto>();
+
+            //Depreciation
+            CreateMap<Depreciation, DepreciationDto>();
+            CreateMap<Depreciation, DepreciationCreateDto>();
+            CreateMap<Depreciation, DepreciationUpdateDto>();
         }
     }
 }

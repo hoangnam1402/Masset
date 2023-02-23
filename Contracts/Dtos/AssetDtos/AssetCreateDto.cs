@@ -9,8 +9,8 @@
         public int? LocationID { get; set; }
         public int? BrandID { get; set; }
         public string? Serial { get; set; }
-        public int? Cost { get; set; }
-        public int? Warranty { get; set; }
+        public int Cost { get; set; }
+        public int Warranty { get; set; }
         public string? Description { get; set; }
 
     }

@@ -19,7 +19,7 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAssets([FromQuery] BaseQueryCriteria queryCriteria,
+        public async Task<IActionResult> GetByPage([FromQuery] BaseQueryCriteria queryCriteria,
                                                                CancellationToken cancellationToken)
         {
             var responses = await _componentService.GetByPageAsync(queryCriteria, cancellationToken);
@@ -32,9 +32,9 @@ namespace Masset.Controllers
         {
             if (string.IsNullOrEmpty(createDto.Name) ||
                 string.IsNullOrEmpty(createDto.Serial) ||
-                createDto.Warranty != null ||
-                createDto.Cost != null)
-                return BadRequest("Component name, serial, warranty and cost is required.");
+                createDto.Warranty is 0 ||
+                createDto.Cost is 0)
+                return BadRequest("Component name, serial, warranty and cost are required.");
 
             if (await _componentService.IsExist(createDto.Name))
                 return BadRequest("Component name has been used before!!!");

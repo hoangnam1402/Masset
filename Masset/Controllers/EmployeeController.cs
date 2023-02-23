@@ -34,7 +34,7 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetEmployee([FromQuery] BaseQueryCriteria queryCriteria,
+        public async Task<IActionResult> GetByPage([FromQuery] BaseQueryCriteria queryCriteria,
                                                                CancellationToken cancellationToken)
         {
             var responses = await _employeeService.GetByPageAsync(queryCriteria, cancellationToken);

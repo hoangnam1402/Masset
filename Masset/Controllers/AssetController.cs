@@ -20,7 +20,7 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAssets([FromQuery] BaseQueryCriteria queryCriteria,
+        public async Task<IActionResult> GetByPage([FromQuery] BaseQueryCriteria queryCriteria,
                                                                CancellationToken cancellationToken)
         {
             var responses = await _assetService.GetByPageAsync(queryCriteria, cancellationToken);
@@ -34,9 +34,9 @@ namespace Masset.Controllers
             if (string.IsNullOrEmpty(createDto.Name) || 
                 string.IsNullOrEmpty(createDto.Tag) ||
                 string.IsNullOrEmpty(createDto.Serial) ||
-                createDto.Warranty is null or 0 ||
-                createDto.Cost is null or 0)
-                return BadRequest("Asset name, tag, serial, warranty and cost is required.");
+                createDto.Warranty is 0 ||
+                createDto.Cost is 0)
+                return BadRequest("Asset name, tag, serial, warranty and cost are required.");
             if (await _assetService.IsExist(createDto.Tag))
                 return BadRequest("Asset tag has been used before!!!");
 
@@ -103,7 +103,7 @@ namespace Masset.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             if (!await _assetService.IsExist(id))
-                return BadRequest("Not Asset with id: " + id);
+                return BadRequest("No Asset with id: " + id);
 
             var result = await _assetService.GetByIdAsync(id);
 

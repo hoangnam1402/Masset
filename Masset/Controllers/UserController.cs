@@ -21,7 +21,7 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetUsers(
+        public async Task<IActionResult> GetByPage(
             [FromQuery] BaseQueryCriteria baseQueryCriteria,
             CancellationToken cancellationToken)
         {

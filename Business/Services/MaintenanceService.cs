@@ -21,7 +21,7 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public async Task<MaintenanceDto> CreateAsync(MaintenanceCreateAndUpdateDto createRequest)
+        public async Task<MaintenanceDto> CreateAsync(MaintenanceCreateDto createRequest)
         {
             var newComponent = _mapper.Map<Maintenance>(createRequest);
 
@@ -102,12 +102,12 @@ namespace Business.Services
                 return false;
         }
 
-        public async Task<MaintenanceDto> UpdateAsync(int id, MaintenanceCreateAndUpdateDto updateRequest)
+        public async Task<MaintenanceDto> UpdateAsync(int id, MaintenanceUpdateDto updateRequest)
         {
             var maintenance = await _maintenanceRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            maintenance = _mapper.Map<MaintenanceCreateAndUpdateDto, Maintenance>(updateRequest, maintenance);
+            maintenance = _mapper.Map<MaintenanceUpdateDto, Maintenance>(updateRequest, maintenance);
             var result = await _maintenanceRepository.Update(maintenance);
 
             if (result != null)

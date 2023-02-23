@@ -1,4 +1,5 @@
 ﻿using DataAccess.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Contracts.Dtos.AssetDtos
 {
@@ -9,6 +10,7 @@ namespace Contracts.Dtos.AssetDtos
         public int? SupplierID { get; set; }
         public int? LocationID { get; set; }
         public int? BrandID { get; set; }
+        [EnumDataType(typeof(AssetStatusEnums))]
         public AssetStatusEnums Status { get; set; }
         public string? Description { get; set; }
         public bool? IsDeleted { get; set; }
