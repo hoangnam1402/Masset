@@ -11,20 +11,24 @@ namespace Masset.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(IEmployeeService employeeService)
+        private readonly IDepartmentService _departmentService;
+        public EmployeeController(IEmployeeService employeeService, IDepartmentService departmentService)
         {
             _employeeService = employeeService;
+            _departmentService=departmentService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeCreateDto employeeDto)
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeCreateDto createDto)
         {
-            if (string.IsNullOrEmpty(employeeDto.UserName) || string.IsNullOrEmpty(employeeDto.Password))
+            if (string.IsNullOrEmpty(createDto.UserName) || string.IsNullOrEmpty(createDto.Password))
                 return BadRequest("Username and password is required.");
-            if(await _employeeService.IsExist(employeeDto.UserName))
+            if(await _employeeService.IsExist(createDto.UserName))
                 return BadRequest("Username exist.");
+            if (createDto.DepartmentID.HasValue && !await _departmentService.IsExist(createDto.DepartmentID.Value))
+                return BadRequest("Department not exist!!!");
 
-            var result = await _employeeService.CreateAsync(employeeDto);
+            var result = await _employeeService.CreateAsync(createDto);
 
             if (result != null)
                 return Ok(result);
@@ -44,14 +48,16 @@ namespace Masset.Controllers
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> UpdateEmployee([FromRoute] Guid id,
-                                                [FromBody] EmployeeUpdateDto employeeUpdateDto)
+                                                [FromBody] EmployeeUpdateDto updateDto)
         {
-            if (string.IsNullOrEmpty(employeeUpdateDto.UserName))
+            if (string.IsNullOrEmpty(updateDto.UserName))
                 return BadRequest("Username is required.");
             if(!await _employeeService.IsExist(id))
                 return BadRequest("Employee not exist!!!");
+            if (updateDto.DepartmentID.HasValue && !await _departmentService.IsExist(updateDto.DepartmentID.Value))
+                return BadRequest("Department not exist!!!");
 
-            var result = await _employeeService.UpdateAsync(id, employeeUpdateDto);
+            var result = await _employeeService.UpdateAsync(id, updateDto);
             if (result != null)
                 return Ok(result);
             else
@@ -71,9 +77,9 @@ namespace Masset.Controllers
             return Ok(result);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             if (!await _employeeService.IsExist(id))
                 return BadRequest("Not Employee with id: " + id);

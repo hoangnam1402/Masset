@@ -12,9 +12,15 @@ namespace Masset.Controllers
     public class ComponentController : ControllerBase
     {
         private readonly IComponentService _componentService;
-        public ComponentController(IComponentService componentService)
+        private readonly IAssetTypeService _assetTypeService;
+        private readonly IBrandService _brandService;
+        public ComponentController(IComponentService componentService, 
+            IAssetTypeService assetTypeService, 
+            IBrandService brandService)
         {
             _componentService = componentService;
+            _assetTypeService=assetTypeService;
+            _brandService=brandService;
         }
 
         [HttpGet]
@@ -35,9 +41,12 @@ namespace Masset.Controllers
                 createDto.Warranty is 0 ||
                 createDto.Cost is 0)
                 return BadRequest("Component name, serial, warranty and cost are required.");
-
             if (await _componentService.IsExist(createDto.Name))
                 return BadRequest("Component name has been used before!!!");
+            if (createDto.TypeID.HasValue && !await _assetTypeService.IsExist(createDto.TypeID.Value))
+                return BadRequest("AssetType not exist!!!");
+            if (createDto.BrandID.HasValue && !await _brandService.IsExist(createDto.BrandID.Value))
+                return BadRequest("Brand not exist!!!");
 
             var result = await _componentService.CreateAsync(createDto);
             if (result != null)
@@ -55,6 +64,10 @@ namespace Masset.Controllers
                 return BadRequest("Component name is required.");
             if (!await _componentService.IsExist(id))
                 return BadRequest("Component not exist!!!");
+            if (updateDTO.TypeID.HasValue && !await _assetTypeService.IsExist(updateDTO.TypeID.Value))
+                return BadRequest("AssetType not exist!!!");
+            if (updateDTO.BrandID.HasValue && !await _brandService.IsExist(updateDTO.BrandID.Value))
+                return BadRequest("Brand not exist!!!");
 
             var result = await _componentService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -79,9 +92,9 @@ namespace Masset.Controllers
                 return BadRequest("Somethink go wrong.");
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!await _componentService.IsExist(id))
                 return BadRequest("Not Component with id: " + id);
@@ -90,6 +103,14 @@ namespace Masset.Controllers
 
             if (result == null)
                 return BadRequest("Not Found !");
+            return Ok(result);
+        }
+
+        [HttpGet("GetAll")]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _componentService.GetAll();
             return Ok(result);
         }
 

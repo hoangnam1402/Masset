@@ -9,6 +9,5 @@
         public string? JobRole { get; set; }
         public int? DepartmentID { get; set; }
         public string? Address { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

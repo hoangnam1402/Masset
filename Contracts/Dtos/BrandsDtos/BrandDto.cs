@@ -1,6 +1,6 @@
-﻿namespace Contracts.Dtos.AssetTypeDtos
+﻿namespace Contracts.Dtos.BrandsDtos
 {
-    public class AssetTypeDto
+    public class BrandDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }

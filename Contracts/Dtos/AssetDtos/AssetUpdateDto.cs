@@ -13,7 +13,6 @@ namespace Contracts.Dtos.AssetDtos
         [EnumDataType(typeof(AssetStatusEnums))]
         public AssetStatusEnums Status { get; set; }
         public string? Description { get; set; }
-        public bool? IsDeleted { get; set; }
 
     }
 }

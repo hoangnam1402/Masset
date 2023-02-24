@@ -1,6 +1,9 @@
 ﻿using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
+using Contracts.Dtos.AssetTypeDtos;
+using Contracts.Dtos.BrandsDtos;
 using Contracts.Dtos.ComponentDtos;
+using Contracts.Dtos.DepartmentDtos;
 using Contracts.Dtos.DepreciationDtos;
 using Contracts.Dtos.EmployeeDtos;
 using Contracts.Dtos.MaintenanceDtos;
@@ -50,6 +53,21 @@ namespace Business
             CreateMap<DepreciationDto, Depreciation>(memberList: AutoMapper.MemberList.None);
             CreateMap<DepreciationCreateDto, Depreciation>(memberList: AutoMapper.MemberList.None);
             CreateMap<DepreciationUpdateDto, Depreciation>(memberList: AutoMapper.MemberList.None);
+
+            //AssetType
+            CreateMap<AssetTypeDto, AssetType>(memberList: AutoMapper.MemberList.None);
+            CreateMap<AssetTypeCreateDto, AssetType>(memberList: AutoMapper.MemberList.None);
+            CreateMap<AssetTypeUpdateDto, AssetType>(memberList: AutoMapper.MemberList.None);
+
+            //Brand
+            CreateMap<BrandDto, Brands>(memberList: AutoMapper.MemberList.None);
+            CreateMap<BrandCreateDto, Brands>(memberList: AutoMapper.MemberList.None);
+            CreateMap<BrandUpdateDto, Brands>(memberList: AutoMapper.MemberList.None);
+
+            //Department
+            CreateMap<DepartmentDto, Department>(memberList: AutoMapper.MemberList.None);
+            CreateMap<DepartmentCreateDto, Department>(memberList: AutoMapper.MemberList.None);
+            CreateMap<DepartmentUpdateDto, Department>(memberList: AutoMapper.MemberList.None);
         }
 
         private void FromDataAccessorLayer()
@@ -85,6 +103,21 @@ namespace Business
             CreateMap<Depreciation, DepreciationDto>();
             CreateMap<Depreciation, DepreciationCreateDto>();
             CreateMap<Depreciation, DepreciationUpdateDto>();
+
+            //AssetType
+            CreateMap<AssetType, AssetTypeDto>();
+            CreateMap<AssetType, AssetTypeCreateDto>();
+            CreateMap<AssetType, AssetTypeUpdateDto>();
+
+            //Brand
+            CreateMap<Brands, BrandDto>();
+            CreateMap<Brands, BrandCreateDto>();
+            CreateMap<Brands, BrandUpdateDto>();
+
+            //Department
+            CreateMap<Department, DepartmentDto>();
+            CreateMap<Department, DepartmentCreateDto>();
+            CreateMap<Department, DepartmentUpdateDto>();
         }
     }
 }

@@ -3,7 +3,6 @@ using Contracts;
 using Contracts.Dtos.DepreciationDtos;
 using DataAccess.Enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masset.Controllers
@@ -101,9 +100,9 @@ namespace Masset.Controllers
                 return BadRequest("Somethink go wrong.");
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!await _depreciationService.IsExist(id))
                 return BadRequest("Not Depreciation with id: " + id);

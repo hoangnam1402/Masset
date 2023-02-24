@@ -15,7 +15,7 @@ namespace Contracts.Dtos.ComponentDtos
         public AssetTypeDto? Type { get; set; }
         public SupplierDto? Supplier { get; set; }
         public LocationDto? Location { get; set; }
-        public BrandsDto? Brand { get; set; }
+        public BrandDto? Brand { get; set; }
         public int? TypeID { get; set; }
         public int? SupplierID { get; set; }
         public int? LocationID { get; set; }

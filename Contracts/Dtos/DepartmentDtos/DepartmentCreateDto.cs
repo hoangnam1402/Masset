@@ -1,8 +1,7 @@
-﻿namespace Contracts.Dtos.BrandsDtos
+﻿namespace Contracts.Dtos.DepartmentDtos
 {
-    public class BrandsDto
+    public class DepartmentCreateDto
     {
-        public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
 

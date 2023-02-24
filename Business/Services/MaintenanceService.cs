@@ -23,14 +23,14 @@ namespace Business.Services
 
         public async Task<MaintenanceDto> CreateAsync(MaintenanceCreateDto createRequest)
         {
-            var newComponent = _mapper.Map<Maintenance>(createRequest);
+            var maintenance = _mapper.Map<Maintenance>(createRequest);
 
-            newComponent.IsDeleted = false;
+            maintenance.IsDeleted = false;
 
-            var result = await _maintenanceRepository.Add(newComponent);
+            var result = await _maintenanceRepository.Add(maintenance);
             if (result != null)
             {
-                return _mapper.Map<MaintenanceDto>(newComponent);
+                return _mapper.Map<MaintenanceDto>(maintenance);
             }
             return null;
         }
@@ -42,9 +42,9 @@ namespace Business.Services
 
             maintenance.IsDeleted = true;
 
-            var assetDelete = await _maintenanceRepository.Update(maintenance);
+            var result = await _maintenanceRepository.Update(maintenance);
 
-            return assetDelete!=null;
+            return result!=null;
         }
 
         public async Task<MaintenanceDto> GetByIdAsync(int id)

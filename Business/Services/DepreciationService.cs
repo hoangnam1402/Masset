@@ -24,11 +24,11 @@ namespace Business.Services
         public async Task<PagedResponseModel<DepreciationDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria,
                                                                     CancellationToken cancellationToken)
         {
-            var maintenanceQuery = DepreciationFilter(
+            var depreciatioQuery = DepreciationFilter(
                 _depreciatioRepository.Entities.AsQueryable(),
                 baseQueryCriteria);
 
-            var result = await maintenanceQuery
+            var result = await depreciatioQuery
                 .AsNoTracking()
                 .Include("Asset")
                 .Include("Supplier")
@@ -61,14 +61,14 @@ namespace Business.Services
 
         public async Task<DepreciationDto> CreateAsync(DepreciationCreateDto createRequest)
         {
-            var newComponent = _mapper.Map<Depreciation>(createRequest);
+            var depreciation = _mapper.Map<Depreciation>(createRequest);
 
-            newComponent.IsDeleted = false;
+            depreciation.IsDeleted = false;
 
-            var result = await _depreciatioRepository.Add(newComponent);
+            var result = await _depreciatioRepository.Add(depreciation);
             if (result != null)
             {
-                return _mapper.Map<DepreciationDto>(newComponent);
+                return _mapper.Map<DepreciationDto>(depreciation);
             }
             return null;
         }
@@ -94,9 +94,9 @@ namespace Business.Services
 
             depreciatio.IsDeleted = true;
 
-            var assetDelete = await _depreciatioRepository.Update(depreciatio);
+            var result = await _depreciatioRepository.Update(depreciatio);
 
-            return assetDelete!=null;
+            return result!=null;
         }
 
         public async Task<bool> IsDelete(int id)

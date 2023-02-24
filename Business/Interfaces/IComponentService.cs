@@ -6,6 +6,7 @@ namespace Business.Interfaces
     public interface IComponentService
     {
         Task<PagedResponseModel<ComponentDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
+        Task<IList<ComponentDto>> GetAll();
         Task<ComponentDto> GetByIdAsync(int id);
         Task<ComponentDto> CreateAsync(ComponentCreateDto createRequest);
         Task<ComponentDto> UpdateAsync(int id, ComponentUpdateDto updateRequest);

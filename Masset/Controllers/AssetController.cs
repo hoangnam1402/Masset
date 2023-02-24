@@ -13,9 +13,15 @@ namespace Masset.Controllers
     public class AssetController : ControllerBase
     {
         private readonly IAssetService _assetService;
-        public AssetController(IAssetService assetService)
+        private readonly IAssetTypeService _assetTypeService;
+        private readonly IBrandService _brandService;
+        public AssetController(IAssetService assetService, 
+            IAssetTypeService assetTypeService, 
+            IBrandService brandService)
         {
             _assetService = assetService;
+            _assetTypeService=assetTypeService;
+            _brandService=brandService;
         }
 
         [HttpGet]
@@ -39,6 +45,10 @@ namespace Masset.Controllers
                 return BadRequest("Asset name, tag, serial, warranty and cost are required.");
             if (await _assetService.IsExist(createDto.Tag))
                 return BadRequest("Asset tag has been used before!!!");
+            if (createDto.TypeID.HasValue && !await _assetTypeService.IsExist(createDto.TypeID.Value))
+                return BadRequest("AssetType not exist!!!");
+            if (createDto.BrandID.HasValue && !await _brandService.IsExist(createDto.BrandID.Value))
+                return BadRequest("Brand not exist!!!");
 
             var result = await _assetService.CreateAsync(createDto);
             if (result != null)
@@ -56,6 +66,10 @@ namespace Masset.Controllers
                 return BadRequest("Asset name is required.");
             if (!await _assetService.IsExist(id))
                 return BadRequest("Asset not exist!!!");
+            if (updateDTO.TypeID.HasValue && !await _assetTypeService.IsExist(updateDTO.TypeID.Value))
+                return BadRequest("AssetType not exist!!!");
+            if (updateDTO.BrandID.HasValue && !await _brandService.IsExist(updateDTO.BrandID.Value))
+                return BadRequest("Brand not exist!!!");
 
             var result = await _assetService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -98,9 +112,9 @@ namespace Masset.Controllers
             return File(qrStream.ToArray(), "image/bmp");
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!await _assetService.IsExist(id))
                 return BadRequest("No Asset with id: " + id);
@@ -109,6 +123,14 @@ namespace Masset.Controllers
 
             if (result == null)
                 return BadRequest("Not Found !");
+            return Ok(result);
+        }
+
+        [HttpGet("GetAll")]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _assetService.GetAll();
             return Ok(result);
         }
 

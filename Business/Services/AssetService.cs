@@ -49,6 +49,13 @@ namespace Business.Services
             };
         }
 
+        public async Task<IList<AssetDto>> GetAll()
+        {
+            var result = await _assetRepository.GetAll();
+            result.Where(x => x.IsDeleted == false);
+            return _mapper.Map<IList<AssetDto>>(result);
+        }
+
         public async Task<AssetDto?> CreateAsync(AssetCreateDto createRequest)
         {
             var newAsset = _mapper.Map<Asset>(createRequest);
@@ -106,9 +113,9 @@ namespace Business.Services
 
             asset.IsDeleted = true;
 
-            var assetDelete = await _assetRepository.Update(asset);
+            var result = await _assetRepository.Update(asset);
 
-            return assetDelete!=null;
+            return result!=null;
         }
 
         public async Task<AssetDto?> GetByTagAsync(string tag)

@@ -86,9 +86,9 @@ namespace Masset.Controllers
                 return BadRequest("Somethink go wrong.");
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!await _maintenanceService.IsExist(id))
                 return BadRequest("Not Maintenance with id: " + id);

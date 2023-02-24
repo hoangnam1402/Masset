@@ -45,9 +45,9 @@ namespace Business.Services
 
             component.IsDeleted = true;
 
-            var assetDelete = await _componentRepository.Update(component);
+            var result = await _componentRepository.Update(component);
 
-            return assetDelete!=null;
+            return result!=null;
         }
 
         public async Task<PagedResponseModel<ComponentDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, 
@@ -90,6 +90,13 @@ namespace Business.Services
             if (result != null)
                 return _mapper.Map<ComponentDto>(result);
             return null;
+        }
+
+        public async Task<IList<ComponentDto>> GetAll()
+        {
+            var result = await _componentRepository.GetAll();
+            result.Where(x => x.IsDeleted == false);
+            return _mapper.Map<IList<ComponentDto>>(result);
         }
 
         public async Task<bool> IsExist(int id)
