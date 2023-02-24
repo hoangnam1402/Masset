@@ -15,13 +15,19 @@ namespace Masset.Controllers
         private readonly IAssetService _assetService;
         private readonly IAssetTypeService _assetTypeService;
         private readonly IBrandService _brandService;
+        private readonly ILocationService _locationService;
+        private readonly ISupplierService _supplierService;
         public AssetController(IAssetService assetService, 
-            IAssetTypeService assetTypeService, 
-            IBrandService brandService)
+            IAssetTypeService assetTypeService,
+            IBrandService brandService,
+            ILocationService locationService,
+            ISupplierService supplierService)
         {
             _assetService = assetService;
             _assetTypeService=assetTypeService;
             _brandService=brandService;
+            _locationService=locationService;
+            _supplierService=supplierService;
         }
 
         [HttpGet]
@@ -49,6 +55,10 @@ namespace Masset.Controllers
                 return BadRequest("AssetType not exist!!!");
             if (createDto.BrandID.HasValue && !await _brandService.IsExist(createDto.BrandID.Value))
                 return BadRequest("Brand not exist!!!");
+            if (createDto.LocationID.HasValue && !await _locationService.IsExist(createDto.LocationID.Value))
+                return BadRequest("Location not exist!!!");
+            if (createDto.SupplierID.HasValue && !await _supplierService.IsExist(createDto.SupplierID.Value))
+                return BadRequest("Supplier not exist!!!");
 
             var result = await _assetService.CreateAsync(createDto);
             if (result != null)
@@ -70,6 +80,10 @@ namespace Masset.Controllers
                 return BadRequest("AssetType not exist!!!");
             if (updateDTO.BrandID.HasValue && !await _brandService.IsExist(updateDTO.BrandID.Value))
                 return BadRequest("Brand not exist!!!");
+            if (updateDTO.LocationID.HasValue && !await _locationService.IsExist(updateDTO.LocationID.Value))
+                return BadRequest("Location not exist!!!");
+            if (updateDTO.SupplierID.HasValue && !await _supplierService.IsExist(updateDTO.SupplierID.Value))
+                return BadRequest("Supplier not exist!!!");
 
             var result = await _assetService.UpdateAsync(id, updateDTO);
             if (result != null)

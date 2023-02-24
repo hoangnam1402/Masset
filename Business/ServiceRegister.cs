@@ -20,7 +20,8 @@ namespace Business
             services.AddTransient<IAssetTypeService, AssetTypeService>();
             services.AddTransient<IBrandService, BrandService>();
             services.AddTransient<IDepartmentService, DepartmentService>();
+            services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<ISupplierService, SupplierService>();
         }
-
     }
 }

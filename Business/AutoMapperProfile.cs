@@ -6,7 +6,9 @@ using Contracts.Dtos.ComponentDtos;
 using Contracts.Dtos.DepartmentDtos;
 using Contracts.Dtos.DepreciationDtos;
 using Contracts.Dtos.EmployeeDtos;
+using Contracts.Dtos.LocationDtos;
 using Contracts.Dtos.MaintenanceDtos;
+using Contracts.Dtos.SupplierDtos;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
 
@@ -68,6 +70,16 @@ namespace Business
             CreateMap<DepartmentDto, Department>(memberList: AutoMapper.MemberList.None);
             CreateMap<DepartmentCreateDto, Department>(memberList: AutoMapper.MemberList.None);
             CreateMap<DepartmentUpdateDto, Department>(memberList: AutoMapper.MemberList.None);
+
+            //Location
+            CreateMap<LocationDto, Location>(memberList: AutoMapper.MemberList.None);
+            CreateMap<LocationCreateDto, Location>(memberList: AutoMapper.MemberList.None);
+            CreateMap<LocationUpdateDto, Location>(memberList: AutoMapper.MemberList.None);
+
+            //Supplier
+            CreateMap<SupplierDto, Supplier>(memberList: AutoMapper.MemberList.None);
+            CreateMap<SupplierCreateDto, Location>(memberList: AutoMapper.MemberList.None);
+            CreateMap<SupplierUpdateDto, Location>(memberList: AutoMapper.MemberList.None);
         }
 
         private void FromDataAccessorLayer()
@@ -118,6 +130,16 @@ namespace Business
             CreateMap<Department, DepartmentDto>();
             CreateMap<Department, DepartmentCreateDto>();
             CreateMap<Department, DepartmentUpdateDto>();
+
+            //Location
+            CreateMap<Location, LocationDto>();
+            CreateMap<Location, LocationCreateDto>();
+            CreateMap<Location, LocationUpdateDto>();
+
+            //Supplier
+            CreateMap<Supplier, SupplierDto>();
+            CreateMap<Supplier, SupplierCreateDto>();
+            CreateMap<Supplier, SupplierUpdateDto>();
         }
     }
 }
