@@ -20,7 +20,7 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public async Task<ComponentDto> CreateAsync(ComponentCreateDto createRequest)
+        public async Task<ComponentDto?> CreateAsync(ComponentCreateDto createRequest)
         {
             var newComponent = _mapper.Map<Component>(createRequest);
 
@@ -42,7 +42,8 @@ namespace Business.Services
         {
             var component = await _componentRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+            if (component == null)
+                return false;
             component.IsDeleted = true;
 
             var result = await _componentRepository.Update(component);
@@ -78,7 +79,7 @@ namespace Business.Services
             };
         }
 
-        public async Task<ComponentDto> GetByIdAsync(int id)
+        public async Task<ComponentDto?> GetByIdAsync(int id)
         {
             var result = await _componentRepository.Entities
                 .Include(s => s.Supplier)
@@ -124,12 +125,13 @@ namespace Business.Services
                 return false;
         }
 
-        public async Task<ComponentDto> UpdateAsync(int id, ComponentUpdateDto updateRequest)
+        public async Task<ComponentDto?> UpdateAsync(int id, ComponentUpdateDto updateRequest)
         {
             var component = await _componentRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            component = _mapper.Map<ComponentUpdateDto, Component>(updateRequest, component);
+            if (component == null)
+                return null;
+            component = _mapper.Map(updateRequest, component);
 
             component.UpdateDay = DateTime.Now;
 
@@ -149,9 +151,9 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 componentQuery = componentQuery.Where(b =>
-                    b.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Type.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Brand.Name.Contains(baseQueryCriteria.Search)
+                    (b.Name != null && b.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Type != null && b.Type.Name != null && b.Type.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Brand != null && b.Brand.Name != null && b.Brand.Name.Contains(baseQueryCriteria.Search))
                     );
             }
 

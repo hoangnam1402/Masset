@@ -77,8 +77,9 @@ namespace Business.Services
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            asset = _mapper.Map<AssetUpdateDto, Asset>(updateRequest, asset);
+            if (asset == null)
+                return null;
+            asset = _mapper.Map(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
 
@@ -94,8 +95,9 @@ namespace Business.Services
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Tag==tag);
-
-            asset = _mapper.Map<AssetUpdateDto, Asset>(updateRequest, asset);
+            if (asset == null)
+                return null;
+            asset = _mapper.Map(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
 
@@ -110,6 +112,8 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var asset = await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
+            if (asset == null)
+                return false;
 
             asset.IsDeleted = true;
 
@@ -189,11 +193,11 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 assetQuery = assetQuery.Where(b =>
-                    b.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Tag.Contains(baseQueryCriteria.Search) ||
-                    b.Type.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Location.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Brand.Name.Contains(baseQueryCriteria.Search)
+                    (b.Name != null && b.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Tag != null && b.Tag.Contains(baseQueryCriteria.Search)) ||
+                    (b.Type != null && b.Type.Name != null && b.Type.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Location != null && b.Location.Name != null && b.Location.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Brand != null && b.Brand.Name != null && b.Brand.Name.Contains(baseQueryCriteria.Search))
                     );
             }
 

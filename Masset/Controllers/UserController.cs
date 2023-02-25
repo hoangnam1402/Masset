@@ -75,7 +75,10 @@ namespace Masset.Controllers
                 return BadRequest("User not exist!!!");
 
             var result = await _userService.UpdateAsync(id, userRequest);
-            return Ok(result);
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest("Something go wrong.");
         }
 
     }

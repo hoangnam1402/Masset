@@ -74,7 +74,10 @@ namespace Masset.Controllers
                 return BadRequest("Employee has been deleted before.");
 
             var result = await _employeeService.DeleteAsync(id);
-            return Ok(result);
+            if (result)
+                return Ok(result);
+            else
+                return BadRequest("Somethink go wrong.");
         }
 
         [HttpGet("{id}")]

@@ -21,7 +21,7 @@ namespace Business.Services
             _mapper = mapper;
         }
 
-        public async Task<MaintenanceDto> CreateAsync(MaintenanceCreateDto createRequest)
+        public async Task<MaintenanceDto?> CreateAsync(MaintenanceCreateDto createRequest)
         {
             var maintenance = _mapper.Map<Maintenance>(createRequest);
 
@@ -39,7 +39,8 @@ namespace Business.Services
         {
             var maintenance = await _maintenanceRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+            if (maintenance == null)
+                return false;
             maintenance.IsDeleted = true;
 
             var result = await _maintenanceRepository.Update(maintenance);
@@ -47,7 +48,7 @@ namespace Business.Services
             return result!=null;
         }
 
-        public async Task<MaintenanceDto> GetByIdAsync(int id)
+        public async Task<MaintenanceDto?> GetByIdAsync(int id)
         {
             var result = await _maintenanceRepository.Entities
                 .Include(s => s.Supplier)
@@ -102,12 +103,13 @@ namespace Business.Services
                 return false;
         }
 
-        public async Task<MaintenanceDto> UpdateAsync(int id, MaintenanceUpdateDto updateRequest)
+        public async Task<MaintenanceDto?> UpdateAsync(int id, MaintenanceUpdateDto updateRequest)
         {
             var maintenance = await _maintenanceRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            maintenance = _mapper.Map<MaintenanceUpdateDto, Maintenance>(updateRequest, maintenance);
+            if (maintenance == null)
+                return null;
+            maintenance = _mapper.Map(updateRequest, maintenance);
             var result = await _maintenanceRepository.Update(maintenance);
 
             if (result != null)
@@ -124,9 +126,9 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 maintenanceQuery = maintenanceQuery.Where(b =>
-                    b.Asset.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Asset.Tag.Contains(baseQueryCriteria.Search) ||
-                    b.Supplier.Name.Contains(baseQueryCriteria.Search)
+                    (b.Asset != null && b.Asset.Name != null && b.Asset.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Asset != null && b.Asset.Tag != null && b.Asset.Tag.Contains(baseQueryCriteria.Search)) ||
+                    (b.Supplier != null && b.Supplier.Name != null && b.Supplier.Name.Contains(baseQueryCriteria.Search))
                     );
             }
 

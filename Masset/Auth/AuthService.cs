@@ -13,7 +13,7 @@ namespace Masset.Auth
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private User _user;
+        private User? _user;
 
         public AuthService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
@@ -49,14 +49,18 @@ namespace Masset.Auth
 
         private List<Claim> GetClaims()
         {
-            var claims = new List<Claim>
-             {
-                new Claim(UserClaims.UserName,_user.UserName),
-                new Claim(UserClaims.Id,_user.Id.ToString()),
-                new Claim(UserClaims.IsActive,_user.IsActive.ToString()),
-             };
+            if (_user != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(UserClaims.UserName,_user.UserName),
+                    new Claim(UserClaims.Id,_user.Id.ToString()),
+                    new Claim(UserClaims.IsActive,_user.IsActive.ToString()),
+                };
 
-            return claims;
+                return claims;
+            }
+            return new List<Claim> { };
         }
 
         private SigningCredentials GetSigningCredentials()

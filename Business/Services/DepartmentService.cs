@@ -50,7 +50,7 @@ namespace Business.Services
             return _mapper.Map<IList<DepartmentDto>>(result);
         }
 
-        public async Task<DepartmentDto> GetByIdAsync(int id)
+        public async Task<DepartmentDto?> GetByIdAsync(int id)
         {
             var result = await _departmentRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -60,7 +60,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<DepartmentDto> CreateAsync(DepartmentCreateDto createRequest)
+        public async Task<DepartmentDto?> CreateAsync(DepartmentCreateDto createRequest)
         {
             var department = _mapper.Map<Department>(createRequest);
 
@@ -74,12 +74,13 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<DepartmentDto> UpdateAsync(int id, DepartmentUpdateDto updateRequest)
+        public async Task<DepartmentDto?> UpdateAsync(int id, DepartmentUpdateDto updateRequest)
         {
             var department = await _departmentRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            department = _mapper.Map<DepartmentUpdateDto, Department>(updateRequest, department);
+            if (department == null)
+                return null;
+            department = _mapper.Map(updateRequest, department);
             var result = await _departmentRepository.Update(department);
 
             if (result != null)
@@ -92,7 +93,8 @@ namespace Business.Services
         {
             var department = await _departmentRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+            if (department == null)
+                return false;
             department.IsDeleted = true;
 
             var result = await _departmentRepository.Update(department);
@@ -133,8 +135,8 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 query = query.Where(b =>
-                    b.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Description.Contains(baseQueryCriteria.Search)
+                    (b.Name != null && b.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Description != null && b.Description.Contains(baseQueryCriteria.Search))
                     );
             }
 

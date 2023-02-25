@@ -31,7 +31,7 @@ namespace Business.Services
             var result = await depreciatioQuery
                 .AsNoTracking()
                 .Include("Asset")
-                .Include("Supplier")
+                .Include("Component")
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
@@ -47,7 +47,7 @@ namespace Business.Services
             };
         }
         
-        public async Task<DepreciationDto> GetByIdAsync(int id)
+        public async Task<DepreciationDto?> GetByIdAsync(int id)
         {
             var result = await _depreciatioRepository.Entities
                 .Include(s => s.Component)
@@ -59,7 +59,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<DepreciationDto> CreateAsync(DepreciationCreateDto createRequest)
+        public async Task<DepreciationDto?> CreateAsync(DepreciationCreateDto createRequest)
         {
             var depreciation = _mapper.Map<Depreciation>(createRequest);
 
@@ -73,12 +73,13 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<DepreciationDto> UpdateAsync(int id, DepreciationUpdateDto updateRequest)
+        public async Task<DepreciationDto?> UpdateAsync(int id, DepreciationUpdateDto updateRequest)
         {
             var depreciation = await _depreciatioRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            depreciation = _mapper.Map<DepreciationUpdateDto, Depreciation>(updateRequest, depreciation);
+            if (depreciation == null)
+                return null;
+            depreciation = _mapper.Map(updateRequest, depreciation);
             var result = await _depreciatioRepository.Update(depreciation);
 
             if (result != null)
@@ -91,7 +92,8 @@ namespace Business.Services
         {
             var depreciatio = await _depreciatioRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+            if (depreciatio == null)
+                return false;
             depreciatio.IsDeleted = true;
 
             var result = await _depreciatioRepository.Update(depreciatio);
@@ -124,9 +126,9 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 depreciationQuery = depreciationQuery.Where(b =>
-                    b.Asset.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Asset.Tag.Contains(baseQueryCriteria.Search) ||
-                    b.Component.Name.Contains(baseQueryCriteria.Search)
+                    (b.Asset != null && b.Asset.Name != null && b.Asset.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Asset != null && b.Asset.Tag != null && b.Asset.Tag.Contains(baseQueryCriteria.Search)) ||
+                    (b.Component != null && b.Component.Name != null && b.Component.Name.Contains(baseQueryCriteria.Search))
                     );
             }
 

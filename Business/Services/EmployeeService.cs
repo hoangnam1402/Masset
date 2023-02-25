@@ -20,7 +20,7 @@ namespace Business.Services
             _mapper=mapper;
         }
 
-        public async Task<EmployeeDto> CreateAsync(EmployeeCreateDto employeeCreateRequest)
+        public async Task<EmployeeDto?> CreateAsync(EmployeeCreateDto employeeCreateRequest)
         {
             Guid id = Guid.NewGuid();
             var newEmployee = _mapper.Map<Employee>(employeeCreateRequest);
@@ -104,13 +104,14 @@ namespace Business.Services
             };
         }
 
-        public async Task<EmployeeDto> UpdateAsync(Guid id, EmployeeUpdateDto employeeUpdateRequest)
+        public async Task<EmployeeDto?> UpdateAsync(Guid id, EmployeeUpdateDto employeeUpdateRequest)
         {
             var employee = await _employeeRepository.Entities
                 .Include(s => s.Department)
                 .FirstOrDefaultAsync(x => x.Id==id);
-
-            employee = _mapper.Map<EmployeeUpdateDto, Employee>(employeeUpdateRequest, employee);
+            if (employee == null)
+                return null;
+            employee = _mapper.Map(employeeUpdateRequest, employee);
 
             var result = await _employeeRepository.Update(employee);
 
@@ -122,7 +123,8 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(Guid id)
         {
             var employee = await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-
+            if (employee == null)
+                return false;
             employee.IsDeleted = true;
 
             var result = await _employeeRepository.Update(employee);
@@ -130,7 +132,7 @@ namespace Business.Services
             return result!=null;
         }
 
-        public async Task<EmployeeDto> GetByIdAsync(Guid id)
+        public async Task<EmployeeDto?> GetByIdAsync(Guid id)
         {
             var result = await _employeeRepository.Entities
                 .Include(s => s.Department)
@@ -144,8 +146,9 @@ namespace Business.Services
         public async Task<bool> ChangePassword(Guid id, EmployeeDto employeeDto)
         {
             var employee = await _employeeRepository.Entities.FirstOrDefaultAsync(x => x.Id==id);
-
-            employee = _mapper.Map<EmployeeDto, Employee>(employeeDto, employee);
+            if (employee == null)
+                return false;
+            employee = _mapper.Map(employeeDto, employee);
 
             var result = await _employeeRepository.Update(employee);
 
@@ -161,11 +164,11 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 employeeQuery = employeeQuery.Where(b =>
-                    b.UserName.Contains(baseQueryCriteria.Search) ||
-                    b.Email.Contains(baseQueryCriteria.Search) ||
-                    b.JobRole.Contains(baseQueryCriteria.Search) ||
-                    b.Phone.Contains(baseQueryCriteria.Search) ||
-                    b.Department.Name.Contains(baseQueryCriteria.Search)
+                    (b.UserName != null && b.UserName.Contains(baseQueryCriteria.Search)) ||
+                    (b.Email != null && b.Email.Contains(baseQueryCriteria.Search)) ||
+                    (b.JobRole != null && b.JobRole.Contains(baseQueryCriteria.Search)) ||
+                    (b.Phone != null && b.Phone.Contains(baseQueryCriteria.Search)) ||
+                    (b.Department != null && b.Department.Name != null && b.Department.Name.Contains(baseQueryCriteria.Search))
                     );
             }
 

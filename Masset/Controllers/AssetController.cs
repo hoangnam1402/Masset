@@ -136,7 +136,7 @@ namespace Masset.Controllers
             var result = await _assetService.GetByIdAsync(id);
 
             if (result == null)
-                return BadRequest("Not Found !");
+                return BadRequest("Somethink go wrong.");
             return Ok(result);
         }
 

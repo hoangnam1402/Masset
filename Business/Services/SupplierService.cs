@@ -43,7 +43,7 @@ namespace Business.Services
             };
         }
 
-        public async Task<SupplierDto> GetByIdAsync(int id)
+        public async Task<SupplierDto?> GetByIdAsync(int id)
         {
             var result = await _supplierRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -60,7 +60,7 @@ namespace Business.Services
             return _mapper.Map<IList<SupplierDto>>(result);
         }
 
-        public async Task<SupplierDto> CreateAsync(SupplierCreateDto createRequest)
+        public async Task<SupplierDto?> CreateAsync(SupplierCreateDto createRequest)
         {
             var supplier = _mapper.Map<Supplier>(createRequest);
 
@@ -74,12 +74,13 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<SupplierDto> UpdateAsync(int id, SupplierUpdateDto updateRequest)
+        public async Task<SupplierDto?> UpdateAsync(int id, SupplierUpdateDto updateRequest)
         {
             var supplier = await _supplierRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            supplier = _mapper.Map<SupplierUpdateDto, Supplier>(updateRequest, supplier);
+            if (supplier == null)
+                return null;
+            supplier = _mapper.Map(updateRequest, supplier);
             var result = await _supplierRepository.Update(supplier);
 
             if (result != null)
@@ -92,7 +93,8 @@ namespace Business.Services
         {
             var supplier = await _supplierRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+            if (supplier == null)
+                return false;
             supplier.IsDeleted = true;
 
             var result = await _supplierRepository.Update(supplier);
@@ -133,12 +135,12 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 query = query.Where(b =>
-                    b.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Email.Contains(baseQueryCriteria.Search) ||
-                    b.Phone.Contains(baseQueryCriteria.Search) ||
-                    b.City.Contains(baseQueryCriteria.Search) ||
-                    b.Country.Contains(baseQueryCriteria.Search) ||
-                    b.Address.Contains(baseQueryCriteria.Search)
+                    (b.Name != null && b.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Email != null && b.Email.Contains(baseQueryCriteria.Search)) ||
+                    (b.Phone != null && b.Phone.Contains(baseQueryCriteria.Search)) ||
+                    (b.City != null && b.City.Contains(baseQueryCriteria.Search)) ||
+                    (b.Country != null && b.Country.Contains(baseQueryCriteria.Search)) ||
+                    (b.Address != null && b.Address.Contains(baseQueryCriteria.Search))
                     );
             }
 

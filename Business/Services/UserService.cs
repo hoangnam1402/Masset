@@ -47,7 +47,7 @@ namespace Business.Services
             };
         }
 
-        public async Task<UserDto> GetById(int id)
+        public async Task<UserDto?> GetById(int id)
         {
             var user = await _userRepository.GetById(id);
             if (user != null)
@@ -55,7 +55,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<UserDto> RegisterUser(UserCreateDto userCreateRequest)
+        public async Task<UserDto?> RegisterUser(UserCreateDto userCreateRequest)
         {
             var password = "abc123";
 
@@ -69,11 +69,12 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<UserDto> UpdateAsync(int id, UserUpdateDto userRequest)
+        public async Task<UserDto?> UpdateAsync(int id, UserUpdateDto userRequest)
         {
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-
-            user = _mapper.Map<UserUpdateDto, User>(userRequest, user);
+            if (user == null)
+                return null;
+            user = _mapper.Map(userRequest, user);
 
             var result = await _userRepository.Update(user);
             if (result == null)

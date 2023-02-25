@@ -43,7 +43,7 @@ namespace Business.Services
             };
         }
 
-        public async Task<BrandDto> GetByIdAsync(int id)
+        public async Task<BrandDto?> GetByIdAsync(int id)
         {
             var result = await _brandsRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -60,7 +60,7 @@ namespace Business.Services
             return _mapper.Map<IList<BrandDto>>(result);
         }
 
-        public async Task<BrandDto> CreateAsync(BrandCreateDto createRequest)
+        public async Task<BrandDto?> CreateAsync(BrandCreateDto createRequest)
         {
             var brand = _mapper.Map<Brands>(createRequest);
 
@@ -74,12 +74,13 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<BrandDto> UpdateAsync(int id, BrandUpdateDto updateRequest)
+        public async Task<BrandDto?> UpdateAsync(int id, BrandUpdateDto updateRequest)
         {
             var brand = await _brandsRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            brand = _mapper.Map<BrandUpdateDto, Brands>(updateRequest, brand);
+            if (brand == null)
+                return null;
+            brand = _mapper.Map(updateRequest, brand);
             var result = await _brandsRepository.Update(brand);
 
             if (result != null)
@@ -92,7 +93,8 @@ namespace Business.Services
         {
             var brand = await _brandsRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+            if (brand == null)
+                return false;
             brand.IsDeleted = true;
 
             var result = await _brandsRepository.Update(brand);
@@ -133,8 +135,8 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 query = query.Where(b =>
-                    b.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Description.Contains(baseQueryCriteria.Search)
+                    (b.Name != null && b.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Description != null && b.Description.Contains(baseQueryCriteria.Search))
                     );
             }
 

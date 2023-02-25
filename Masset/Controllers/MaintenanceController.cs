@@ -96,7 +96,7 @@ namespace Masset.Controllers
             var result = await _maintenanceService.GetByIdAsync(id);
 
             if (result == null)
-                return BadRequest("Not Found !");
+                return BadRequest("Somethink go wrong.");
             return Ok(result);
         }
 

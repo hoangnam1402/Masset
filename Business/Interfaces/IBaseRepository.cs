@@ -4,7 +4,7 @@
     {
         IQueryable<T> Entities { get; }
 
-        Task<T> GetById(int id);
+        Task<T?> GetById(int id);
 
         Task<IEnumerable<T>> GetAll();
 

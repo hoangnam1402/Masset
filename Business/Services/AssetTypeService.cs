@@ -50,7 +50,7 @@ namespace Business.Services
             return _mapper.Map<IList<AssetTypeDto>>(result);
         }
 
-        public async Task<AssetTypeDto> GetByIdAsync(int id)
+        public async Task<AssetTypeDto?> GetByIdAsync(int id)
         {
             var result = await _assetTypeRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -60,7 +60,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<AssetTypeDto> CreateAsync(AssetTypeCreateDto createRequest)
+        public async Task<AssetTypeDto?> CreateAsync(AssetTypeCreateDto createRequest)
         {
             var assetType = _mapper.Map<AssetType>(createRequest);
 
@@ -74,12 +74,13 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<AssetTypeDto> UpdateAsync(int id, AssetTypeUpdateDto updateRequest)
+        public async Task<AssetTypeDto?> UpdateAsync(int id, AssetTypeUpdateDto updateRequest)
         {
             var assetType = await _assetTypeRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            assetType = _mapper.Map<AssetTypeUpdateDto, AssetType>(updateRequest, assetType);
+            if (assetType == null)
+                return null;
+            assetType = _mapper.Map(updateRequest, assetType);
             var result = await _assetTypeRepository.Update(assetType);
 
             if (result != null)
@@ -92,7 +93,8 @@ namespace Business.Services
         {
             var assetType = await _assetTypeRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+            if (assetType == null)
+                return false;
             assetType.IsDeleted = true;
 
             var result = await _assetTypeRepository.Update(assetType);
@@ -133,8 +135,8 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 assetTypeQuery = assetTypeQuery.Where(b =>
-                    b.Name.Contains(baseQueryCriteria.Search) ||
-                    b.Description.Contains(baseQueryCriteria.Search)
+                    (b.Name != null && b.Name.Contains(baseQueryCriteria.Search)) ||
+                    (b.Description != null && b.Description.Contains(baseQueryCriteria.Search))
                     );
             }
 
