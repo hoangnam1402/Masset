@@ -13,10 +13,15 @@ namespace Masset.Controllers
     {
         private readonly IMaintenanceService _maintenanceService;
         private readonly IAssetService _assetService;
-        public MaintenanceController(IMaintenanceService maintenanceService, IAssetService assetService)
+        private readonly ISupplierService _supplierService;
+        public MaintenanceController(
+            IMaintenanceService maintenanceService, 
+            IAssetService assetService,
+            ISupplierService supplierService)
         {
             _maintenanceService = maintenanceService;
             _assetService=assetService;
+            _supplierService=supplierService;
         }
 
         [HttpGet]
@@ -39,6 +44,8 @@ namespace Masset.Controllers
 
             if (!await _assetService.IsExist(createDto.AssetID))
                 return BadRequest("No Asset with id: " + createDto.AssetID);
+            if (!await _supplierService.IsExist(createDto.SupplierID))
+                return BadRequest("No Supplier with id: " + createDto.SupplierID);
             var asset = await _assetService.GetByIdAsync(createDto.AssetID);
             if (asset == null)
                 return BadRequest("Not Found Asset!");

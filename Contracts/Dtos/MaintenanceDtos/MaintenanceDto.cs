@@ -11,7 +11,7 @@ namespace Contracts.Dtos.MaintenanceDtos
         public int? AssetID { get; set; }
         public SupplierDto? Supplier { get; set; }
         public int? SupplierID { get; set; }
-        public MaintenanceTypeEnums? Type { get; set; }
+        public MaintenanceTypeEnums Type { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsDeleted { get; set; }

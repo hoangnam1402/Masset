@@ -78,8 +78,8 @@ namespace Business
 
             //Supplier
             CreateMap<SupplierDto, Supplier>(memberList: AutoMapper.MemberList.None);
-            CreateMap<SupplierCreateDto, Location>(memberList: AutoMapper.MemberList.None);
-            CreateMap<SupplierUpdateDto, Location>(memberList: AutoMapper.MemberList.None);
+            CreateMap<SupplierCreateDto, Supplier>(memberList: AutoMapper.MemberList.None);
+            CreateMap<SupplierUpdateDto, Supplier>(memberList: AutoMapper.MemberList.None);
         }
 
         private void FromDataAccessorLayer()

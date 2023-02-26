@@ -2,6 +2,8 @@
 using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.EmployeeDtos;
+using Contracts.Dtos.MaintenanceDtos;
+using DataAccess.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masset.Controllers
@@ -12,10 +14,26 @@ namespace Masset.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IAssetService _assetService;
-        public MobileController(IEmployeeService employeeService, IAssetService assetService)
+        private readonly IMaintenanceService _maintenanceService;
+        private readonly IAssetTypeService _assetTypeService;
+        private readonly IBrandService _brandService;
+        private readonly ILocationService _locationService;
+        private readonly ISupplierService _supplierService;
+        public MobileController(IEmployeeService employeeService, 
+            IAssetService assetService, 
+            IMaintenanceService maintenanceService,
+            IAssetTypeService assetTypeService,
+            IBrandService brandService,
+            ILocationService locationService,
+            ISupplierService supplierService)
         {
             _employeeService = employeeService;
             _assetService=assetService;
+            _maintenanceService=maintenanceService;
+            _assetTypeService=assetTypeService;
+            _brandService=brandService;
+            _locationService=locationService;
+            _supplierService=supplierService;
         }
 
         [HttpPost]
@@ -43,7 +61,7 @@ namespace Masset.Controllers
 
             var emloyee = await _employeeService.LoginEmployee(employeeLoginDto);
 
-            if(emloyee.isDeleted)
+            if(emloyee.IsDeleted)
             {
                 var error = "Employee is not available. Please contact admin";
                 return new EmployeeResponseDto
@@ -190,10 +208,10 @@ namespace Masset.Controllers
                 Id = asset.Id,
                 Name = asset.Name,
                 Tag = asset.Tag,
-                Type = asset.Type == null ? null : asset.Type.Name,
-                Supplier = asset.Supplier == null ? null :  asset.Supplier.Name,
-                Location = asset.Location == null ? null :  asset.Location.Name,
-                Brand = asset.Brand == null ? null :  asset.Brand.Name,
+                Type = asset.Type?.Name,
+                Supplier = asset.Supplier?.Name,
+                Location = asset.Location?.Name,
+                Brand = asset.Brand?.Name,
                 Serial = asset.Serial,
                 Cost = asset.Cost,
                 Warranty = asset.Warranty,
@@ -208,10 +226,33 @@ namespace Masset.Controllers
             return result;
         }
 
-        [HttpPost("{id}/{tag}")]
+        [HttpPut("{id}/{tag}")]
         public async Task<AssetResponseDto> UpdateAsset([FromRoute] Guid id, string tag,
                                                         [FromBody] AssetUpdateDto assetequest)
         {
+            if (string.IsNullOrEmpty(assetequest.Name))
+            {
+                var error = "Asset name is required.";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if ((assetequest.TypeID.HasValue && !await _assetTypeService.IsExist(assetequest.TypeID.Value)) ||
+                (assetequest.BrandID.HasValue && !await _brandService.IsExist(assetequest.BrandID.Value)) ||
+                (assetequest.LocationID.HasValue && !await _locationService.IsExist(assetequest.LocationID.Value)) ||
+                (assetequest.SupplierID.HasValue && !await _supplierService.IsExist(assetequest.SupplierID.Value)))
+            {
+                var error = "AssetType, Brand, Location or Supplier not exist!!!";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
             if (!await _employeeService.IsExist(id) || !await _assetService.IsExist(tag))
             {
                 var error = "Employee or Asset not exist!!!";
@@ -248,10 +289,10 @@ namespace Masset.Controllers
                 Id = asset.Id,
                 Name = asset.Name,
                 Tag = asset.Tag,
-                Type = asset.Type == null ? null : asset.Type.Name,
-                Supplier = asset.Supplier == null ? null : asset.Supplier.Name,
-                Location = asset.Location == null ? null : asset.Location.Name,
-                Brand = asset.Brand == null ? null : asset.Brand.Name,
+                Type = asset.Type?.Name,
+                Supplier = asset.Supplier?.Name,
+                Location = asset.Location?.Name,
+                Brand = asset.Brand?.Name,
                 Serial = asset.Serial,
                 Cost = asset.Cost,
                 Warranty = asset.Warranty,
@@ -264,6 +305,102 @@ namespace Masset.Controllers
             };
 
             return result;
+        }
+
+        [HttpPost("{id}")]
+        public async Task<MaintenanceResponseDto> CreateMaintenance([FromRoute] Guid id,
+                                                [FromBody] MaintenanceCreateDto maintenanceequest)
+        {
+            if (!await _employeeService.IsExist(id))
+            {
+                var error = "Employee not exist!!!";
+                return new MaintenanceResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (await _employeeService.IsDelete(id))
+            {
+                var error = "Employee has been deleted!!!";
+                return new MaintenanceResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (maintenanceequest.Type is 0 ||
+                maintenanceequest.AssetID is 0 ||
+                maintenanceequest.SupplierID is 0)
+            {
+                var error = "Asset, Supplier, Type, StartDate and EndDate are required.";
+                return new MaintenanceResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (!await _assetService.IsExist(maintenanceequest.AssetID) || 
+                !await _supplierService.IsExist(maintenanceequest.SupplierID))
+            {
+                var error = "Asset or Supplier not exist!!!";
+                return new MaintenanceResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var asset = await _assetService.GetByIdAsync(maintenanceequest.AssetID);
+            if (asset == null)
+            {
+                var error = "Somethink go wrong.";
+                return new MaintenanceResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if ((asset.Status == AssetStatusEnums.OutOfRepair && maintenanceequest.Type == MaintenanceTypeEnums.Repair) ||
+                asset.Status == AssetStatusEnums.Lost)
+            {
+                var error = "Asset was Out Of Repair or Lost";
+                return new MaintenanceResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var maintenance = await _maintenanceService.CreateAsync(maintenanceequest);
+            if (maintenance == null)
+            {
+                var error = "Something go wrong";
+                return new MaintenanceResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            MaintenanceResponseDto result = new MaintenanceResponseDto()
+            {
+                Id = maintenance.Id,
+                Asset = maintenance.Asset?.Name,
+                Supplier = maintenance.Supplier?.Name,
+                Type = maintenance.Type,
+                StartDate = maintenance.StartDate,
+                EndDate = maintenance.EndDate,
+                Error = false,
+                Message = "",
+            };
+
+            return result;
+
         }
     }
 }

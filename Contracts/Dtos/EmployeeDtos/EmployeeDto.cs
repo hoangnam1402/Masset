@@ -13,6 +13,6 @@ namespace Contracts.Dtos.EmployeeDtos
         public DepartmentDto? Department { get; set; }
         public int? DepartmentID { get; set; }
         public string? Address { get; set; }
-        public bool isDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
