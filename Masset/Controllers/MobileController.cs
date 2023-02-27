@@ -36,7 +36,7 @@ namespace Masset.Controllers
             _supplierService=supplierService;
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<EmployeeResponseDto> Login([FromBody] LoginDto employeeLoginDto)
         {
             if (string.IsNullOrEmpty(employeeLoginDto.UserName) || string.IsNullOrEmpty(employeeLoginDto.Password))
@@ -86,7 +86,7 @@ namespace Masset.Controllers
             return result;
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("ChangePassword/{id}")]
         public async Task<EmployeeResponseDto> ChangePassword([FromRoute] Guid id, 
                                                             [FromBody] ChangePasswordDto employeeRequest)
         {
@@ -132,7 +132,7 @@ namespace Masset.Controllers
                 };
             }
 
-            if (emloyee.Password == employeeRequest.CurrentPassword)
+            if (emloyee.Password != employeeRequest.CurrentPassword)
             {
                 var error = "Password is incorrect. Please try again";
                 return new EmployeeResponseDto
@@ -142,6 +142,7 @@ namespace Masset.Controllers
                 };
             }
 
+            emloyee.Password = employeeRequest.NewPassword;
             var changePasswordSuccess = await _employeeService.ChangePassword(id, emloyee);
             if(!changePasswordSuccess)
             {
@@ -169,7 +170,7 @@ namespace Masset.Controllers
             return result;
         }
 
-        [HttpGet("{id}/{tag}")]
+        [HttpGet("GetAsset/{id}/{tag}")]
         public async Task<AssetResponseDto> GetAsset([FromRoute] Guid id, string tag)
         {
             if (!await _employeeService.IsExist(id) || !await _assetService.IsExist(tag))
@@ -226,7 +227,7 @@ namespace Masset.Controllers
             return result;
         }
 
-        [HttpPut("{id}/{tag}")]
+        [HttpPut("UpdateAsset/{id}/{tag}")]
         public async Task<AssetResponseDto> UpdateAsset([FromRoute] Guid id, string tag,
                                                         [FromBody] AssetUpdateDto assetequest)
         {
@@ -307,7 +308,7 @@ namespace Masset.Controllers
             return result;
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("CreateMaintenance/{id}")]
         public async Task<MaintenanceResponseDto> CreateMaintenance([FromRoute] Guid id,
                                                 [FromBody] MaintenanceCreateDto maintenanceequest)
         {
@@ -332,10 +333,9 @@ namespace Masset.Controllers
             }
 
             if (maintenanceequest.Type is 0 ||
-                maintenanceequest.AssetID is 0 ||
-                maintenanceequest.SupplierID is 0)
+                maintenanceequest.AssetID is 0)
             {
-                var error = "Asset, Supplier, Type, StartDate and EndDate are required.";
+                var error = "Asset and Type are required.";
                 return new MaintenanceResponseDto
                 {
                     Error = true,
@@ -343,10 +343,9 @@ namespace Masset.Controllers
                 };
             }
 
-            if (!await _assetService.IsExist(maintenanceequest.AssetID) || 
-                !await _supplierService.IsExist(maintenanceequest.SupplierID))
+            if (!await _assetService.IsExist(maintenanceequest.AssetID))
             {
-                var error = "Asset or Supplier not exist!!!";
+                var error = "Asset not exist!!!";
                 return new MaintenanceResponseDto
                 {
                     Error = true,
