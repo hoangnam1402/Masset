@@ -333,9 +333,10 @@ namespace Masset.Controllers
             }
 
             if (maintenanceequest.Type is 0 ||
-                maintenanceequest.AssetID is 0)
+                maintenanceequest.AssetID is 0 ||
+                maintenanceequest.SupplierID is 0)
             {
-                var error = "Asset and Type are required.";
+                var error = "Asset, Supplier and Type are required.";
                 return new MaintenanceResponseDto
                 {
                     Error = true,

@@ -40,12 +40,10 @@ namespace Masset.Controllers
             if (createDto.Type is 0 ||
                 createDto.AssetID is 0 ||
                 createDto.SupplierID is 0)
-                return BadRequest("Asset, Supplier, Type, StartDate and EndDate are required.");
+                return BadRequest("Asset, Supplier and Type are required.");
 
             if (!await _assetService.IsExist(createDto.AssetID))
                 return BadRequest("No Asset with id: " + createDto.AssetID);
-            if (!await _supplierService.IsExist(createDto.SupplierID))
-                return BadRequest("No Supplier with id: " + createDto.SupplierID);
             var asset = await _assetService.GetByIdAsync(createDto.AssetID);
             if (asset == null)
                 return BadRequest("Not Found Asset!");
