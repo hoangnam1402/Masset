@@ -1,7 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import EndPoints from './constants/endpoints'
+import { useEffect } from 'react';
+import axios from "axios";
 
 function App() {
+  const getData = () => {
+    axios.get(EndPoints.getUserId(1))
+    .catch((error) => {
+      console.log(error.response.data)
+    })
+  }
+  useEffect(() => {
+    getData();
+  },[])
   return (
     <div className="App">
       <header className="App-header">

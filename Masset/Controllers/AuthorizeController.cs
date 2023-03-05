@@ -65,6 +65,35 @@ namespace Masset.Controllers
 
         }
 
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<UserResponseDto> Me()
+        {
+            var claims = User.Claims.ToList();
+            Dictionary<string, string> claimsDictionary = new Dictionary<string, string>();
+            foreach (var claim in claims)
+            {
+                claimsDictionary.Add(claim.Type, claim.Value);
+            }
+
+            var username = claimsDictionary[UserClaims.UserName];
+            var user = await _userManager.FindByNameAsync(username);
+
+            UserResponseDto result = new UserResponseDto()
+            {
+                Token = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", ""),
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                IsActive = user.IsActive,
+                Error = false,
+                Message = "",
+            };
+
+            return result;
+        }
+
         [HttpPut]
         [Authorize]
         public async Task<UserResponseDto> ChangePassword([FromBody] ChangePasswordDto userRequest)

@@ -32,7 +32,7 @@ namespace Masset.Controllers
             return Ok(userResponses);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
