@@ -65,6 +65,7 @@ namespace Business.Services
             var brand = _mapper.Map<Brands>(createRequest);
 
             brand.IsDeleted = false;
+            brand.CreateDay = brand.UpdateDay = DateTime.Now;
 
             var result = await _brandsRepository.Add(brand);
             if (result != null)
@@ -81,6 +82,7 @@ namespace Business.Services
             if (brand == null)
                 return null;
             brand = _mapper.Map(updateRequest, brand);
+            brand.UpdateDay = DateTime.Now;
             var result = await _brandsRepository.Update(brand);
 
             if (result != null)
@@ -96,7 +98,7 @@ namespace Business.Services
             if (brand == null)
                 return false;
             brand.IsDeleted = true;
-
+            brand.UpdateDay = DateTime.Now;
             var result = await _brandsRepository.Update(brand);
 
             return result!=null;

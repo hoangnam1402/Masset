@@ -45,6 +45,7 @@ namespace Business.Services
             if (component == null)
                 return false;
             component.IsDeleted = true;
+            component.UpdateDay = DateTime.Now;
 
             var result = await _componentRepository.Update(component);
 

@@ -54,7 +54,7 @@ namespace Masset.Auth
                 var claims = new List<Claim>
                 {
                     new Claim(UserClaims.UserName,_user.UserName),
-                    new Claim(UserClaims.Id,_user.Id.ToString()),
+                    new Claim(UserClaims.Id,_user.Id),
                     new Claim(UserClaims.IsActive,_user.IsActive.ToString()),
                 };
 

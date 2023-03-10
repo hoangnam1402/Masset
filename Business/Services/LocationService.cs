@@ -65,6 +65,7 @@ namespace Business.Services
             var location = _mapper.Map<Location>(createRequest);
 
             location.IsDeleted = false;
+            location.CreateDay = location.UpdateDay = DateTime.Now;
 
             var result = await _locationRepository.Add(location);
             if (result != null)
@@ -81,6 +82,8 @@ namespace Business.Services
             if (location == null)
                 return null;
             location = _mapper.Map(updateRequest, location);
+            location.UpdateDay = DateTime.Now;
+
             var result = await _locationRepository.Update(location);
 
             if (result != null)
@@ -96,6 +99,7 @@ namespace Business.Services
             if (location == null)
                 return false;
             location.IsDeleted = true;
+            location.UpdateDay = DateTime.Now;
 
             var result = await _locationRepository.Update(location);
 

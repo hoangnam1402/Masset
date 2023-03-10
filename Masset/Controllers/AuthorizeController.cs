@@ -55,6 +55,7 @@ namespace Masset.Controllers
                 Token = token,
                 Id = user.Id,
                 UserName = user.UserName,
+                Role = user.Role,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsActive = user.IsActive,

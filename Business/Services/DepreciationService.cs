@@ -64,6 +64,7 @@ namespace Business.Services
             var depreciation = _mapper.Map<Depreciation>(createRequest);
 
             depreciation.IsDeleted = false;
+            depreciation.CreateDay = depreciation.UpdateDay = DateTime.Now;
 
             var result = await _depreciatioRepository.Add(depreciation);
             if (result != null)
@@ -80,6 +81,7 @@ namespace Business.Services
             if (depreciation == null)
                 return null;
             depreciation = _mapper.Map(updateRequest, depreciation);
+            depreciation.UpdateDay = DateTime.Now;
             var result = await _depreciatioRepository.Update(depreciation);
 
             if (result != null)
@@ -90,13 +92,13 @@ namespace Business.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var depreciatio = await _depreciatioRepository.Entities
+            var depreciation = await _depreciatioRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id);
-            if (depreciatio == null)
+            if (depreciation == null)
                 return false;
-            depreciatio.IsDeleted = true;
-
-            var result = await _depreciatioRepository.Update(depreciatio);
+            depreciation.IsDeleted = true;
+            depreciation.UpdateDay = DateTime.Now;
+            var result = await _depreciatioRepository.Update(depreciation);
 
             return result!=null;
         }

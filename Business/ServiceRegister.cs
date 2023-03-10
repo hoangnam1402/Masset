@@ -12,16 +12,15 @@ namespace Business
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IAssetService, AssetService>();
             services.AddTransient<IComponentService, ComponentService>();
             services.AddTransient<IMaintenanceService, MaintenanceService>();
             services.AddTransient<IDepreciationService, DepreciationService>();
             services.AddTransient<IAssetTypeService, AssetTypeService>();
             services.AddTransient<IBrandService, BrandService>();
-            services.AddTransient<IDepartmentService, DepartmentService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<ISupplierService, SupplierService>();
+            services.AddTransient<ISettingService, SettingService>();
         }
     }
 }

@@ -65,6 +65,7 @@ namespace Business.Services
             var supplier = _mapper.Map<Supplier>(createRequest);
 
             supplier.IsDeleted = false;
+            supplier.CreateDay = supplier.UpdateDay = DateTime.Now;
 
             var result = await _supplierRepository.Add(supplier);
             if (result != null)
@@ -81,6 +82,8 @@ namespace Business.Services
             if (supplier == null)
                 return null;
             supplier = _mapper.Map(updateRequest, supplier);
+            supplier.UpdateDay = DateTime.Now;
+
             var result = await _supplierRepository.Update(supplier);
 
             if (result != null)
@@ -96,6 +99,7 @@ namespace Business.Services
             if (supplier == null)
                 return false;
             supplier.IsDeleted = true;
+            supplier.UpdateDay = DateTime.Now;
 
             var result = await _supplierRepository.Update(supplier);
 

@@ -1,13 +1,13 @@
 ﻿using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
+using Contracts.Dtos.AssetHistoryDtos;
 using Contracts.Dtos.AssetTypeDtos;
 using Contracts.Dtos.BrandsDtos;
 using Contracts.Dtos.ComponentDtos;
-using Contracts.Dtos.DepartmentDtos;
 using Contracts.Dtos.DepreciationDtos;
-using Contracts.Dtos.EmployeeDtos;
 using Contracts.Dtos.LocationDtos;
 using Contracts.Dtos.MaintenanceDtos;
+using Contracts.Dtos.SettingDtos;
 using Contracts.Dtos.SupplierDtos;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
@@ -24,12 +24,6 @@ namespace Business
 
         private void FromPresentationLayer()
         {
-            //Employee
-            CreateMap<EmployeeDto, Employee>(memberList: AutoMapper.MemberList.None);
-            CreateMap<LoginDto, Employee>(memberList: AutoMapper.MemberList.None);
-            CreateMap<EmployeeCreateDto, Employee>(memberList: AutoMapper.MemberList.None);
-            CreateMap<EmployeeUpdateDto, Employee>(memberList: AutoMapper.MemberList.None);
-
             //User
             CreateMap<UserDto, User>(memberList: AutoMapper.MemberList.None);
             CreateMap<UserCreateDto, User>(memberList: AutoMapper.MemberList.None);
@@ -66,11 +60,6 @@ namespace Business
             CreateMap<BrandCreateDto, Brands>(memberList: AutoMapper.MemberList.None);
             CreateMap<BrandUpdateDto, Brands>(memberList: AutoMapper.MemberList.None);
 
-            //Department
-            CreateMap<DepartmentDto, Department>(memberList: AutoMapper.MemberList.None);
-            CreateMap<DepartmentCreateDto, Department>(memberList: AutoMapper.MemberList.None);
-            CreateMap<DepartmentUpdateDto, Department>(memberList: AutoMapper.MemberList.None);
-
             //Location
             CreateMap<LocationDto, Location>(memberList: AutoMapper.MemberList.None);
             CreateMap<LocationCreateDto, Location>(memberList: AutoMapper.MemberList.None);
@@ -80,16 +69,18 @@ namespace Business
             CreateMap<SupplierDto, Supplier>(memberList: AutoMapper.MemberList.None);
             CreateMap<SupplierCreateDto, Supplier>(memberList: AutoMapper.MemberList.None);
             CreateMap<SupplierUpdateDto, Supplier>(memberList: AutoMapper.MemberList.None);
+
+            //Setting
+            CreateMap<SettingDto, Setting>(memberList: AutoMapper.MemberList.None);
+            CreateMap<UpdateSettingDto, Setting>(memberList: AutoMapper.MemberList.None)
+                .ForMember(src => src.Logo, act => act.Ignore()).ReverseMap();
+
+            //AssetHistory
+            CreateMap<AssetHistoryDto, AssetHistory>(memberList: AutoMapper.MemberList.None);
         }
 
         private void FromDataAccessorLayer()
         {
-            //Employee
-            CreateMap<Employee, EmployeeDto>();
-            CreateMap<Employee, LoginDto>();
-            CreateMap<Employee, EmployeeUpdateDto>();
-            CreateMap<Employee, EmployeeCreateDto>();
-
             //User
             CreateMap<User, UserDto>();
             CreateMap<User, UserCreateDto>();
@@ -126,11 +117,6 @@ namespace Business
             CreateMap<Brands, BrandCreateDto>();
             CreateMap<Brands, BrandUpdateDto>();
 
-            //Department
-            CreateMap<Department, DepartmentDto>();
-            CreateMap<Department, DepartmentCreateDto>();
-            CreateMap<Department, DepartmentUpdateDto>();
-
             //Location
             CreateMap<Location, LocationDto>();
             CreateMap<Location, LocationCreateDto>();
@@ -140,6 +126,13 @@ namespace Business
             CreateMap<Supplier, SupplierDto>();
             CreateMap<Supplier, SupplierCreateDto>();
             CreateMap<Supplier, SupplierUpdateDto>();
+
+            //Setting
+            CreateMap<Setting, SettingDto>();
+            CreateMap<Setting, UpdateSettingDto>().ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
+        
+            //AssetHistory
+            CreateMap<AssetHistory, AssetHistoryDto>();
         }
     }
 }

@@ -27,5 +27,7 @@ namespace Contracts.Dtos.ComponentDtos
         public int? Warranty { get; set; }
         public AssetStatusEnums Status { get; set; }
         public string? Description { get; set; }
+        public DateTime? PurchaseDay { get; set; }
+
     }
 }

@@ -13,7 +13,7 @@ namespace Masset.Extensions
     {
         public static void AddAuthenticationRegister(this IServiceCollection services)
         {
-            services.AddIdentity<User, IdentityRole<int>>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = false;

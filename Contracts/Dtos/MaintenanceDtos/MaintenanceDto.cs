@@ -15,6 +15,8 @@ namespace Contracts.Dtos.MaintenanceDtos
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? CreateDay { get; set; }
+        public DateTime? UpdateDay { get; set; }
 
     }
 }

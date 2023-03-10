@@ -26,6 +26,7 @@ namespace Business.Services
             var maintenance = _mapper.Map<Maintenance>(createRequest);
 
             maintenance.IsDeleted = false;
+            maintenance.UpdateDay = maintenance.CreateDay = DateTime.Now;
 
             var result = await _maintenanceRepository.Add(maintenance);
             if (result != null)
@@ -42,6 +43,7 @@ namespace Business.Services
             if (maintenance == null)
                 return false;
             maintenance.IsDeleted = true;
+            maintenance.UpdateDay = DateTime.Now;
 
             var result = await _maintenanceRepository.Update(maintenance);
 
@@ -110,6 +112,7 @@ namespace Business.Services
             if (maintenance == null)
                 return null;
             maintenance = _mapper.Map(updateRequest, maintenance);
+            maintenance.UpdateDay = DateTime.Now;
             var result = await _maintenanceRepository.Update(maintenance);
 
             if (result != null)

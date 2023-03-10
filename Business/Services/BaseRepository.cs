@@ -37,6 +37,10 @@ namespace Business.Services
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
+        public async Task<T?> GetById(string id)
+        {
+            return await _dbContext.Set<T>().FindAsync(id);
+        }
 
         public async Task<T> Update(T entity)
         {

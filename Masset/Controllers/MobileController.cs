@@ -1,9 +1,12 @@
 ﻿using Business.Interfaces;
 using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
-using Contracts.Dtos.EmployeeDtos;
 using Contracts.Dtos.MaintenanceDtos;
+using Contracts.Dtos.UserDtos;
+using DataAccess.Entities;
 using DataAccess.Enums;
+using Masset.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masset.Controllers
@@ -12,170 +15,91 @@ namespace Masset.Controllers
     [ApiController]
     public class MobileController : ControllerBase
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IAuthService _authService;
+        private readonly UserManager<User> _userManager;
+        private readonly IUserService _userService;
         private readonly IAssetService _assetService;
         private readonly IMaintenanceService _maintenanceService;
         private readonly IAssetTypeService _assetTypeService;
         private readonly IBrandService _brandService;
         private readonly ILocationService _locationService;
         private readonly ISupplierService _supplierService;
-        public MobileController(IEmployeeService employeeService, 
+        public MobileController(IAuthService authService,
+            UserManager<User> userManager,
             IAssetService assetService, 
             IMaintenanceService maintenanceService,
             IAssetTypeService assetTypeService,
             IBrandService brandService,
             ILocationService locationService,
-            ISupplierService supplierService)
+            ISupplierService supplierService,
+            IUserService userService)
         {
-            _employeeService = employeeService;
-            _assetService=assetService;
+            _authService = authService;
+            _userManager = userManager;
+            _assetService =assetService;
             _maintenanceService=maintenanceService;
             _assetTypeService=assetTypeService;
             _brandService=brandService;
             _locationService=locationService;
             _supplierService=supplierService;
+            _userService=userService;
         }
 
         [HttpPost("Login")]
-        public async Task<EmployeeResponseDto> Login([FromBody] LoginDto employeeLoginDto)
+        public async Task<UserResponseDto> Login([FromBody] LoginDto userRequest)
         {
-            if (string.IsNullOrEmpty(employeeLoginDto.UserName) || string.IsNullOrEmpty(employeeLoginDto.Password))
+            if (string.IsNullOrEmpty(userRequest.UserName) || string.IsNullOrEmpty(userRequest.Password))
             {
                 var error = "Username and password is required.";
-                return new EmployeeResponseDto
+                return new UserResponseDto
                 {
                     Error = true,
                     Message = error,
                 };
             }
 
-            if (await _employeeService.LoginFail(employeeLoginDto))
+            if (!await _authService.ValidateUser(userRequest))
             {
                 var error = "Username or password is incorrect. Please try again";
-                return new EmployeeResponseDto
+                return new UserResponseDto
                 {
                     Error = true,
                     Message = error,
                 };
             }
 
-            var emloyee = await _employeeService.LoginEmployee(employeeLoginDto);
+            var user = await _userManager.FindByNameAsync(userRequest.UserName);
+            var token = await _authService.CreateToken();
 
-            if(emloyee.IsDeleted)
+            if (!user.IsActive)
             {
-                var error = "Employee is not available. Please contact admin";
-                return new EmployeeResponseDto
+                var error = "User is not available. Please contact Admin";
+                return new UserResponseDto
                 {
                     Error = true,
                     Message = error,
                 };
             }
 
-            EmployeeResponseDto result = new EmployeeResponseDto()
+            UserResponseDto result = new UserResponseDto()
             {
-                Id = emloyee.Id,
-                UserName = emloyee.UserName,
-                Email = emloyee.Email,
-                Phone = emloyee.Phone,
-                JobRole = emloyee.JobRole,
-                DepartmentID = emloyee.DepartmentID,
-                Address = emloyee.Address,
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                IsActive = user.IsActive,
                 Error = false,
                 Message = "",
             };
-            return result;
-        }
-
-        [HttpPut("ChangePassword/{id}")]
-        public async Task<EmployeeResponseDto> ChangePassword([FromRoute] Guid id, 
-                                                            [FromBody] ChangePasswordDto employeeRequest)
-        {
-            if (!await _employeeService.IsExist(id))
-            {
-                var error = "Employee not exist!!!";
-                return new EmployeeResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
-            if (employeeRequest.CurrentPassword == employeeRequest.NewPassword)
-            {
-                var error = "The new password cannot be the same as the old password";
-                return new EmployeeResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
-            if (await _employeeService.IsDelete(id))
-            {
-                var error = "Employee has been deleted!!!";
-                return new EmployeeResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
-            var emloyee = await _employeeService.GetByIdAsync(id);
-
-            if (emloyee == null)
-            {
-                var error = "Something go wrong.";
-                return new EmployeeResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
-            if (emloyee.Password != employeeRequest.CurrentPassword)
-            {
-                var error = "Password is incorrect. Please try again";
-                return new EmployeeResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
-            emloyee.Password = employeeRequest.NewPassword;
-            var changePasswordSuccess = await _employeeService.ChangePassword(id, emloyee);
-            if(!changePasswordSuccess)
-            {
-                var error = "Something go wrong";
-                return new EmployeeResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
-            EmployeeResponseDto result = new EmployeeResponseDto()
-            {
-                Id = emloyee.Id,
-                UserName = emloyee.UserName,
-                Email = emloyee.Email,
-                Phone = emloyee.Phone,
-                JobRole = emloyee.JobRole,
-                DepartmentID = emloyee.DepartmentID,
-                Address = emloyee.Address,
-                Error = false,
-                Message = "",
-            };
-
             return result;
         }
 
         [HttpGet("GetAsset/{id}/{tag}")]
-        public async Task<AssetResponseDto> GetAsset([FromRoute] Guid id, string tag)
+        public async Task<AssetResponseDto> GetAsset([FromRoute] string id, string tag)
         {
-            if (!await _employeeService.IsExist(id) || !await _assetService.IsExist(tag))
+            if (!await _userService.IsExist(id) || !await _assetService.IsExist(tag))
             {
-                var error = "Employee or Asset not exist!!!";
+                var error = "User or Asset not exist!!!";
                 return new AssetResponseDto
                 {
                     Error = true,
@@ -183,9 +107,9 @@ namespace Masset.Controllers
                 };
             }
 
-            if (await _employeeService.IsDelete(id) || await _assetService.IsDelete(tag))
+            if (await _userService.IsActive(id) || await _assetService.IsDelete(tag))
             {
-                var error = "Employee or Asset has been deleted!!!";
+                var error = "User or Asset not available!!!";
                 return new AssetResponseDto
                 {
                     Error = true,
@@ -228,7 +152,7 @@ namespace Masset.Controllers
         }
 
         [HttpPut("UpdateAsset/{id}/{tag}")]
-        public async Task<AssetResponseDto> UpdateAsset([FromRoute] Guid id, string tag,
+        public async Task<AssetResponseDto> UpdateAsset([FromRoute] string id, string tag,
                                                         [FromBody] AssetUpdateDto assetequest)
         {
             if (string.IsNullOrEmpty(assetequest.Name))
@@ -241,10 +165,10 @@ namespace Masset.Controllers
                 };
             }
 
-            if ((assetequest.TypeID.HasValue && !await _assetTypeService.IsExist(assetequest.TypeID.Value)) ||
-                (assetequest.BrandID.HasValue && !await _brandService.IsExist(assetequest.BrandID.Value)) ||
-                (assetequest.LocationID.HasValue && !await _locationService.IsExist(assetequest.LocationID.Value)) ||
-                (assetequest.SupplierID.HasValue && !await _supplierService.IsExist(assetequest.SupplierID.Value)))
+            if ((!await _assetTypeService.IsExist(assetequest.TypeID)) ||
+                (!await _brandService.IsExist(assetequest.BrandID)) ||
+                (!await _locationService.IsExist(assetequest.LocationID)) ||
+                (!await _supplierService.IsExist(assetequest.SupplierID)))
             {
                 var error = "AssetType, Brand, Location or Supplier not exist!!!";
                 return new AssetResponseDto
@@ -254,9 +178,9 @@ namespace Masset.Controllers
                 };
             }
 
-            if (!await _employeeService.IsExist(id) || !await _assetService.IsExist(tag))
+            if (!await _userService.IsExist(id) || !await _assetService.IsExist(tag))
             {
-                var error = "Employee or Asset not exist!!!";
+                var error = "User or Asset not exist!!!";
                 return new AssetResponseDto
                 {
                     Error = true,
@@ -264,9 +188,9 @@ namespace Masset.Controllers
                 };
             }
 
-            if (await _employeeService.IsDelete(id) || await _assetService.IsDelete(tag))
+            if (await _userService.IsActive(id) || await _assetService.IsDelete(tag))
             {
-                var error = "Employee or Asset has been deleted!!!";
+                var error = "User or Asset not available!!!";
                 return new AssetResponseDto
                 {
                     Error = true,
@@ -309,12 +233,12 @@ namespace Masset.Controllers
         }
 
         [HttpPost("CreateMaintenance/{id}")]
-        public async Task<MaintenanceResponseDto> CreateMaintenance([FromRoute] Guid id,
+        public async Task<MaintenanceResponseDto> CreateMaintenance([FromRoute] string id,
                                                 [FromBody] MaintenanceCreateDto maintenanceequest)
         {
-            if (!await _employeeService.IsExist(id))
+            if (!await _userService.IsExist(id))
             {
-                var error = "Employee not exist!!!";
+                var error = "User not exist!!!";
                 return new MaintenanceResponseDto
                 {
                     Error = true,
@@ -322,9 +246,9 @@ namespace Masset.Controllers
                 };
             }
 
-            if (await _employeeService.IsDelete(id))
+            if (await _userService.IsActive(id))
             {
-                var error = "Employee has been deleted!!!";
+                var error = "User has been deleted!!!";
                 return new MaintenanceResponseDto
                 {
                     Error = true,

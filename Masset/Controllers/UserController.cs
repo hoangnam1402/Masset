@@ -1,7 +1,9 @@
 ﻿using Business.Interfaces;
 using Contracts;
+using Contracts.Constants;
 using Contracts.Dtos;
 using Contracts.Dtos.UserDtos;
+using DataAccess.Enums;
 using Masset.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,16 +27,18 @@ namespace Masset.Controllers
             [FromQuery] BaseQueryCriteria baseQueryCriteria,
             CancellationToken cancellationToken)
         {
+            var userid = GetUserId();
 
             var userResponses = await _userService.GetByPageAsync(
                                             baseQueryCriteria,
-                                            cancellationToken);
+                                            cancellationToken,
+                                            userid);
             return Ok(userResponses);
         }
 
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             if(!await _userService.IsExist(id))
                 return BadRequest("Not User with id: " + id);
@@ -49,6 +53,10 @@ namespace Masset.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userRequest)
         {
+            if(userRequest.Role == UserRoleEnums.Admin)
+                return BadRequest("Can't create admin user.");
+            if (!Enum.IsDefined(typeof(UserRoleEnums), userRequest.Role))
+                return BadRequest("Role not exist.");
             if (string.IsNullOrEmpty(userRequest.UserName))
                 return BadRequest("Username is required.");
             if (await _userService.IsExist(userRequest.UserName))
@@ -65,7 +73,7 @@ namespace Masset.Controllers
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> UpdateUser(
-            [FromRoute] int id,
+            [FromRoute] string id,
             [FromBody] UserUpdateDto userRequest)
         {
             if (string.IsNullOrEmpty(userRequest.UserName))
@@ -81,5 +89,20 @@ namespace Masset.Controllers
                 return BadRequest("Something go wrong.");
         }
 
+        #region Private Method
+        private string GetUserId()
+        {
+            var claims = User.Claims.ToList();
+            Dictionary<string, string> claimsDictionary = new Dictionary<string, string>();
+            foreach (var claim in claims)
+            {
+                claimsDictionary.Add(claim.Type, claim.Value);
+            }
+
+            var userid = claimsDictionary[UserClaims.Id];
+
+            return userid;
+        }
+        #endregion
     }
 }

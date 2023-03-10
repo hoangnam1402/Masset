@@ -48,16 +48,16 @@ namespace Masset.Controllers
                 string.IsNullOrEmpty(createDto.Serial) ||
                 createDto.Warranty is 0 ||
                 createDto.Cost is 0)
-                return BadRequest("Asset name, tag, serial, warranty and cost are required.");
+                return BadRequest("Asset serial, warranty and cost are required.");
             if (await _assetService.IsExist(createDto.Tag))
                 return BadRequest("Asset tag has been used before!!!");
-            if (createDto.TypeID.HasValue && !await _assetTypeService.IsExist(createDto.TypeID.Value))
+            if (!await _assetTypeService.IsExist(createDto.TypeID))
                 return BadRequest("AssetType not exist!!!");
-            if (createDto.BrandID.HasValue && !await _brandService.IsExist(createDto.BrandID.Value))
+            if (!await _brandService.IsExist(createDto.BrandID))
                 return BadRequest("Brand not exist!!!");
-            if (createDto.LocationID.HasValue && !await _locationService.IsExist(createDto.LocationID.Value))
+            if (!await _locationService.IsExist(createDto.LocationID))
                 return BadRequest("Location not exist!!!");
-            if (createDto.SupplierID.HasValue && !await _supplierService.IsExist(createDto.SupplierID.Value))
+            if (!await _supplierService.IsExist(createDto.SupplierID))
                 return BadRequest("Supplier not exist!!!");
 
             var result = await _assetService.CreateAsync(createDto);
@@ -76,13 +76,13 @@ namespace Masset.Controllers
                 return BadRequest("Asset name is required.");
             if (!await _assetService.IsExist(id))
                 return BadRequest("Asset not exist!!!");
-            if (updateDTO.TypeID.HasValue && !await _assetTypeService.IsExist(updateDTO.TypeID.Value))
+            if (!await _assetTypeService.IsExist(updateDTO.TypeID))
                 return BadRequest("AssetType not exist!!!");
-            if (updateDTO.BrandID.HasValue && !await _brandService.IsExist(updateDTO.BrandID.Value))
+            if (!await _brandService.IsExist(updateDTO.BrandID))
                 return BadRequest("Brand not exist!!!");
-            if (updateDTO.LocationID.HasValue && !await _locationService.IsExist(updateDTO.LocationID.Value))
+            if (!await _locationService.IsExist(updateDTO.LocationID))
                 return BadRequest("Location not exist!!!");
-            if (updateDTO.SupplierID.HasValue && !await _supplierService.IsExist(updateDTO.SupplierID.Value))
+            if (!await _supplierService.IsExist(updateDTO.SupplierID))
                 return BadRequest("Supplier not exist!!!");
 
             var result = await _assetService.UpdateAsync(id, updateDTO);

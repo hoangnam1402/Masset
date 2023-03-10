@@ -116,6 +116,7 @@ namespace Business.Services
                 return false;
 
             asset.IsDeleted = true;
+            asset.UpdateDay = DateTime.Now;
 
             var result = await _assetRepository.Update(asset);
 

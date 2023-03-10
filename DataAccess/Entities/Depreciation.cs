@@ -10,8 +10,10 @@ namespace DataAccess.Entities
         public Component? Component { get; set; }
         public int? AssetID { get; set; }
         public int? ComponentID { get; set; }
-        public int? Period { get; set; }
-        public int? Value { get; set; }
+        public int Period { get; set; }
+        public int Value { get; set; }
+        public DateTime? CreateDay { get; set; }
+        public DateTime? UpdateDay { get; set; }
         public bool IsDeleted { get; set; }
 
     }

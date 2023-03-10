@@ -9,6 +9,8 @@
         public string? City { get; set; }
         public string? Country { get; set; }
         public string? Address { get; set; }
+        public DateTime? CreateDay { get; set; }
+        public DateTime? UpdateDay { get; set; }
         public bool IsDeleted { get; set; }
 
     }

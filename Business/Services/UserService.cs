@@ -24,14 +24,21 @@ namespace Business.Services
 
         public async Task<PagedResponseModel<UserDto>> GetByPageAsync(
             BaseQueryCriteria baseQueryCriteria,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken,
+            string id)
         {
+            var userRole = _userRepository.Entities
+            .Where(x => x.Id == id)
+            .Select(x => x.Role)
+            .FirstOrDefault();
+
             var userQuery = UserFilter(
                 _userRepository.Entities.AsQueryable(),
                 baseQueryCriteria);
 
             var result = await userQuery
                 .AsNoTracking()
+                .Where(x => x.Role == userRole + 1)
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
@@ -47,7 +54,7 @@ namespace Business.Services
             };
         }
 
-        public async Task<UserDto?> GetById(int id)
+        public async Task<UserDto?> GetById(string id)
         {
             var user = await _userRepository.GetById(id);
             if (user != null)
@@ -69,7 +76,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<UserDto?> UpdateAsync(int id, UserUpdateDto userRequest)
+        public async Task<UserDto?> UpdateAsync(string id, UserUpdateDto userRequest)
         {
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
@@ -96,6 +103,28 @@ namespace Business.Services
                 return false;
             else
                 return true;
+        }
+
+        public async Task<bool> IsActive(string id)
+        {
+            var user = await _userRepository.GetById(id);
+            if (user != null && user.IsActive)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> DisableUserAsync(string id)
+        {
+            var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+                return false;
+            user.IsActive = true;
+
+            var result = await _userRepository.Update(user);
+            if (result == null)
+                return false;
+            return true;
         }
 
         #region Private Method

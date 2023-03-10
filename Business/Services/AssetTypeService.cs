@@ -65,6 +65,7 @@ namespace Business.Services
             var assetType = _mapper.Map<AssetType>(createRequest);
 
             assetType.IsDeleted = false;
+            assetType.CreateDay = assetType.UpdateDay = DateTime.Now;
 
             var result = await _assetTypeRepository.Add(assetType);
             if (result != null)
@@ -81,6 +82,7 @@ namespace Business.Services
             if (assetType == null)
                 return null;
             assetType = _mapper.Map(updateRequest, assetType);
+            assetType.UpdateDay = DateTime.Now;
             var result = await _assetTypeRepository.Update(assetType);
 
             if (result != null)
@@ -96,6 +98,7 @@ namespace Business.Services
             if (assetType == null)
                 return false;
             assetType.IsDeleted = true;
+            assetType.UpdateDay = DateTime.Now;
 
             var result = await _assetTypeRepository.Update(assetType);
 
