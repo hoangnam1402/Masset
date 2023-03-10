@@ -22,7 +22,7 @@ namespace Masset.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetByPage(
             [FromQuery] BaseQueryCriteria baseQueryCriteria,
             CancellationToken cancellationToken)
@@ -37,7 +37,7 @@ namespace Masset.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetById(string id)
         {
             if(!await _userService.IsExist(id))
@@ -51,6 +51,7 @@ namespace Masset.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userRequest)
         {
             if(userRequest.Role == UserRoleEnums.Admin)
