@@ -355,6 +355,35 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AssetHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssetID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssetHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AssetHistory_Assets_AssetID",
+                        column: x => x.AssetID,
+                        principalTable: "Assets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssetHistory_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Maintenances",
                 columns: table => new
                 {
@@ -420,9 +449,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "356132cd-14f9-487e-88c8-2e064ec79c45", "41827f58-66ce-4807-867c-fbf190ab7ef4", "Admin", "ADMIN" },
-                    { "9bb70653-3dd3-43ae-9ac8-83ca76fde891", "c1bb2d73-e747-4fbe-8f1c-df1150904afb", "Manager", "MANAGER" },
-                    { "f239c2e0-e801-4bf7-9bd4-c82923a5ac8d", "93dac17c-3f22-4801-8f26-e7e4c013c9b6", "Staff", "STAFF" }
+                    { "1a575213-66a8-44fe-a816-61068b100d97", "f4409c95-85df-412e-9641-734024d3426a", "Manager", "MANAGER" },
+                    { "a00f8176-5149-4500-bc70-113d453c7305", "87884f52-40fa-4b5f-877c-ba0d4956c6df", "Admin", "ADMIN" },
+                    { "a3ed7b47-b150-4fa0-be11-2907e986bb77", "dd8d73a5-e745-4d51-bb6c-27ab4a5ed126", "Staff", "STAFF" }
                 });
 
             migrationBuilder.InsertData(
@@ -433,12 +462,22 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDay", "Email", "EmailConfirmed", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UpdateDay", "UserName" },
-                values: new object[] { "5f2e01ce-5c18-47d1-8b26-4135d3ec2db7", 0, "01bda497-ccaf-4e4b-b5b1-642f8c3a0552", new DateTime(2023, 3, 10, 22, 38, 40, 95, DateTimeKind.Local).AddTicks(3222), null, false, true, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEFkVUdE8IHHuy9ZayHP1jP7ug6v3QPksy2+F2mNnwo2Bq1Ot/aNqjkBUwWnVphn11Q==", null, false, 1, "d5d1ec17-46fd-44bf-9ab5-dd21f423cd23", false, new DateTime(2023, 3, 10, 22, 38, 40, 95, DateTimeKind.Local).AddTicks(3232), "Admin" });
+                values: new object[] { "897a2494-93cf-4336-b772-1a27d5254dc1", 0, "556dab3d-866d-4560-a83c-454ac8ff592c", new DateTime(2023, 3, 11, 23, 5, 22, 307, DateTimeKind.Local).AddTicks(7092), null, false, true, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEKRe0OoSZHTyj2UAGnuKhd7/KhRDHzOl9qxK1osyGfv5lZWIdNtZF4kYHyqgwNYh4A==", null, false, 1, "b4a26237-4470-4f27-9ad9-b783337e0473", false, new DateTime(2023, 3, 11, 23, 5, 22, 307, DateTimeKind.Local).AddTicks(7105), "Admin" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "356132cd-14f9-487e-88c8-2e064ec79c45", "5f2e01ce-5c18-47d1-8b26-4135d3ec2db7" });
+                values: new object[] { "a00f8176-5149-4500-bc70-113d453c7305", "897a2494-93cf-4336-b772-1a27d5254dc1" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssetHistory_AssetID",
+                table: "AssetHistory",
+                column: "AssetID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssetHistory_UserID",
+                table: "AssetHistory",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assets_BrandID",
@@ -542,6 +581,9 @@ namespace DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AssetHistory");
+
             migrationBuilder.DropTable(
                 name: "Depreciations");
 

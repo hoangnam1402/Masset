@@ -25,7 +25,7 @@ namespace Masset.Controllers
             return Ok(responses);
         }
 
-        [HttpGet("GetUnread")]
+        [HttpGet("Unread")]
         [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> GetAll()
         {

@@ -29,7 +29,7 @@ namespace Masset.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             var result = await _settingService.GetAsync();
