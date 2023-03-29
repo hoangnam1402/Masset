@@ -122,6 +122,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    FirstLogin = table.Column<bool>(type: "bit", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -449,9 +450,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1a575213-66a8-44fe-a816-61068b100d97", "f4409c95-85df-412e-9641-734024d3426a", "Manager", "MANAGER" },
-                    { "a00f8176-5149-4500-bc70-113d453c7305", "87884f52-40fa-4b5f-877c-ba0d4956c6df", "Admin", "ADMIN" },
-                    { "a3ed7b47-b150-4fa0-be11-2907e986bb77", "dd8d73a5-e745-4d51-bb6c-27ab4a5ed126", "Staff", "STAFF" }
+                    { "85708ea5-8bad-4022-82bf-d45b866d6508", "e7f155c1-b14a-47b1-971c-54c238c30760", "Admin", "ADMIN" },
+                    { "99d02892-a3f3-40c7-9ad7-2f6a5e9dfa3b", "d0e28ab0-b210-43a5-b991-4f91c7821558", "Staff", "STAFF" },
+                    { "f033c4e1-3825-4115-8c7f-28fefa9e754c", "9dfb7ee4-606d-45d7-955d-bc6eea107169", "Manager", "MANAGER" }
                 });
 
             migrationBuilder.InsertData(
@@ -461,13 +462,13 @@ namespace DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDay", "Email", "EmailConfirmed", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UpdateDay", "UserName" },
-                values: new object[] { "897a2494-93cf-4336-b772-1a27d5254dc1", 0, "556dab3d-866d-4560-a83c-454ac8ff592c", new DateTime(2023, 3, 11, 23, 5, 22, 307, DateTimeKind.Local).AddTicks(7092), null, false, true, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEKRe0OoSZHTyj2UAGnuKhd7/KhRDHzOl9qxK1osyGfv5lZWIdNtZF4kYHyqgwNYh4A==", null, false, 1, "b4a26237-4470-4f27-9ad9-b783337e0473", false, new DateTime(2023, 3, 11, 23, 5, 22, 307, DateTimeKind.Local).AddTicks(7105), "Admin" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDay", "Email", "EmailConfirmed", "FirstLogin", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UpdateDay", "UserName" },
+                values: new object[] { "3003a2ad-0359-4e3b-936f-6693df3c1032", 0, "c82b85dd-7383-455f-9ded-fc8baba2c196", new DateTime(2023, 3, 29, 14, 10, 15, 802, DateTimeKind.Local).AddTicks(1349), null, false, false, true, false, null, null, "TEST", "AQAAAAEAACcQAAAAEKQRa5pGSAj8HZ0REVz/6bXeN+rEsHgxUcnJsymdMGflPNrRNWJf8KtJ188Was5RHw==", null, false, 1, "8122a3d5-4a4a-4572-a254-dc1c0d4b45d4", false, new DateTime(2023, 3, 29, 14, 10, 15, 802, DateTimeKind.Local).AddTicks(1365), "Test" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "a00f8176-5149-4500-bc70-113d453c7305", "897a2494-93cf-4336-b772-1a27d5254dc1" });
+                values: new object[] { "85708ea5-8bad-4022-82bf-d45b866d6508", "3003a2ad-0359-4e3b-936f-6693df3c1032" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssetHistory_AssetID",

@@ -21,13 +21,13 @@ namespace Masset.Auth
             _signInManager = signInManager;
         }
 
-        public Task<string> CreateToken()
+        public async Task<string> CreateToken()
         {
             var signingCredentials = GetSigningCredentials();
-            var claims = GetClaims();
+            var claims = await GetClaims();
             var token = GenerateTokenOptions(signingCredentials, claims);
 
-            return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
@@ -47,16 +47,23 @@ namespace Masset.Auth
             return token;
         }
 
-        private List<Claim> GetClaims()
+        private async Task<List<Claim>> GetClaims()
         {
             if (_user != null)
             {
+                var roles = await _userManager.GetRolesAsync(_user);
                 var claims = new List<Claim>
                 {
                     new Claim(UserClaims.UserName,_user.UserName),
                     new Claim(UserClaims.Id,_user.Id),
                     new Claim(UserClaims.IsActive,_user.IsActive.ToString()),
+                    new Claim(UserClaims.Role,roles[0])
                 };
+
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
 
                 return claims;
             }

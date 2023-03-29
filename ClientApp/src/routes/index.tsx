@@ -1,27 +1,27 @@
-import React, { lazy, Suspense, useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import React, { ReactNode, lazy, Suspense, useEffect } from "react";
+import { Route, Routes , Navigate } from "react-router-dom";
 
-import { CREATE_USER, HOME, LOGIN, NOTFOUND, MANAGE_USER, EDIT_USER, MANAGE_ASSET, MANAGE_ASSIGNMENT} from "../constants/pages";
+import { CREATE_USER, HOME, LOGIN, NOTFOUND, MANAGE_USER, EDIT_USER, MANAGE_ASSET} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import LayoutRoute from "./LayoutRoute";
 import PrivateRoute from "./PrivateRoute";
-import Roles from "src/constants/roles";
-import { me } from "src/containers/Authorize/reducer";
-import CreateUser from "src/containers/User/Create";
-import Asset from "src/containers/Asset";
-import Assignment from "src/containers/Assignment";
+import { me } from "../containers/Authorize/reducer";
 
 const Home = lazy(() => import("../containers/Home"));
 const Login = lazy(() => import("../containers/Authorize"));
 const NotFound = lazy(() => import("../containers/NotFound"));
-const User = lazy(() => import("../containers/User"));
+// const User = lazy(() => import("../containers/User"));
 
-const SusspenseLoading = ({ children }) => (
+interface Props {
+  children?: ReactNode
+  // any props that come into the component
+}
+
+const SusspenseLoading = ({ children } : Props) => (
   <Suspense fallback={<InLineLoader />}>{children}</Suspense>
 );
 
-const Routes = () => {
+const Routess = () => {
   const { isAuth, account } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
 
@@ -31,32 +31,29 @@ const Routes = () => {
 
   return (
     <SusspenseLoading>
-      <Switch>
-        <Route exact path={"/"}>
-          <Redirect to={HOME}></Redirect>
+      <Routes>
+        <Route path={"/"}>
+          <Navigate to={HOME}></Navigate>
         </Route>
         
-        <PrivateRoute exact path={HOME}>
+        <Route element={<PrivateRoute/>}>
+          
+        </Route>
+        <PrivateRoute path={HOME}>
           <Home />
         </PrivateRoute>
-        <Route exact path={LOGIN}>
+        <Route path={LOGIN}>
           <Login />
         </Route>
 
-        <PrivateRoute path={MANAGE_USER}>
+        {/* <PrivateRoute path={MANAGE_USER}>
           <User />
-        </PrivateRoute>
-        <PrivateRoute  path={MANAGE_ASSET}>
-          <Asset />
-        </PrivateRoute>
-        <PrivateRoute  path={MANAGE_ASSIGNMENT}>
-          <Assignment />
-        </PrivateRoute>
+        </PrivateRoute> */}
 
-        <Route path="*" component={NotFound} />
-      </Switch>
+        <Route path="*" element={<NotFound/>} />
+      </Routes>
     </SusspenseLoading>
   );
 };
 
-export default Routes;
+export default Routess;

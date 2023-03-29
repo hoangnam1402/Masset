@@ -48,6 +48,7 @@ namespace Masset.Controllers
             }
 
             User user = await _userManager.FindByNameAsync(userRequest.UserName);
+            var roles = await _userManager.GetRolesAsync(user);
             var token = await _authService.CreateToken();
 
             UserResponseDto result = new UserResponseDto()
@@ -55,10 +56,11 @@ namespace Masset.Controllers
                 Token = token,
                 Id = user.Id,
                 UserName = user.UserName,
-                Role = user.Role,
+                Role = roles[0],
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsActive = user.IsActive,
+                FirstLogin = user.FirstLogin,
                 Error = false,
                 Message = "",
             };
@@ -79,6 +81,7 @@ namespace Masset.Controllers
 
             var username = claimsDictionary[UserClaims.UserName];
             var user = await _userManager.FindByNameAsync(username);
+            var roles = await _userManager.GetRolesAsync(user);
 
             UserResponseDto result = new UserResponseDto()
             {
@@ -86,8 +89,10 @@ namespace Masset.Controllers
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
+                Role = roles[0],
                 PhoneNumber = user.PhoneNumber,
                 IsActive = user.IsActive,
+                FirstLogin = user.FirstLogin,
                 Error = false,
                 Message = "",
             };
@@ -138,7 +143,9 @@ namespace Masset.Controllers
 
             if (changePassword.Succeeded)
             {
+                user.FirstLogin = false;
                 await _userManager.UpdateAsync(user);
+                var roles = await _userManager.GetRolesAsync(user);
 
                 UserResponseDto result = new UserResponseDto()
                 {
@@ -146,8 +153,10 @@ namespace Masset.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
+                    Role = roles[0],
                     PhoneNumber = user.PhoneNumber,
                     IsActive = user.IsActive,
+                    FirstLogin = user.FirstLogin,
                     Error = false,
                     Message = "",
                 };

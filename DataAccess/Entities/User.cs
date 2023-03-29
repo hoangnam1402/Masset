@@ -6,6 +6,7 @@ namespace DataAccess.Entities
     public class User : IdentityUser
     {
         public bool IsActive { get; set; } = true;
+        public bool FirstLogin { get; set; }
         public UserRoleEnums Role { get; set; } = UserRoleEnums.Admin;
         public DateTime? CreateDay { get; set; }
         public DateTime? UpdateDay { get; set; }

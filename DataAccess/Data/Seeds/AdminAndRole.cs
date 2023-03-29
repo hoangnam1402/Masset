@@ -31,7 +31,7 @@ namespace DataAccess.Data.Seeds
             var pwd = "abc123";
             var passwordHasher = new PasswordHasher<User>();
             var admin = new User();
-            admin.UserName = "Admin";
+            admin.UserName = "Test";
             admin.NormalizedUserName = admin.UserName.ToUpper();
             admin.IsActive = true;
             admin.Role = Enums.UserRoleEnums.Admin;

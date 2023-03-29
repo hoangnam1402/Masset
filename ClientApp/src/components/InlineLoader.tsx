@@ -10,7 +10,7 @@ const InlineLoader = () => {
     };
   });
 
-  return null;
+  return <></>;
 };
 
 export default InlineLoader;

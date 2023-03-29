@@ -1,14 +1,12 @@
 export default interface IAccount {
-    id: number;
+    id: string;
     token?: string;
     userName: string;
     role: string;
-    fullName: string;
-    staffCode: string;
-    location: string;
-    isConfirmed?: boolean;
-    isDisable?:boolean;
+    isActive?: boolean;
     firstLogin?:boolean
+    email?: string;
+    phoneNumber?: string;
     error?:boolean
     message?:string
 }

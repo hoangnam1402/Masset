@@ -9,6 +9,7 @@ namespace Contracts.Dtos.UserDtos
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public bool IsActive { get; set; }
+        public bool FirstLogin { get; set; }
         public UserRoleEnums Role { get; set; }
         public DateTime? CreateDay { get; set; }
         public DateTime? UpdateDay { get; set; }

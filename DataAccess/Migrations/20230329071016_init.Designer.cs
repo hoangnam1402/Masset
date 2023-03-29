@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230311160522_init")]
+    [Migration("20230329071016_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -477,6 +477,9 @@ namespace DataAccess.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("FirstLogin")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -534,21 +537,22 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "897a2494-93cf-4336-b772-1a27d5254dc1",
+                            Id = "3003a2ad-0359-4e3b-936f-6693df3c1032",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "556dab3d-866d-4560-a83c-454ac8ff592c",
-                            CreateDay = new DateTime(2023, 3, 11, 23, 5, 22, 307, DateTimeKind.Local).AddTicks(7092),
+                            ConcurrencyStamp = "c82b85dd-7383-455f-9ded-fc8baba2c196",
+                            CreateDay = new DateTime(2023, 3, 29, 14, 10, 15, 802, DateTimeKind.Local).AddTicks(1349),
                             EmailConfirmed = false,
+                            FirstLogin = false,
                             IsActive = true,
                             LockoutEnabled = false,
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKRe0OoSZHTyj2UAGnuKhd7/KhRDHzOl9qxK1osyGfv5lZWIdNtZF4kYHyqgwNYh4A==",
+                            NormalizedUserName = "TEST",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKQRa5pGSAj8HZ0REVz/6bXeN+rEsHgxUcnJsymdMGflPNrRNWJf8KtJ188Was5RHw==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "b4a26237-4470-4f27-9ad9-b783337e0473",
+                            SecurityStamp = "8122a3d5-4a4a-4572-a254-dc1c0d4b45d4",
                             TwoFactorEnabled = false,
-                            UpdateDay = new DateTime(2023, 3, 11, 23, 5, 22, 307, DateTimeKind.Local).AddTicks(7105),
-                            UserName = "Admin"
+                            UpdateDay = new DateTime(2023, 3, 29, 14, 10, 15, 802, DateTimeKind.Local).AddTicks(1365),
+                            UserName = "Test"
                         });
                 });
 
@@ -581,22 +585,22 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a00f8176-5149-4500-bc70-113d453c7305",
-                            ConcurrencyStamp = "87884f52-40fa-4b5f-877c-ba0d4956c6df",
+                            Id = "85708ea5-8bad-4022-82bf-d45b866d6508",
+                            ConcurrencyStamp = "e7f155c1-b14a-47b1-971c-54c238c30760",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1a575213-66a8-44fe-a816-61068b100d97",
-                            ConcurrencyStamp = "f4409c95-85df-412e-9641-734024d3426a",
+                            Id = "f033c4e1-3825-4115-8c7f-28fefa9e754c",
+                            ConcurrencyStamp = "9dfb7ee4-606d-45d7-955d-bc6eea107169",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "a3ed7b47-b150-4fa0-be11-2907e986bb77",
-                            ConcurrencyStamp = "dd8d73a5-e745-4d51-bb6c-27ab4a5ed126",
+                            Id = "99d02892-a3f3-40c7-9ad7-2f6a5e9dfa3b",
+                            ConcurrencyStamp = "d0e28ab0-b210-43a5-b991-4f91c7821558",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -691,8 +695,8 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "897a2494-93cf-4336-b772-1a27d5254dc1",
-                            RoleId = "a00f8176-5149-4500-bc70-113d453c7305"
+                            UserId = "3003a2ad-0359-4e3b-936f-6693df3c1032",
+                            RoleId = "85708ea5-8bad-4022-82bf-d45b866d6508"
                         });
                 });
 

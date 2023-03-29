@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects';
 
-import { changePassword, login, me} from 'src/containers/Authorize/reducer';
-import { handleLogin, handleGetMe, handleChangePassword} from 'src/containers/Authorize/sagas/handles';
+import { changePassword, login, me} from '../reducer';
+import { handleLogin, handleGetMe, handleChangePassword} from './handles';
 
 export default function* authorizeSagas() {
     yield takeLatest(login.type, handleLogin),

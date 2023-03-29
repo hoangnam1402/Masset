@@ -4,6 +4,7 @@ using Business.Interfaces;
 using Contracts;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
+using DataAccess.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +39,7 @@ namespace Business.Services
 
             var result = await userQuery
                 .AsNoTracking()
-                .Where(x => x.Role == userRole + 1)
+                .Where(x => x.Role != userRole)
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
@@ -69,10 +70,15 @@ namespace Business.Services
             var newUser = _mapper.Map<User>(userCreateRequest);
             newUser.UserName = userCreateRequest.UserName;
             newUser.IsActive = true;
+            newUser.FirstLogin = true;
+            newUser.CreateDay = newUser.UpdateDay = DateTime.Now;
 
             var result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, userCreateRequest.Role == UserRoleEnums.Manager ? "MANAGER" : "STAFF");
                 return _mapper.Map<UserDto>(newUser);
+            }
             return null;
         }
 
@@ -82,7 +88,7 @@ namespace Business.Services
             if (user == null)
                 return null;
             user = _mapper.Map(userRequest, user);
-
+            user.UpdateDay = DateTime.Now;
             var result = await _userRepository.Update(user);
             if (result == null)
                 return null;

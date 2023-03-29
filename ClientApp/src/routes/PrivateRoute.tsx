@@ -6,18 +6,13 @@ import Layout from "../containers/Layout";
 import { useAppSelector } from "../hooks/redux";
 import InLineLoader from "../components/InlineLoader";
 
-interface Props {
-    children?: ReactNode
-    // any props that come into the component
-}
-
-export default function PrivateRoute({ children, ...rest }: Props) {
+export default function PrivateRoute({ children, ...rest }: any) {
     const { isAuth } = useAppSelector(state => state.authReducer);
 
     return (
         <Route
             {...rest}
-            render={({ location }) =>
+            render={() =>
                 isAuth ?
                     (
                         <Suspense fallback={<InLineLoader />}>

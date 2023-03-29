@@ -2,14 +2,14 @@ import { configureStore, getDefaultMiddleware, combineReducers } from '@reduxjs/
 import createSagaMiddleware from 'redux-saga';
 
 import authReducer from '../containers/Authorize/reducer';
-import userReducer from '../containers/User/reducer';
-import assetReducer from 'src/containers/Asset/reducer';
-import assignmentReducer from 'src/containers/Assignment/reducer';
-import homeReducer from 'src/containers/Home/reducer';
+// import userReducer from '../containers/User/reducer';
+// import assetReducer from 'src/containers/Asset/reducer';
+// import assignmentReducer from 'src/containers/Assignment/reducer';
+import homeReducer from '../containers/Home/reducer';
 import rootSaga from './sagas/rootSaga';
 
 const reducer = combineReducers({
-    authReducer,userReducer,assetReducer,assignmentReducer,homeReducer
+    authReducer,homeReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

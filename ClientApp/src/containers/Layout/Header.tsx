@@ -1,30 +1,15 @@
 import React, { useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import ConfirmModal from "src/components/ConfirmModal";
-import { HOME } from "src/constants/pages";
+import { Dropdown, Menu, Space } from "antd";
+import { LockOutlined, PoweroffOutlined, DownOutlined} from "@ant-design/icons";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import ConfirmModal from "../../components/ConfirmModal";
+import { HOME } from "../../constants/pages";
 
-import { useAppDispatch, useAppSelector } from "src/hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { logout } from "../Authorize/reducer";
 
-// eslint-disable-next-line react/display-name
-const CustomToggle = React.forwardRef<any, any>(
-  ({ children, onClick }, ref): any => (
-    <a
-      className="btn btn-link dropdownButton"
-      ref={ref as any}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children} <span>&#x25bc;</span>
-    </a>
-  )
-);
-
 const Header = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const { pathname } = useLocation();
   const { account } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
@@ -58,8 +43,37 @@ const Header = () => {
   };
 
   const handleConfirmedLogout = () => {
-    history.push(HOME);
+    history(HOME);
     dispatch(logout());
+  };
+
+  const handleMenuClick = (e: any) => {
+    if(e.key == 1)
+    {
+      openModal
+    }
+    if(e.key == 2)
+    {
+      handleLogout
+    }
+  };
+
+  const items = [
+    {
+      label: 'Change password',
+      key: '1',
+      icon: <LockOutlined />,
+    },
+    {
+      label: 'Sign out',
+      key: '2',
+      icon: <PoweroffOutlined />,
+    },
+  ]
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
   };
 
   return (
@@ -71,17 +85,11 @@ const Header = () => {
 
           <div className="ml-auto text-white">
             {account && (
-              <Dropdown>
-                <Dropdown.Toggle as={CustomToggle}>
-                  {account?.userName}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={openModal}>
-                    Change Password
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-                </Dropdown.Menu>
+              <Dropdown menu={menuProps} placement="bottomRight" trigger={['click']}>
+                <Space>
+                  <div>{account?.userName}</div>
+                  <DownOutlined />
+                </Space>
               </Dropdown>
             )}
             {!account && (

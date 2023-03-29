@@ -1,13 +1,10 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put } from "redux-saga/effects";
 
-import { Status } from "src/constants/status";
-import IChangePassword from "src/interfaces/IChangePassword";
-import IError from "src/interfaces/IError";
-import ILoginModel from "src/interfaces/ILoginModel";
-import ISubmitAction from "src/interfaces/ISubmitActions";
-import IUser from "src/interfaces/User/IUser";
-import IUserForm from "src/interfaces/User/IUserForm";
+import { Status } from "../../../constants/status";
+import IChangePassword from "../../../interfaces/IChangePassword";
+import IError from "../../../interfaces/IError";
+import ILoginModel from "../../../interfaces/ILoginModel";
 
 import { setAccount, setStatus } from "../reducer";
 import { loginRequest, getMeRequest, putChangePassword } from './requests';

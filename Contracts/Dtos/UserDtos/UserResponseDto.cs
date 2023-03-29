@@ -1,6 +1,4 @@
-﻿using DataAccess.Enums;
-
-namespace Contracts.Dtos.UserDtos
+﻿namespace Contracts.Dtos.UserDtos
 {
     public class UserResponseDto : BaseResponseDto
     {
@@ -9,9 +7,10 @@ namespace Contracts.Dtos.UserDtos
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public bool IsActive { get; set; }
+        public bool FirstLogin { get; set; }
         public string? Token { get; set; }
         public DateTime? CreateDay { get; set; }
         public DateTime? UpdateDay { get; set; }
-        public UserRoleEnums? Role { get; set; }
+        public string? Role { get; set; }
     }
 }

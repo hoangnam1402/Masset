@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { SetStatusType } from "src/constants/status";
-import IAccount from "src/interfaces/IAccount";
-import IChangePassword from "src/interfaces/IChangePassword";
-import IError from "src/interfaces/IError";
-import ILoginModel from "src/interfaces/ILoginModel";
-import request from "src/services/request";
-import { getLocalStorage, removeLocalStorage, setLocalStorage } from "src/utils/localStorage";
+import { SetStatusType } from "../../constants/status";
+import IAccount from "../../interfaces/IAccount";
+import IChangePassword from "../../interfaces/IChangePassword";
+import IError from "../../interfaces/IError";
+import ILoginModel from "../../interfaces/ILoginModel";
+import request from "../../services/request";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "../../utils/localStorage";
 
 type AuthState = {
     loading: boolean;
@@ -29,13 +29,10 @@ const initialState: AuthState = {
 //     isAuth: true,
 //     loading: false,
 //     account: {
-//         fullName: "Test",
-//         id: 1,
+//         id: test,
 //         userName: "adminHCM",
-//         location: "HCM",
-//         role: "ADMIN",
-//         staffCode: "null",
-//         isConfirmed: true,
+//         role: "MANAGER",
+//         isActive: true,
 //         token: "abctoken",
 //     }
 // }
