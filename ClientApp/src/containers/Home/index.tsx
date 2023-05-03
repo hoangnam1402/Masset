@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Route, useNavigate } from "react-router-dom";
 import { logout } from "../Authorize/reducer";
 import HomeAssignmentList from "./List";
-import { HOME } from "../../constants/pages";
+import { HOME, LOGIN } from "../../constants/pages";
 
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
   const history = useNavigate();
   if (account?.firstLogin || account?.isActive) {
     dispatch(logout());
-    history("/login");
+    history(LOGIN);
   }
 
  

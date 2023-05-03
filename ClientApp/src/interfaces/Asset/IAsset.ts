@@ -1,15 +1,26 @@
-import IAssetCategory from "./IAssetCategory"
+import IType from "../Type/IType"
+import ISupplier from "../Supplier/ISupplier"
+import ILocation from "../Location/ILocation"
+import IBrand from "../Brand/IBrand"
 
 export default interface IAsset {
     id: number,
-    location: number,
-    code:string,
     name:string,
-    specification:string,
-    installDate:Date,
-    state:number,
-    categoryID:number,
-    category:IAssetCategory
-    lastUpdate:Date
-
+    tag:string,
+    typeID:number,
+    type:IType,
+    supplierID:number,
+    supplier:ISupplier,
+    locationID:number,
+    location:ILocation,
+    brandID:number,
+    brand:IBrand,
+    serial:string,
+    cost:number,
+    warranty:number,
+    status:number,
+    description:string,
+    purchaseDay:Date,
+    createDay:Date,
+    updateDay:Date
 }

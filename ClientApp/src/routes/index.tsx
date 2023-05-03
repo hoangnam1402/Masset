@@ -10,11 +10,9 @@ import { me } from "../containers/Authorize/reducer";
 const Home = lazy(() => import("../containers/Home"));
 const Login = lazy(() => import("../containers/Authorize"));
 const NotFound = lazy(() => import("../containers/NotFound"));
-// const User = lazy(() => import("../containers/User"));
 
 interface Props {
   children?: ReactNode
-  // any props that come into the component
 }
 
 const SusspenseLoading = ({ children } : Props) => (
@@ -35,21 +33,14 @@ const Routess = () => {
         <Route path={"/"}>
           <Navigate to={HOME}></Navigate>
         </Route>
-        
-        <Route element={<PrivateRoute/>}>
-          
-        </Route>
-        <PrivateRoute path={HOME}>
-          <Home />
-        </PrivateRoute>
         <Route path={LOGIN}>
           <Login />
         </Route>
 
-        {/* <PrivateRoute path={MANAGE_USER}>
-          <User />
-        </PrivateRoute> */}
-
+        <PrivateRoute path={HOME}>
+          <Home />
+        </PrivateRoute>
+        
         <Route path="*" element={<NotFound/>} />
       </Routes>
     </SusspenseLoading>

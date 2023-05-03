@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Checkbox, Button, Modal, Form, Input } from "antd";
-import { Formik } from "formik";
+import { Card, Modal } from "react-bootstrap";
+import { Form, Formik, setNestedObjectValues } from "formik";
 import Header from "../Layout/Header";
+import TextField from "../../components/FormInputs/TextField";
 import ILoginModel from "../../interfaces/ILoginModel";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { changePassword, cleanUp, login, logout } from "./reducer";
 import { useNavigate } from "react-router-dom";
 import IChangePassword from "../../interfaces/IChangePassword";
 import ErrorMessage from "../../constants/errorMessage";
+import PasswordField from "../../components/FormInputs/PasswordField";
 import { HOME } from "../../constants/pages";
 
 const initialValues: ILoginModel = {
@@ -49,14 +51,11 @@ const Login = () => {
 		setShow(true);
 		setNotificationNewPass("");
 	};
-	const onFinish = (values : ILoginModel) => {
-		dispatch(login(values));
-	};
 	useEffect(() => {
 		if (isAuth) {
 			if (account?.firstLogin) {
 				handleShow();
-			} else if (account?.isActive) {
+			} else if (!(account?.isActive)) {
 				setNotification(ErrorMessage.DisableAccount);
 				dispatch(logout());
 			} else if (account?.error) {
@@ -76,71 +75,122 @@ const Login = () => {
 	return (
 		<>
 			<Header></Header>
-			<Form
-				name="basic"
-				labelCol={{
-				span: 8,
-				}}
-				wrapperCol={{
-				span: 16,
-				}}
-				style={{
-				maxWidth: 600,
-				}}
-				initialValues={{
-				remember: true,
-				}}
-				onFinish={onFinish}
-				autoComplete="off"
-			>
-				<Form.Item
-					label="Username"
-					name="username"
-					rules={[
-						{
-						required: true,
-						message: 'Please input your username!',
-						},
-					]}
-				>
-					<Input />
-				</Form.Item>
+			<div className="container d-flex justify-content-center flex-column align-items-center mt-5">
+				<Card>
+					<Card.Header className="text-monospace text-center lead text-danger font-weight-bold">
+						Welcome to Online Asset Management
+					</Card.Header>
+					<Card.Body>
+						<p className="lead text-danger text-center">
+							{notification.length > 0 ? notification : ""}
+						</p>
+						<Formik
+							initialValues={initialValues}
+							enableReinitialize
+							onSubmit={(values) => {
+								const a: any = {
+									password: pass,
+									userName: username,
+								};
+								dispatch(login(a));
+							}}
+						>
+							{(actions) => (
+								<Form className="intro-y">
+									<TextField
+										name="userName"
+										label="Username"
+										isrequired="true"
+										onChange={(e) => setUsername(e.target.value)}
+										value={username}
+									/>
+									<PasswordField
+										name="password"
+										label="Password"
+										isrequired="true"
+										onChange={(e) => setPass(e.target.value)}
+										value={pass}
+									/>
 
-				<Form.Item
-					label="Password"
-					name="password"
-					rules={[
-						{
-						required: true,
-						message: 'Please input your password!',
-						},
-					]}
-				>
-					<Input.Password />
-				</Form.Item>
+									{error?.error && (
+										<div className="invalid">{error.message}</div>
+									)}
+									<button
+										className="btn btn-danger w-25 float-right"
+										type="submit"
+										disabled={SubmitButton()}
+									>
+										Login
+									</button>
+								</Form>
+							)}
+						</Formik>
+					</Card.Body>
+				</Card>
+			</div>
 
-				<Form.Item
-					name="remember"
-					valuePropName="checked"
-					wrapperCol={{
-						offset: 8,
-						span: 16,
-					}}
+			<div className="container">
+				<Modal
+					show={isShow}
+					dialogClassName="modal-90w"
+					aria-labelledby="login-modal"
 				>
-				<Checkbox>Remember me</Checkbox>
-				</Form.Item>
+					<Card>
+						<Card.Header className="text-monospace lead text-danger font-weight-bold">
+							Change password
+						</Card.Header>
+						<Card.Body>
+							<Card.Text>
+								This is the first time you logged in.
+								<br />
+								You have to change your password to continue
+								<br />
+								<p className="lead text-danger text-center">
+									{notificationNewPass.length > 0 ? notificationNewPass : ""}
+								</p>
+							</Card.Text>
 
-				<Form.Item
-					wrapperCol={{
-						offset: 8,
-						span: 16,
-					}}
-				>
-				<Button type="primary" htmlType="submit" disabled={SubmitButton()}>
-					Save
-				</Button>
-				</Form.Item>
-			</Form>
+							<Formik
+								initialValues={initialValues}
+								enableReinitialize
+								onSubmit={(values, actions) => {
+									if (newpass.length < 5) {
+										setNotificationNewPass("Password min length 5 characters");
+										return;
+									}
+									const a: IChangePassword = {
+										currentPassword: pass,
+										newPassword: newpass,
+									};
+									dispatch(changePassword(a));
+								}}
+							>
+								{(actions) => (
+									<Form className="intro-y">
+										<PasswordField
+											name="newPassword"
+											label="New password"
+											isrequired="true"
+											onChange={(e) => setNewPass(e.target.value)}
+										/>
+
+										{error?.error && (
+											<div className="invalid">{error.message}</div>
+										)}
+										<button
+											className="btn btn-danger w-25 float-right"
+											type="submit"
+											disabled={SubmitButtonNewPass()}
+										>
+											Save
+										</button>
+									</Form>
+								)}
+							</Formik>
+						</Card.Body>
+					</Card>
+				</Modal>
+			</div>
 		</>
 	);
 };

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Modal } from 'antd';
+import { Modal } from 'react-bootstrap';
 
 type Props = {
     title: string,
