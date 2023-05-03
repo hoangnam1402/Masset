@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Route, useNavigate } from "react-router-dom";
 import { logout } from "../Authorize/reducer";
-import HomeAssignmentList from "./List";
 import { HOME, LOGIN } from "../../constants/pages";
 
 
@@ -19,7 +18,7 @@ const Home = () => {
   return (
     <>
       <Route path={HOME}>
-        <HomeAssignmentList/>
+        <h1>OK</h1>
       </Route>
     </>
   );

@@ -9,7 +9,6 @@ export default (list: IAssetCategory[] | null): ISelectOption[] => {
       selectOptions = [...selectOptions, a];
     });
   }
-  //console.log(list);
 
   return selectOptions;
 };

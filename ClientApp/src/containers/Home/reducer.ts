@@ -14,7 +14,7 @@ import {
 import IAssignmentRespond from "../../interfaces/Assignment/IAssignmentRespond";
 
 
-type HomeAssignmentState = {
+type HomeAssetState = {
   toggle:boolean;
   loading: boolean;
   status?: number;
@@ -25,7 +25,7 @@ type HomeAssignmentState = {
 const token = getLocalStorage("token");
 
 
-const initialState: HomeAssignmentState = {
+const initialState: HomeAssetState = {
   toggle:false,
   loading: false,
   homeAssignments: null,
@@ -35,7 +35,7 @@ const homeAssignmentSlice = createSlice({
   name: "homeAssignment",
   initialState,
   reducers: {
-    getHomeAssignments: (state, action: PayloadAction<IQueryAssignmentModel>): HomeAssignmentState => {
+    getHomeAssignments: (state, action: PayloadAction<IQueryAssignmentModel>): HomeAssetState => {
       return {
         ...state,
         loading: true,
@@ -44,7 +44,7 @@ const homeAssignmentSlice = createSlice({
     setHomeAssignments: (
       state,
       action: PayloadAction<IPagedModel<IAssignment>>
-    ): HomeAssignmentState => {
+    ): HomeAssetState => {
       const homeAssignments = action.payload;
 
       return {
@@ -53,7 +53,7 @@ const homeAssignmentSlice = createSlice({
         loading: false,
       };
     },
-    setStatus: (state: HomeAssignmentState, action: PayloadAction<SetStatusType>) => {
+    setStatus: (state: HomeAssetState, action: PayloadAction<SetStatusType>) => {
       const { status, error } = action.payload;
 
       return {
@@ -63,13 +63,13 @@ const homeAssignmentSlice = createSlice({
         loading: false,
       };
     },
-    respondToAssignment: (state,action:PayloadAction<IAssignmentRespond>): HomeAssignmentState =>{
+    respondToAssignment: (state,action:PayloadAction<IAssignmentRespond>): HomeAssetState =>{
       return {
         ...state,
         loading: true,
       };
     },
-    setToggle: (state: HomeAssignmentState, action: PayloadAction<boolean>) => {
+    setToggle: (state: HomeAssetState, action: PayloadAction<boolean>) => {
       const bool = {...state}
 
       return {

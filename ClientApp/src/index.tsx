@@ -8,6 +8,11 @@ import store from "./redux/store";
 import Routes from "./routes";
 import reportWebVitals from './reportWebVitals';
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "nprogress/nprogress.css";
+import "react-notifications/lib/notifications.css";
+import "react-datepicker/dist/react-datepicker.css";
+
 NProgress.configure({ minimum: 1 });
 
 function App() {

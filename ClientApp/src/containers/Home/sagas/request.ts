@@ -1,23 +1,18 @@
 import { AxiosResponse } from "axios";
 import qs from 'qs';
-import RequestService from 'src/services/request';
-import EndPoints from 'src/constants/endpoints';
-import IQueryAssetModel from "src/interfaces/Asset/IQueryAssetModel";
-import IAsset from "src/interfaces/Asset/IAsset";
-import IAssignment from "src/interfaces/Assignment/IAssignment";
-import IQueryAssignmentModel from "src/interfaces/Assignment/IQueryAssignment";
-import IAssignmentRespond from "src/interfaces/Assignment/IAssignmentRespond";
+import RequestService from '../../../services/request';
+import EndPoints from '../../../constants/endpoints';
+import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
+import IAsset from "../../../interfaces/Asset/IAsset";
+import IAssignmentRespond from "../../../interfaces/Assignment/IAssignmentRespond";
 
 
-export function getHomeAssignmentRequest(query: IQueryAssignmentModel): Promise<AxiosResponse<IAssignment>> {
-    return RequestService.axios.get(EndPoints.getUserAssignment, {
+export function getHomeAssignmentRequest(query: IQueryAssetModel): Promise<AxiosResponse<IAsset>> {
+    return RequestService.axios.get(EndPoints.getAsset, {
         params: query,
-        paramsSerializer: params => qs.stringify(params),
+        paramsSerializer: {
+          serialize: (params: any) => qs.stringify(params),
+        }
     });
 }
-export function respondToAssignmentRequest(
-    dto: IAssignmentRespond
-  ): Promise<AxiosResponse<IAssignment>> {
-    return RequestService.axios.post(EndPoints.respondToAssignment,dto);
-  }
   

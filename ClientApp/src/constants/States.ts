@@ -1,4 +1,4 @@
-export const AssetState = {
+export const AssetState: any = {
   1: "ReadyToDeploy",
   2: "Pending",
   3: "Archived",

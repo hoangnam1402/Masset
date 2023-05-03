@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes, useEffect } from 'react';
 import { useField } from 'formik';
 import { Form } from 'react-bootstrap';
 
-import ISelectOption from 'src/interfaces/ISelectOption';
+import ISelectOption from '../../interfaces/ISelectOption';
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     defaultValue: string;
@@ -17,7 +17,7 @@ const CheckboxField: React.FC<InputFieldProps> = (props) => {
 
     const { name, options, label, isrequired, defaultValue } = props;
 
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         setValue(e.target.value)
     };
 

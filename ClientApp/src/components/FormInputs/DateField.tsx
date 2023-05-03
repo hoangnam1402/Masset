@@ -51,7 +51,7 @@ const DateField: React.FC<DateFieldProps> = (props) => {
                             className="w-100 valid" {...field}
                             dateFormat="dd/MM/yyyy"
                             selected={(field.value && new Date(field.value)) || null }
-                            onChange={date => handleChangeAssignedDate(date as Date)}
+                            onChange={(date: Date) => handleChangeAssignedDate(date as Date)}
                             isClearable
                             showYearDropdown
                             scrollableYearDropdown
@@ -61,7 +61,7 @@ const DateField: React.FC<DateFieldProps> = (props) => {
                             minDate={minDate}
                             filterDate={filterDate}
                             autoComplete="off"
-                            onKeyDown={(e) => {
+                            onKeyDown={(e: any) => {
                                 e.preventDefault();
                              }}
                         />
