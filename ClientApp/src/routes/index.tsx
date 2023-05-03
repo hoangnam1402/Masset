@@ -1,9 +1,9 @@
 import React, { ReactNode, lazy, Suspense, useEffect } from "react";
 import { Route, Routes , Navigate } from "react-router-dom";
 
-import { CREATE_USER, HOME, LOGIN, NOTFOUND, MANAGE_USER, EDIT_USER, MANAGE_ASSET} from "../constants/pages";
+import { HOME, LOGIN} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppDispatch } from "../hooks/redux";
 import PrivateRoute from "./PrivateRoute";
 import { me } from "../containers/Authorize/reducer";
 
@@ -20,7 +20,6 @@ const SusspenseLoading = ({ children } : Props) => (
 );
 
 const Routess = () => {
-  const { isAuth, account } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

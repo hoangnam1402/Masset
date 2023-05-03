@@ -1,4 +1,4 @@
-import React, { Suspense, ReactNode } from "react";
+import React, { Suspense } from "react";
 import { Navigate, Route } from "react-router-dom";
 
 import { LOGIN } from "../constants/pages";
