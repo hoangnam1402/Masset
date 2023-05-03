@@ -1,0 +1,38 @@
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -3px;
+    left: -1px;
+    position: relative;
+    background-color: #ffffff;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid rgb(168, 168, 168);
+}
+
+input[type='radio']:checked:after {
+    color: #fff;
+    background-color: rgb(255, 255, 255);
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -3px;
+    left: -1px;
+    position: relative;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 4.5px solid rgba(207, 35, 56, 1);
+}
+
+.input-with-icon {
+    border: none !important;
+    border-radius: 0 !important;
+    height: 36px !important;
+}
+
+.table-container .table .custom-input:first-child {
+    border: none !important;
+}

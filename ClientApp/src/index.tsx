@@ -1,32 +1,39 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import NProgress from "nprogress";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import { createRoot } from 'react-dom/client';
 
 import store from "./redux/store";
 import Routes from "./routes";
 import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from './serviceWorker';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "nprogress/nprogress.css";
 import "react-notifications/lib/notifications.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "./styles/App.scss";
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 
 NProgress.configure({ minimum: 1 });
 
-function App() {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-    </Provider>
-  );
-}
+root.render(
+  <Provider store={store}>
+    <BrowserRouter >
+      <Routes />
+    </BrowserRouter>
+  </Provider>
+);
 
-const ROOT = document.getElementById("root");
-ReactDOM.render(<App />, ROOT);
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+serviceWorkerRegistration.unregister();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

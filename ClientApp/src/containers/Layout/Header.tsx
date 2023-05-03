@@ -66,7 +66,7 @@ const Header = () => {
     <>
       <div className="header align-items-center font-weight-bold">
         <div className="container-lg-min container-fluid d-flex pt-2">
-          <img src="/images/Logo_lk.png" alt="logo" className="app_logo me-2" />
+          <img src="/logo192.png" alt="logo" className="app_logo me-2" />
           <p className="headText">{`${headerName()}`}</p>
 
           <div className="ml-auto text-white">
@@ -85,9 +85,9 @@ const Header = () => {
               </Dropdown>
             )}
             {!account && (
-              <Link className="headText" to={"/login"}>
+              <p className="headText">
                 Login
-              </Link>
+              </p>
             )}
           </div>
         </div>
