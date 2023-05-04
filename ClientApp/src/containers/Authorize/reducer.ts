@@ -29,7 +29,7 @@ const initialState: AuthState = {
 //     isAuth: true,
 //     loading: false,
 //     account: {
-//         id: test,
+//         id: "test",
 //         userName: "adminHCM",
 //         role: "MANAGER",
 //         isActive: true,
