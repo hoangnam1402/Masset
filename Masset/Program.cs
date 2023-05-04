@@ -1,9 +1,7 @@
 global using DataAccess.Data;
 using Business;
 using DataAccess;
-using DataAccess.Entities;
 using Masset.Extensions;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
