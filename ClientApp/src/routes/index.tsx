@@ -5,6 +5,7 @@ import { DASHBOARD, LOGIN} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { me } from "../containers/Authorize/reducer";
+import PrivateRoute from "./PrivateRoute";
 
 const Dashboard = lazy(() => import("../containers/Dashboard"));
 const Login = lazy(() => import("../containers/Authorize"));
@@ -17,11 +18,6 @@ interface Props {
 const SusspenseLoading = ({ children } : Props) => (
   <Suspense fallback={<InLineLoader />}>{children}</Suspense>
 );
-
-const PrivateRoute = (children: any) => {
-  const { isAuth } = useAppSelector(state => state.authReducer);
-  return isAuth ? children : <Navigate to={LOGIN} />;
-};
 
 const Routess = () => {
   const dispatch = useAppDispatch();

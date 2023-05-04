@@ -35,8 +35,8 @@ const Header = () => {
   const headerName = () => {
     const pathnameSplit = pathname.split("/");
     pathnameSplit.shift();
-    if (pathnameSplit.join(" > ").toString() == "login") {
-      return "Online Asset Management";
+    if (pathnameSplit.join(" > ").toString() == "login" || pathnameSplit.join(" > ").toString() == "LOGIN") {
+      return "Masset";
     }
     return pathnameSplit.join(" > ").toString() || "Dashboard";
   };

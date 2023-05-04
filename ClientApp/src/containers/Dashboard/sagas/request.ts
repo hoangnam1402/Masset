@@ -1,16 +1,9 @@
 import { AxiosResponse } from "axios";
-import qs from 'qs';
 import RequestService from '../../../services/request';
 import EndPoints from '../../../constants/endpoints';
-import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
-import IAsset from "../../../interfaces/Asset/IAsset";
+import IDashboard from "../../../interfaces/Dashboard/IDashboard";
 
-export function getDashboardRequest(query: IQueryAssetModel): Promise<AxiosResponse<IAsset>> {
-    return RequestService.axios.get(EndPoints.getAsset, {
-        params: query,
-        paramsSerializer: {
-          serialize: (params: any) => qs.stringify(params),
-        }
-    });
+export function getDashboardRequest(): Promise<AxiosResponse<IDashboard>> {
+    return RequestService.axios.get(EndPoints.getDashboard);
 }
   

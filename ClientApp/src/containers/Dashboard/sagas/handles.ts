@@ -5,22 +5,20 @@ import { Status } from "../../../constants/status";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import IError from "../../../interfaces/IError";
 
-
-import { setStatus, setDashboardAssets, setToggle } from "../reducer";
+import { setStatus, setDashboard } from "../reducer";
 
 import {  getDashboardRequest } from './request';
 
 export function* handleGetDashboard(action: PayloadAction<IQueryAssetModel>) {
     const query = action.payload;
     try {
-        const { data } = yield call(getDashboardRequest, query);
+        const { data } = yield call(getDashboardRequest);
         
-        yield put(setDashboardAssets(data));
+        yield put(setDashboard(data));
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
         
-        console.log(errorModel);
         yield put(setStatus({
             status: Status.Failed,
             error: errorModel,

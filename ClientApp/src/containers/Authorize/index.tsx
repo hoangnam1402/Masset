@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Modal } from "react-bootstrap";
-import { Form, Formik, setNestedObjectValues } from "formik";
+import { Form, Formik } from "formik";
 import Header from "../Layout/Header";
 import TextField from "../../components/FormInputs/TextField";
 import ILoginModel from "../../interfaces/ILoginModel";
@@ -78,7 +78,7 @@ const Login = () => {
 			<div className="container d-flex justify-content-center flex-column align-items-center mt-5">
 				<Card>
 					<Card.Header className="text-monospace text-center lead text-danger font-weight-bold">
-						Welcome to Online Asset Management
+						Welcome to Masset
 					</Card.Header>
 					<Card.Body>
 						<p className="lead text-danger text-center">

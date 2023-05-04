@@ -17,9 +17,7 @@ const Dashboard = () => {
  
   return (
     <>
-      <Route path={DASHBOARD}>
         <h1>OK</h1>
-      </Route>
     </>
   );
 };
