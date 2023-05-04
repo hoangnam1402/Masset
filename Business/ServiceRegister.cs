@@ -21,6 +21,8 @@ namespace Business
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<ISupplierService, SupplierService>();
             services.AddTransient<ISettingService, SettingService>();
+            services.AddTransient<IDashboardService, DashboardService>();
+            services.AddTransient<IAssetHistoryService, AssetHistoryService>();
         }
     }
 }

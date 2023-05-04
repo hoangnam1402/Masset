@@ -1,12 +1,12 @@
 import React, { ReactNode, lazy, Suspense, useEffect } from "react";
 import { Route, Routes , Navigate } from "react-router-dom";
 
-import { HOME, LOGIN} from "../constants/pages";
+import { DASHBOARD, LOGIN} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { me } from "../containers/Authorize/reducer";
 
-const Home = lazy(() => import("../containers/Home"));
+const Dashboard = lazy(() => import("../containers/Dashboard"));
 const Login = lazy(() => import("../containers/Authorize"));
 const NotFound = lazy(() => import("../containers/NotFound"));
 
@@ -35,13 +35,13 @@ const Routess = () => {
       <Routes>
         <Route path={'/'} element={
           <PrivateRoute>
-            <Home />
+            <Dashboard />
           </PrivateRoute>
         }/>
 
-        <Route path={HOME} element={
+        <Route path={DASHBOARD} element={
           <PrivateRoute>
-            <Home />
+            <Dashboard />
           </PrivateRoute>
         }/>
 

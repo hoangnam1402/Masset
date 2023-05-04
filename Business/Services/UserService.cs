@@ -39,7 +39,7 @@ namespace Business.Services
 
             var result = await userQuery
                 .AsNoTracking()
-                .Where(x => x.Role != userRole)
+                .Where(x => x.Role > userRole)
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);

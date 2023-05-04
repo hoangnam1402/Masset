@@ -1,7 +1,7 @@
 import AuthorizeSagas from '../../containers/Authorize/sagas';
-import homeSagas from '../../containers/Home/sagas';
+import DashboardSagas from '../../containers/Dashboard/sagas';
 
 export default [
     AuthorizeSagas,
-    homeSagas
+    DashboardSagas
 ];

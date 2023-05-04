@@ -5,11 +5,11 @@ import authReducer from '../containers/Authorize/reducer';
 // import userReducer from '../containers/User/reducer';
 // import assetReducer from 'src/containers/Asset/reducer';
 // import assignmentReducer from 'src/containers/Assignment/reducer';
-import homeReducer from '../containers/Home/reducer';
+import dashboardReducer from '../containers/Dashboard/reducer';
 import rootSaga from './sagas/rootSaga';
 
 const reducer = combineReducers({
-    authReducer,homeReducer
+    authReducer,dashboardReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

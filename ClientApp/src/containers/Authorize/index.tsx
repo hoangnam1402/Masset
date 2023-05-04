@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import IChangePassword from "../../interfaces/IChangePassword";
 import ErrorMessage from "../../constants/errorMessage";
 import PasswordField from "../../components/FormInputs/PasswordField";
-import { HOME } from "../../constants/pages";
+import { DASHBOARD } from "../../constants/pages";
 
 const initialValues: ILoginModel = {
 	userName: "",
@@ -67,7 +67,7 @@ const Login = () => {
 					setNotificationNewPass(ErrorMessage.SamePassword);
 				}
 			} else {
-				history(HOME);
+				history(DASHBOARD);
 			}
 		}
 	}, [isAuth, account]);

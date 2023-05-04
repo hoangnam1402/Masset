@@ -6,16 +6,16 @@ import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import IError from "../../../interfaces/IError";
 
 
-import { setStatus, setHomeAssignments, setToggle } from "../reducer";
+import { setStatus, setDashboardAssets, setToggle } from "../reducer";
 
-import {  getHomeAssignmentRequest } from './request';
+import {  getDashboardRequest } from './request';
 
-export function* handleGetHomeAssignment(action: PayloadAction<IQueryAssetModel>) {
+export function* handleGetDashboard(action: PayloadAction<IQueryAssetModel>) {
     const query = action.payload;
     try {
-        const { data } = yield call(getHomeAssignmentRequest, query);
+        const { data } = yield call(getDashboardRequest, query);
         
-        yield put(setHomeAssignments(data));
+        yield put(setDashboardAssets(data));
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;

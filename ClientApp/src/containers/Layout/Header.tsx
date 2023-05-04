@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import ConfirmModal from "../../components/ConfirmModal";
-import { HOME } from "../../constants/pages";
+import { DASHBOARD } from "../../constants/pages";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { logout } from "../Authorize/reducer";
@@ -38,7 +38,7 @@ const Header = () => {
     if (pathnameSplit.join(" > ").toString() == "login") {
       return "Online Asset Management";
     }
-    return pathnameSplit.join(" > ").toString() || "Home";
+    return pathnameSplit.join(" > ").toString() || "Dashboard";
   };
 
   const openModal = () => {
@@ -58,7 +58,7 @@ const Header = () => {
   };
 
   const handleConfirmedLogout = () => {
-    history(HOME);
+    history(DASHBOARD);
     dispatch(logout());
   };
 
