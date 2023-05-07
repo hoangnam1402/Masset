@@ -1,5 +1,5 @@
 import React, { ReactNode, lazy, Suspense, useEffect } from "react";
-import { Route, Routes , Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { DASHBOARD, LOGIN} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Dropdown, Modal, Card } from "react-bootstrap";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Form, Formik } from "formik";
 import ConfirmModal from "../../components/ConfirmModal";
 import { DASHBOARD } from "../../constants/pages";
-
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { logout } from "../Authorize/reducer";
+import { logout, changePassword } from "../Authorize/reducer";
+import IChangePassword from "../../interfaces/IChangePassword";
+import PasswordField from "../../components/FormInputs/PasswordField";
 
 // eslint-disable-next-line react/display-name
 const CustomToggle = React.forwardRef<any, any>(
@@ -23,31 +25,46 @@ const CustomToggle = React.forwardRef<any, any>(
   )
 );
 
+const initialChangePasswordValues: IChangePassword = {
+	currentPassword: "",
+	newPassword: "",
+};
+
 const Header = () => {
   const history = useNavigate();
   const { pathname } = useLocation();
-  const { account } = useAppSelector((state) => state.authReducer);
+  const { error, account } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
 
   const [showModalChangePasswod, setShowModalChangePasswod] = useState(false);
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
+  const [notificationNewPass, setNotificationNewPass] = useState("");
+  const [newpass, setNewPass] = useState("");
+  const [pass, setPass] = useState("");
 
   const headerName = () => {
     const pathnameSplit = pathname.split("/");
     pathnameSplit.shift();
-    if (pathnameSplit.join(" > ").toString() == "login" || pathnameSplit.join(" > ").toString() == "LOGIN") {
+    if (pathnameSplit.join(" > ").toString() == "login") {
       return "Masset";
     }
     return pathnameSplit.join(" > ").toString() || "Dashboard";
   };
 
-  const openModal = () => {
+  const openChangePasswordModal = () => {
     setShowModalChangePasswod(true);
+    setNotificationNewPass("");
+    setPass("");
+		setNewPass("");
   };
 
-  const handleHide = () => {
-    setShowModalChangePasswod(false);
+  const handleChange = () => {
+		return (newpass && pass) ? false : true;
   };
+
+  const handleCanceChange = () =>{
+    setShowModalChangePasswod(false);
+  }
 
   const handleLogout = () => {
     setShowConfirmLogout(true);
@@ -77,9 +94,7 @@ const Header = () => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={openModal}>
-                    Change Password
-                  </Dropdown.Item>
+                  <Dropdown.Item onClick={openChangePasswordModal}>Change Password</Dropdown.Item>
                   <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
@@ -118,6 +133,81 @@ const Header = () => {
           </div>
         </div>
       </ConfirmModal>
+      
+      <Modal
+        show={showModalChangePasswod}
+        dialogClassName="modal-90w"
+        aria-labelledby="login-modal"
+      >
+        <Card>
+          <Card.Header className="text-monospace lead text-danger font-weight-bold">
+            Change password
+          </Card.Header>
+          <Card.Body>
+            <Card.Text>
+              <p className="lead text-danger text-center">
+                {notificationNewPass.length > 0 ? notificationNewPass : ""}
+              </p>
+            </Card.Text>
+
+            <Formik
+              initialValues={initialChangePasswordValues}
+              enableReinitialize
+              onSubmit={(values, actions) => {
+                if (newpass.length < 5) {
+                  setNotificationNewPass("Password min length 5 characters");
+                  return;
+                }
+                const a: IChangePassword = {
+                  currentPassword: pass,
+                  newPassword: newpass,
+                };
+                dispatch(changePassword(a));
+              }}
+            >
+              {(actions) => (
+                <Form className="intro-y">
+                  <PasswordField
+                    name="currentPassword"
+                    label="Curr password"
+                    isrequired="true"
+                    onChange={(e) => setPass(e.target.value)}
+                    value={pass}
+                  />
+
+                  <PasswordField
+                    name="newPassword"
+                    label="New password"
+                    isrequired="true"
+                    onChange={(e) => setNewPass(e.target.value)}
+                    value={newpass}
+                  />
+
+                  {error?.error && (
+                    <div className="invalid">{error.message}</div>
+                  )}
+                  <div className="text-center mt-3">
+                    <button
+                      className="btn btn-danger mr-3"
+                      type="button"
+                      disabled={handleChange()}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-outline-secondary"
+                      onClick={handleCanceChange}
+                      type="button"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </Card.Body>
+        </Card>
+      </Modal>    
     </>
   );
 };

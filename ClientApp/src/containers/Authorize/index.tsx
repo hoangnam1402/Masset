@@ -10,11 +10,16 @@ import { useNavigate } from "react-router-dom";
 import IChangePassword from "../../interfaces/IChangePassword";
 import ErrorMessage from "../../constants/errorMessage";
 import PasswordField from "../../components/FormInputs/PasswordField";
-import { DASHBOARD } from "../../constants/pages";
+import { DASHBOARD, LOGIN } from "../../constants/pages";
 
 const initialValues: ILoginModel = {
 	userName: "",
 	password: "",
+};
+
+const initialChangePasswordValues: IChangePassword = {
+	currentPassword: "",
+	newPassword: "",
 };
 
 const Login = () => {
@@ -22,19 +27,11 @@ const Login = () => {
 	const [pass, setPass] = useState("");
 	const [newpass, setNewPass] = useState("");
 	const dispatch = useAppDispatch();
-	const { loading, error, isAuth, account } = useAppSelector(
-		(state) => state.authReducer,
-	);
+	const { loading, error, isAuth, account } = useAppSelector((state) => state.authReducer);
 	const history = useNavigate();
 	const [isShow, setShow] = useState(false);
 	const [notification, setNotification] = useState("");
 	const [notificationNewPass, setNotificationNewPass] = useState("");
-
-	useEffect(() => {
-		return () => {
-			dispatch(cleanUp());
-		};
-	}, []);
 
 	const SubmitButton = () => {
 		if (username && pass) {
@@ -52,6 +49,7 @@ const Login = () => {
 		setNotificationNewPass("");
 	};
 	useEffect(() => {
+		dispatch(cleanUp());
 		if (isAuth) {
 			if (account?.firstLogin) {
 				handleShow();
@@ -69,7 +67,7 @@ const Login = () => {
 			} else {
 				history(DASHBOARD);
 			}
-		}
+		} else history(LOGIN);
 	}, [isAuth, account]);
 
 	return (
@@ -151,7 +149,7 @@ const Login = () => {
 							</Card.Text>
 
 							<Formik
-								initialValues={initialValues}
+								initialValues={initialChangePasswordValues}
 								enableReinitialize
 								onSubmit={(values, actions) => {
 									if (newpass.length < 5) {
@@ -172,6 +170,7 @@ const Login = () => {
 											label="New password"
 											isrequired="true"
 											onChange={(e) => setNewPass(e.target.value)}
+											value={newpass}
 										/>
 
 										{error?.error && (

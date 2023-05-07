@@ -1,18 +1,20 @@
 export const LOGIN = '/login';
-
 export const DASHBOARD = '/dashboard';
+export const ASSETS = '/asset';
+export const COMPONENTS = '/component';
+export const MAINTENANCES = '/maintenance';
+export const DEPRECIATIONS = '/depreciation';
+export const ASSET_TYPES = '/assetType';
+export const BRANDS = '/brand';
+export const SUPPLIERS = '/supply';
+export const LOCATIONS = '/location';
+export const EMPLOYEES = '/employee';
+export const DEPARTMENTS = '/department';
 
 export const NOTFOUND = '/notfound';
 
-export const MANAGE_USER = '/user';
-export const CREATE_USER = '/user/createUser';
-export const EDIT_USER = '/user/edit/:id';
-export const EDIT_USER_ID = (id: string | number) => `/user/edit/${id}`;
+// export const CREATE_ASSET = '/asset/createAsset';
+// export const EDIT_ASSET = '/asset/edit/:id';
+// export const EDIT_ASSET_ID = (id: string | number) => `/asset/edit/${id}`;
 
-export const MANAGE_ASSET = '/asset';
-export const CREATE_ASSET = '/asset/createAsset';
-export const EDIT_ASSET = '/asset/edit/:id';
-export const EDIT_ASSET_ID = (id: string | number) => `/asset/edit/${id}`;
-
-export const REQUEST_FOR_RETURNING = '/returning'
 export const REPORT= '/report';

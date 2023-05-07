@@ -13,7 +13,7 @@ export function* handleGetDashboard(action: PayloadAction<IQueryAssetModel>) {
     const query = action.payload;
     try {
         const { data } = yield call(getDashboardRequest);
-        
+        console.log(data)
         yield put(setDashboard(data));
 
     } catch (error: any) {
