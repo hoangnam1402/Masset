@@ -27,12 +27,12 @@ namespace Masset.Controllers
             [FromQuery] BaseQueryCriteria baseQueryCriteria,
             CancellationToken cancellationToken)
         {
-            var userid = GetUserId();
+            var userId = GetUserId();
 
             var userResponses = await _userService.GetByPageAsync(
                                             baseQueryCriteria,
                                             cancellationToken,
-                                            userid);
+                                            userId);
             return Ok(userResponses);
         }
 
@@ -72,7 +72,7 @@ namespace Masset.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> UpdateUser(
             [FromRoute] string id,
             [FromBody] UserUpdateDto userRequest)
@@ -82,12 +82,34 @@ namespace Masset.Controllers
 
             if (!await _userService.IsExist(id))
                 return BadRequest("User not exist!!!");
+            if (await _userService.IsActive(id))
+                return BadRequest("User have not been active!!!");
 
             var result = await _userService.UpdateAsync(id, userRequest);
             if (result != null)
                 return Ok(result);
             else
                 return BadRequest("Something go wrong.");
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,Manager")]
+        public async Task<IActionResult> Delete([FromRoute] string id)
+        {
+            if (!await _userService.IsExist(id))
+                return BadRequest("User not exist!!!");
+            if (await _userService.IsActive(id))
+                return BadRequest("User has been disable before.");
+
+            var userRole = GetUserRole();
+
+            var result = await _userService.DisableUserAsync(id, userRole);
+            if (result)
+                return Ok(result);
+            else
+                return BadRequest("Somethink go wrong.");
+
+            return Ok();
         }
 
         #region Private Method
@@ -100,9 +122,23 @@ namespace Masset.Controllers
                 claimsDictionary.Add(claim.Type, claim.Value);
             }
 
-            var userid = claimsDictionary[UserClaims.Id];
+            var userId = claimsDictionary[UserClaims.Id];
 
-            return userid;
+            return userId;
+        }
+
+        private string GetUserRole()
+        {
+            var claims = User.Claims.ToList();
+            Dictionary<string, string> claimsDictionary = new Dictionary<string, string>();
+            foreach (var claim in claims)
+            {
+                claimsDictionary.Add(claim.Type, claim.Value);
+            }
+
+            var userRole = claimsDictionary[UserClaims.Role];
+
+            return userRole;
         }
         #endregion
     }

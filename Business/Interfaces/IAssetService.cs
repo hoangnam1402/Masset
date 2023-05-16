@@ -5,7 +5,7 @@ namespace Business.Interfaces
 {
     public interface IAssetService
     {
-        Task<PagedResponseModel<AssetDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
+        Task<PagedResponseModel<AssetDto>> GetByPageAsync(AssetQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
         Task<IList<AssetDto>> GetAll();
         Task<AssetDto?> GetByTagAsync(string tag);
         Task<AssetDto?> GetByIdAsync(int id);

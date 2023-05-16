@@ -98,14 +98,14 @@ const Login = () => {
 									<TextField
 										name="userName"
 										label="Username"
-										isrequired="true"
+										isrequired={true}
 										onChange={(e) => setUsername(e.target.value)}
 										value={username}
 									/>
 									<PasswordField
 										name="password"
 										label="Password"
-										isrequired="true"
+										isrequired={true}
 										onChange={(e) => setPass(e.target.value)}
 										value={pass}
 									/>
@@ -168,7 +168,7 @@ const Login = () => {
 										<PasswordField
 											name="newPassword"
 											label="New password"
-											isrequired="true"
+											isrequired={true}
 											onChange={(e) => setNewPass(e.target.value)}
 											value={newpass}
 										/>

@@ -6,7 +6,7 @@ import ISelectOption from '../../interfaces/ISelectOption';
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     label: string;
     name: string;
-    isrequired?: boolean|string;
+    isrequired?: boolean;
     options: ISelectOption[];
 };
 

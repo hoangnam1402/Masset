@@ -1,9 +1,11 @@
+import { NotificationContainer } from 'react-notifications';
 import Header from "./Header";
 import SideBar from "./SideBar";
 
 const Layout = ({ children }: any) => {
   return (
     <>
+      <NotificationContainer />
       <Header />
 
       <div className="container-lg-min container-fluid">

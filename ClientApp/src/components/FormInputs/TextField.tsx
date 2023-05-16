@@ -6,7 +6,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     label: string;
     placeholder?: string;
     name: string;
-    isrequired?: boolean|string;
+    isrequired?: boolean;
     notvalidate?: boolean;
 };
 
@@ -17,8 +17,6 @@ const TextField: React.FC<InputFieldProps> = (props) => {
     const validateClass = () => {
         if (touched && error) return 'is-invalid';
         if (notvalidate) return '';
-        // if (isrequired && value) return 'is-invalid';
-        // if (touched) return 'is-valid';
     };
     
     useEffect(() => {
@@ -28,7 +26,6 @@ const TextField: React.FC<InputFieldProps> = (props) => {
     }, [])
 
     return (
-        <>
             <div className="mb-3 row">
                 <label className="col-4 col-form-label d-flex">
                     {label}
@@ -37,14 +34,12 @@ const TextField: React.FC<InputFieldProps> = (props) => {
                     )}
                 </label>
                 <div className="col">
-                    <input className={`form-control ${validateClass()}`} {...field} {...props} />
+                    <input className={`form-control ${validateClass()}`} {...field} {...props}/>
                     {error && touched && (
                         <div className='invalid'>{error}</div>
                     )}
                 </div>
             </div>
-
-        </>
     );
 };
 export default TextField;

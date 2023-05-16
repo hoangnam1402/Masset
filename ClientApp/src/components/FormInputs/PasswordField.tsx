@@ -5,7 +5,7 @@ type PasswordFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 	label: string;
 	placeholder?: string;
 	name: string;
-	isrequired?: boolean | string;
+	isrequired?: boolean;
 	notvalidate?: boolean;
 };
 

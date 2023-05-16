@@ -32,7 +32,7 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetByPage([FromQuery] BaseQueryCriteria queryCriteria,
+        public async Task<IActionResult> GetByPage([FromQuery] AssetQueryCriteria queryCriteria,
                                                                CancellationToken cancellationToken)
         {
             var responses = await _assetService.GetByPageAsync(queryCriteria, cancellationToken);
@@ -51,13 +51,17 @@ namespace Masset.Controllers
                 return BadRequest("Asset serial, warranty and cost are required.");
             if (await _assetService.IsExist(createDto.Tag))
                 return BadRequest("Asset tag has been used before!!!");
-            if (!await _assetTypeService.IsExist(createDto.TypeID))
+            if (!await _assetTypeService.IsExist(createDto.TypeID) || 
+                await _assetTypeService.IsDelete(createDto.TypeID))
                 return BadRequest("AssetType not exist!!!");
-            if (!await _brandService.IsExist(createDto.BrandID))
+            if (!await _brandService.IsExist(createDto.BrandID) ||
+                await _brandService.IsDelete(createDto.BrandID))
                 return BadRequest("Brand not exist!!!");
-            if (!await _locationService.IsExist(createDto.LocationID))
+            if (!await _locationService.IsExist(createDto.LocationID) ||
+                await _locationService.IsDelete(createDto.LocationID))
                 return BadRequest("Location not exist!!!");
-            if (!await _supplierService.IsExist(createDto.SupplierID))
+            if (!await _supplierService.IsExist(createDto.SupplierID) ||
+                await _supplierService.IsDelete(createDto.SupplierID))
                 return BadRequest("Supplier not exist!!!");
 
             var result = await _assetService.CreateAsync(createDto);
@@ -76,13 +80,19 @@ namespace Masset.Controllers
                 return BadRequest("Asset name is required.");
             if (!await _assetService.IsExist(id))
                 return BadRequest("Asset not exist!!!");
-            if (!await _assetTypeService.IsExist(updateDTO.TypeID))
+            if (await _assetService.IsDelete(id))
+                return BadRequest("Asset have been delete!!!");
+            if (!await _assetTypeService.IsExist(updateDTO.TypeID) ||
+                await _assetTypeService.IsDelete(updateDTO.TypeID))
                 return BadRequest("AssetType not exist!!!");
-            if (!await _brandService.IsExist(updateDTO.BrandID))
+            if (!await _brandService.IsExist(updateDTO.BrandID) ||
+                await _brandService.IsDelete(updateDTO.BrandID))
                 return BadRequest("Brand not exist!!!");
-            if (!await _locationService.IsExist(updateDTO.LocationID))
+            if (!await _locationService.IsExist(updateDTO.LocationID) ||
+                await _locationService.IsDelete(updateDTO.LocationID))
                 return BadRequest("Location not exist!!!");
-            if (!await _supplierService.IsExist(updateDTO.SupplierID))
+            if (!await _supplierService.IsExist(updateDTO.SupplierID) ||
+                await _supplierService.IsDelete(updateDTO.SupplierID))
                 return BadRequest("Supplier not exist!!!");
 
             var result = await _assetService.UpdateAsync(id, updateDTO);
@@ -132,6 +142,8 @@ namespace Masset.Controllers
         {
             if (!await _assetService.IsExist(id))
                 return BadRequest("No Asset with id: " + id);
+            if (await _assetService.IsDelete(id))
+                return BadRequest("Asset have been delete.");
 
             var result = await _assetService.GetByIdAsync(id);
 

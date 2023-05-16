@@ -17,7 +17,6 @@ const TextAreaField: React.FC<TextAreaFieldType> = (props) => {
         if (touched && error) return 'is-invalid';
         if (notvalidate) return '';
         if (touched) return 'is-valid';
-
         return '';
     };
 

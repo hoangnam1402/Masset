@@ -67,6 +67,8 @@ namespace Masset.Controllers
         {
             if (!await _maintenanceService.IsExist(id))
                 return BadRequest("Maintenance not exist!!!");
+            if (await _maintenanceService.IsDelete(id))
+                return BadRequest("Maintenance have been delete!!!");
 
             var result = await _maintenanceService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -97,6 +99,8 @@ namespace Masset.Controllers
         {
             if (!await _maintenanceService.IsExist(id))
                 return BadRequest("Not Maintenance with id: " + id);
+            if (await _maintenanceService.IsDelete(id))
+                return BadRequest("Maintenance has been deleted.");
 
             var result = await _maintenanceService.GetByIdAsync(id);
 

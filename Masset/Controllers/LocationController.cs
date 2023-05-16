@@ -48,6 +48,8 @@ namespace Masset.Controllers
         {
             if (!await _locationService.IsExist(id))
                 return BadRequest("Location not exist!!!");
+            if (await _locationService.IsDelete(id))
+                return BadRequest("Location have been delete!!!");
 
             var result = await _locationService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -78,6 +80,8 @@ namespace Masset.Controllers
         {
             if (!await _locationService.IsExist(id))
                 return BadRequest("No Location with id: " + id);
+            if (await _locationService.IsDelete(id))
+                return BadRequest("Location has been deleted.");
 
             var result = await _locationService.GetByIdAsync(id);
 

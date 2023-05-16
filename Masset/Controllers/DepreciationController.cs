@@ -76,6 +76,8 @@ namespace Masset.Controllers
         {
             if (!await _depreciationService.IsExist(id))
                 return BadRequest("Depreciation not exist!!!");
+            if (await _depreciationService.IsDelete(id))
+                return BadRequest("Depreciation have been delete!!!");
 
             var result = await _depreciationService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -106,6 +108,8 @@ namespace Masset.Controllers
         {
             if (!await _depreciationService.IsExist(id))
                 return BadRequest("Not Depreciation with id: " + id);
+            if (await _depreciationService.IsDelete(id))
+                return BadRequest("Depreciation has been deleted.");
 
             var result = await _depreciationService.GetByIdAsync(id);
 

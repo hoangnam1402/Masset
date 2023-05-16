@@ -21,7 +21,7 @@ namespace Business.Services
         }
 
         public async Task<PagedResponseModel<AssetDto>> GetByPageAsync(
-         BaseQueryCriteria baseQueryCriteria,
+         AssetQueryCriteria baseQueryCriteria,
          CancellationToken cancellationToken)
         {
             var assetQuery = AssetFilter(
@@ -189,7 +189,7 @@ namespace Business.Services
         #region Private Method
         private IQueryable<Asset> AssetFilter(
             IQueryable<Asset> assetQuery,
-            BaseQueryCriteria baseQueryCriteria)
+            AssetQueryCriteria baseQueryCriteria)
         {
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
@@ -200,6 +200,13 @@ namespace Business.Services
                     (b.Location != null && b.Location.Name != null && b.Location.Name.Contains(baseQueryCriteria.Search)) ||
                     (b.Brand != null && b.Brand.Name != null && b.Brand.Name.Contains(baseQueryCriteria.Search))
                     );
+            }
+
+            if (baseQueryCriteria.State != null &&
+             baseQueryCriteria.State.Count() > 0)
+            {
+                assetQuery = assetQuery.Where(x =>
+                    baseQueryCriteria.State.Any(t => t == (int)x.Status));
             }
 
             //not showing deleted asset

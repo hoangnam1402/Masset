@@ -1,11 +1,12 @@
 import React, { ReactNode, lazy, Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { DASHBOARD, LOGIN} from "../constants/pages";
+import { DASHBOARD, LOGIN, ASSETS} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { me } from "../containers/Authorize/reducer";
 import PrivateRoute from "./PrivateRoute";
+import Asset from "../containers/Asset";
 
 const Dashboard = lazy(() => import("../containers/Dashboard"));
 const Login = lazy(() => import("../containers/Authorize"));
@@ -38,6 +39,12 @@ const Routess = () => {
         <Route path={DASHBOARD} element={
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        }/>
+
+        <Route path={ASSETS} element={
+          <PrivateRoute>
+            <Asset />
           </PrivateRoute>
         }/>
 

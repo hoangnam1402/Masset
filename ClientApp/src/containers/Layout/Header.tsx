@@ -170,7 +170,7 @@ const Header = () => {
                   <PasswordField
                     name="currentPassword"
                     label="Curr password"
-                    isrequired="true"
+                    isrequired={true}
                     onChange={(e) => setPass(e.target.value)}
                     value={pass}
                   />
@@ -178,7 +178,7 @@ const Header = () => {
                   <PasswordField
                     name="newPassword"
                     label="New password"
-                    isrequired="true"
+                    isrequired={true}
                     onChange={(e) => setNewPass(e.target.value)}
                     value={newpass}
                   />
@@ -189,7 +189,7 @@ const Header = () => {
                   <div className="text-center mt-3">
                     <button
                       className="btn btn-danger mr-3"
-                      type="button"
+                      type="submit"
                       disabled={handleChange()}
                     >
                       Save

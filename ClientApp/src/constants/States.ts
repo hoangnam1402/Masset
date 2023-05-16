@@ -6,4 +6,3 @@ export const AssetState: any = {
   5: "Lost",
   6: "OutOfRepair"
 };
-

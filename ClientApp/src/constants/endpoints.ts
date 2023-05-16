@@ -4,45 +4,45 @@ const Endpoints = {
 	me: apiurl+"api/authorize/me",
 	setting: apiurl+"api/setting",
 
-	getDashboard: apiurl+"api/dashboard",
+	Dashboard: apiurl+"api/dashboard",
 
-	getUser: apiurl+"api/user",
-	getUserId: (id: number | string): string => apiurl + `api/user/${id}`,
+	User: apiurl+"api/user",
+	UserId: (id: number | string): string => apiurl + `api/user/${id}`,
 
-	getAsset: apiurl+"api/asset",
-	getAllAsset: apiurl+"api/asset/getall",
-	getAssetId: (id: number | string): string => apiurl+`api/asset/${id}`,
+	Asset: apiurl+"api/asset",
+	AllAsset: apiurl+"api/asset/getall",
+	AssetId: (id: number | string): string => apiurl+`api/asset/${id}`,
 	generatingQRCode: (tag: number | string): string => apiurl + `api/asset/generatingQRCode//${tag}`,
 
-	getAssetHistory: apiurl+"api/assetHistory",
-	getUnreadAssetHistory: apiurl+"api/assetHistory/Unread",
-	getAssetHistoryId: (id: number | string): string => apiurl+`api/assetHistory/${id}`,
+	AssetHistory: apiurl+"api/assetHistory",
+	UnreadAssetHistory: apiurl+"api/assetHistory/Unread",
+	AssetHistoryId: (id: number | string): string => apiurl+`api/assetHistory/${id}`,
 
-	getAssetType: apiurl+"api/assetType",
-	getAllAssetType: apiurl+"api/assetType/getall",
-	getAssetTypeId: (id: number | string): string => apiurl+`api/assetType/${id}`,
+	AssetType: apiurl+"api/assetType",
+	AllAssetType: apiurl+"api/assetType/getall",
+	AssetTypeId: (id: number | string): string => apiurl+`api/assetType/${id}`,
 
-	getBrand: apiurl+"api/Brand",
-	getAllBrand: apiurl+"api/Brand/getall",
-	getBrandId: (id: number | string): string => apiurl+`api/Brand/${id}`,
+	Brand: apiurl+"api/Brand",
+	AllBrand: apiurl+"api/Brand/getall",
+	BrandId: (id: number | string): string => apiurl+`api/Brand/${id}`,
 
-	getComponent: apiurl+"api/Component",
-	getAllComponent: apiurl+"api/Component/getall",
-	getComponentId: (id: number | string): string => apiurl+`api/Component/${id}`,
+	Component: apiurl+"api/Component",
+	AllComponent: apiurl+"api/Component/getall",
+	ComponentId: (id: number | string): string => apiurl+`api/Component/${id}`,
 
-	getDepreciation: apiurl+"api/Depreciation",
-	getDepreciationId: (id: number | string): string => apiurl+`api/Depreciation/${id}`,
+	Depreciation: apiurl+"api/Depreciation",
+	DepreciationId: (id: number | string): string => apiurl+`api/Depreciation/${id}`,
 
-	getLocation: apiurl+"api/Location",
-	getAllLocation: apiurl+"api/Location/getall",
-	getLocationId: (id: number | string): string => apiurl+`api/Location/${id}`,
+	Location: apiurl+"api/Location",
+	AllLocation: apiurl+"api/Location/getall",
+	LocationId: (id: number | string): string => apiurl+`api/Location/${id}`,
 
-	getMaintenance: apiurl+"api/Maintenance",
-	getMaintenanceId: (id: number | string): string => apiurl+`api/Maintenance/${id}`,
+	Maintenance: apiurl+"api/Maintenance",
+	MaintenanceId: (id: number | string): string => apiurl+`api/Maintenance/${id}`,
 
-	getSupplier: apiurl+"api/Supplier",
-	getAllSupplier: apiurl+"api/Supplier/getall",
-	getSupplierId: (id: number | string): string => apiurl+`api/Supplier/${id}`,
+	Supplier: apiurl+"api/Supplier",
+	AllSupplier: apiurl+"api/Supplier/getall",
+	SupplierId: (id: number | string): string => apiurl+`api/Supplier/${id}`,
 
 };
 

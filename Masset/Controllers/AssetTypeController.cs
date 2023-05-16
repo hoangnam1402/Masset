@@ -48,6 +48,8 @@ namespace Masset.Controllers
         {
             if (!await _assetTypeService.IsExist(id))
                 return BadRequest("AssetType not exist!!!");
+            if (await _assetTypeService.IsDelete(id))
+                return BadRequest("AssetType have been delete!!!");
 
             var result = await _assetTypeService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -78,6 +80,8 @@ namespace Masset.Controllers
         {
             if (!await _assetTypeService.IsExist(id))
                 return BadRequest("No AssetType with id: " + id);
+            if (await _assetTypeService.IsDelete(id))
+                return BadRequest("AssetType have been delete.");
 
             var result = await _assetTypeService.GetByIdAsync(id);
 

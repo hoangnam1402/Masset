@@ -49,13 +49,21 @@ namespace Masset.Controllers
                 return BadRequest("Component name, serial, warranty and cost are required.");
             if (await _componentService.IsExist(createDto.Name))
                 return BadRequest("Component name has been used before!!!");
-            if (createDto.TypeID.HasValue && !await _assetTypeService.IsExist(createDto.TypeID.Value))
+            if (createDto.TypeID.HasValue && 
+                (!await _assetTypeService.IsExist(createDto.TypeID.Value) ||
+                await _assetTypeService.IsDelete(createDto.TypeID.Value)))
                 return BadRequest("AssetType not exist!!!");
-            if (createDto.BrandID.HasValue && !await _brandService.IsExist(createDto.BrandID.Value))
+            if (createDto.BrandID.HasValue &&
+                (!await _brandService.IsExist(createDto.BrandID.Value) ||
+                await _brandService.IsDelete(createDto.BrandID.Value))) 
                 return BadRequest("Brand not exist!!!");
-            if (createDto.LocationID.HasValue && !await _locationService.IsExist(createDto.LocationID.Value))
+            if (createDto.LocationID.HasValue &&
+                (!await _locationService.IsExist(createDto.LocationID.Value) ||
+                await _locationService.IsDelete(createDto.LocationID.Value)))
                 return BadRequest("Location not exist!!!");
-            if (createDto.SupplierID.HasValue && !await _supplierService.IsExist(createDto.SupplierID.Value))
+            if (createDto.SupplierID.HasValue &&
+                (!await _supplierService.IsExist(createDto.SupplierID.Value) ||
+                await _supplierService.IsDelete(createDto.SupplierID.Value)))
                 return BadRequest("Supplier not exist!!!");
 
             var result = await _componentService.CreateAsync(createDto);
@@ -74,13 +82,23 @@ namespace Masset.Controllers
                 return BadRequest("Component name is required.");
             if (!await _componentService.IsExist(id))
                 return BadRequest("Component not exist!!!");
-            if (updateDTO.TypeID.HasValue && !await _assetTypeService.IsExist(updateDTO.TypeID.Value))
+            if (await _componentService.IsDelete(id))
+                return BadRequest("Component have been delete!!!");
+            if (updateDTO.TypeID.HasValue && 
+                (!await _assetTypeService.IsExist(updateDTO.TypeID.Value) ||
+                await _assetTypeService.IsDelete(updateDTO.TypeID.Value)))
                 return BadRequest("AssetType not exist!!!");
-            if (updateDTO.BrandID.HasValue && !await _brandService.IsExist(updateDTO.BrandID.Value))
+            if (updateDTO.BrandID.HasValue &&
+                (!await _brandService.IsExist(updateDTO.BrandID.Value) ||
+                await _brandService.IsDelete(updateDTO.BrandID.Value)))
                 return BadRequest("Brand not exist!!!");
-            if (updateDTO.LocationID.HasValue && !await _locationService.IsExist(updateDTO.LocationID.Value))
+            if (updateDTO.LocationID.HasValue &&
+                (!await _locationService.IsExist(updateDTO.LocationID.Value) ||
+                await _locationService.IsDelete(updateDTO.LocationID.Value)))
                 return BadRequest("Location not exist!!!");
-            if (updateDTO.SupplierID.HasValue && !await _supplierService.IsExist(updateDTO.SupplierID.Value))
+            if (updateDTO.SupplierID.HasValue &&
+                (!await _supplierService.IsExist(updateDTO.SupplierID.Value) ||
+                await _supplierService.IsDelete(updateDTO.SupplierID.Value)))
                 return BadRequest("Supplier not exist!!!");
 
             var result = await _componentService.UpdateAsync(id, updateDTO);
@@ -112,6 +130,8 @@ namespace Masset.Controllers
         {
             if (!await _componentService.IsExist(id))
                 return BadRequest("Not Component with id: " + id);
+            if (await _componentService.IsDelete(id))
+                return BadRequest("Component has been deleted.");
 
             var result = await _componentService.GetByIdAsync(id);
 

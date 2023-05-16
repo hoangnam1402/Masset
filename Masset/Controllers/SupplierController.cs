@@ -48,6 +48,8 @@ namespace Masset.Controllers
         {
             if (!await _supplierService.IsExist(id))
                 return BadRequest("Supplier not exist!!!");
+            if (await _supplierService.IsDelete(id))
+                return BadRequest("Supplier have been delete!!!");
 
             var result = await _supplierService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -78,6 +80,8 @@ namespace Masset.Controllers
         {
             if (!await _supplierService.IsExist(id))
                 return BadRequest("No Supplier with id: " + id);
+            if (await _supplierService.IsDelete(id))
+                return BadRequest("Supplier has been deleted.");
 
             var result = await _supplierService.GetByIdAsync(id);
 

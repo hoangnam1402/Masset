@@ -8,7 +8,7 @@ type DateFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     placeholder?: string;
     name: string;
     id: string;
-    isrequired?: boolean | string;
+    isrequired?: boolean;
     notvalidate?: boolean;
     maxDate?: Date;
     minDate?: Date;

@@ -35,7 +35,8 @@ namespace Business.Services
 
             var userQuery = UserFilter(
                 _userRepository.Entities.AsQueryable(),
-                baseQueryCriteria);
+                baseQueryCriteria,
+                userRole);
 
             var result = await userQuery
                 .AsNoTracking()
@@ -120,10 +121,11 @@ namespace Business.Services
                 return false;
         }
 
-        public async Task<bool> DisableUserAsync(string id)
+        public async Task<bool> DisableUserAsync(string id, string role)
         {
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-            if (user == null)
+            if (user == null ||
+                (user.Role != UserRoleEnums.Staff && role != "Admin"))
                 return false;
             user.IsActive = true;
 
@@ -135,16 +137,22 @@ namespace Business.Services
 
         #region Private Method
         private IQueryable<User> UserFilter(
-            IQueryable<User> userQuery,
-            BaseQueryCriteria baseQueryCriteria)
+            IQueryable<User> query,
+            BaseQueryCriteria baseQueryCriteria,
+            UserRoleEnums userRole)
         {
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
-                userQuery = userQuery.Where(b =>
+                query = query.Where(b =>
                     b.UserName.Contains(baseQueryCriteria.Search) || b.Email.Contains(baseQueryCriteria.Search));
             }
 
-            return userQuery;
+            if ((int)userRole != 1)
+            {
+                query = query.Where(x => x.IsActive == true);
+            }
+
+            return query;
         }
 
         #endregion

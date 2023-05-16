@@ -1,6 +1,8 @@
 export const LOGIN = '/login';
 export const DASHBOARD = '/dashboard';
 export const ASSETS = '/asset';
+export const ASSET_INFO = '/asset/:id';
+export const ASSET_ID = (id: string | number) => `/asset/${id}`;
 export const COMPONENTS = '/component';
 export const MAINTENANCES = '/maintenance';
 export const DEPRECIATIONS = '/depreciation';

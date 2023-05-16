@@ -48,6 +48,8 @@ namespace Masset.Controllers
         {
             if (!await _brandService.IsExist(id))
                 return BadRequest("Brand not exist!!!");
+            if (await _brandService.IsDelete(id))
+                return BadRequest("Brand have been delete!!!");
 
             var result = await _brandService.UpdateAsync(id, updateDTO);
             if (result != null)
@@ -78,6 +80,8 @@ namespace Masset.Controllers
         {
             if (!await _brandService.IsExist(id))
                 return BadRequest("No Brand with id: " + id);
+            if (await _brandService.IsDelete(id))
+                return BadRequest("Brand have been delete.");
 
             var result = await _brandService.GetByIdAsync(id);
 

@@ -72,7 +72,7 @@ const AuthSlice = createSlice({
                 request.setAuthentication(token);
             }
         },
-        login: (state: AuthState) => ({
+        login: (state: AuthState, action: PayloadAction<ILoginModel>) => ({
             ...state,
             loading: true,
         }),
