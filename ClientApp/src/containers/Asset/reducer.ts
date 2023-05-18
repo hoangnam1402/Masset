@@ -8,9 +8,6 @@ import ISupplier from "../../interfaces/Supplier/ISupplier"
 import IError from "../../interfaces/IError";
 import IPagedModel from "../../interfaces/IPagedModel";
 
-import {
-  getLocalStorage,
-} from "../../utils/localStorage";
 import IQueryAssetModel from "../../interfaces/Asset/IQueryAssetModel";
 import IAssetForm from "../../interfaces/Asset/IAssetForm";
 
@@ -26,10 +23,9 @@ type AssetState = {
   locations:ILocation[]|null;
   suppliers:ISupplier[]|null;
   deleteAsset?: IAsset;
-  newAsset?:IAsset
+  assetGetById?:IAsset;
+  qrCode?: string;
 };
-
-const token = getLocalStorage("token");
 
 const initialState: AssetState = {
   loading: false,
@@ -39,7 +35,8 @@ const initialState: AssetState = {
   locations:null,
   suppliers:null,
   deleteAsset: undefined,
-  newAsset: undefined,
+  assetGetById: undefined,
+  qrCode:undefined,
 };
 
 export type CreateAction = {
@@ -54,6 +51,10 @@ export type DeleteAction = {
 
 export type GetByIdAction = {
   id: number,
+}
+
+export type GetByTagAction = {
+  tag: string,
 }
 
 const AssetSlice = createSlice({
@@ -192,30 +193,40 @@ const AssetSlice = createSlice({
         loading: false,
       };
     },
-    setAssetEdited: (state, action: PayloadAction<IAsset>): AssetState => {
-      const assetResult = action.payload;
-                      
-      return {
-          ...state,
-          assetResult,
-          loading: false,
-      }
-  },
+
     createAsset: (state, action: PayloadAction<CreateAction>): AssetState => {
-      const newAsset = action.payload;
-      
       return {
           ...state,
           loading: true,
       }
     },
-    setNewAsset: (state: AssetState, action: PayloadAction<IAsset|undefined>) =>
+
+    setAssetGetById: (state: AssetState, action: PayloadAction<IAsset|undefined>) =>
     {
-        const newAsset= action.payload;
+        const assetGetById= action.payload;
 
         return {
             ...state,
-            newAsset,
+            assetGetById,
+            loading: false,
+        }
+    },
+
+    getQrCode: (state, action: PayloadAction<GetByTagAction>) =>
+    {
+        return {
+            ...state,
+            loading: false,
+        }
+    },
+
+    setQrCode: (state: AssetState, action: PayloadAction<string>) =>
+    {
+        const qrCode= action.payload;
+
+        return {
+            ...state,
+            qrCode,
             loading: false,
         }
     },
@@ -226,7 +237,7 @@ export const
 { 
     setStatus, getAssets, setAssets, getAssetTypes, setAssetTypes, getBrands, getAssetById,
     setBrands, getLocations, setLocations, getSuppliers, setSupplies, setDeleteAsset, 
-    deleteAssets, createAsset, setAsset, updateAsset, setAssetEdited, setNewAsset
+    deleteAssets, createAsset, setAsset, updateAsset, setAssetGetById, setQrCode, getQrCode
 } = AssetSlice.actions;
 
 export default AssetSlice.reducer;

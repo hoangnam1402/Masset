@@ -11,15 +11,15 @@ import {
   DEFAULT_SORT_COLUMN_NAME,
   DEFAULT_PAGE_LIMIT,
 } from "../../../constants/paging";
-import { ASSET_INFO } from "../../../constants/pages";
 import AssetTable from "./AssetTable";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import { AssetStateOptions } from "../../../constants/selectOptions";
-import AssetFormContainer from "../AssetForm";
+import AssetForm from "../AssetForm";
+import ISelectOption from "../../../interfaces/ISelectOption";
 
 const AssetList = () => {
   const dispatch = useAppDispatch();
-  const { assets, deleteAsset } = useAppSelector(
+  const { assets, deleteAsset, assetResult } = useAppSelector(
     (state) => state.assetReducer
   );
 
@@ -39,6 +39,44 @@ const AssetList = () => {
 
     const search = e.target.value;
     setSearch(search);
+  };
+
+  const handleState = (selected: ISelectOption[]) => {
+    if (selected.length === 0) {
+      setQuery({
+        ...query,
+        state: [],
+        
+      });
+
+      setStateSelected(AssetStateOptions);
+      return;
+    }
+
+    const selectedAll = selected.find((item) => item.id === 0);
+
+    setStateSelected((prevSelected) => {
+      if (!prevSelected.some((item) => item.id === 0) && selectedAll) {
+        setQuery({
+          ...query,
+          state: [],
+   
+        });
+
+        return [selectedAll];
+      }
+
+      const newSelected = selected.filter((item) => item.id !== 0);
+      const state = newSelected.map((item) => item.value as number);
+
+      setQuery({
+        ...query,
+        state,
+        page:1
+      });
+
+      return newSelected;
+    });
   };
 
   const handlePage = (page: number) => {
@@ -80,7 +118,7 @@ const AssetList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [query, deleteAsset,stateSelected]);
+  }, [query, deleteAsset, stateSelected, assetResult]);
 
   return (
     <>
@@ -95,7 +133,7 @@ const AssetList = () => {
                 options={AssetStateOptions}
                 labelledBy="State"
                 value={stateSelected}
-                onChange={setStateSelected}
+                onChange={handleState}
                 disableSearch={true}
               />
 
@@ -135,12 +173,11 @@ const AssetList = () => {
             columnValue: query.sortColumn,
             orderBy: query.sortOrder,
           }}
-          fetchData={fetchData}
         />
       </div>
 
       { showCreateForm && (
-        <AssetFormContainer asset={undefined} handleClose={handleCloseCreateForm} />
+        <AssetForm asset={undefined} handleClose={handleCloseCreateForm} />
       )}
     </>
   );

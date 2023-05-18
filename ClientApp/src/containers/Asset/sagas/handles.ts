@@ -4,9 +4,9 @@ import { call, put } from "redux-saga/effects";
 import { Status } from "../../../constants/status";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import IError from "../../../interfaces/IError";
-import { setStatus, setAssets, setAssetTypes, CreateAction, setDeleteAsset, setAsset, 
-    DeleteAction, setAssetEdited, setLocations, setBrands, setSupplies, GetByIdAction } from "../reducer";
-import { createAssetRequest, getAssetTypeRequest, getAssetsRequest, deleteAssetRequest, 
+import { setStatus, setAssets, setAssetTypes, CreateAction, setDeleteAsset, setAsset, setAssetGetById, 
+    setQrCode, GetByTagAction, DeleteAction, setLocations, setBrands, setSupplies, GetByIdAction } from "../reducer";
+import { createAssetRequest, getAssetTypeRequest, getAssetsRequest, deleteAssetRequest, GeneratingQRCode,
     putAssetsRequest, getBrandsRequest, getLocationRequest, getSupplierRequest, getAssetByIdRequest } from './request';
 
 export function* handleGetAssets(action: PayloadAction<IQueryAssetModel>) {
@@ -32,7 +32,9 @@ export function* handleGetAssetById(action: PayloadAction<GetByIdAction>) {
     try {
         const { data } = yield call(getAssetByIdRequest, id);
         
-        yield put(setAsset(data));
+        if (data) {
+            yield put(setAssetGetById(data));
+        }
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -144,15 +146,30 @@ export function* handleUpdateAsset(action: PayloadAction<CreateAction>) {
         handleResult(true, data);
 
         yield put(setAsset(data));
-
-        if(formValues.id){
-            yield put(setAssetEdited(data));
-        }
         
     } catch (error: any) {
 
         const errorModel = error.response.data as IError;
 
         handleResult(false, errorModel.message);
+    }
+}
+
+export function* handleQRCodeGenerator(action: PayloadAction<GetByTagAction>) {
+    const {tag} = action.payload;
+    try {
+        const { data } = yield call(GeneratingQRCode, tag);
+
+        if (data) {
+            yield put(setQrCode(URL.createObjectURL(data)));
+        }
+
+    } catch (error: any) {
+        const errorModel = error.response.data as IError;
+        
+        yield put(setStatus({
+            status: Status.Failed,
+            error: errorModel,
+        }));
     }
 }

@@ -12,7 +12,7 @@ const Endpoints = {
 	Asset: apiurl+"api/asset",
 	AllAsset: apiurl+"api/asset/getall",
 	AssetId: (id: number | string): string => apiurl+`api/asset/${id}`,
-	generatingQRCode: (tag: number | string): string => apiurl + `api/asset/generatingQRCode//${tag}`,
+	generatingQRCode: (tag: string): string => apiurl + `api/asset/generatingQRCode/${tag}`,
 
 	AssetHistory: apiurl+"api/assetHistory",
 	UnreadAssetHistory: apiurl+"api/assetHistory/Unread",

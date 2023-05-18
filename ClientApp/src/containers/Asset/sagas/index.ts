@@ -1,9 +1,9 @@
 import { takeLatest } from 'redux-saga/effects';
 
-import { getAssets, getAssetTypes, getBrands, getLocations, getAssetById,
+import { getAssets, getAssetTypes, getBrands, getLocations, getAssetById, getQrCode,
     getSuppliers, deleteAssets, createAsset, updateAsset } from '../reducer';
 import { handleGetAssets, handleGetAssetType, handleGetBrand, handleGetLocation, handleGetAssetById,
-    handleSupplier, handleDeleteAsset, handleCreateAsset, handleUpdateAsset } from './handles';
+    handleQRCodeGenerator, handleSupplier, handleDeleteAsset, handleCreateAsset, handleUpdateAsset } from './handles';
 
 export default function* assetSagas() {
     yield takeLatest(deleteAssets.type, handleDeleteAsset);
@@ -15,4 +15,5 @@ export default function* assetSagas() {
     yield takeLatest(getLocations.type,handleGetLocation);
     yield takeLatest(getSuppliers.type,handleSupplier);
     yield takeLatest(getAssetById.type,handleGetAssetById);
+    yield takeLatest(getQrCode.type, handleQRCodeGenerator)
 }

@@ -29,7 +29,12 @@ const DateField: React.FC<DateFieldProps> = (props) => {
         return '';
     };
 
-    const handleChangeAssignedDate = (assignDate: Date) => {
+    useEffect(() => {
+        if (field.value) 
+            setValue(new Date(field.value))
+    }, []);
+
+    const handleChangeDate = (assignDate: Date) => {
         if(assignDate)
             assignDate.setHours(12,0);
         setValue(assignDate);
@@ -51,7 +56,7 @@ const DateField: React.FC<DateFieldProps> = (props) => {
                             className="w-100 valid" {...field}
                             dateFormat="dd/MM/yyyy"
                             selected={(field.value && new Date(field.value)) || null }
-                            onChange={(date: Date) => handleChangeAssignedDate(date as Date)}
+                            onChange={(date: Date) => handleChangeDate(date as Date)}
                             isClearable
                             showYearDropdown
                             scrollableYearDropdown

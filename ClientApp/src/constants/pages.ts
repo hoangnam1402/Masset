@@ -1,7 +1,10 @@
 export const LOGIN = '/login';
 export const DASHBOARD = '/dashboard';
 export const ASSETS = '/asset';
-export const ASSET_INFO = '/asset/:id';
+export const MANAGE_ASSETS = '/asset/*';
+export const INFO = '/:id';
+export const QRCODE = '/GeneratingQRCode/:tag';
+export const QRCODEGENERATOR = (tag: string) => `/asset/GeneratingQRCode/${tag}`;
 export const ASSET_ID = (id: string | number) => `/asset/${id}`;
 export const COMPONENTS = '/component';
 export const MAINTENANCES = '/maintenance';

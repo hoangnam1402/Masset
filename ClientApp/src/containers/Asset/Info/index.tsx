@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from 'react-router';
-import { Button, Modal } from "react-bootstrap";
-import { XSquare } from "react-bootstrap-icons";
+import { useParams } from 'react-router';
 import IAsset from "../../../interfaces/Asset/IAsset";
 import {
 	StateReadyToDeploy,
@@ -18,34 +16,42 @@ import {
   StateOutOfRepairLabel,
   StateNull
 } from "../../../constants/assetConstants";
-import { ASSETS } from "../../../constants/pages";
+import { ASSETS, QRCODEGENERATOR } from "../../../constants/pages";
 import IAssetForm from '../../../interfaces/Asset/IAssetForm';
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
 import { getAssetById } from "../reducer";
+import { useNavigate } from "react-router-dom";
 
 const AssetInfo = () => {
-  const history = useNavigate();
   const dispatch = useAppDispatch();
-  const { assetResult } = useAppSelector(state => state.assetReducer);
+  const { assetGetById } = useAppSelector(state => state.assetReducer);
   const [asset, setAsset] = useState(undefined as IAssetForm | undefined);
   const { id } = useParams<{ id: string }>();
+	const history = useNavigate();
 
-  useEffect(() => {
-    dispatch(getAssetById({id: Number(id)}));
-    if (assetResult) {
-        setAsset(assetResult);
+  const handleShowQrCode = (tag: string | undefined) => {
+    if (tag) {
+      history(QRCODEGENERATOR(tag));
     } else {
       history(ASSETS);
     }
-  }, [assetResult]);
+  }
+
+  const fetchData = () => {
+    dispatch(getAssetById({id: Number(id)}));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [id]);
 
   return (
     <>
       <div className='ml-5'>
         <div className='primaryColor text-title intro-x row'>
-          <div className='col-md-8'>Asset detail</div>
-          <div className="col-md-4 text-md-right">
-            <a type="button" className="btn btn-danger"> Generate label</a>
+          <div className='col-md-9'>Asset detail</div>
+          <div className="col-md-3 text-md-right">
+            <a type="button" onClick={() => handleShowQrCode(assetGetById?.tag)} className="btn btn-danger"> Generate label</a>
           </div>
         </div>
   

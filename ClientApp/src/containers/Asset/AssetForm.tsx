@@ -53,7 +53,7 @@ type Props = {
     handleClose: () => void;
   };
   
-const AssetFormContainer: React.FC<Props> = ({ asset, handleClose }) => {
+const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -88,6 +88,7 @@ const AssetFormContainer: React.FC<Props> = ({ asset, handleClose }) => {
     const supplierSelectOptions: ISelectOption[] = supplierList;
 
     const isUpdate = asset ? true : false;
+    const initialAssetValues = asset ? asset : initialFormValues;
 
     const handleResult = (result: boolean, message: string) => {
         if (result) {
@@ -129,10 +130,10 @@ const AssetFormContainer: React.FC<Props> = ({ asset, handleClose }) => {
 
             <Modal.Body className="bodyModal">
                 <Formik
-                initialValues={initialFormValues}
+                initialValues={initialAssetValues}
                 enableReinitialize
                 validationSchema={validationSchema}
-                isInitialValid={false}
+                validateOnMount={true}
                 onSubmit={(values) => {
                     setLoading(true);
                     console.log("save test")
@@ -234,4 +235,4 @@ const AssetFormContainer: React.FC<Props> = ({ asset, handleClose }) => {
     );
 };
 
-export default AssetFormContainer;
+export default AssetForm;

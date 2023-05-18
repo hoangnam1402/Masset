@@ -1,7 +1,7 @@
 import React, { ReactNode, lazy, Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { DASHBOARD, LOGIN, ASSETS} from "../constants/pages";
+import { DASHBOARD, LOGIN, MANAGE_ASSETS} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { me } from "../containers/Authorize/reducer";
@@ -42,7 +42,7 @@ const Routess = () => {
           </PrivateRoute>
         }/>
 
-        <Route path={ASSETS} element={
+        <Route path={MANAGE_ASSETS} element={
           <PrivateRoute>
             <Asset />
           </PrivateRoute>

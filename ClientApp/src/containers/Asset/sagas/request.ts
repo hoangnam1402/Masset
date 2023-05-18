@@ -6,7 +6,10 @@ import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import IAsset from "../../../interfaces/Asset/IAsset";
 import IAssetForm from "../../../interfaces/Asset/IAssetForm";
 
-
+interface ImageResponse {
+    data: Blob;
+  }
+  
 export function getAssetsRequest(query: IQueryAssetModel): Promise<AxiosResponse<IAsset>> {
     return RequestService.axios.get(EndPoints.Asset, {
         params: query,
@@ -54,4 +57,8 @@ export function putAssetsRequest(userForm: IAssetForm): Promise<AxiosResponse<IA
             serialize: (params) => qs.stringify(params)
         }
     });
+}
+
+export function GeneratingQRCode(tag: string): Promise<AxiosResponse<ImageResponse>> {
+    return RequestService.axios.get(EndPoints.generatingQRCode(tag ?? -1), { responseType: 'blob' });
 }

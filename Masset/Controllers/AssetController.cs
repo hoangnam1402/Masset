@@ -118,7 +118,7 @@ namespace Masset.Controllers
                 return BadRequest("Somethink go wrong.");
         }
 
-        [HttpPost("GeneratingQRCode/{tag}")]
+        [HttpGet("GeneratingQRCode/{tag}")]
         [Authorize]
         public async Task<IActionResult> GeneratingQRCode([FromRoute] string tag)
         {
@@ -132,8 +132,8 @@ namespace Masset.Controllers
             QRCode qrCode = new QRCode(qrCodeData);
             Image QrBitmap = qrCode.GetGraphic(20);
             MemoryStream qrStream = new MemoryStream();
-            QrBitmap.Save(qrStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            return File(qrStream.ToArray(), "image/bmp");
+            QrBitmap.Save(qrStream, System.Drawing.Imaging.ImageFormat.Png);
+            return File(qrStream.ToArray(), "image/png");
         }
 
         [HttpGet("{id}")]
