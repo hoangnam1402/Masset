@@ -15,7 +15,7 @@
            
             a {
                 font-weight: bold;
-                white-space: nowrap;
+                // white-space: nowrap;
                 font-size: 14.5px;
             }
         }
@@ -44,6 +44,15 @@
             cursor: pointer;
         }
     }
+}
+
+.table-bordered th td {
+    border: 1px solid #dee2e6;
+    vertical-align: middle !important;
+}
+
+.table>thead {
+    vertical-align: middle !important;
 }
 
 .pagination {

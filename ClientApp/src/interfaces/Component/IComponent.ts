@@ -3,19 +3,20 @@ import ISupplier from "../Supplier/ISupplier"
 import ILocation from "../Location/ILocation"
 import IBrand from "../Brand/IBrand"
 
-export default interface IAsset {
+export default interface IComponent {
     id: number,
-    name:string,
-    tag:string,
-    typeID:number,
-    type:IType,
+    name: string,
+    serial: string,
+    quantity: number,
+    availableQuantity: number,
     supplierID:number,
     supplier:ISupplier,
     locationID:number,
     location:ILocation,
     brandID:number,
     brand:IBrand,
-    serial:string,
+    typeID:number,
+    type:IType,
     cost:number,
     warranty:number,
     status:number,

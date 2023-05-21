@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown, Modal, Card } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Form, Formik } from "formik";
@@ -45,7 +45,7 @@ const Header = () => {
   const headerName = () => {
     const pathnameSplit = pathname.split("/");
     pathnameSplit.shift();
-    if (pathnameSplit.join(" > ").toString() == "login") {
+    if (pathnameSplit.join(" > ").toString() === "login") {
       return "Masset";
     }
     return pathnameSplit.join(" > ").toString() || "Dashboard";
@@ -78,6 +78,12 @@ const Header = () => {
     history(DASHBOARD);
     dispatch(logout());
   };
+
+  useEffect(() => {
+    if (!account) {
+      handleConfirmedLogout();
+    }
+  }, [] );
 
   return (
     <>

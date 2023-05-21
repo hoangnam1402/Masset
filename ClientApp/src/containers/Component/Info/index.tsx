@@ -16,19 +16,16 @@ import {
   StateNull
 } from "../../../constants/assetConstants";
 import { useAppSelector, useAppDispatch } from '../../../hooks/redux';
-import { getAssetById } from "../reducer";
-import QrCodeGenerator from "./QrCodeGenerator";
+import { getById } from "../reducer";
 import { Dot } from "react-bootstrap-icons";
 import { Tab, Tabs } from "react-bootstrap";
 import Details from "./Details";
-import Maintenances from "./Maintenances";
 import Depreciation from "./Depreciation";
 
-const AssetInfo = () => {
+const ComponentInfo = () => {
   const dispatch = useAppDispatch();
-  const { assetGetById } = useAppSelector(state => state.assetReducer);
+  const { compGetById } = useAppSelector(state => state.componentReducer);
   const { id } = useParams<{ id: string }>();
-  const [showQrCode, setShowQrCode] = useState(false);
 
   const getAssetStateTypeName = (id: number | undefined) => {
 		switch(id) {
@@ -49,16 +46,8 @@ const AssetInfo = () => {
 		}
 	};
 
-  const handleShowQrCode = () => {
-    setShowQrCode(true);
-  }
-
-  const handleCloseQrCode = () => {
-    setShowQrCode(false);
-  }
-
   const fetchData = () => {
-    dispatch(getAssetById({id: Number(id)}));
+    dispatch(getById({id: Number(id)}));
   };
 
   useEffect(() => {
@@ -70,11 +59,6 @@ const AssetInfo = () => {
       <div className='ml-5'>
         <div className='primaryColor text-title intro-x row'>
           <div className='col-md-9'>Asset detail</div>
-          <div className="col-md-3 text-md-right">
-            <a type="button" onClick={() => handleShowQrCode()} className="btn btn-danger"> 
-              Generate QR Code
-            </a>
-          </div>
         </div>
   
         <div className='row'>
@@ -84,15 +68,7 @@ const AssetInfo = () => {
                 <div className="row">
                   <div className="col-md-9">
                     <p className="title-detail font-bold">
-                      <span className="assetName">{assetGetById?.name}</span>
-                      <span className="assetTag"> ({assetGetById?.tag})</span>
-                    </p>
-                    <p className="assetDetail">
-                      <span className="assetType">{assetGetById?.type.name}</span>
-                      <span className="assetStatus">
-                        <Dot/>
-                        {getAssetStateTypeName(assetGetById?.status)}
-                        </span>
+                      <span className="assetName">{compGetById?.name}</span>
                     </p>
                   </div>
                 </div>
@@ -105,19 +81,10 @@ const AssetInfo = () => {
                       justify
                     >
                       <Tab eventKey="details" title="Details">
-                        {assetGetById &&<Details asset={assetGetById}/>}
-                      </Tab>
-                      <Tab eventKey="components" title="Components">
-                      Components
-                      </Tab>
-                      <Tab eventKey="maintenances" title="Maintenances">
-                        {assetGetById &&<Maintenances assetID={assetGetById.id}/>}
-                      </Tab>
-                      <Tab eventKey="history" title="History">
-                      History
+                        {compGetById &&<Details component={compGetById}/>}
                       </Tab>
                       <Tab eventKey="depreciation" title="Depreciation">
-                        {assetGetById &&<Depreciation assetID={assetGetById.id}/>}
+                        {compGetById &&<Depreciation componentID={compGetById.id}/>}
                       </Tab>
                     </Tabs>
                   </div>
@@ -127,12 +94,8 @@ const AssetInfo = () => {
           </div>
         </div>
       </div>
-
-      {assetGetById && showQrCode && (
-        <QrCodeGenerator asset={assetGetById} handleClose={handleCloseQrCode} />
-      )}
     </>
   );
 };
 
-export default AssetInfo;
+export default ComponentInfo;

@@ -2,6 +2,7 @@
 using Business.Extensions;
 using Business.Interfaces;
 using Contracts;
+using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.ComponentDtos;
 using DataAccess.Entities;
 using DataAccess.Enums;
@@ -52,7 +53,7 @@ namespace Business.Services
             return result!=null;
         }
 
-        public async Task<PagedResponseModel<ComponentDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, 
+        public async Task<PagedResponseModel<ComponentDto>> GetByPageAsync(AssetQueryCriteria baseQueryCriteria, 
                                                                         CancellationToken cancellationToken)
         {
             var componentQuery = ComponentFilter(
@@ -147,7 +148,7 @@ namespace Business.Services
         #region Private Method
         private IQueryable<Component> ComponentFilter(
             IQueryable<Component> componentQuery,
-            BaseQueryCriteria baseQueryCriteria)
+            AssetQueryCriteria baseQueryCriteria)
         {
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
@@ -156,6 +157,12 @@ namespace Business.Services
                     (b.Type != null && b.Type.Name != null && b.Type.Name.Contains(baseQueryCriteria.Search)) ||
                     (b.Brand != null && b.Brand.Name != null && b.Brand.Name.Contains(baseQueryCriteria.Search))
                     );
+            }
+
+            if (baseQueryCriteria.State != null && baseQueryCriteria.State.Count() > 0)
+            {
+                componentQuery = componentQuery.Where(x =>
+                    baseQueryCriteria.State.Any(t => t == (int)x.Status));
             }
 
             //not showing deleted asset

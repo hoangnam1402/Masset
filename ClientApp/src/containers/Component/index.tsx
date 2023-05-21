@@ -2,20 +2,20 @@ import React, { Fragment, lazy, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { INFO } from '../../constants/pages';
 
-const Assets = lazy(() => import("./List"));
-const AssetInfo = lazy(() => import("./Info"));
+const Components = lazy(() => import("./List"));
+const ComponentInfo = lazy(() => import("./Info"));
 
-const Asset = () => {
+const Component = () => {
   return (
     <>
       <Fragment>
         <Routes>
-          <Route index element={<Assets />}/>
-          <Route path={INFO} element={<AssetInfo />}/>
+          <Route index element={<Components />}/>
+          <Route path={INFO} element={<ComponentInfo />}/>
         </Routes>
       </Fragment>
     </>
   );
 }
 
-export default Asset;
+export default Component;

@@ -1,6 +1,5 @@
-export default interface IQueryAssetModel {
+export default interface IQueryModel {
     page: number;
-    state:number[];
     search: string;
     sortOrder: string;
     sortColumn: string;

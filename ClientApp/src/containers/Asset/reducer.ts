@@ -7,9 +7,11 @@ import ILocation from "../../interfaces/Location/ILocation"
 import ISupplier from "../../interfaces/Supplier/ISupplier"
 import IError from "../../interfaces/IError";
 import IPagedModel from "../../interfaces/IPagedModel";
-
 import IQueryAssetModel from "../../interfaces/Asset/IQueryAssetModel";
 import IAssetForm from "../../interfaces/Asset/IAssetForm";
+import IMaintenance from "../../interfaces/Maintenance/IMaintenance";
+import IQueryModel from "../../interfaces/IQueryModel";
+import IDepreciation from "../../interfaces/Depreciation/IDepreciation";
 
 
 type AssetState = {
@@ -22,9 +24,11 @@ type AssetState = {
   brands:IBrand[]|null;
   locations:ILocation[]|null;
   suppliers:ISupplier[]|null;
+  maintenances:IPagedModel<IMaintenance>|null;
   deleteAsset?: IAsset;
   assetGetById?:IAsset;
   qrCode?: string;
+  depreciation?: IDepreciation;
 };
 
 const initialState: AssetState = {
@@ -37,6 +41,8 @@ const initialState: AssetState = {
   deleteAsset: undefined,
   assetGetById: undefined,
   qrCode:undefined,
+  maintenances:null,
+  depreciation:undefined,
 };
 
 export type CreateAction = {
@@ -50,6 +56,11 @@ export type DeleteAction = {
 }
 
 export type GetByIdAction = {
+  id: number,
+}
+
+export type GetMaintenanceByAssetIdAction = {
+  query: IQueryModel,
   id: number,
 }
 
@@ -152,6 +163,7 @@ const AssetSlice = createSlice({
         loading: false,
       };
     },
+
     getLocations: (state): AssetState => {
       return {
         ...state,
@@ -167,6 +179,7 @@ const AssetSlice = createSlice({
         loading: false,
       };
     },
+
     getSuppliers: (state): AssetState => {
       return {
         ...state,
@@ -179,6 +192,38 @@ const AssetSlice = createSlice({
       return {
         ...state,
         suppliers,
+        loading: false,
+      };
+    },
+
+    getMaintenance: (state, action: PayloadAction<GetMaintenanceByAssetIdAction>): AssetState => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+
+    setMaintenance: (state, action: PayloadAction<IPagedModel<IMaintenance>>): AssetState => {
+      const maintenances = action.payload;
+      return {
+        ...state,
+        maintenances,
+        loading: false,
+      };
+    },
+
+    getDepreciation:  (state, action: PayloadAction<GetByIdAction>): AssetState => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+
+    setDepreciation: (state, action: PayloadAction<IDepreciation>): AssetState => {
+      const depreciation = action.payload;
+      return {
+        ...state,
+        depreciation,
         loading: false,
       };
     },
@@ -237,7 +282,8 @@ export const
 { 
     setStatus, getAssets, setAssets, getAssetTypes, setAssetTypes, getBrands, getAssetById,
     setBrands, getLocations, setLocations, getSuppliers, setSupplies, setDeleteAsset, 
-    deleteAssets, createAsset, setAsset, updateAsset, setAssetGetById, setQrCode, getQrCode
+    deleteAssets, createAsset, setAsset, updateAsset, setAssetGetById, setQrCode, getQrCode,
+    getMaintenance, setMaintenance, getDepreciation, setDepreciation,
 } = AssetSlice.actions;
 
 export default AssetSlice.reducer;

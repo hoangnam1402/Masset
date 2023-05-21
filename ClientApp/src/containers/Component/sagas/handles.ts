@@ -4,19 +4,19 @@ import { call, put } from "redux-saga/effects";
 import { Status } from "../../../constants/status";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import IError from "../../../interfaces/IError";
-import { setStatus, setAssets, setAssetTypes, CreateAction, setDeleteAsset, setAsset, setAssetGetById, 
-    setQrCode, GetByTagAction, DeleteAction, setLocations, setBrands, setSupplies, GetByIdAction, 
-    setMaintenance, GetMaintenanceByAssetIdAction, setDepreciation} from "../reducer";
-import { createAssetRequest, getAssetTypeRequest, getAssetsRequest, deleteAssetRequest, GeneratingQRCode,
-    putAssetsRequest, getBrandsRequest, getLocationRequest, getSupplierRequest, getAssetByIdRequest, 
-    getMaintenanceRequest, getDepreciationRequest} from './request';
+import { setStatus, setComponents, setAssetTypes, CreateAction, setDeleteComponent, setComponent,  
+    DeleteAction, setLocations, setBrands, setSupplies, GetByIdAction,
+    setDepreciation, setGetById, GetByTagAction} from "../reducer";
+import { createComponentRequest, getAssetTypeRequest, getComponentsRequest, deleteComponentRequest, 
+    putComponentRequest, getBrandsRequest, getLocationRequest, getSupplierRequest, getByIdRequest, 
+    getDepreciationRequest} from './request';
 
-export function* handleGetAssets(action: PayloadAction<IQueryAssetModel>) {
+export function* handleGetComponents(action: PayloadAction<IQueryAssetModel>) {
     const query = action.payload;
     try {
-        const { data } = yield call(getAssetsRequest, query);
+        const { data } = yield call(getComponentsRequest, query);
         
-        yield put(setAssets(data));
+        yield put(setComponents(data));
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -29,13 +29,13 @@ export function* handleGetAssets(action: PayloadAction<IQueryAssetModel>) {
     }
 }
 
-export function* handleGetAssetById(action: PayloadAction<GetByIdAction>) {
+export function* handleGetById(action: PayloadAction<GetByIdAction>) {
     const {id} = action.payload;
     try {
-        const { data } = yield call(getAssetByIdRequest, id);
+        const { data } = yield call(getByIdRequest, id);
         
         if (data) {
-            yield put(setAssetGetById(data));
+            yield put(setGetById(data));
         }
 
     } catch (error: any) {
@@ -119,25 +119,10 @@ export function* handleGetSupplier() {
     }
 }
 
-export function* handleGetMaintenance(action: PayloadAction<GetMaintenanceByAssetIdAction>) {
-    const {query, id} = action.payload;
-
-    try {
-        const { data } = yield call(getMaintenanceRequest, query, id);
-        yield put(setMaintenance(data))
-        
-
-    } catch (error: any) {
-        const errorModel = error.response.data as IError;
-        
-        console.log(errorModel);
-    }
-}
-
-export function* handleCreateAsset(action: PayloadAction<CreateAction>) {
+export function* handleCreateComponent(action: PayloadAction<CreateAction>) {
     const {handleResult, formValues} = action.payload;
     try {        
-        const { data } = yield call(createAssetRequest, formValues);
+        const { data } = yield call(createComponentRequest, formValues);
         if (data)
         {
             handleResult(true, data.name);
@@ -146,7 +131,7 @@ export function* handleCreateAsset(action: PayloadAction<CreateAction>) {
         yield put(setStatus({
             status: Status.Success,
         }));
-        yield put(setAsset(data));
+        yield put(setComponent(data));
         
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -155,17 +140,17 @@ export function* handleCreateAsset(action: PayloadAction<CreateAction>) {
     }
 }
 
-export function* handleDeleteAsset(action: PayloadAction<DeleteAction>) {
+export function* handleDeleteComponent(action: PayloadAction<DeleteAction>) {
     const {handleResult, formValues} = action.payload;
     try {
-        const { data } = yield call(deleteAssetRequest, formValues.id);
+        const { data } = yield call(deleteComponentRequest, formValues.id);
         if(data) {
             handleResult(true, formValues.name);
         }
         yield put(setStatus({
             status: Status.Success,
         }));
-        yield put(setDeleteAsset(formValues));
+        yield put(setDeleteComponent(formValues));
 
         //window.location.reload();
 
@@ -174,39 +159,20 @@ export function* handleDeleteAsset(action: PayloadAction<DeleteAction>) {
         handleResult(false, errorModel.message);
     }
 }
-export function* handleUpdateAsset(action: PayloadAction<CreateAction>) {
+export function* handleUpdateComponent(action: PayloadAction<CreateAction>) {
     const { handleResult, formValues} = action.payload;
 
     try {
-        const { data } = yield call(putAssetsRequest, formValues);
+        const { data } = yield call(putComponentRequest, formValues);
 
         handleResult(true, data);
 
-        yield put(setAsset(data));
+        yield put(setComponent(data));
         
     } catch (error: any) {
 
         const errorModel = error.response.data as IError;
 
         handleResult(false, errorModel.message);
-    }
-}
-
-export function* handleQRCodeGenerator(action: PayloadAction<GetByTagAction>) {
-    const {tag} = action.payload;
-    try {
-        const { data } = yield call(GeneratingQRCode, tag);
-
-        if (data) {
-            yield put(setQrCode(URL.createObjectURL(data)));
-        }
-
-    } catch (error: any) {
-        const errorModel = error.response.data as IError;
-        
-        yield put(setStatus({
-            status: Status.Failed,
-            error: errorModel,
-        }));
     }
 }

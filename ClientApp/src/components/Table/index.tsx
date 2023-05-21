@@ -36,7 +36,6 @@ const Table: React.FC<Props> = ({
   sortState,
   handleSort,
 }) => {
-  //console.log(page)
 
   return (
     <>

@@ -58,7 +58,7 @@ namespace Masset.Controllers
                 else
                 {
                     if (!await _componentService.IsExist(createDto.ComponentID.Value))
-                        return BadRequest("No Asset with id: " + createDto.ComponentID);
+                        return BadRequest("No Component with id: " + createDto.ComponentID);
                     result = await _depreciationService.CreateAsync(createDto);
                 }
             }
@@ -118,5 +118,32 @@ namespace Masset.Controllers
             return Ok(result);
         }
 
+        [HttpGet("getOfAsset/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetOfAssetAsync([FromRoute] int id)
+        {
+            if (!await _assetService.IsExist(id))
+                return BadRequest("No Asset with id: " + id);
+            if (await _assetService.IsDelete(id))
+                return BadRequest("Asset have been delete.");
+
+            var result = await _depreciationService.GetOfAssetAsync(id);
+
+            return Ok(result);
+        }
+
+        [HttpGet("getOfComponent/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetOfComponentAsync([FromRoute] int id)
+        {
+            if (!await _componentService.IsExist(id))
+                return BadRequest("No Asset with id: " + id);
+            if (await _componentService.IsDelete(id))
+                return BadRequest("Asset have been delete.");
+
+            var result = await _depreciationService.GetOfComponentAsync(id);
+
+            return Ok(result);
+        }
     }
 }

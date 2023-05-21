@@ -4,12 +4,12 @@ import createSagaMiddleware from 'redux-saga';
 import authReducer from '../containers/Authorize/reducer';
 // import userReducer from '../containers/User/reducer';
 import assetReducer from '../containers/Asset/reducer';
-// import assignmentReducer from 'src/containers/Assignment/reducer';
+import componentReducer from '../containers/Component/reducer';
 import dashboardReducer from '../containers/Dashboard/reducer';
 import rootSaga from './sagas/rootSaga';
 
 const reducer = combineReducers({
-    authReducer,dashboardReducer,assetReducer
+    authReducer,dashboardReducer,assetReducer,componentReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

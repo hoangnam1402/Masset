@@ -12,6 +12,7 @@ namespace Business.Interfaces
         Task<bool> DeleteAsync(int id);
         Task<bool> IsExist(int id);
         Task<bool> IsDelete(int id);
-
+        Task<DepreciationDto?> GetOfAssetAsync(int id);
+        Task<DepreciationDto?> GetOfComponentAsync(int id);
     }
 }

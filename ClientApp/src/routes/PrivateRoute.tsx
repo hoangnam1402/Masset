@@ -1,5 +1,4 @@
-import React, { Suspense } from "react";
-import { Navigate, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { LOGIN } from "../constants/pages";
 import Layout from "../containers/Layout";

@@ -1,11 +1,12 @@
 ﻿using Contracts;
+using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.ComponentDtos;
 
 namespace Business.Interfaces
 {
     public interface IComponentService
     {
-        Task<PagedResponseModel<ComponentDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
+        Task<PagedResponseModel<ComponentDto>> GetByPageAsync(AssetQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
         Task<IList<ComponentDto>> GetAll();
         Task<ComponentDto?> GetByIdAsync(int id);
         Task<ComponentDto?> CreateAsync(ComponentCreateDto createRequest);

@@ -62,6 +62,34 @@ namespace Business.Services
             return null;
         }
 
+        public async Task<PagedResponseModel<MaintenanceDto>> GetOfAssetAsync(
+            BaseQueryCriteria baseQueryCriteria, 
+            CancellationToken cancellationToken,
+            int id)
+        {
+            var maintenanceQuery = MaintenanceFilter(
+                            _maintenanceRepository.Entities.AsQueryable(),
+                            baseQueryCriteria);
+
+            var result = await maintenanceQuery
+                .AsNoTracking()
+                .Include("Asset")
+                .Include("Supplier")
+                .Where(x => x.AssetID == id)
+                .PaginateAsync(
+                    baseQueryCriteria,
+                    cancellationToken);
+
+            var dtos = _mapper.Map<IList<MaintenanceDto>>(result.Items);
+            return new PagedResponseModel<MaintenanceDto>
+            {
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                TotalItems = result.TotalItems,
+                Items = dtos
+            };
+        }
+
         public async Task<PagedResponseModel<MaintenanceDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, 
                                                                             CancellationToken cancellationToken)
         {

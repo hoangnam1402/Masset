@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import { FileEarmarkText, PencilFill, XCircle } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 import ButtonIcon from "../../../components/ButtonIcon";
-
 import Table, { SortType } from "../../../components/Table";
 import IColumnOption from "../../../interfaces/IColumnOption";
 import IPagedModel from "../../../interfaces/IPagedModel";
 import { NotificationManager } from 'react-notifications';
-
-import { ASSET_ID } from "../../../constants/pages";
-import IAsset from "../../../interfaces/Asset/IAsset";
+import { COMPONENT_ID } from "../../../constants/pages";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { deleteAssets } from "../reducer";
+import { deleteComponent } from "../reducer";
 import DeleteModal from "../../../components/DeleteModal";
-import AssetForm from "../AssetForm";
+import ComponentForm from "../ComponentForm";
+import IComponent from "../../../interfaces/Component/IComponent";
 
 const columns: IColumnOption[] = [
   { columnName: "Asset Tag", columnValue: "tag" },
@@ -24,24 +22,24 @@ const columns: IColumnOption[] = [
 ];
 
 type Props = {
-  assets: IPagedModel<IAsset> | null;
+  components: IPagedModel<IComponent> | null;
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteAsset?: IAsset
+  deleteComp?: IComponent
 };
 
-const AssetTable: React.FC<Props> = ({
-  assets,
+const ComponentTable: React.FC<Props> = ({
+  components,
   handlePage,
   handleSort,
   sortState,
-  deleteAsset,
+  deleteComp,
 }) => {
   const dispatch = useAppDispatch();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [assetDetail, setAssetDetail] = useState(undefined as IAsset | undefined);
+  const [componentDetail, setComponentDetail] = useState(undefined as IComponent | undefined);
   const [showEditForm, setShowEditForm] = useState(false)
 
   const handleResult = (result: boolean, message: string) => {
@@ -50,7 +48,7 @@ const AssetTable: React.FC<Props> = ({
           `Delete Successful Asset ${message}`,
           2000,
       );
-      deleteAsset = undefined;
+      deleteComp = undefined;
     } else {
       NotificationManager.error(message, 'Delete failed', 2000);
     }
@@ -62,12 +60,12 @@ const AssetTable: React.FC<Props> = ({
   
 	const history = useNavigate();
   const handleShowDetail = (id: number) => {
-    history(ASSET_ID(id));
+    history(COMPONENT_ID(id));
   };
 
-  const handleEdit = (asset: IAsset) => {
+  const handleEdit = (component: IComponent) => {
     setShowEditForm(true);
-    setAssetDetail(asset)
+    setComponentDetail(component)
   }
 
   const handleCloseEditForm = () => {
@@ -75,21 +73,21 @@ const AssetTable: React.FC<Props> = ({
   }
 
 
-  const handleDelete = (tag: string) => {
-    const asset = assets?.items.find((item) => item.tag == tag);
+  const handleDelete = (id: number) => {
+    const component = components?.items.find((item) => item.id == id);
 
-    if(asset)
+    if(component)
     {
       setShowConfirmDelete(true)
-      setAssetDetail(asset)
+      setComponentDetail(component)
     }
   }
 
   const handleAcceptDelete = () => {
-    if(assetDetail)
+    if(componentDetail)
     {
       setShowConfirmDelete(false);
-      dispatch(deleteAssets({ handleResult, formValues: assetDetail }));
+      dispatch(deleteComponent({ handleResult, formValues: componentDetail }));
     }
   }
   
@@ -100,22 +98,22 @@ const AssetTable: React.FC<Props> = ({
         handleSort={handleSort}
         sortState={sortState}
         page={{
-          currentPage: assets?.currentPage,
-          totalPage: assets?.totalPages,
+          currentPage: components?.currentPage,
+          totalPage: components?.totalPages,
           handleChange: handlePage,
         }}
       
       >
-        {assets?.items.map((data, index) => (
+        {components?.items.map((data, index) => (
           <tr 
             key={index} 
             className=""
           >
-            <td className="py-1">{data.tag}</td>
             <td className="py-1">{data.name} </td>
             <td className="py-1">{data.type.name}</td>
             <td className="py-1">{data.brand.name}</td>
-            <td className="py-1">{data.location.name}</td>
+            <td className="py-1">{data.quantity}</td>
+            <td className="py-1">{data.availableQuantity}</td>
 
             <td className="d-flex py-1">
               <ButtonIcon onClick={() => handleShowDetail(data.id)}>
@@ -124,7 +122,7 @@ const AssetTable: React.FC<Props> = ({
               <ButtonIcon onClick={() => handleEdit(data)}>
                 <PencilFill className="text-black" />
               </ButtonIcon>
-              <ButtonIcon onClick={() => handleDelete(data.tag)}>
+              <ButtonIcon onClick={() => handleDelete(data.id)}>
                 <XCircle className="text-danger mx-2" />
               </ButtonIcon>
             </td>
@@ -158,10 +156,10 @@ const AssetTable: React.FC<Props> = ({
       </DeleteModal>
       
       { showEditForm && (
-        <AssetForm asset={assetDetail} handleClose={handleCloseEditForm} />
+        <ComponentForm component={componentDetail} handleClose={handleCloseEditForm} />
       )}
     </>
   );
 };
 
-export default AssetTable;
+export default ComponentTable;

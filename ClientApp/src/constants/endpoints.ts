@@ -13,6 +13,8 @@ const Endpoints = {
 	AllAsset: apiurl+"api/asset/getall",
 	AssetId: (id: number | string): string => apiurl+`api/asset/${id}`,
 	generatingQRCode: (tag: string): string => apiurl + `api/asset/generatingQRCode/${tag}`,
+	MaintenanceOfAsset: (id: number | string): string => apiurl+`api/maintenance/getOfAsset/${id}`,
+	DepreciationOfAsset: (id: number | string): string => apiurl+`api/depreciation/getOfAsset/${id}`,
 
 	AssetHistory: apiurl+"api/assetHistory",
 	UnreadAssetHistory: apiurl+"api/assetHistory/Unread",
@@ -29,6 +31,7 @@ const Endpoints = {
 	Component: apiurl+"api/Component",
 	AllComponent: apiurl+"api/Component/getall",
 	ComponentId: (id: number | string): string => apiurl+`api/Component/${id}`,
+	DepreciationOfComponent: (id: number | string): string => apiurl+`api/depreciation/getOfComponent/${id}`,
 
 	Depreciation: apiurl+"api/Depreciation",
 	DepreciationId: (id: number | string): string => apiurl+`api/Depreciation/${id}`,

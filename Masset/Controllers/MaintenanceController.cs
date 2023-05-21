@@ -109,5 +109,14 @@ namespace Masset.Controllers
             return Ok(result);
         }
 
+        [HttpPost("getOfAsset/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetOfAssetAsync([FromRoute] int id,
+                                                         [FromBody] BaseQueryCriteria queryCriteria,
+                                                                    CancellationToken cancellationToken)
+        {
+            var result = await _maintenanceService.GetOfAssetAsync(queryCriteria, cancellationToken,id);
+            return Ok(result);
+        }
     }
 }

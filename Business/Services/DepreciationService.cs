@@ -59,6 +59,28 @@ namespace Business.Services
             return null;
         }
 
+        public async Task<DepreciationDto?> GetOfAssetAsync(int id)
+        {
+            var result = await _depreciatioRepository.Entities
+                .Include(s => s.Asset)
+                .FirstOrDefaultAsync(x => x.AssetID == id);
+
+            if (result != null)
+                return _mapper.Map<DepreciationDto>(result);
+            return null;
+        }
+
+        public async Task<DepreciationDto?> GetOfComponentAsync(int id)
+        {
+            var result = await _depreciatioRepository.Entities
+                .Include(s => s.Component)
+                .FirstOrDefaultAsync(x => x.ComponentID == id);
+
+            if (result != null)
+                return _mapper.Map<DepreciationDto>(result);
+            return null;
+        }
+
         public async Task<DepreciationDto?> CreateAsync(DepreciationCreateDto createRequest)
         {
             var depreciation = _mapper.Map<Depreciation>(createRequest);

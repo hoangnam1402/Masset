@@ -108,8 +108,6 @@ namespace Masset.Controllers
                 return Ok(result);
             else
                 return BadRequest("Somethink go wrong.");
-
-            return Ok();
         }
 
         #region Private Method

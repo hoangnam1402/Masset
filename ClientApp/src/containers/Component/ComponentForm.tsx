@@ -3,22 +3,21 @@ import { Modal } from "react-bootstrap";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { XSquare } from "react-bootstrap-icons";
-import IAsset from "../../interfaces/Asset/IAsset";
 import { NotificationManager } from 'react-notifications';
 import TextField from '../../components/FormInputs/TextField';
 import DateField from '../../components/FormInputs/DateField';
 import SelectField from '../../components/FormInputs/SelectField';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { createAsset, getAssetTypes, getBrands, getLocations, getSuppliers, updateAsset } from './reducer';
-import IAssetForm from '../../interfaces/Asset/IAssetForm';
+import { createComponent, getAssetTypes, getBrands, getLocations, getSuppliers, updateComponent } from './reducer';
+import IComponentForm from '../../interfaces/Component/IComponentForm';
 import TextAreaField from '../../components/FormInputs/TextAreaField';
 import { AssetStateOptions, AssetStateCreateOptions } from "../../constants/selectOptions";
 import createSelectOption from '../../utils/createSelectOption';
 import ISelectOption from '../../interfaces/ISelectOption';
+import IComponent from '../../interfaces/Component/IComponent';
 
-const initialFormValues: IAssetForm = {
+const initialFormValues: IComponentForm = {
     name: "",
-    tag:undefined,
     supplierID:undefined,
     locationID:undefined,
     brandID:undefined,
@@ -29,11 +28,12 @@ const initialFormValues: IAssetForm = {
     warranty:undefined,
     description:undefined,
     purchaseDay:undefined,
+    quantity:undefined,
 };
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
-    tag: Yup.string().required('Required'),
+    quantity: Yup.string().required('Required'),
     supplierID: Yup.string().required('Required'),
     brandID: Yup.string().required('Required'),
     locationID: Yup.string().required('Required'),
@@ -47,11 +47,11 @@ const validationSchema = Yup.object().shape({
 });
 
 type Props = {
-    asset: IAsset | undefined;
+    component: IComponent | undefined;
     handleClose: () => void;
   };
   
-const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
+const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -85,13 +85,13 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
     const brandSelectOptions: ISelectOption[] = brandList;
     const supplierSelectOptions: ISelectOption[] = supplierList;
 
-    const isUpdate = asset ? true : false;
-    const initialAssetValues = asset ? asset : initialFormValues;
+    const isUpdate = component ? true : false;
+    const initialComponentValues = component ? component : initialFormValues;
 
     const handleResult = (result: boolean, message: string) => {
         if (result) {
             NotificationManager.success(
-                `${isUpdate ? 'Updated' : 'Created'} Successful Asset ${message}`,
+                `${isUpdate ? 'Updated' : 'Created'} Successful Component ${message}`,
                 `${isUpdate ? 'Update' : 'Create'} Successful`,
                 2000,
             );
@@ -115,10 +115,10 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
         >
             <Modal.Header className="align-items-center headerModal">
             {isUpdate == true && (<Modal.Title id="detail-modal" className="primaryColor">
-                Edit Asset
+                Edit Component
             </Modal.Title>)}
             {isUpdate == false && (<Modal.Title id="detail-modal" className="primaryColor">
-                Create Asset
+                Create Component
             </Modal.Title>)}
             <XSquare
                 onClick={handleClose}
@@ -128,7 +128,7 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
 
             <Modal.Body className="bodyModal">
                 <Formik
-                initialValues={initialAssetValues}
+                initialValues={initialComponentValues}
                 enableReinitialize
                 validationSchema={validationSchema}
                 validateOnMount={true}
@@ -138,10 +138,10 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
 
                     setTimeout(() => {
                         if (isUpdate) {
-                            dispatch(updateAsset({ handleResult, formValues: values }));
+                            dispatch(updateComponent({ handleResult, formValues: values }));
                         }
                         else {
-                            dispatch(createAsset({ handleResult, formValues: values }));
+                            dispatch(createComponent({ handleResult, formValues: values }));
                         }
     
                         setLoading(false);
@@ -154,9 +154,13 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                             name="name" 
                             label="Name" 
                             isrequired={true}/>
-                        <TextField id="tag"
-                            name="tag" 
-                            label="Asset tag" 
+                        <TextField id="serial"
+                            name="serial" 
+                            label="Serial" 
+                            isrequired={true}/>
+                        <TextField id="quantity"
+                            name="quantity" 
+                            label="Quantity" 
                             isrequired={true}/>
                         <SelectField id="typeID"
                             name="typeID"
@@ -182,22 +186,18 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                             isrequired={true}
                             options={brandSelectOptions}  
                             defaultValue={isUpdate ? initialFormValues.brandID : 0}/>
-                        <TextField id="serial"
-                            name="serial" 
-                            label="Serial" 
-                            isrequired={true}/>
                         <TextField id="cost"
                             name="cost" 
                             label="Cost" 
-                            isrequired={true}/>
-                        <TextField id="warranty"
-                            name="warranty" 
-                            label="Warranty" 
                             isrequired={true}/>
                         <DateField id='purchaseDay'
                             name="purchaseDay"
                             label="Purchase day"
                             isrequired={true} />
+                        <TextField id="warranty"
+                            name="warranty" 
+                            label="Warranty" 
+                            isrequired={true}/>
                         <SelectField id="status"
                             name="status"
                             label="Status"
@@ -233,4 +233,4 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
     );
 };
 
-export default AssetForm;
+export default ComponentForm;
