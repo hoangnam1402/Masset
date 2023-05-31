@@ -17,6 +17,7 @@ import IComponent from '../../interfaces/Component/IComponent';
 import IChecking from '../../interfaces/Checking/IChecking';
 
 const initialFormValues: ICheckingFrom = {
+    id:undefined,
     userID:undefined,
     assetID:undefined,
     componentID:undefined,
@@ -38,13 +39,13 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
 
     const validationForCheckOutSchema = Yup.object().shape({
         assetID: Yup.string().required('Required'),
-        quantity: Yup.string().required('Required').max(component.availableQuantity).min(1),
+        quantity: Yup.number().required('Required').max(component.availableQuantity).min(1),
         checkDay: Yup.date().nullable().required('Required'),
     });
     
     const validationForCheckInSchema = Yup.object().shape({
         checkDay: Yup.date().nullable().required('Required'),
-        quantity: Yup.string().required('Required').max(checking ? checking.quantity : 100).min(1),
+        quantity: Yup.number().required('Required').max(checking ? checking.quantity : 100).min(1),
     });
 
     const fetchData = () => {
@@ -67,6 +68,12 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
 
     initialFormValues.componentID = component?.id;
     initialFormValues.isCheckOut = isCheckOut;
+
+    if (!isCheckOut)
+    {
+        initialFormValues.id = checking?.id;
+        initialFormValues.assetID = checking?.assetID;
+    }
 
     const handleResult = (result: boolean, message: string) => {
         if (result) {

@@ -1,6 +1,6 @@
 export default interface IDepreciationForm {
   id?: number,
-  category:number,
+  category?:number,
   assetID?:number,
   componentID?:number,
   period?:number,

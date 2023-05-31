@@ -47,7 +47,6 @@ const AssetTable: React.FC<Props> = ({
   const [showEditForm, setShowEditForm] = useState(false);
   const [showCheckingForm, setShowCheckingForm] = useState(false);
   const [isCheckOut, setIsCheckOut] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleResult = (result: boolean, message: string) => {
     if (result) {
@@ -66,23 +65,26 @@ const AssetTable: React.FC<Props> = ({
   }
   
 	const history = useNavigate();
-  const handleShowDetail = () => {
-    if (assetDetail)
-      history(ASSET_ID(assetDetail.id));
+  const handleShowDetail = (id: number) => {
+    history(ASSET_ID(id));
   };
 
-  const handleEdit = () => {
+  const handleEdit = (asset: IAsset) => {
     setShowEditForm(true);
-    setShowDropdown(false);
   }
 
   const handleCloseEditForm = () => {
     setShowEditForm(false);
   }
 
-  const handleDelete = () => {
-    setShowConfirmDelete(true);
-    setShowDropdown(false);
+  const handleDelete = (id: number) => {
+    const asset = assets?.items.find((item) => item.id == id);
+
+    if(asset)
+    {
+      setShowConfirmDelete(true)
+      setAssetDetail(asset)
+    }
   }
 
   const handleAcceptDelete = () => {
@@ -93,23 +95,14 @@ const AssetTable: React.FC<Props> = ({
     }
   }
 
-  const handleShowCheckingForm = () => {
+  const handleShowCheckingForm = (asset: IAsset) => {
     setShowCheckingForm(true);
-    setShowDropdown(false);
+    setAssetDetail(asset);
+    setIsCheckOut(!asset.isCheckOut);
   }
 
   const handleCloseCheckingForm = () => {
     setShowCheckingForm(false);
-  }
-
-  const handleCloseDropdown = () => {
-    setShowDropdown(false);
-  }
-
-  const handleShowDropdown = (asset: IAsset) => {
-    setShowDropdown(true);
-    setIsCheckOut(!asset.isCheckOut);
-    setAssetDetail(asset);
   }
 
   return (
@@ -137,13 +130,21 @@ const AssetTable: React.FC<Props> = ({
             <td className="py-1">{data.location.name}</td>
 
             <td className="d-flex py-1">
-              <button
-                className="btn btn-outline-secondary"
-                onClick={() => handleShowDropdown(data)}
-                type="button"
-              >
-                ...
-              </button>
+              <ButtonIcon onClick={() => handleShowCheckingForm(data)} title={data.isCheckOut ? "Check In" : "Check Out"}>
+                <Check className="text-black mx-2" />
+              </ButtonIcon>
+
+              <hr/>
+
+              <ButtonIcon onClick={() => handleShowDetail(data.id)}>
+                <FileEarmarkText className="text-black mx-2" />
+              </ButtonIcon>
+              <ButtonIcon onClick={() => handleEdit(data)}>
+                <PencilFill className="text-black mx-2" />
+              </ButtonIcon>
+              <ButtonIcon onClick={() => handleDelete(data.id)}>
+                <Trash3 className="text-black mx-2" />
+              </ButtonIcon>
             </td>
           </tr>
         ))}
@@ -181,33 +182,6 @@ const AssetTable: React.FC<Props> = ({
       { showCheckingForm && assetDetail && (
         <CheckAssetForm asset={assetDetail} handleClose={handleCloseCheckingForm} isCheckOut={isCheckOut} />
       )}
-
-      { showDropdown &&
-      <Modal
-        show={true}
-        onHide={handleCloseDropdown}
-        size='sm'
-        dialogClassName="containerModalErr2" 
-      >
-        <Modal.Body >
-          <ButtonIcon onClick={() => handleShowCheckingForm()}>
-            <Check className="text-black" /> {isCheckOut ? "Check Out" : "Check In"}
-          </ButtonIcon>
-
-          <hr/>
-
-          <ButtonIcon onClick={() => handleShowDetail()}>
-            <FileEarmarkText className="text-black" /> Detail
-          </ButtonIcon>
-          <ButtonIcon onClick={() => handleEdit()}>
-            <PencilFill className="text-black" /> Edit
-          </ButtonIcon>
-          <ButtonIcon onClick={() => handleDelete()}>
-            <Trash3 className="text-black" /> Delete
-          </ButtonIcon>
-        </Modal.Body>
-      </Modal>}
-
     </>
   );
 };

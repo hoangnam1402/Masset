@@ -127,7 +127,9 @@ namespace Business.Services
             if (checking == null)
                 return null;
 
+            var quantity = checking.Quantity;
             checking = _mapper.Map(updateRequest, checking);
+            checking.Quantity = quantity - updateRequest.Quantity;
 
             var result = await _checkingRepository.Update(checking);
 

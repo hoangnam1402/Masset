@@ -152,9 +152,9 @@ namespace Business.Services
                 return false;
 
             if (isCheckOut)
-                component.AvailableQuantity = component.Quantity - quantity;
+                component.AvailableQuantity = component.AvailableQuantity - quantity;
             else
-                component.AvailableQuantity = component.Quantity + quantity;
+                component.AvailableQuantity = component.AvailableQuantity + quantity;
 
             var result = await _componentRepository.Update(component);
 

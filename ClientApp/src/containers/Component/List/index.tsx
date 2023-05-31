@@ -19,7 +19,7 @@ import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 
 const ComponentList = () => {
   const dispatch = useAppDispatch();
-  const { components, deleteComponent, componentResult } = useAppSelector(
+  const { components, deleteComponent, componentResult, checkings } = useAppSelector(
     (state) => state.componentReducer
   );
 
@@ -118,7 +118,7 @@ const ComponentList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [query, deleteComponent, stateSelected, componentResult]);
+  }, [query, deleteComponent, stateSelected, componentResult, checkings]);
 
   return (
     <>

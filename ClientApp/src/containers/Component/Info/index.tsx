@@ -24,7 +24,7 @@ import Depreciation from "./Depreciation";
 
 const ComponentInfo = () => {
   const dispatch = useAppDispatch();
-  const { compGetById } = useAppSelector(state => state.componentReducer);
+  const { compGetById, checkings } = useAppSelector(state => state.componentReducer);
   const { id } = useParams<{ id: string }>();
 
   const getAssetStateTypeName = (id: number | undefined) => {
@@ -52,7 +52,7 @@ const ComponentInfo = () => {
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [id, checkings]);
 
   return (
     <>

@@ -8,11 +8,11 @@ import Table from "../../../components/Table";
 import { Search } from "react-feather";
 
 const columns: IColumnOption[] = [
-    { columnName: "Name", columnValue: "name" },
-    { columnName: "Type", columnValue: "type" },
-    { columnName: "Brand", columnValue: "brand" },
-    { columnName: "Quantity", columnValue: "quantity" },
-    { columnName: "Available Quantity", columnValue: "availableQuantity" },
+    { columnName: "Name", columnValue: "component.name" },
+    { columnName: "Type", columnValue: "component.type.name" },
+    { columnName: "Brand", columnValue: "component.brand.name" },
+    { columnName: "Quantity", columnValue: "component.quantity" },
+    { columnName: "Available Quantity", columnValue: "component.availableQuantity" },
 ];
 
 type Props = {
@@ -113,6 +113,7 @@ const Component: React.FC<Props> = ({assetID}) => {
                         <td className="py-1">{data.component.brand.name}</td>
                         <td className="py-1">{data.component.quantity}</td>
                         <td className="py-1">{data.component.availableQuantity}</td>
+                        <td className=""></td>
                     </tr>
                     ))}
                     

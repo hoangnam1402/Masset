@@ -55,6 +55,7 @@ const Endpoints = {
 	AllSupplier: apiurl+"api/Supplier/getall",
 	SupplierId: (id: number | string): string => apiurl+`api/Supplier/${id}`,
 
+	CheckId: (id: number | string): string => apiurl+`api/checking/${id}`,
 };
 
 export default Endpoints;

@@ -19,7 +19,7 @@ import ISelectOption from "../../../interfaces/ISelectOption";
 
 const AssetList = () => {
   const dispatch = useAppDispatch();
-  const { assets, deleteAsset, assetResult } = useAppSelector(
+  const { assets, deleteAsset, assetResult, assetChecking } = useAppSelector(
     (state) => state.assetReducer
   );
 
@@ -118,7 +118,7 @@ const AssetList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [query, deleteAsset, stateSelected, assetResult]);
+  }, [query, deleteAsset, stateSelected, assetResult, assetChecking]);
 
   return (
     <>

@@ -18,8 +18,8 @@ const columns: IColumnOption[] = [
   { columnName: "Name", columnValue: "name" },
   { columnName: "Type", columnValue: "type" },
   { columnName: "Brand", columnValue: "brand" },
-  { columnName: "Quality", columnValue: "quality" },
-  { columnName: "Available Quality", columnValue: "availableQuality" },
+  { columnName: "Quantity", columnValue: "quantity" },
+  { columnName: "Available Quantity", columnValue: "availableQuantity" },
   { columnName: "", columnValue: "" },
 ];
 
@@ -128,7 +128,7 @@ const ComponentTable: React.FC<Props> = ({
             <td className="py-1">{data.availableQuantity}</td>
 
             <td className="d-flex py-1">
-              <ButtonIcon onClick={() => handleShowCheckingForm(data)}>
+              <ButtonIcon onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity == 0 ? true : false}>
                 <Check className="text-black mx-2" />
               </ButtonIcon>
               <ButtonIcon onClick={() => handleShowDetail(data.id)}>

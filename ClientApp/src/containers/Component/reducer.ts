@@ -30,7 +30,7 @@ type ComponentState = {
   compGetById?:IComponent;
   depreciation?: IDepreciation;
   componentCheck: IPagedModel<IChecking>|null;
-  checking?: IChecking;
+  checkings?: IChecking;
   assets: IAsset[]|null;
 };
 
@@ -45,7 +45,7 @@ const initialState: ComponentState = {
   compGetById: undefined,
   depreciation:undefined,
   componentCheck: null,
-  checking: undefined,
+  checkings: undefined,
   assets: null,
 };
 
@@ -280,11 +280,11 @@ const ComponentSlice = createSlice({
     },
 
     setChecking: ( state, action: PayloadAction<IChecking>): ComponentState => {
-      const checking = action.payload
+      const checkings = action.payload
 
       return {
         ...state,
-        checking,
+        checkings,
       }
     },
 

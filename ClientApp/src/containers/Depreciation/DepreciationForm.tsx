@@ -16,7 +16,7 @@ import TextField from '../../components/FormInputs/TextField';
 
 const initialFormValues: IDepreciationForm = {
     id: undefined,
-    category: 0,
+    category: undefined,
     assetID:undefined,
     componentID:undefined,
     period:undefined,
@@ -103,7 +103,6 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
     return (
         <>
         <Modal
-            id='big-dialog-modal'
             show={true}
             onHide={handleClose}
             size='lg'
@@ -136,6 +135,12 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                             dispatch(updateDepreciation({ handleResult, formValues: values }));
                         }
                         else {
+                            if (values.category == 1) 
+                            {
+                                values.componentID = undefined;
+                            } else {
+                                values.assetID = undefined;
+                            }
                             dispatch(createDepreciation({ handleResult, formValues: values }));
                         }
     
@@ -156,13 +161,13 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                             label="Asset"
                             isrequired={true}
                             options={assetSelectOptions}  
-                            defaultValue={isUpdate ? initialFormValues.assetID : 0}/>}
+                            defaultValue={isUpdate ? initialFormValues.assetID : values.assetID}/>}
                         {values.category == 2 && <SelectField id="componentID"
                             name="componentID"
                             label="Component"
                             isrequired={true}
                             options={componentSelectOptions}  
-                            defaultValue={isUpdate ? initialFormValues.componentID : 0}/>}
+                            defaultValue={isUpdate ? initialFormValues.componentID : values.componentID}/>}
                         <TextField id="period"
                             name="period" 
                             label="Period (Month)" 

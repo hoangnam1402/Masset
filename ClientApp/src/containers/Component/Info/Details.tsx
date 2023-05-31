@@ -10,8 +10,9 @@ import IChecking from "../../../interfaces/Checking/IChecking";
 import CheckComponentForm from "../CheckComponentForm";
 
 const columns: IColumnOption[] = [
-    { columnName: "Asset", columnValue: "name" },
-    { columnName: "User", columnValue: "user" },
+    { columnName: "Asset", columnValue: "asset.name" },
+    { columnName: "Quantity", columnValue: "quantity" },
+    { columnName: "Date", columnValue: "checkDay" },
     { columnName: "Action", columnValue: ""},
 ];
 
@@ -70,6 +71,7 @@ const Details: React.FC<Props> = ({component}) => {
 
     useEffect(() => {
     fetchData();
+    console.log(query)
     }, [query, component]);
 
     return (
