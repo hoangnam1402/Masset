@@ -52,7 +52,7 @@ namespace Business.Services
         public async Task<IList<AssetDto>> GetAll()
         {
             var result = await _assetRepository.GetAll();
-            result.Where(x => x.IsDeleted == false);
+            result = result.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost);
             return _mapper.Map<IList<AssetDto>>(result);
         }
 
@@ -62,8 +62,8 @@ namespace Business.Services
 
             newAsset.CreateDay = DateTime.Now;
             newAsset.UpdateDay = DateTime.Now;
-            newAsset.Status = AssetStatusEnums.ReadyToDeploy;
             newAsset.IsDeleted = false;
+            newAsset.IsCheckOut = false;
 
             var result = await _assetRepository.Add(newAsset);
             if (result != null)
@@ -76,7 +76,7 @@ namespace Business.Services
         public async Task<AssetDto?> UpdateAsync(int id, AssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (asset == null)
                 return null;
             asset = _mapper.Map(updateRequest, asset);
@@ -94,7 +94,7 @@ namespace Business.Services
         public async Task<AssetDto?> UpdateAsync(string tag, AssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
-                .FirstOrDefaultAsync(x => x.Tag==tag);
+                .FirstOrDefaultAsync(x => x.Tag==tag && x.IsDeleted == false);
             if (asset == null)
                 return null;
             asset = _mapper.Map(updateRequest, asset);
@@ -107,6 +107,25 @@ namespace Business.Services
                 return _mapper.Map<AssetDto>(result);
             else
                 return null;
+        }
+
+        public async Task<bool> UpdateAsync(int id)
+        {
+            var asset = await _assetRepository.Entities
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (asset == null)
+                return false;
+
+            asset.UpdateDay = DateTime.Now;
+
+            if (asset.IsCheckOut)
+                asset.IsCheckOut = false;
+            else 
+                asset.IsCheckOut = true;
+
+            var result = await _assetRepository.Update(asset);
+
+            return result!=null;
         }
 
         public async Task<bool> DeleteAsync(int id)

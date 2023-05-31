@@ -203,7 +203,8 @@ namespace DataAccess.Migrations
                     PurchaseDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsCheckOut = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -440,6 +441,41 @@ namespace DataAccess.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Checking",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<string>(type: "varchar(255)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: true),
+                    AssetID = table.Column<int>(type: "int", nullable: true),
+                    ComponentID = table.Column<int>(type: "int", nullable: true),
+                    CheckDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsCheckOut = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsEffective = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Checking", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Checking_Assets_AssetID",
+                        column: x => x.AssetID,
+                        principalTable: "Assets",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Checking_Components_ComponentID",
+                        column: x => x.ComponentID,
+                        principalTable: "Components",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Checking_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Depreciations",
                 columns: table => new
                 {
@@ -475,9 +511,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5e55a0b4-c26d-4970-9cd6-83b3eeb18697", "8e92c1c9-f89c-4f20-9fe2-67b2ca9b8aae", "Staff", "STAFF" },
-                    { "af5a3144-9d84-4857-82f1-d2b2def751f5", "dd9e300e-42e5-4ee5-913b-039c955f4923", "Manager", "MANAGER" },
-                    { "bea160cd-418d-4845-907e-0eba660354ed", "76f56ed7-e620-4ceb-a682-4c689bbc42a1", "Admin", "ADMIN" }
+                    { "0b39d804-875b-4cc5-b248-3ef26ed4d7b1", "5f90dfa8-523c-46e7-8532-daccedf6137b", "Admin", "ADMIN" },
+                    { "55f9e456-f5df-4619-a77e-04d93e4a5b9e", "326d873f-cad3-47bc-a8a3-41834a908453", "Manager", "MANAGER" },
+                    { "8a757ade-a74e-4371-8ce7-61b38aeca279", "05b8a476-7408-454c-81ee-3c0a5fc8f854", "Staff", "STAFF" }
                 });
 
             migrationBuilder.InsertData(
@@ -488,12 +524,12 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDay", "Email", "EmailConfirmed", "FirstLogin", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UpdateDay", "UserName" },
-                values: new object[] { "f425b9a0-9709-4391-8e21-52e754567d8c", 0, "3acd8e35-c085-4f15-a5f9-26888f6c4ca8", new DateTime(2023, 5, 5, 0, 15, 6, 228, DateTimeKind.Local).AddTicks(6654), null, false, false, true, false, null, null, "TEST", "AQAAAAEAACcQAAAAEPOiqBiQlN3UP5E3ZC25YOScUtLQ3SI1Xe5lT6ghJPCvgGwTnwv0iZmQtPJT4Vg5Jw==", null, false, 1, "975a2c34-d93a-4b85-8114-2daed6a4f61f", false, new DateTime(2023, 5, 5, 0, 15, 6, 228, DateTimeKind.Local).AddTicks(6666), "Test" });
+                values: new object[] { "400d885b-33db-4eb5-8a88-f7660bb0ac41", 0, "0b55ba5a-0851-4ca8-9ffc-05bf3c6eb7f6", new DateTime(2023, 5, 23, 13, 56, 12, 172, DateTimeKind.Local).AddTicks(2712), null, false, false, true, false, null, null, "TEST", "AQAAAAEAACcQAAAAEOvSEtcAcNrZZPHPtpyu6GWV8UhLc8zB9Pwbsj34TvkyvNpgg8hS0puJqOO6kovfew==", null, false, 1, "7758d860-e12e-4014-bc35-5798f5cb2f49", false, new DateTime(2023, 5, 23, 13, 56, 12, 172, DateTimeKind.Local).AddTicks(2723), "Test" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "bea160cd-418d-4845-907e-0eba660354ed", "f425b9a0-9709-4391-8e21-52e754567d8c" });
+                values: new object[] { "0b39d804-875b-4cc5-b248-3ef26ed4d7b1", "400d885b-33db-4eb5-8a88-f7660bb0ac41" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssetHistory_AssetID",
@@ -524,6 +560,21 @@ namespace DataAccess.Migrations
                 name: "IX_Assets_TypeID",
                 table: "Assets",
                 column: "TypeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Checking_AssetID",
+                table: "Checking",
+                column: "AssetID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Checking_ComponentID",
+                table: "Checking",
+                column: "ComponentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Checking_UserID",
+                table: "Checking",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Components_BrandID",
@@ -608,6 +659,9 @@ namespace DataAccess.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AssetHistory");
+
+            migrationBuilder.DropTable(
+                name: "Checking");
 
             migrationBuilder.DropTable(
                 name: "Depreciations");

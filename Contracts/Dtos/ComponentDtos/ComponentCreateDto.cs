@@ -1,4 +1,7 @@
-﻿namespace Contracts.Dtos.ComponentDtos
+﻿using DataAccess.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace Contracts.Dtos.ComponentDtos
 {
     public class ComponentCreateDto
     {
@@ -13,6 +16,8 @@
         public int Warranty { get; set; }
         public string? Description { get; set; }
         public DateTime? PurchaseDay { get; set; }
+        [EnumDataType(typeof(AssetStatusEnums))]
+        public AssetStatusEnums Status { get; set; }
 
     }
 }

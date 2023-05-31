@@ -7,11 +7,13 @@ import ISupplier from "../../interfaces/Supplier/ISupplier"
 import IError from "../../interfaces/IError";
 import IPagedModel from "../../interfaces/IPagedModel";
 import IQueryAssetModel from "../../interfaces/Asset/IQueryAssetModel";
-import IMaintenance from "../../interfaces/Maintenance/IMaintenance";
 import IQueryModel from "../../interfaces/IQueryModel";
 import IDepreciation from "../../interfaces/Depreciation/IDepreciation";
 import IComponent from "../../interfaces/Component/IComponent";
 import IComponentForm from "../../interfaces/Component/IComponentForm";
+import IChecking from "../../interfaces/Checking/IChecking";
+import ICheckingFrom from "../../interfaces/Checking/ICheckingFrom";
+import IAsset from "../../interfaces/Asset/IAsset";
 
 
 type ComponentState = {
@@ -24,11 +26,12 @@ type ComponentState = {
   brands:IBrand[]|null;
   locations:ILocation[]|null;
   suppliers:ISupplier[]|null;
-  maintenances:IPagedModel<IMaintenance>|null;
   deleteComponent?: IComponent;
   compGetById?:IComponent;
-  qrCode?: string;
   depreciation?: IDepreciation;
+  componentCheck: IPagedModel<IChecking>|null;
+  checking?: IChecking;
+  assets: IAsset[]|null;
 };
 
 const initialState: ComponentState = {
@@ -40,9 +43,10 @@ const initialState: ComponentState = {
   suppliers:null,
   deleteComponent: undefined,
   compGetById: undefined,
-  qrCode:undefined,
-  maintenances:null,
   depreciation:undefined,
+  componentCheck: null,
+  checking: undefined,
+  assets: null,
 };
 
 export type CreateAction = {
@@ -59,8 +63,14 @@ export type GetByIdAction = {
   id: number,
 }
 
-export type GetByTagAction = {
-  tag: string,
+export type CheckAction = {
+  handleResult: Function,
+  formValues: ICheckingFrom,
+}
+
+export type GetByComponentIdAction = {
+  query: IQueryModel,
+  id: number,
 }
 
 const ComponentSlice = createSlice({
@@ -136,6 +146,7 @@ const ComponentSlice = createSlice({
 
     setAssetTypes: (state, action: PayloadAction<IAssetType[]>): ComponentState => {
       const assetTypes = action.payload;
+      console.log(assetTypes);
       return {
         ...state,
         assetTypes,
@@ -225,6 +236,22 @@ const ComponentSlice = createSlice({
       }
     },
 
+    getAssets: (state): ComponentState => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+
+    setAssets: (state, action: PayloadAction<IAsset[]>): ComponentState => {
+      const assets = action.payload;
+      return {
+        ...state,
+        assets,
+        loading: false,
+      };
+    },
+
     setGetById: (state, action: PayloadAction<IComponent|undefined>): ComponentState =>
     {
         const compGetById= action.payload;
@@ -235,6 +262,48 @@ const ComponentSlice = createSlice({
             loading: false,
         }
     },
+
+    getCheckIn: (state, action: PayloadAction<CheckAction>) =>
+    {
+        return {
+            ...state,
+            loading: false,
+        }
+    },
+
+    getCheckOut: (state, action: PayloadAction<CheckAction>) =>
+    {
+        return {
+            ...state,
+            loading: false,
+        }
+    },
+
+    setChecking: ( state, action: PayloadAction<IChecking>): ComponentState => {
+      const checking = action.payload
+
+      return {
+        ...state,
+        checking,
+      }
+    },
+
+    getComponentCheck:  (state, action: PayloadAction<GetByComponentIdAction>) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+
+    setComponentCheck: (state, action: PayloadAction<IPagedModel<IChecking>>): ComponentState => {
+      const componentCheck = action.payload;
+      return {
+        ...state,
+        componentCheck,
+        loading: false,
+      };
+    },
+
   },
 });
 
@@ -243,7 +312,8 @@ export const
     setStatus, getComponents, setComponents, getAssetTypes, setAssetTypes, getBrands, getById,
     setBrands, getLocations, setLocations, getSuppliers, setSupplies, setDeleteComponent, 
     deleteComponent, createComponent, setComponent, updateComponent, setGetById, getDepreciation, 
-    setDepreciation,
+    setDepreciation, setComponentCheck, getCheckIn, getCheckOut, getComponentCheck, setChecking,
+    getAssets, setAssets
 } = ComponentSlice.actions;
 
 export default ComponentSlice.reducer;

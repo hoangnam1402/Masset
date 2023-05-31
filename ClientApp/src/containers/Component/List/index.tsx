@@ -13,7 +13,7 @@ import {
 } from "../../../constants/paging";
 import ComponentTable from "./ComponentTable";
 import { AssetStateOptions } from "../../../constants/selectOptions";
-import ComponentForm from "../ComponentForm";
+import ComponentForm from "./ComponentForm";
 import ISelectOption from "../../../interfaces/ISelectOption";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 
@@ -122,7 +122,7 @@ const ComponentList = () => {
 
   return (
     <>
-      <div className="primaryColor text-title intro-x">Asset List</div>
+      <div className="primaryColor text-title intro-x">Component List</div>
 
       <div>
         <div className="d-flex mb-5 intro-x">
@@ -159,7 +159,7 @@ const ComponentList = () => {
 
           <div className="d-flex align-items-center ml-3">
             <button type="button" onClick={() => handleCreate()} className="btn btn-danger">
-              Create new Asset
+              Create new Component
             </button>
           </div>
         </div>

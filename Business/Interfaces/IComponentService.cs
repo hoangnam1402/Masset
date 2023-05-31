@@ -11,6 +11,7 @@ namespace Business.Interfaces
         Task<ComponentDto?> GetByIdAsync(int id);
         Task<ComponentDto?> CreateAsync(ComponentCreateDto createRequest);
         Task<ComponentDto?> UpdateAsync(int id, ComponentUpdateDto updateRequest);
+        Task<bool> UpdateAsync(int id, int? quantity, bool isCheckOut);
         Task<bool> DeleteAsync(int id);
         Task<bool> IsExist(int id);
         Task<bool> IsExist(string name);

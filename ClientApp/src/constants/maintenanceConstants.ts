@@ -13,3 +13,4 @@ export const TypeTestingLabel = 'Testing';
 export const TypeCalibrationLabel = 'Calibration';
 export const TypeSoftwareSupportLabel = 'SoftwareSupport';
 export const TypeHardwareSupportLabel = 'HardwareSupport';
+export const TypeNull = "NaN";

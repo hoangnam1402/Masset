@@ -37,7 +37,7 @@ namespace Masset.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize]
         public async Task<IActionResult> GetById(string id)
         {
             if(!await _userService.IsExist(id))
@@ -108,6 +108,14 @@ namespace Masset.Controllers
                 return Ok(result);
             else
                 return BadRequest("Somethink go wrong.");
+        }
+
+        [HttpGet("GetAll")]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _userService.GetAll();
+            return Ok(result);
         }
 
         #region Private Method

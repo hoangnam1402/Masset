@@ -50,18 +50,6 @@ namespace Business.Services
             return result!=null;
         }
 
-        public async Task<MaintenanceDto?> GetByIdAsync(int id)
-        {
-            var result = await _maintenanceRepository.Entities
-                .Include(s => s.Supplier)
-                .Include(s => s.Asset)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (result != null)
-                return _mapper.Map<MaintenanceDto>(result);
-            return null;
-        }
-
         public async Task<PagedResponseModel<MaintenanceDto>> GetOfAssetAsync(
             BaseQueryCriteria baseQueryCriteria, 
             CancellationToken cancellationToken,

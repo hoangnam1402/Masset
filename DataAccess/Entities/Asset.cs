@@ -24,6 +24,6 @@ namespace DataAccess.Entities
         public DateTime? CreateDay { get; set; }
         public DateTime? UpdateDay { get; set; }
         public bool IsDeleted { get; set; }
-
+        public bool IsCheckOut { get; set; }
     }
 }

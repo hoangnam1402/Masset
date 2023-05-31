@@ -12,6 +12,8 @@ import ISupplier from "../../../interfaces/Supplier/ISupplier";
 import IMaintenance from "../../../interfaces/Maintenance/IMaintenance";
 import IQueryModel from "../../../interfaces/IQueryModel";
 import IDepreciation from "../../../interfaces/Depreciation/IDepreciation";
+import IChecking from "../../../interfaces/Checking/IChecking";
+import ICheckingFrom from "../../../interfaces/Checking/ICheckingFrom";
 
 interface ImageResponse {
     data: Blob;
@@ -46,6 +48,10 @@ export function getSupplierRequest(): Promise<AxiosResponse<ISupplier>> {
     return RequestService.axios.get(EndPoints.AllSupplier);
 }
 
+export function getUsersRequest(): Promise<AxiosResponse<IBrand>> {
+    return RequestService.axios.get(EndPoints.AllUser);
+}
+
 export function getMaintenanceRequest(query: IQueryModel, assetId: number): Promise<AxiosResponse<IMaintenance>> {
     return RequestService.axios.post(EndPoints.MaintenanceOfAsset(assetId ?? -1), query, {
         paramsSerializer: {
@@ -56,6 +62,38 @@ export function getMaintenanceRequest(query: IQueryModel, assetId: number): Prom
 
 export function getDepreciationRequest(assetId: number): Promise<AxiosResponse<IDepreciation>> {
     return RequestService.axios.get(EndPoints.DepreciationOfAsset(assetId ?? -1))
+}
+
+export function getHistoryCheckRequest(query: IQueryModel, assetId: number): Promise<AxiosResponse<IChecking>> {
+    return RequestService.axios.post(EndPoints.History(assetId ?? -1), query, {
+        paramsSerializer: {
+            serialize: (params) => qs.stringify(params)
+        }
+    });
+}
+
+export function getComponentCheckRequest(query: IQueryModel, assetId: number): Promise<AxiosResponse<IChecking>> {
+    return RequestService.axios.post(EndPoints.ComponentOfAsset(assetId ?? -1), query, {
+        paramsSerializer: {
+            serialize: (params) => qs.stringify(params)
+        }
+    });
+}
+
+export function postCheckOutRequest(form: ICheckingFrom): Promise<AxiosResponse<IChecking>> {
+    return RequestService.axios.post(EndPoints.AssetCheckOut, form, {
+        paramsSerializer: {
+            serialize: (params) => qs.stringify(params)
+        }
+    });
+}
+
+export function postCheckInRequest(form: ICheckingFrom): Promise<AxiosResponse<IChecking>> {
+    return RequestService.axios.put(EndPoints.AssetCheckIn, form, {
+        paramsSerializer: {
+            serialize: (params) => qs.stringify(params)
+        }
+    });
 }
 
 export function createAssetRequest(assetForm: IAssetForm): Promise<AxiosResponse<IAsset>> {

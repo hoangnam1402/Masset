@@ -6,10 +6,13 @@ import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import IError from "../../../interfaces/IError";
 import { setStatus, setAssets, setAssetTypes, CreateAction, setDeleteAsset, setAsset, setAssetGetById, 
     setQrCode, GetByTagAction, DeleteAction, setLocations, setBrands, setSupplies, GetByIdAction, 
-    setMaintenance, GetMaintenanceByAssetIdAction, setDepreciation} from "../reducer";
+    setMaintenance, GetByAssetIdAction, setDepreciation, setHistoryCheck, setComponentCheck, CheckAction,
+    setAssetChecking,
+    setUsers} from "../reducer";
 import { createAssetRequest, getAssetTypeRequest, getAssetsRequest, deleteAssetRequest, GeneratingQRCode,
     putAssetsRequest, getBrandsRequest, getLocationRequest, getSupplierRequest, getAssetByIdRequest, 
-    getMaintenanceRequest, getDepreciationRequest} from './request';
+    getMaintenanceRequest, getDepreciationRequest, getHistoryCheckRequest, getComponentCheckRequest,
+    postCheckInRequest, postCheckOutRequest, getUsersRequest} from './request';
 
 export function* handleGetAssets(action: PayloadAction<IQueryAssetModel>) {
     const query = action.payload;
@@ -55,6 +58,44 @@ export function* handleGetDepreciation(action: PayloadAction<GetByIdAction>) {
         
         if (data) {
             yield put(setDepreciation(data));
+        }
+
+    } catch (error: any) {
+        const errorModel = error.response.data as IError;
+        
+        yield put(setStatus({
+            status: Status.Failed,
+            error: errorModel,
+        }));
+    }
+}
+
+export function* handleGetHistoryCheck(action: PayloadAction<GetByAssetIdAction>) {
+    const {query, id} = action.payload;
+    try {
+        const { data } = yield call(getHistoryCheckRequest, query, id);
+        
+        if (data) {
+            yield put(setHistoryCheck(data));
+        }
+
+    } catch (error: any) {
+        const errorModel = error.response.data as IError;
+        
+        yield put(setStatus({
+            status: Status.Failed,
+            error: errorModel,
+        }));
+    }
+}
+
+export function* handleGetComponentCheckOfAsset(action: PayloadAction<GetByAssetIdAction>) {
+    const {query, id} = action.payload;
+    try {
+        const { data } = yield call(getComponentCheckRequest, query, id);
+        
+        if (data) {
+            yield put(setComponentCheck(data));
         }
 
     } catch (error: any) {
@@ -119,7 +160,20 @@ export function* handleGetSupplier() {
     }
 }
 
-export function* handleGetMaintenance(action: PayloadAction<GetMaintenanceByAssetIdAction>) {
+export function* handleGetUsers() {
+    try {
+        const { data } = yield call(getUsersRequest);
+        yield put(setUsers(data))
+        
+
+    } catch (error: any) {
+        const errorModel = error.response.data as IError;
+        
+        console.log(errorModel);
+    }
+}
+
+export function* handleGetMaintenance(action: PayloadAction<GetByAssetIdAction>) {
     const {query, id} = action.payload;
 
     try {
@@ -167,13 +221,48 @@ export function* handleDeleteAsset(action: PayloadAction<DeleteAction>) {
         }));
         yield put(setDeleteAsset(formValues));
 
-        //window.location.reload();
+    } catch (error: any) {
+        const errorModel = error.response.data as IError;
+        handleResult(false, errorModel.message);
+    }
+}
+
+export function* handleCheckIn(action: PayloadAction<CheckAction>) {
+    const {handleResult, formValues} = action.payload;
+    try {
+        const { data } = yield call(postCheckInRequest, formValues);
+        if(data) {
+            handleResult(true, data.asset.name);
+        }
+        yield put(setStatus({
+            status: Status.Success,
+        }));
+        yield put(setAssetChecking(data));
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
         handleResult(false, errorModel.message);
     }
 }
+
+export function* handleCheckOut(action: PayloadAction<CheckAction>) {
+    const {handleResult, formValues} = action.payload;
+    try {
+        const { data } = yield call(postCheckOutRequest, formValues);
+        if(data) {
+            handleResult(true, data.asset.name);
+        }
+        yield put(setStatus({
+            status: Status.Success,
+        }));
+        yield put(setAssetChecking(data));
+
+    } catch (error: any) {
+        const errorModel = error.response.data as IError;
+        handleResult(false, errorModel.message);
+    }
+}
+
 export function* handleUpdateAsset(action: PayloadAction<CreateAction>) {
     const { handleResult, formValues} = action.payload;
 

@@ -9,6 +9,7 @@ namespace Business.Interfaces
         Task<PagedResponseModel<UserDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken, string id);
         Task<UserDto?> GetById(string id);
         Task<UserDto?> UpdateAsync(string id, UserUpdateDto userRequest);
+        Task<IList<UserDto>> GetAll();
         Task<bool> DisableUserAsync(string id, string role);
         Task<bool> IsExist(int id);
         Task<bool> IsActive(string id);

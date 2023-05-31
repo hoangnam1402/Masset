@@ -58,7 +58,7 @@ const ComponentInfo = () => {
     <>
       <div className='ml-5'>
         <div className='primaryColor text-title intro-x row'>
-          <div className='col-md-9'>Asset detail</div>
+          <div className='col-md-9'>Component detail</div>
         </div>
   
         <div className='row'>
@@ -68,7 +68,7 @@ const ComponentInfo = () => {
                 <div className="row">
                   <div className="col-md-9">
                     <p className="title-detail font-bold">
-                      <span className="assetName">{compGetById?.name}</span>
+                      <span className="componentName">{compGetById?.name}</span>
                     </p>
                   </div>
                 </div>

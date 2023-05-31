@@ -18,6 +18,6 @@ namespace Contracts.Dtos.AssetDtos
         public string? Description { get; set; }
         public DateTime? CreateDay { get; set; }
         public DateTime? UpdateDay { get; set; }
-
+        public bool IsCheckOut { get; set; }
     }
 }

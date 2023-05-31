@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { DASHBOARD, ASSETS, COMPONENTS, MAINTENANCES, DEPRECIATIONS, ASSET_TYPES, BRANDS, SUPPLIERS, LOCATIONS, EMPLOYEES, DEPARTMENTS } from "../../constants/pages";
+import { DASHBOARD, ASSETS, COMPONENTS, MAINTENANCES, DEPRECIATIONS, ASSET_TYPES, BRANDS, SUPPLIERS, LOCATIONS, USER } from "../../constants/pages";
 import { useLocation, NavLink } from "react-router-dom";
 const SideBar = () => {
   const { pathname } = useLocation();
@@ -36,11 +36,8 @@ const SideBar = () => {
         <NavLink className={`navItem intro-x ${firstPathName===LOCATIONS?"active":""}`} to={LOCATIONS}>
           <button className="btnCustom">Locations</button>
         </NavLink>
-        <NavLink className={`navItem intro-x ${firstPathName===EMPLOYEES?"active":""}`} to={EMPLOYEES}>
-          <button className="btnCustom">Employees</button>
-        </NavLink>
-        <NavLink className={`navItem intro-x ${firstPathName===DEPARTMENTS?"active":""}`} to={DEPARTMENTS}>
-          <button className="btnCustom">Departments</button>
+        <NavLink className={`navItem intro-x ${firstPathName===USER?"active":""}`} to={USER}>
+          <button className="btnCustom">Users</button>
         </NavLink>
       </Fragment>
     </div>

@@ -46,7 +46,7 @@ namespace Business.Services
         public async Task<IList<AssetTypeDto>> GetAll()
         {
             var result = await _assetTypeRepository.GetAll();
-            result.Where(x => x.IsDeleted == false);
+            result = result.Where(x => x.IsDeleted == false);
             return _mapper.Map<IList<AssetTypeDto>>(result);
         }
 

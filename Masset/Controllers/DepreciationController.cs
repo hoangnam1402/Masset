@@ -48,7 +48,6 @@ namespace Masset.Controllers
                 {
                     if (!await _assetService.IsExist(createDto.AssetID.Value))
                         return BadRequest("No Asset with id: " + createDto.AssetID);
-                    result = await _depreciationService.CreateAsync(createDto);
                 }
             }
             else
@@ -59,10 +58,10 @@ namespace Masset.Controllers
                 {
                     if (!await _componentService.IsExist(createDto.ComponentID.Value))
                         return BadRequest("No Component with id: " + createDto.ComponentID);
-                    result = await _depreciationService.CreateAsync(createDto);
                 }
             }
 
+            result = await _depreciationService.CreateAsync(createDto);
             if (result != null)
                 return Ok(result);
             else

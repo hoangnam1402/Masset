@@ -66,8 +66,11 @@ namespace Business.Services
 
         public async Task<IList<AssetHistoryDto>> GetUnread()
         {
-            var result = await _assetHistoryRepository.GetAll();
-            result.Where(x => x.Status == AssetHistoryStatusEnums.Unread);
+            var result = await _assetHistoryRepository.Entities
+                .Include(s => s.User)
+                .Include(s => s.Asset)
+                .Where(x => x.Status == AssetHistoryStatusEnums.Unread)
+                .ToListAsync();
             return _mapper.Map<IList<AssetHistoryDto>>(result);
         }
 

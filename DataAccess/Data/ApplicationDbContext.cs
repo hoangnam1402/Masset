@@ -19,6 +19,7 @@ namespace DataAccess.Data
         public DbSet<Depreciation>? Depreciations { get; set; }
         public DbSet<Location>? Locations { get; set; }
         public DbSet<Setting>? Setting { get; set; }
+        public DbSet<Checking>? Checking { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

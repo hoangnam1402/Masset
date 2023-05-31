@@ -3,6 +3,7 @@ using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.AssetHistoryDtos;
 using Contracts.Dtos.AssetTypeDtos;
 using Contracts.Dtos.BrandsDtos;
+using Contracts.Dtos.CheckingDtos;
 using Contracts.Dtos.ComponentDtos;
 using Contracts.Dtos.DepreciationDtos;
 using Contracts.Dtos.LocationDtos;
@@ -75,8 +76,14 @@ namespace Business
             CreateMap<UpdateSettingDto, Setting>(memberList: AutoMapper.MemberList.None)
                 .ForMember(src => src.Logo, act => act.Ignore()).ReverseMap();
 
+
             //AssetHistory
             CreateMap<AssetHistoryDto, AssetHistory>(memberList: AutoMapper.MemberList.None);
+
+            //Checking
+            CreateMap<CheckingDto, Checking>(memberList: AutoMapper.MemberList.None);
+            CreateMap<CheckingCreateDto, Checking>(memberList: AutoMapper.MemberList.None);
+            CreateMap<CheckingUpdateDto, Checking>(memberList: AutoMapper.MemberList.None);
         }
 
         private void FromDataAccessorLayer()
@@ -129,10 +136,17 @@ namespace Business
 
             //Setting
             CreateMap<Setting, SettingDto>();
-            CreateMap<Setting, UpdateSettingDto>().ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
+            CreateMap<Setting, UpdateSettingDto>()
+                .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
         
             //AssetHistory
             CreateMap<AssetHistory, AssetHistoryDto>();
+
+            //Checking
+            CreateMap<Checking, CheckingDto>();
+            CreateMap<Checking, CheckingCreateDto>();
+            CreateMap<Checking, CheckingUpdateDto>();
+
         }
     }
 }

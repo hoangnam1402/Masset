@@ -13,7 +13,7 @@ export const ASSET_TYPES = '/assetType';
 export const BRANDS = '/brand';
 export const SUPPLIERS = '/supply';
 export const LOCATIONS = '/location';
-export const EMPLOYEES = '/employee';
+export const USER = '/user';
 export const DEPARTMENTS = '/department';
 
 export const NOTFOUND = '/notfound';

@@ -6,7 +6,6 @@ namespace Business.Interfaces
     public interface IMaintenanceService
     {
         Task<PagedResponseModel<MaintenanceDto>> GetByPageAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
-        Task<MaintenanceDto?> GetByIdAsync(int id);
         Task<PagedResponseModel<MaintenanceDto>> GetOfAssetAsync(BaseQueryCriteria baseQueryCriteria, CancellationToken cancellationToken, int id);
         Task<MaintenanceDto?> CreateAsync(MaintenanceCreateDto createRequest);
         Task<MaintenanceDto?> UpdateAsync(int id, MaintenanceUpdateDto updateRequest);

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getDepreciation } from "../reducer";
 import StaticTable from "../../../components/Table/StaticTable";
 import IColumnOption from "../../../interfaces/IColumnOption";
 
@@ -23,11 +22,9 @@ interface Items {
 };
 
 type Props = {
-    assetID: number;
 };
 
-const Depreciation: React.FC<Props> = ({assetID}) => {
-    const dispatch = useAppDispatch();
+const Depreciation: React.FC<Props> = ({}) => {
     const { depreciation } = useAppSelector(state => state.assetReducer);
     
     const [queue, setQueue] = useState<Items[]>([]);
@@ -51,14 +48,6 @@ const Depreciation: React.FC<Props> = ({assetID}) => {
             }
         }
     }, [depreciation]);
-
-    const fetchData = () => {
-        dispatch(getDepreciation({id: Number(assetID)}));
-    };
-
-    useEffect(() => {
-    fetchData();
-    }, []);
 
     return (
         <>

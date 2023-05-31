@@ -27,7 +27,6 @@ namespace Business.Services
 
             newComponent.CreateDay = DateTime.Now;
             newComponent.UpdateDay = DateTime.Now;
-            newComponent.Status = AssetStatusEnums.ReadyToDeploy;
             newComponent.AvailableQuantity = createRequest.Quantity;
             newComponent.IsDeleted = false;
 
@@ -98,7 +97,7 @@ namespace Business.Services
         public async Task<IList<ComponentDto>> GetAll()
         {
             var result = await _componentRepository.GetAll();
-            result.Where(x => x.IsDeleted == false);
+            result = result.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost);
             return _mapper.Map<IList<ComponentDto>>(result);
         }
 
@@ -143,6 +142,23 @@ namespace Business.Services
                 return _mapper.Map<ComponentDto>(result);
             else
                 return null;
+        }
+
+        public async Task<bool> UpdateAsync(int id, int? quantity, bool isCheckOut)
+        {
+            var component = await _componentRepository.Entities
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (component == null)
+                return false;
+
+            if (isCheckOut)
+                component.AvailableQuantity = component.Quantity - quantity;
+            else
+                component.AvailableQuantity = component.Quantity + quantity;
+
+            var result = await _componentRepository.Update(component);
+
+            return result!=null;
         }
 
         #region Private Method

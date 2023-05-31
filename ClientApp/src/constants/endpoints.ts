@@ -8,6 +8,7 @@ const Endpoints = {
 
 	User: apiurl+"api/user",
 	UserId: (id: number | string): string => apiurl + `api/user/${id}`,
+	AllUser: apiurl+"api/user/getall",
 
 	Asset: apiurl+"api/asset",
 	AllAsset: apiurl+"api/asset/getall",
@@ -15,6 +16,10 @@ const Endpoints = {
 	generatingQRCode: (tag: string): string => apiurl + `api/asset/generatingQRCode/${tag}`,
 	MaintenanceOfAsset: (id: number | string): string => apiurl+`api/maintenance/getOfAsset/${id}`,
 	DepreciationOfAsset: (id: number | string): string => apiurl+`api/depreciation/getOfAsset/${id}`,
+	History: (id: number | string): string => apiurl+`api/checking/historyOfAsset/${id}`,
+	ComponentOfAsset: (id: number | string): string => apiurl+`api/checking/componentOfAsset/${id}`,
+	AssetCheckIn: apiurl+"api/checking/checkInAsset",
+	AssetCheckOut: apiurl+"api/checking/checkOutAsset",
 
 	AssetHistory: apiurl+"api/assetHistory",
 	UnreadAssetHistory: apiurl+"api/assetHistory/Unread",
@@ -28,10 +33,13 @@ const Endpoints = {
 	AllBrand: apiurl+"api/Brand/getall",
 	BrandId: (id: number | string): string => apiurl+`api/Brand/${id}`,
 
-	Component: apiurl+"api/Component",
-	AllComponent: apiurl+"api/Component/getall",
-	ComponentId: (id: number | string): string => apiurl+`api/Component/${id}`,
+	Component: apiurl+"api/component",
+	AllComponent: apiurl+"api/component/getall",
+	ComponentId: (id: number | string): string => apiurl+`api/component/${id}`,
 	DepreciationOfComponent: (id: number | string): string => apiurl+`api/depreciation/getOfComponent/${id}`,
+	ComponentCheckIn: (id: number | string): string => apiurl+`api/checking/checkInComponent/${id}`,
+	ComponentCheckOut: apiurl+"api/checking/checkOutComponent",
+	ActiveOfComponent: (id: number | string): string => apiurl+`api/checking/activeOfComponent/${id}`,
 
 	Depreciation: apiurl+"api/Depreciation",
 	DepreciationId: (id: number | string): string => apiurl+`api/Depreciation/${id}`,

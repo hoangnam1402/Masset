@@ -12,6 +12,9 @@ import IAssetForm from "../../interfaces/Asset/IAssetForm";
 import IMaintenance from "../../interfaces/Maintenance/IMaintenance";
 import IQueryModel from "../../interfaces/IQueryModel";
 import IDepreciation from "../../interfaces/Depreciation/IDepreciation";
+import IChecking from "../../interfaces/Checking/IChecking";
+import IUser from "../../interfaces/User/IUser";
+import ICheckingFrom from "../../interfaces/Checking/ICheckingFrom";
 
 
 type AssetState = {
@@ -24,11 +27,15 @@ type AssetState = {
   brands:IBrand[]|null;
   locations:ILocation[]|null;
   suppliers:ISupplier[]|null;
+  users:IUser[]|null;
   maintenances:IPagedModel<IMaintenance>|null;
   deleteAsset?: IAsset;
   assetGetById?:IAsset;
   qrCode?: string;
   depreciation?: IDepreciation;
+  historyCheck: IPagedModel<IChecking>|null;
+  componentCheck: IPagedModel<IChecking>|null;
+  assetChecking?: IChecking
 };
 
 const initialState: AssetState = {
@@ -43,6 +50,10 @@ const initialState: AssetState = {
   qrCode:undefined,
   maintenances:null,
   depreciation:undefined,
+  historyCheck: null,
+  componentCheck: null,
+  users:null,
+  assetChecking:undefined
 };
 
 export type CreateAction = {
@@ -55,11 +66,16 @@ export type DeleteAction = {
   formValues: IAsset,
 }
 
+export type CheckAction = {
+  handleResult: Function,
+  formValues: ICheckingFrom,
+}
+
 export type GetByIdAction = {
   id: number,
 }
 
-export type GetMaintenanceByAssetIdAction = {
+export type GetByAssetIdAction = {
   query: IQueryModel,
   id: number,
 }
@@ -93,7 +109,7 @@ const AssetSlice = createSlice({
       };
     },
 
-    deleteAssets: (state, action: PayloadAction<CreateAction>): AssetState => {
+    deleteAssets: (state, action: PayloadAction<DeleteAction>): AssetState => {
       return {
         ...state,
         loading: true,
@@ -196,7 +212,23 @@ const AssetSlice = createSlice({
       };
     },
 
-    getMaintenance: (state, action: PayloadAction<GetMaintenanceByAssetIdAction>): AssetState => {
+    getUsers: (state): AssetState => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+
+    setUsers: (state, action: PayloadAction<IUser[]>): AssetState => {
+      const users = action.payload;
+      return {
+        ...state,
+        users,
+        loading: false,
+      };
+    },
+
+    getMaintenance: (state, action: PayloadAction<GetByAssetIdAction>): AssetState => {
       return {
         ...state,
         loading: true,
@@ -224,6 +256,38 @@ const AssetSlice = createSlice({
       return {
         ...state,
         depreciation,
+        loading: false,
+      };
+    },
+
+    getHistoryCheck:  (state, action: PayloadAction<GetByAssetIdAction>): AssetState => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+
+    setHistoryCheck: (state, action: PayloadAction<IPagedModel<IChecking>>): AssetState => {
+      const historyCheck = action.payload;
+      return {
+        ...state,
+        historyCheck,
+        loading: false,
+      };
+    },
+
+    getComponentCheck:  (state, action: PayloadAction<GetByAssetIdAction>): AssetState => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+
+    setComponentCheck: (state, action: PayloadAction<IPagedModel<IChecking>>): AssetState => {
+      const componentCheck = action.payload;
+      return {
+        ...state,
+        componentCheck,
         loading: false,
       };
     },
@@ -275,6 +339,31 @@ const AssetSlice = createSlice({
             loading: false,
         }
     },
+
+    getAssetCheckIn: (state, action: PayloadAction<CheckAction>) =>
+    {
+        return {
+            ...state,
+            loading: false,
+        }
+    },
+
+    getAssetCheckOut: (state, action: PayloadAction<CheckAction>) =>
+    {
+        return {
+            ...state,
+            loading: false,
+        }
+    },
+
+    setAssetChecking: ( state, action: PayloadAction<IChecking>): AssetState => {
+      const assetChecking = action.payload
+
+      return {
+        ...state,
+        assetChecking,
+      }
+    },
   },
 });
 
@@ -283,7 +372,9 @@ export const
     setStatus, getAssets, setAssets, getAssetTypes, setAssetTypes, getBrands, getAssetById,
     setBrands, getLocations, setLocations, getSuppliers, setSupplies, setDeleteAsset, 
     deleteAssets, createAsset, setAsset, updateAsset, setAssetGetById, setQrCode, getQrCode,
-    getMaintenance, setMaintenance, getDepreciation, setDepreciation,
+    getMaintenance, setMaintenance, getDepreciation, setDepreciation, getHistoryCheck,
+    setHistoryCheck, getComponentCheck, setComponentCheck, getAssetCheckIn, getAssetCheckOut,
+    setAssetChecking, getUsers, setUsers
 } = AssetSlice.actions;
 
 export default AssetSlice.reducer;

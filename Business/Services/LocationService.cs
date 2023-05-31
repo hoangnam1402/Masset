@@ -55,8 +55,7 @@ namespace Business.Services
 
         public async Task<IList<LocationDto>> GetAll()
         {
-            var result = await _locationRepository.GetAll();
-            result.Where(x => x.IsDeleted == false);
+            var result = await _locationRepository.Entities.Where(x => x.IsDeleted == false).ToListAsync();
             return _mapper.Map<IList<LocationDto>>(result);
         }
 

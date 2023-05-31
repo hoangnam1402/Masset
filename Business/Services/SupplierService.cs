@@ -56,7 +56,7 @@ namespace Business.Services
         public async Task<IList<SupplierDto>> GetAll()
         {
             var result = await _supplierRepository.GetAll();
-            result.Where(x => x.IsDeleted == false);
+            result = result.Where(x => x.IsDeleted == false);
             return _mapper.Map<IList<SupplierDto>>(result);
         }
 

@@ -1,25 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getDepreciation } from "../reducer";
+import { getComponentCheck, getDepreciation } from "../reducer";
 import IColumnOption from "../../../interfaces/IColumnOption";
 import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } from "../../../constants/paging";
 import IQueryModel from "../../../interfaces/IQueryModel";
-import {
-	StateReadyToDeploy,
-	StatePending,
-	StateArchived,
-	StateBroken,
-  StateLost,
-  StateOutOfRepair,
-	StateReadyToDeployLabel,
-	StatePendingLabel,
-	StateArchivedLabel,
-	StateBrokenLabel,
-  StateLostLabel,
-  StateOutOfRepairLabel,
-  StateNull
-} from "../../../constants/assetConstants";
 import Table from "../../../components/Table";
+import { Search } from "react-feather";
 
 const columns: IColumnOption[] = [
     { columnName: "Name", columnValue: "name" },
@@ -35,15 +21,23 @@ type Props = {
 
 const Component: React.FC<Props> = ({assetID}) => {
     const dispatch = useAppDispatch();
-    const { maintenances } = useAppSelector(state => state.assetReducer);
+    const [search, setSearch] = useState("");
+    const { componentCheck } = useAppSelector(state => state.assetReducer);
     
     const [query, setQuery] = useState({
-        page: maintenances?.currentPage ?? 1,
+        page: componentCheck?.currentPage ?? 1,
         limit: DEFAULT_PAGE_LIMIT,
         sortOrder: ACCSENDING,
         sortColumn: DEFAULT_SORT_COLUMN_NAME,
     } as IQueryModel);
 
+    const handleChangeSearch = (e : any) => {
+        e.preventDefault();
+    
+        const search = e.target.value;
+        setSearch(search);
+    };
+    
     const handleSort = (sortColumn: string) => {
         const sortOrder = query.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
     
@@ -61,62 +55,69 @@ const Component: React.FC<Props> = ({assetID}) => {
         });
     };
 
-    const getStateTypeName = (id: number | undefined) => {
-		switch(id) {
-			case StateReadyToDeploy:
-				return StateReadyToDeployLabel;
-			case StatePending:
-				return StatePendingLabel;
-			case StateArchived:
-				return StateArchivedLabel;
-			case StateBroken:
-				return StateBrokenLabel;
-            case StateLost:
-                return StateLostLabel;
-            case StateOutOfRepair:
-                return StateOutOfRepairLabel;
-			default:
-				return StateNull;
-		}
-	};
+    const handleSearch = () => {
+        setQuery({
+          ...query,
+          search,
+          page:1
+        });
+      };    
 
     const fetchData = () => {
-        dispatch(getDepreciation({id: Number(assetID)}));
+        dispatch(getComponentCheck({query: query,id: Number(assetID)}));
     };
 
     useEffect(() => {
     fetchData();
-    }, []);
+    }, [query, assetID]);
 
     return (
         <>
-            <Table
-                columns={columns}
-                handleSort={handleSort}
-                sortState={{
-                    columnValue: query.sortColumn,
-                    orderBy: query.sortOrder,
-                }}
-                page={{
-                currentPage: maintenances?.currentPage,
-                totalPage: maintenances?.totalPages,
-                handleChange: handlePage,
-                }}
-            >
-                {maintenances?.items.map((data, index) => (
-                <tr 
-                    key={index} 
-                    className=""
+            <div>
+                <div className="d-flex mb-5 intro-x">
+                    <div className="d-flex align-items-center w-ld ml-auto">
+                        <div className="input-group">
+                            <input
+                                onChange={handleChangeSearch}
+                                value={search}
+                                type="text"
+                                className="form-control"
+                            />
+                            <span onClick={handleSearch} className="border p-2 pointer">
+                                <Search />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <Table
+                    columns={columns}
+                    handleSort={handleSort}
+                    sortState={{
+                        columnValue: query.sortColumn,
+                        orderBy: query.sortOrder,
+                    }}
+                    page={{
+                    currentPage: componentCheck?.currentPage,
+                    totalPage: componentCheck?.totalPages,
+                    handleChange: handlePage,
+                    }}
                 >
-                    <td className="py-1">{data.asset.name}</td>
-                    <td className="py-1">{data.supplier.name} </td>
-                    <td className="py-1">{getStateTypeName(data.maintenanceType)}</td>
-                    <td className="py-1">{new Date(data.startDate).toLocaleDateString()}</td>
-                    <td className="py-1">{new Date(data.endDate).toLocaleDateString()}</td>
-                </tr>
-                ))}
-                
-            </Table>
+                    {componentCheck?.items.map((data, index) => (
+                    <tr 
+                        key={index} 
+                        className=""
+                    >
+                        <td className="py-1">{data.component.name}</td>
+                        <td className="py-1">{data.component.type.name} </td>
+                        <td className="py-1">{data.component.brand.name}</td>
+                        <td className="py-1">{data.component.quantity}</td>
+                        <td className="py-1">{data.component.availableQuantity}</td>
+                    </tr>
+                    ))}
+                    
+                </Table>
+            </div>
         </>
     );
 };

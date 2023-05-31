@@ -40,7 +40,7 @@ namespace Business.Services
 
             var result = await userQuery
                 .AsNoTracking()
-                .Where(x => x.Role > userRole)
+                .Where(x => x.Id != id)
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
@@ -135,6 +135,13 @@ namespace Business.Services
             return true;
         }
 
+        public async Task<IList<UserDto>> GetAll()
+        {
+            var result = await _userRepository.GetAll();
+            result = result.Where(x => x.IsActive == true && x.Role == UserRoleEnums.Staff);
+            return _mapper.Map<IList<UserDto>>(result);
+        }
+
         #region Private Method
         private IQueryable<User> UserFilter(
             IQueryable<User> query,
@@ -156,7 +163,6 @@ namespace Business.Services
         }
 
         #endregion
-
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Business.Interfaces;
 using Contracts;
+using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.ComponentDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +32,7 @@ namespace Masset.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetByPage([FromQuery] BaseQueryCriteria queryCriteria,
+        public async Task<IActionResult> GetByPage([FromQuery] AssetQueryCriteria queryCriteria,
                                                                CancellationToken cancellationToken)
         {
             var responses = await _componentService.GetByPageAsync(queryCriteria, cancellationToken);

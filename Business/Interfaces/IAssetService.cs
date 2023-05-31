@@ -12,6 +12,7 @@ namespace Business.Interfaces
         Task<AssetDto?> CreateAsync(AssetCreateDto createRequest);
         Task<AssetDto?> UpdateAsync(int id, AssetUpdateDto updateRequest);
         Task<AssetDto?> UpdateAsync(string tag, AssetUpdateDto updateRequest);
+        Task<bool> UpdateAsync(int id);
         Task<bool> DeleteAsync(int id);
         Task<bool> IsExist(int id);
         Task<bool> IsExist(string tag);

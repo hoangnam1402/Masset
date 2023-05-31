@@ -1,13 +1,9 @@
 export default interface IUser {
-    id: number,
+    id: string,
     userName: string,
-    staffCode: string,
-    type: number;
-    firstName: string,
-    lastName: string,
-    fullName: string,
-    dob: Date,
-    location: number,
-    gender: string,
-    joinDate: Date,
+    role: number,
+    email: string,
+    phongNumber: string,
+    createDay:Date,
+    updateDay:Date,
 }

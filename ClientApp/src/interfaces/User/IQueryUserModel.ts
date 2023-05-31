@@ -1,6 +1,6 @@
 export default interface IQueryUserModel {
     page: number;
-    types: number[];
+    role: number[];
     search: string;
     sortOrder: string;
     sortColumn: string;

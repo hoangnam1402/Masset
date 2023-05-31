@@ -37,6 +37,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsCheckOut")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -166,6 +169,44 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Checking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AssetID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CheckDay")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("ComponentID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCheckOut")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsEffective")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssetID");
+
+                    b.HasIndex("ComponentID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Checking");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Component", b =>
@@ -511,21 +552,21 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f425b9a0-9709-4391-8e21-52e754567d8c",
+                            Id = "400d885b-33db-4eb5-8a88-f7660bb0ac41",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3acd8e35-c085-4f15-a5f9-26888f6c4ca8",
-                            CreateDay = new DateTime(2023, 5, 5, 0, 15, 6, 228, DateTimeKind.Local).AddTicks(6654),
+                            ConcurrencyStamp = "0b55ba5a-0851-4ca8-9ffc-05bf3c6eb7f6",
+                            CreateDay = new DateTime(2023, 5, 23, 13, 56, 12, 172, DateTimeKind.Local).AddTicks(2712),
                             EmailConfirmed = false,
                             FirstLogin = false,
                             IsActive = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "TEST",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPOiqBiQlN3UP5E3ZC25YOScUtLQ3SI1Xe5lT6ghJPCvgGwTnwv0iZmQtPJT4Vg5Jw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOvSEtcAcNrZZPHPtpyu6GWV8UhLc8zB9Pwbsj34TvkyvNpgg8hS0puJqOO6kovfew==",
                             PhoneNumberConfirmed = false,
                             Role = 1,
-                            SecurityStamp = "975a2c34-d93a-4b85-8114-2daed6a4f61f",
+                            SecurityStamp = "7758d860-e12e-4014-bc35-5798f5cb2f49",
                             TwoFactorEnabled = false,
-                            UpdateDay = new DateTime(2023, 5, 5, 0, 15, 6, 228, DateTimeKind.Local).AddTicks(6666),
+                            UpdateDay = new DateTime(2023, 5, 23, 13, 56, 12, 172, DateTimeKind.Local).AddTicks(2723),
                             UserName = "Test"
                         });
                 });
@@ -558,22 +599,22 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bea160cd-418d-4845-907e-0eba660354ed",
-                            ConcurrencyStamp = "76f56ed7-e620-4ceb-a682-4c689bbc42a1",
+                            Id = "0b39d804-875b-4cc5-b248-3ef26ed4d7b1",
+                            ConcurrencyStamp = "5f90dfa8-523c-46e7-8532-daccedf6137b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "af5a3144-9d84-4857-82f1-d2b2def751f5",
-                            ConcurrencyStamp = "dd9e300e-42e5-4ee5-913b-039c955f4923",
+                            Id = "55f9e456-f5df-4619-a77e-04d93e4a5b9e",
+                            ConcurrencyStamp = "326d873f-cad3-47bc-a8a3-41834a908453",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "5e55a0b4-c26d-4970-9cd6-83b3eeb18697",
-                            ConcurrencyStamp = "8e92c1c9-f89c-4f20-9fe2-67b2ca9b8aae",
+                            Id = "8a757ade-a74e-4371-8ce7-61b38aeca279",
+                            ConcurrencyStamp = "05b8a476-7408-454c-81ee-3c0a5fc8f854",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -664,8 +705,8 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f425b9a0-9709-4391-8e21-52e754567d8c",
-                            RoleId = "bea160cd-418d-4845-907e-0eba660354ed"
+                            UserId = "400d885b-33db-4eb5-8a88-f7660bb0ac41",
+                            RoleId = "0b39d804-875b-4cc5-b248-3ef26ed4d7b1"
                         });
                 });
 
@@ -736,6 +777,27 @@ namespace DataAccess.Migrations
                         .HasForeignKey("UserID");
 
                     b.Navigation("Asset");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Checking", b =>
+                {
+                    b.HasOne("DataAccess.Entities.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetID");
+
+                    b.HasOne("DataAccess.Entities.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentID");
+
+                    b.HasOne("DataAccess.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("Asset");
+
+                    b.Navigation("Component");
 
                     b.Navigation("User");
                 });

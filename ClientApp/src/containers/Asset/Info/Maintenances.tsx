@@ -74,7 +74,7 @@ const Maintenances: React.FC<Props> = ({assetID}) => {
 
     useEffect(() => {
     fetchData();
-    }, []);
+    }, [query, assetID]);
     
     return(
         <>

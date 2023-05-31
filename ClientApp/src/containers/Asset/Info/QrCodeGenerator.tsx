@@ -23,7 +23,7 @@ const QrCodeGenerator: React.FC<Props> = ({ asset, handleClose }) => {
     
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [asset]);
 
     return (
         <>

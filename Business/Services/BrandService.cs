@@ -56,7 +56,7 @@ namespace Business.Services
         public async Task<IList<BrandDto>> GetAll()
         {
             var result = await _brandsRepository.GetAll();
-            result.Where(x => x.IsDeleted == false);
+            result = result.Where(x => x.IsDeleted == false);
             return _mapper.Map<IList<BrandDto>>(result);
         }
 

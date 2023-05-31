@@ -22,5 +22,7 @@ export default interface IAsset {
     description:string | undefined,
     purchaseDay:Date,
     createDay:Date,
-    updateDay:Date
+    updateDay:Date,
+    isCheckOut:boolean,
+    isActive:boolean | undefined,
 }

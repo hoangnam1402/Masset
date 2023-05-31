@@ -93,22 +93,6 @@ namespace Masset.Controllers
                 return BadRequest("Somethink go wrong.");
         }
 
-        [HttpGet("{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetById([FromRoute] int id)
-        {
-            if (!await _maintenanceService.IsExist(id))
-                return BadRequest("Not Maintenance with id: " + id);
-            if (await _maintenanceService.IsDelete(id))
-                return BadRequest("Maintenance has been deleted.");
-
-            var result = await _maintenanceService.GetByIdAsync(id);
-
-            if (result == null)
-                return BadRequest("Somethink go wrong.");
-            return Ok(result);
-        }
-
         [HttpPost("getOfAsset/{id}")]
         [Authorize]
         public async Task<IActionResult> GetOfAssetAsync([FromRoute] int id,

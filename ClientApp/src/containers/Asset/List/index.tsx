@@ -14,7 +14,7 @@ import {
 import AssetTable from "./AssetTable";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
 import { AssetStateOptions } from "../../../constants/selectOptions";
-import AssetForm from "../AssetForm";
+import AssetForm from "./AssetForm";
 import ISelectOption from "../../../interfaces/ISelectOption";
 
 const AssetList = () => {
