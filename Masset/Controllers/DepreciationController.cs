@@ -48,6 +48,8 @@ namespace Masset.Controllers
                 {
                     if (!await _assetService.IsExist(createDto.AssetID.Value))
                         return BadRequest("No Asset with id: " + createDto.AssetID);
+                    if (!await _assetService.UpdateDepreciationAsync(createDto.AssetID.Value))
+                        return BadRequest("Somethink go wrong with Asset " + createDto.AssetID);
                 }
             }
             else

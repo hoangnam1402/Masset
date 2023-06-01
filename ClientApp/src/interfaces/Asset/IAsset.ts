@@ -25,4 +25,5 @@ export default interface IAsset {
     updateDay:Date,
     isCheckOut:boolean,
     isActive:boolean | undefined,
+    isDepreciation:boolean | undefined,
 }

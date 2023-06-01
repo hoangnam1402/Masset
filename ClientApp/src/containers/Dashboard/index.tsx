@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { NavLink, Route, useNavigate } from "react-router-dom";
 import { logout } from "../Authorize/reducer";
-import { ASSETS, LOGIN } from "../../constants/pages";
+import { ASSETS, COMPONENTS, LOGIN, MAINTENANCES, USER } from "../../constants/pages";
 import { getDashboard } from "./reducer";
 import { Link45deg } from "react-bootstrap-icons";
 import { Pie } from "react-chartjs-2";
@@ -23,30 +23,30 @@ const Dashboard = () => {
 
   const LabelsOfType: string[] = [];
   const NumbersOfType: number[] = [];
-  const ColorOfType: string[] =[];
+  const ColorOfType: string[] = [];
+  const Types: any[] | undefined = dashboard?.numberOfTypes;
 
   const LabelsOfStatus = [StateReadyToDeployLabel, StatePendingLabel, StateArchivedLabel, 
     StateBrokenLabel, StateLostLabel, StateOutOfRepairLabel];
   const NumbersOfStatus = [dashboard?.numberOfStatus1, dashboard?.numberOfStatus2, dashboard?.numberOfStatus3,
     dashboard?.numberOfStatus4, dashboard?.numberOfStatus5, dashboard?.numberOfStatus6];
   const ColorOfStatus: string[] =[];
-
   const dynamicColors = function() {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
     return "rgb(" + r + "," + g + "," + b + ")";
- };
+  };
 
-  for (var i in dashboard?.NumberOfTypes) {
-    LabelsOfType.push(dashboard?.NumberOfTypes[i].name);
-    NumbersOfType.push(dashboard?.NumberOfTypes[i].count);
+  for (var i in Types) {
+    LabelsOfType.push(Types[i].name);
+    NumbersOfType.push(Types[i].count);
     ColorOfType.push(dynamicColors());
-  }
+  };
 
   for (var i in LabelsOfStatus) {
     ColorOfStatus.push(dynamicColors());
-  }
+  };
 
   const AssetByType = {
     labels: LabelsOfType,
@@ -67,13 +67,10 @@ const Dashboard = () => {
       },
     ],
   }
-
+  
   useEffect(() => {
     dispatch(getDashboard());
-    console.log(dashboard);
-    console.log(AssetByType);
-    console.log(AssetByStatus);
-	}, []);
+  }, []);
  
   return (
     <>
@@ -102,7 +99,7 @@ const Dashboard = () => {
                   <div className="stats">
                     <NavLink className="navItem intro-x color-white" to={ASSETS}>
                       <Link45deg className="text-white mx-2"/>
-                      <a className="color-white">More info</a>
+                      More info
                     </NavLink>
                   </div>
                 </div>
@@ -132,9 +129,9 @@ const Dashboard = () => {
                 <div className="footer">
                   <hr/>
                   <div className="stats">
-                    <NavLink className="navItem intro-x color-white" to={ASSETS}>
+                    <NavLink className="navItem intro-x color-white" to={COMPONENTS}>
                       <Link45deg className="text-white mx-2"/>
-                      <a className="color-white">More info</a>
+                      More info
                     </NavLink>
                   </div>
                 </div>
@@ -162,13 +159,13 @@ const Dashboard = () => {
                 </div>
 
                 <div className="footer">
-                    <hr/>
-                    <div className="stats">
-                      <NavLink className="navItem intro-x color-white" to={ASSETS}>
-                        <Link45deg className="text-white mx-2"/>
-                        <a className="color-white">More info</a>
-                      </NavLink>
-                    </div>
+                  <hr/>
+                  <div className="stats">
+                    <NavLink className="navItem intro-x color-white" to={MAINTENANCES}>
+                      <Link45deg className="text-white mx-2"/>
+                      More info
+                    </NavLink>
+                  </div>
                 </div>
               </div>
             </div>
@@ -196,9 +193,9 @@ const Dashboard = () => {
                 <div className="footer">
                   <hr/>
                   <div className="stats">
-                    <NavLink className="navItem intro-x color-white" to={ASSETS}>
+                    <NavLink className="navItem intro-x color-white" to={USER}>
                       <Link45deg className="text-white mx-2"/>
-                      <a className="color-white">More info</a>
+                      More info
                     </NavLink>
                   </div>
                 </div>

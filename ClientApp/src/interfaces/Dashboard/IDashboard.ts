@@ -9,7 +9,7 @@ export default interface IDashboard {
     numberOfStatus4:number,
     numberOfStatus5:number,
     numberOfStatus6:number,
-    NumberOfTypes:NumberOfType[]
+    numberOfTypes:NumberOfType[]
 }
 
 interface NumberOfType {

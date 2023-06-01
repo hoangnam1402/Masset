@@ -30,7 +30,7 @@ namespace Masset.Controllers
                 return BadRequest("Asset not exist!!!");
             if (await _assetService.IsDelete((int)createDTO.AssetID))
                 return BadRequest("Asset have been delete!!!");
-            var responses = await _assetService.UpdateAsync((int)createDTO.AssetID);
+            var responses = await _assetService.UpdateCheckingAsync((int)createDTO.AssetID);
             if (!responses)
                 return BadRequest("Somethink go wrong.");
 
@@ -52,7 +52,7 @@ namespace Masset.Controllers
                 return BadRequest("Asset not exist!!!");
             if (await _assetService.IsDelete((int)updateDTO.AssetID))
                 return BadRequest("Asset have been delete!!!");
-            var responses = await _assetService.UpdateAsync((int)updateDTO.AssetID);
+            var responses = await _assetService.UpdateCheckingAsync((int)updateDTO.AssetID);
             if (!responses)
                 return BadRequest("Somethink go wrong.");
 

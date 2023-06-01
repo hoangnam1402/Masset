@@ -56,6 +56,14 @@ namespace Business.Services
             return _mapper.Map<IList<AssetDto>>(result);
         }
 
+        public async Task<IList<AssetDto>> GetAllForDepreciation()
+        {
+            var result = await _assetRepository.GetAll();
+            result = result.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost && x.IsDepreciation == false);
+            return _mapper.Map<IList<AssetDto>>(result);
+        }
+
+
         public async Task<AssetDto?> CreateAsync(AssetCreateDto createRequest)
         {
             var newAsset = _mapper.Map<Asset>(createRequest);
@@ -64,6 +72,7 @@ namespace Business.Services
             newAsset.UpdateDay = DateTime.Now;
             newAsset.IsDeleted = false;
             newAsset.IsCheckOut = false;
+            newAsset.IsDepreciation = false;
 
             var result = await _assetRepository.Add(newAsset);
             if (result != null)
@@ -109,7 +118,7 @@ namespace Business.Services
                 return null;
         }
 
-        public async Task<bool> UpdateAsync(int id)
+        public async Task<bool> UpdateCheckingAsync(int id)
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
@@ -122,6 +131,21 @@ namespace Business.Services
                 asset.IsCheckOut = false;
             else 
                 asset.IsCheckOut = true;
+
+            var result = await _assetRepository.Update(asset);
+
+            return result!=null;
+        }
+
+        public async Task<bool> UpdateDepreciationAsync(int id)
+        {
+            var asset = await _assetRepository.Entities
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            if (asset == null)
+                return false;
+
+            asset.UpdateDay = DateTime.Now;
+            asset.IsDepreciation = true;
 
             var result = await _assetRepository.Update(asset);
 

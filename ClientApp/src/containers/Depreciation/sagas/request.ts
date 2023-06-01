@@ -22,7 +22,7 @@ export function getComponentRequest(): Promise<AxiosResponse<IComponent>> {
 }
 
 export function getAssetRequest(): Promise<AxiosResponse<IAsset>> {
-    return RequestService.axios.get(EndPoints.AllAsset);
+    return RequestService.axios.get(EndPoints.AllForDepreciation);
 }
 
 export function createRequest(form: IDepreciationForm): Promise<AxiosResponse<IDepreciation>> {

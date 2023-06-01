@@ -58,7 +58,7 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
 
     const { assets } = useAppSelector(
         (state) => state.componentReducer
-      );
+    );
 
     const assetList = createSelectOption(assets);
 

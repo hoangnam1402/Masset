@@ -160,5 +160,12 @@ namespace Masset.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetAllForDepreciation")]
+        [Authorize]
+        public async Task<IActionResult> GetAllForDepreciation()
+        {
+            var result = await _assetService.GetAll();
+            return Ok(result);
+        }
     }
 }
