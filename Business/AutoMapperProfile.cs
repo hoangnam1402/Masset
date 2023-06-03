@@ -1,6 +1,5 @@
 ﻿using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
-using Contracts.Dtos.AssetHistoryDtos;
 using Contracts.Dtos.AssetTypeDtos;
 using Contracts.Dtos.BrandsDtos;
 using Contracts.Dtos.CheckingDtos;
@@ -32,9 +31,12 @@ namespace Business
             CreateMap<LoginDto, User>(memberList: AutoMapper.MemberList.None);
 
             //Asset
-            CreateMap<AssetDto, Asset>(memberList: AutoMapper.MemberList.None);
-            CreateMap<AssetCreateDto, Asset>(memberList: AutoMapper.MemberList.None);
-            CreateMap<AssetUpdateDto, Asset>(memberList: AutoMapper.MemberList.None);
+            CreateMap<AssetDto, Asset>(memberList: AutoMapper.MemberList.None)
+                .ForMember(src => src.Img, act => act.Ignore()).ReverseMap();
+            CreateMap<AssetCreateDto, Asset>(memberList: AutoMapper.MemberList.None)
+                .ForMember(src => src.Img, act => act.Ignore()).ReverseMap();
+            CreateMap<AssetUpdateDto, Asset>(memberList: AutoMapper.MemberList.None)
+                .ForMember(src => src.Img, act => act.Ignore()).ReverseMap();
 
             //Component
             CreateMap<ComponentDto, Component>(memberList: AutoMapper.MemberList.None);
@@ -72,13 +74,10 @@ namespace Business
             CreateMap<SupplierUpdateDto, Supplier>(memberList: AutoMapper.MemberList.None);
 
             //Setting
-            CreateMap<SettingDto, Setting>(memberList: AutoMapper.MemberList.None);
+            CreateMap<SettingDto, Setting>(memberList: AutoMapper.MemberList.None)
+                .ForMember(src => src.Logo, act => act.Ignore()).ReverseMap();
             CreateMap<UpdateSettingDto, Setting>(memberList: AutoMapper.MemberList.None)
                 .ForMember(src => src.Logo, act => act.Ignore()).ReverseMap();
-
-
-            //AssetHistory
-            CreateMap<AssetHistoryDto, AssetHistory>(memberList: AutoMapper.MemberList.None);
 
             //Checking
             CreateMap<CheckingDto, Checking>(memberList: AutoMapper.MemberList.None);
@@ -95,9 +94,12 @@ namespace Business
             CreateMap<User, LoginDto>();
 
             //Asset
-            CreateMap<Asset, AssetDto>();
-            CreateMap<Asset, AssetCreateDto>();
-            CreateMap<Asset, AssetUpdateDto>();
+            CreateMap<Asset, AssetDto>()
+                .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
+            CreateMap<Asset, AssetCreateDto>()
+                .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
+            CreateMap<Asset, AssetUpdateDto>()
+                .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
 
             //Component
             CreateMap<Component, ComponentDto>();
@@ -135,12 +137,9 @@ namespace Business
             CreateMap<Supplier, SupplierUpdateDto>();
 
             //Setting
-            CreateMap<Setting, SettingDto>();
-            CreateMap<Setting, UpdateSettingDto>()
+            CreateMap<Setting, SettingDto>()
                 .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
-        
-            //AssetHistory
-            CreateMap<AssetHistory, AssetHistoryDto>();
+            CreateMap<Setting, UpdateSettingDto>();
 
             //Checking
             CreateMap<Checking, CheckingDto>();

@@ -47,10 +47,6 @@ const AssetInfo = () => {
     setShowQrCode(false);
   }
 
-  const handleGetDepreciation = () => {
-    dispatch(getDepreciation({id: Number(assetGetById?.id)}));
-  }
-
   const fetchData = () => {
     dispatch(getAssetById({id: Number(id)}));
   };
@@ -110,8 +106,8 @@ const AssetInfo = () => {
                       <Tab eventKey="history" title="History">
                         {assetGetById &&<History assetID={assetGetById.id}/>}
                       </Tab>
-                      <Tab eventKey="depreciation" title="Depreciation" onClick={handleGetDepreciation}>
-                        {assetGetById &&<Depreciation/>}
+                      <Tab eventKey="depreciation" title="Depreciation" >
+                        {assetGetById &&<Depreciation assetID={assetGetById.id}/>}
                       </Tab>
                     </Tabs>
                   </div>

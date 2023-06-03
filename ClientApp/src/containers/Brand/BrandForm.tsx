@@ -54,7 +54,6 @@ const BrandForm: React.FC<Props> = ({ brand, handleClose }) => {
     return (
         <>
         <Modal
-            id='big-dialog-modal'
             show={true}
             onHide={handleClose}
             size='lg'

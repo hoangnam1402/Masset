@@ -236,7 +236,7 @@ namespace Masset.Controllers
         public async Task<MaintenanceResponseDto> CreateMaintenance([FromRoute] string id,
                                                 [FromBody] MaintenanceCreateDto maintenanceequest)
         {
-            if (!await _userService.IsExist(id))
+            if (!await _userService.IsExistById(id))
             {
                 var error = "User not exist!!!";
                 return new MaintenanceResponseDto
@@ -246,7 +246,7 @@ namespace Masset.Controllers
                 };
             }
 
-            if (await _userService.IsActive(id))
+            if (!await _userService.IsActive(id))
             {
                 var error = "User has been deleted!!!";
                 return new MaintenanceResponseDto

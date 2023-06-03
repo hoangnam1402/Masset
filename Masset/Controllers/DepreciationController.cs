@@ -36,7 +36,7 @@ namespace Masset.Controllers
         [Authorize]
         public async Task<IActionResult> Create([FromBody] DepreciationCreateDto createDto)
         {
-            if (createDto.Value is 0 || createDto.Period is 0)
+            if (createDto.Period is 0)
                 return BadRequest("Period and Value are required.");
             DepreciationDto? result;
 

@@ -39,6 +39,13 @@ namespace Business.Services
                     cancellationToken);
 
             var dtos = _mapper.Map<IList<AssetDto>>(result.Items);
+            for (int i = 0; i < dtos.Count; i++)
+            {
+                if (result.Items[i].Img != null)
+                {
+                    dtos[i].Image = Convert.ToBase64String(result.Items[i].Img);
+                }
+            }
 
             return new PagedResponseModel<AssetDto>
             {
@@ -51,16 +58,34 @@ namespace Business.Services
 
         public async Task<IList<AssetDto>> GetAll()
         {
-            var result = await _assetRepository.GetAll();
-            result = result.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost);
-            return _mapper.Map<IList<AssetDto>>(result);
+            var asset = await _assetRepository.GetAll();
+            asset = asset.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost);
+            var result = _mapper.Map<IList<AssetDto>>(asset);
+            var assets = asset.ToArray();
+            for (int i = 0; i < assets.Length; i++)
+            {
+                if (assets[i].Img != null)
+                {
+                    result[i].Image = Convert.ToBase64String(assets[i].Img);
+                }
+            }
+            return result;
         }
 
         public async Task<IList<AssetDto>> GetAllForDepreciation()
         {
-            var result = await _assetRepository.GetAll();
-            result = result.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost && x.IsDepreciation == false);
-            return _mapper.Map<IList<AssetDto>>(result);
+            var asset = await _assetRepository.GetAll();
+            asset = asset.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost && x.IsDepreciation == false);
+            var result = _mapper.Map<IList<AssetDto>>(asset);
+            var assets = asset.ToArray();
+            for (int i = 0; i < assets.Length; i++)
+            {
+                if (assets[i].Img != null)
+                {
+                    result[i].Image = Convert.ToBase64String(assets[i].Img);
+                }
+            }
+            return result;
         }
 
 
@@ -74,10 +99,24 @@ namespace Business.Services
             newAsset.IsCheckOut = false;
             newAsset.IsDepreciation = false;
 
-            var result = await _assetRepository.Add(newAsset);
-            if (result != null)
+            if (createRequest.Image != null)
             {
-                return _mapper.Map<AssetDto>(newAsset);
+                using (var memoryStream = new MemoryStream())
+                {
+                    await createRequest.Image.CopyToAsync(memoryStream);
+                    newAsset.Img = memoryStream.ToArray();
+                }
+            }
+
+            var success = await _assetRepository.Add(newAsset);
+            if (success != null)
+            {
+                var result = _mapper.Map<AssetDto>(success);
+                if (success.Img != null)
+                {
+                    result.Image = Convert.ToBase64String(success.Img);
+                }
+                return result;
             }
             return null;
         }
@@ -91,13 +130,26 @@ namespace Business.Services
             asset = _mapper.Map(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
+            if (updateRequest.Image != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await updateRequest.Image.CopyToAsync(memoryStream);
+                    asset.Img = memoryStream.ToArray();
+                }
+            }
 
-            var result = await _assetRepository.Update(asset);
-
-            if (result != null)
-                return _mapper.Map<AssetDto>(result);
-            else
-                return null;
+            var success = await _assetRepository.Update(asset);
+            if (success != null)
+            {
+                var result = _mapper.Map<AssetDto>(success);
+                if (success.Img != null)
+                {
+                    result.Image = Convert.ToBase64String(success.Img);
+                }
+                return result;
+            }
+            return null;
         }
 
         public async Task<AssetDto?> UpdateAsync(string tag, AssetUpdateDto updateRequest)
@@ -109,13 +161,21 @@ namespace Business.Services
             asset = _mapper.Map(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
+            if (updateRequest.Image != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await updateRequest.Image.CopyToAsync(memoryStream);
+                    asset.Img = memoryStream.ToArray();
+                }
+            }
 
             var result = await _assetRepository.Update(asset);
-
             if (result != null)
+            {
                 return _mapper.Map<AssetDto>(result);
-            else
-                return null;
+            }
+            return null;
         }
 
         public async Task<bool> UpdateCheckingAsync(int id)
@@ -168,29 +228,43 @@ namespace Business.Services
 
         public async Task<AssetDto?> GetByTagAsync(string tag)
         {
-            var result = await _assetRepository.Entities
+            var asset = await _assetRepository.Entities
                 .Include(s => s.Supplier)
                 .Include(s => s.Type)
                 .Include(s => s.Location)
                 .Include(s => s.Brand)
-                .FirstOrDefaultAsync(x => x.Tag == tag);
+                .FirstOrDefaultAsync(x => x.Tag == tag && x.IsDeleted == false);
 
-            if (result != null)
-                return _mapper.Map<AssetDto>(result);
+            if (asset != null)
+            {
+                var result = _mapper.Map<AssetDto>(asset);
+                if (asset.Img != null)
+                {
+                    result.Image = Convert.ToBase64String(asset.Img);
+                }
+                return result;
+            }
             return null;
         }
 
         public async Task<AssetDto?> GetByIdAsync(int id)
         {
-            var result = await _assetRepository.Entities
+            var asset = await _assetRepository.Entities
                 .Include(s => s.Supplier)
                 .Include(s => s.Type)
                 .Include(s => s.Location)
                 .Include(s => s.Brand)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
-            if (result != null)
-                return _mapper.Map<AssetDto>(result);
+            if (asset != null)
+            {
+                var result = _mapper.Map<AssetDto>(asset);
+                if (asset.Img != null)
+                {
+                    result.Image = Convert.ToBase64String(asset.Img);
+                }
+                return result;
+            }
             return null;
         }
 

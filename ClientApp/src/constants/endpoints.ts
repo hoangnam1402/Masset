@@ -2,7 +2,8 @@ const apiurl = "https://localhost:7150/"
 const Endpoints = {
 	authorize: apiurl+"api/authorize",
 	me: apiurl+"api/authorize/me",
-	setting: apiurl+"api/setting",
+	Setting: apiurl+"api/setting",
+	Logo: apiurl+"api/setting/upload-image",
 
 	Dashboard: apiurl+"api/dashboard",
 

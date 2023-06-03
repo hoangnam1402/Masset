@@ -9,6 +9,7 @@ import brandSagas from '../../containers/Brand/sagas';
 import supplierSagas from '../../containers/Supplier/sagas';
 import locationSagas from '../../containers/Location/sagas';
 import userSagas from '../../containers/User/sagas';
+import settingSagas from '../../containers/Setting/sagas';
 
 export default [
     authorizeSagas,
@@ -21,5 +22,6 @@ export default [
     brandSagas,
     supplierSagas,
     locationSagas,
-    userSagas
+    userSagas,
+    settingSagas
 ];

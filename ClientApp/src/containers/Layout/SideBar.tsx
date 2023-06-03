@@ -1,13 +1,19 @@
 import React, { Fragment } from "react";
-import { DASHBOARD, ASSETS, COMPONENTS, MAINTENANCES, DEPRECIATIONS, ASSET_TYPES, BRANDS, SUPPLIERS, LOCATIONS, USER } from "../../constants/pages";
+import { DASHBOARD, ASSETS, COMPONENTS, MAINTENANCES, DEPRECIATIONS, ASSET_TYPES, BRANDS, SUPPLIERS, 
+  LOCATIONS, USER, SETTING } from "../../constants/pages";
 import { useLocation, NavLink } from "react-router-dom";
+import { useAppSelector } from "../../hooks/redux";
 const SideBar = () => {
   const { pathname } = useLocation();
   const pathnameSplit = pathname.split("/");
   const firstPathName = "/"+pathnameSplit[1]
+  const { setting } = useAppSelector((state) => state.settingReducer);
 
   return (
     <div className="nav-left mb-5">
+      {setting?.image && <img id="logo" src={`data:image/jpeg;base64,${setting?.image}`} alt={setting?.name} />}
+      {setting && <p id="tiles" className="brand intro-x">{setting?.name}</p>}
+
       <Fragment>
         <NavLink className={`navItem intro-x ${firstPathName===DASHBOARD?"active":""}`} to={DASHBOARD}>
           <button className="btnCustom">Dashboard</button>
@@ -38,6 +44,9 @@ const SideBar = () => {
         </NavLink>
         <NavLink className={`navItem intro-x ${firstPathName===USER?"active":""}`} to={USER}>
           <button className="btnCustom">Users</button>
+        </NavLink>
+        <NavLink className={`navItem intro-x ${firstPathName===SETTING?"active":""}`} to={SETTING}>
+          <button className="btnCustom">Setting</button>
         </NavLink>
       </Fragment>
     </div>

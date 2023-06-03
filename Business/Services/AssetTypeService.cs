@@ -53,7 +53,7 @@ namespace Business.Services
         public async Task<AssetTypeDto?> GetByIdAsync(int id)
         {
             var result = await _assetTypeRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<AssetTypeDto>(result);
@@ -78,7 +78,7 @@ namespace Business.Services
         public async Task<AssetTypeDto?> UpdateAsync(int id, AssetTypeUpdateDto updateRequest)
         {
             var assetType = await _assetTypeRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (assetType == null)
                 return null;
             assetType = _mapper.Map(updateRequest, assetType);

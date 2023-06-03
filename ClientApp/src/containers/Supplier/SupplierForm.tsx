@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape({
     phone: Yup.string().required('Required'),
     city: Yup.string().required('Required'),
     country: Yup.string().required('Required'),
-    address: Yup.string(),
+    address: Yup.string().required('Required'),
 });
 
 type Props = {
@@ -64,7 +64,6 @@ const SupplierForm: React.FC<Props> = ({ supplier, handleClose }) => {
     return (
         <>
         <Modal
-            id='big-dialog-modal'
             show={true}
             onHide={handleClose}
             size='lg'
@@ -131,7 +130,7 @@ const SupplierForm: React.FC<Props> = ({ supplier, handleClose }) => {
                         <TextAreaField id='address'
                             name="address"
                             label="Address"
-                            isrequired={false} />
+                            isrequired={true} />
 
                         <div className="text-center mt-3 float-right">
                             <button

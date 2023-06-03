@@ -269,7 +269,7 @@ export function* handleUpdateAsset(action: PayloadAction<CreateAction>) {
     try {
         const { data } = yield call(putAssetsRequest, formValues);
 
-        handleResult(true, data);
+        handleResult(true, data.name);
 
         yield put(setAsset(data));
         

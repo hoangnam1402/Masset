@@ -137,7 +137,7 @@ const MaintenanceTable: React.FC<Props> = ({
             <td className="py-1">{data.asset.tag} </td>
             <td className="py-1">{data.asset.name}</td>
             <td className="py-1">{data.supplier.name}</td>
-            <td className="py-1">{getMaintenanceTypeName(data.maintenanceType)}</td>
+            <td className="py-1">{getMaintenanceTypeName(data.type)}</td>
             <td className="py-1">{handleDay(data.startDate)}</td>
             <td className="py-1">{handleDay(data.endDate)}</td>
 

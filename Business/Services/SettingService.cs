@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Contracts.Dtos.SettingDtos;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
@@ -19,11 +20,18 @@ namespace Business.Services
 
         public async Task<SettingDto?> GetAsync()
         {
-            var result = await _settingRepository.Entities
+            var setting = await _settingRepository.Entities
                 .FirstOrDefaultAsync(x => x.Id == 1);
-            if (result == null)
-                return null;
-            return _mapper.Map<SettingDto>(result);
+            if (setting != null)
+            {
+                var result = _mapper.Map<SettingDto>(setting);
+                if (setting.Logo != null)
+                {
+                    result.Image = Convert.ToBase64String(setting.Logo);
+                }
+                return result;
+            }
+            return null;
         }
 
         public async Task<SettingDto?> UpdateAsync(UpdateSettingDto updateRequest)
@@ -34,19 +42,38 @@ namespace Business.Services
                 return null;
             setting = _mapper.Map(updateRequest, setting);
 
-            if (updateRequest.Image != null && updateRequest.Image.Length > 0)
+            var success = await _settingRepository.Update(setting);
+
+            if (success != null)
             {
-                using var ms = new MemoryStream();
-                updateRequest.Image.CopyTo(ms);
+                var result = _mapper.Map<SettingDto>(success);
+                if (success.Logo != null)
+                {
+                    result.Image = Convert.ToBase64String(success.Logo);
+                }
+                return result;
+            }
+            return null;
+        }
+
+        public async Task<bool?> UpdateLogoAsync(IFormFile image)
+        {
+            var setting = await _settingRepository.Entities
+                .FirstOrDefaultAsync(x => x.Id == 1);
+            if (setting == null)
+                return null;
+
+            using var ms = new MemoryStream();
+            {
+                await image.CopyToAsync(ms);
                 setting.Logo = ms.ToArray();
             }
-
             var result = await _settingRepository.Update(setting);
 
-            if (result != null)
-                return _mapper.Map<SettingDto>(result);
-            else
-                return null;
+            var test = await _settingRepository.Entities
+                .FirstOrDefaultAsync(x => x.Id == 1);
+            return null!=result;
         }
+
     }
 }

@@ -26,4 +26,5 @@ export default interface IAsset {
     isCheckOut:boolean,
     isActive:boolean | undefined,
     isDepreciation:boolean | undefined,
+    image: string | undefined,
 }

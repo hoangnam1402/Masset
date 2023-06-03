@@ -54,7 +54,6 @@ const LocationForm: React.FC<Props> = ({ location, handleClose }) => {
     return (
         <>
         <Modal
-            id='big-dialog-modal'
             show={true}
             onHide={handleClose}
             size='lg'

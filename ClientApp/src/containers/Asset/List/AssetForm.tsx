@@ -29,6 +29,7 @@ const initialFormValues: IAssetForm = {
     warranty:undefined,
     description:undefined,
     purchaseDay:undefined,
+    image:undefined,
 };
 
 const validationSchema = Yup.object().shape({
@@ -207,7 +208,8 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                             defaultValue={isUpdate ? initialFormValues.status : 0}/>
                         <TextAreaField id="description"
                             name="description" 
-                            label="Description"/>
+                            label="Description"
+                            defaultValue={isUpdate ? initialFormValues.description : undefined}/>
 
                         <div className="text-center mt-3 float-right">
                             <button

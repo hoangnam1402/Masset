@@ -1,4 +1,5 @@
 ﻿using Contracts.Dtos.SettingDtos;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.Interfaces
 {
@@ -6,5 +7,7 @@ namespace Business.Interfaces
     {
         Task<SettingDto?> GetAsync();
         Task<SettingDto?> UpdateAsync(UpdateSettingDto updateRequest);
+        Task<bool?> UpdateLogoAsync(IFormFile image);
+
     }
 }

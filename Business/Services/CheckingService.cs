@@ -216,7 +216,7 @@ namespace Business.Services
             {
                 checkingQuery = checkingQuery.Where(b =>
                     (b.Asset != null && b.Asset.Name != null && b.Asset.Name.Contains(baseQueryCriteria.Search)) ||
-                    (b.CheckDay.ToString().Contains(baseQueryCriteria.Search.ToString()))
+                    (b.CheckDay != null && b.CheckDay.ToString().Contains(baseQueryCriteria.Search.ToString()))
                     );
             }
 

@@ -13,13 +13,9 @@ namespace DataAccess.Data.Seeds
                 { 
                     Id = 1, 
                     Name = "University",
-                    Department = "Equipment room",
                     Address = "University street",
                     Email = "University@gmail.com",
                     Phone = "123456789",
-                    FormatDate = "dd-mm-yyyy",
-                    Currency = "$",
-                    Language = "en",
                     Logo = ReadFile("Img/logo.PNG")
                 }
             );

@@ -2,7 +2,7 @@ export default interface IMaintenanceForm {
   id?: number;
   assetID?:number,
   supplierID?:number,
-  maintenanceType?:number,
+  type?:number,
   startDate?:Date,
   endDate?:Date,
 }

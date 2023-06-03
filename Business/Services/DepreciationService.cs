@@ -52,7 +52,7 @@ namespace Business.Services
             var result = await _depreciatioRepository.Entities
                 .Include(s => s.Component)
                 .Include(s => s.Asset)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<DepreciationDto>(result);
@@ -63,7 +63,7 @@ namespace Business.Services
         {
             var result = await _depreciatioRepository.Entities
                 .Include(s => s.Asset)
-                .FirstOrDefaultAsync(x => x.AssetID == id);
+                .FirstOrDefaultAsync(x => x.AssetID == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<DepreciationDto>(result);

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import StaticTable from "../../../components/Table/StaticTable";
 import IColumnOption from "../../../interfaces/IColumnOption";
+import { getDepreciation } from "../reducer";
 
 const columns: IColumnOption[] = [
     { columnName: "Period (Month)", columnValue: "period" },
@@ -22,32 +23,36 @@ interface Items {
 };
 
 type Props = {
+    assetID: number;
 };
 
-const Depreciation: React.FC<Props> = ({}) => {
-    const { depreciation } = useAppSelector(state => state.assetReducer);
-    
+const Depreciation: React.FC<Props> = ({assetID}) => {
+    const dispatch = useAppDispatch();
+    const { depreciation, } = useAppSelector(state => state.assetReducer);
     const [queue, setQueue] = useState<Items[]>([]);
-    const [value, setValue] = useState(0);
 
     useEffect(() => {
         if (depreciation) {
-            const DepreciationPercentage = (depreciation.value / depreciation.period).toFixed(2);
+            console.log(depreciation)
+            const DepreciationPercentage = (100 / depreciation.period).toFixed(2);
             const Amount = ((depreciation.asset.cost - depreciation.value) / depreciation.period).toFixed(2);
             for(let i = 0; i < depreciation.period; i++){
                 const newElement: Items = {
                     period: i,
-                    bookValue: (depreciation.asset.cost - value).toFixed(2),
+                    bookValue: (depreciation.asset.cost - parseFloat(Amount)*i).toFixed(2),
                     depreciationPercentage: DepreciationPercentage,
                     amount: Amount,
-                    accumulatedDepreciation: (value + depreciation.value).toFixed(2),
-                    endingBookValue: (depreciation.asset.cost - value - depreciation.value).toFixed(2),
+                    accumulatedDepreciation: (parseFloat(Amount)*(i+1)).toFixed(2),
+                    endingBookValue: (depreciation.asset.cost - parseFloat(Amount)*(i+1)).toFixed(2),
                 }
                 setQueue(prevArray => [...prevArray, newElement]);
-                setValue(prevArray => prevArray + depreciation.value);
             }
         }
     }, [depreciation]);
+
+    useEffect(() => {
+        dispatch(getDepreciation({id: assetID}));
+    }, []);
 
     return (
         <>
@@ -61,7 +66,7 @@ const Depreciation: React.FC<Props> = ({}) => {
                 >
                     <td className="py-1">{data.period}</td>
                     <td className="py-1">{data.bookValue} </td>
-                    <td className="py-1">{data.depreciationPercentage}</td>
+                    <td className="py-1">{data.depreciationPercentage} %</td>
                     <td className="py-1">{data.amount}</td>
                     <td className="py-1">{data.accumulatedDepreciation}</td>
                     <td className="py-1">{data.endingBookValue}</td>

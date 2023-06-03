@@ -2,7 +2,7 @@ import React, { ReactNode, lazy, Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { ASSET_TYPES, BRANDS, DASHBOARD, DEPRECIATIONS, LOCATIONS, LOGIN, MAINTENANCES, MANAGE_ASSETS, 
-  MANAGE_COMPONENTS, SUPPLIERS, USER} from "../constants/pages";
+  MANAGE_COMPONENTS, SUPPLIERS, USER, SETTING} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { me } from "../containers/Authorize/reducer";
@@ -19,6 +19,7 @@ const AssetType = lazy(() => import("../containers/AssetType"));
 const Brand = lazy(() => import("../containers/Brand"));
 const Supplier = lazy(() => import("../containers/Supplier"));
 const Location = lazy(() => import("../containers/Location"));
+const Setting = lazy(() => import("../containers/Setting"));
 const NotFound = lazy(() => import("../containers/NotFound"));
 
 interface Props {
@@ -102,6 +103,12 @@ const Routess = () => {
         <Route path={USER} element={
           <PrivateRoute>
             <User />
+          </PrivateRoute>
+        }/>
+        
+        <Route path={SETTING} element={
+          <PrivateRoute>
+            <Setting />
           </PrivateRoute>
         }/>
 

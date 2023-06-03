@@ -98,7 +98,7 @@ const Maintenances: React.FC<Props> = ({assetID}) => {
                 >
                     <td className="py-1">{data.asset.name}</td>
                     <td className="py-1">{data.supplier.name} </td>
-                    <td className="py-1">{getMaintenanceTypeName(data.maintenanceType)}</td>
+                    <td className="py-1">{getMaintenanceTypeName(data.type)}</td>
                     <td className="py-1">{new Date(data.startDate).toLocaleDateString()}</td>
                     <td className="py-1">{new Date(data.endDate).toLocaleDateString()}</td>
                 </tr>

@@ -54,7 +54,6 @@ const AssetTypeForm: React.FC<Props> = ({ assetType, handleClose }) => {
     return (
         <>
         <Modal
-            id='big-dialog-modal'
             show={true}
             onHide={handleClose}
             size='lg'

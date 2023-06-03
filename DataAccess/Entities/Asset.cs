@@ -26,5 +26,6 @@ namespace DataAccess.Entities
         public bool IsDeleted { get; set; }
         public bool IsCheckOut { get; set; }
         public bool IsDepreciation { get; set; } = false;
+        public byte[]? Img { get; set; }
     }
 }

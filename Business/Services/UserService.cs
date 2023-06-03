@@ -96,9 +96,9 @@ namespace Business.Services
             return _mapper.Map<UserDto>(result);
         }
 
-        public async Task<bool> IsExist(int id)
+        public async Task<bool> IsExistById(string id)
         {
-            if (await _userRepository.GetById(id) == null)
+            if (await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) == null)
                 return false;
             else
                 return true;
@@ -114,7 +114,7 @@ namespace Business.Services
 
         public async Task<bool> IsActive(string id)
         {
-            var user = await _userRepository.GetById(id);
+            var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
             if (user != null && user.IsActive)
                 return true;
             else

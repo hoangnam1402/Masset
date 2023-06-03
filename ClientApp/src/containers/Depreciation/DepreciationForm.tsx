@@ -129,7 +129,7 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                 validateOnMount={true}
                 onSubmit={(values) => {
                     setLoading(true);
-
+console.log(values)
                     setTimeout(() => {
                         if (isUpdate) {
                             dispatch(updateDepreciation({ handleResult, formValues: values }));

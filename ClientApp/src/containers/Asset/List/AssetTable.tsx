@@ -71,6 +71,7 @@ const AssetTable: React.FC<Props> = ({
 
   const handleEdit = (asset: IAsset) => {
     setShowEditForm(true);
+    setAssetDetail(asset);
   }
 
   const handleCloseEditForm = () => {

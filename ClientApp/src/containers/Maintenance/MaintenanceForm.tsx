@@ -17,14 +17,14 @@ import IMaintenanceForm from '../../interfaces/Maintenance/IMaintenanceForm';
 const initialFormValues: IMaintenanceForm = {
     assetID:undefined,
     supplierID:undefined,
-    maintenanceType:undefined,
+    type:undefined,
     startDate:undefined,
     endDate:undefined,
   };
 
 const validationSchema = Yup.object().shape({
     assetID: Yup.string().required('Required'),
-    maintenanceType: Yup.string().required('Required'),
+    type: Yup.string().required('Required'),
     supplierID: Yup.string().required('Required'),
     startDate: Yup.date().nullable().required('Required'),
     endDate: Yup.date().nullable().required('Required'),
@@ -84,7 +84,6 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
     return (
         <>
         <Modal
-            id='big-dialog-modal'
             show={true}
             onHide={handleClose}
             size='lg'
@@ -138,12 +137,12 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
                             isrequired={true}
                             options={supplierSelectOptions}  
                             defaultValue={isUpdate ? initialFormValues.supplierID : 0}/>
-                        <SelectField id="maintenanceType"
-                            name="maintenanceType"
+                        <SelectField id="type"
+                            name="type"
                             label="Type"
                             isrequired={true}
                             options={MaintenanceTypeOption}  
-                            defaultValue={isUpdate ? initialFormValues.maintenanceType : 0}/>
+                            defaultValue={isUpdate ? initialFormValues.type : 0}/>
                         <DateField id='startDate'
                             name="startDate"
                             label="Start date"

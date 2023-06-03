@@ -12,11 +12,12 @@ import assetTypeReducer from '../containers/AssetType/reducer';
 import brandReducer from '../containers/Brand/reducer';
 import supplierReducer from '../containers/Supplier/reducer';
 import locationReducer from '../containers/Location/reducer';
+import settingReducer from '../containers/Setting/reducer';
 import rootSaga from './sagas/rootSaga';
 
 const reducer = combineReducers({
     authReducer, dashboardReducer, assetReducer, componentReducer, maintenenceReducer, userReducer,
-    depreciationReducer, assetTypeReducer, brandReducer, supplierReducer, locationReducer
+    depreciationReducer, assetTypeReducer, brandReducer, supplierReducer, locationReducer, settingReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

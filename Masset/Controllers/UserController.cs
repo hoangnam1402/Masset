@@ -22,7 +22,7 @@ namespace Masset.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize]
         public async Task<IActionResult> GetByPage(
             [FromQuery] BaseQueryCriteria baseQueryCriteria,
             CancellationToken cancellationToken)

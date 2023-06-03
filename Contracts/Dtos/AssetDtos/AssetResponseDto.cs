@@ -1,4 +1,5 @@
 ﻿using DataAccess.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Contracts.Dtos.AssetDtos
 {
@@ -18,6 +19,8 @@ namespace Contracts.Dtos.AssetDtos
         public string? Description { get; set; }
         public DateTime? CreateDay { get; set; }
         public DateTime? UpdateDay { get; set; }
+        public DateTime? PurchaseDay { get; set; }
         public bool IsCheckOut { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

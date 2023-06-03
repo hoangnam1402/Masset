@@ -12,7 +12,6 @@ namespace DataAccess.Data
 
         public DbSet<Maintenance>? Maintenances { get; set; }
         public DbSet<Asset>? Assets { get; set; }
-        public DbSet<AssetHistory>? AssetHistory { get; set; }
         public DbSet<AssetType>? AssetTypes { get; set; }
         public DbSet<Brands>? Brands { get; set; }
         public DbSet<Component>? Components { get; set; }

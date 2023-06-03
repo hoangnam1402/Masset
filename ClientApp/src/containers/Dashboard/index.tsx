@@ -69,7 +69,9 @@ const Dashboard = () => {
   }
   
   useEffect(() => {
-    dispatch(getDashboard());
+    if (account) {
+      dispatch(getDashboard());
+    }
   }, []);
  
   return (

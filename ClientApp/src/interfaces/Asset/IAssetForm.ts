@@ -12,4 +12,5 @@ export default interface IAssetForm {
   warranty?:number;
   description?:string;
   purchaseDay?:Date;
+  image?:string;
 }

@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { logout, changePassword } from "../Authorize/reducer";
 import IChangePassword from "../../interfaces/IChangePassword";
 import PasswordField from "../../components/FormInputs/PasswordField";
+import { getSetting } from "../Setting/reducer";
 
 // eslint-disable-next-line react/display-name
 const CustomToggle = React.forwardRef<any, any>(
@@ -83,13 +84,16 @@ const Header = () => {
     if (!account) {
       handleConfirmedLogout();
     }
+    if (account) {
+      dispatch(getSetting());
+      console.log("call")
+    }
   }, [] );
 
   return (
     <>
       <div className="header align-items-center font-weight-bold">
         <div className="container-lg-min container-fluid d-flex pt-2">
-          <img src="/logo192.png" alt="logo" className="app_logo me-2" />
           <p className="headText">{`${headerName()}`}</p>
 
           <div className="ml-auto text-white">

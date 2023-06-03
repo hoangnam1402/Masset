@@ -28,6 +28,17 @@ namespace Masset.Controllers
                 return BadRequest("Something go wrong.");
         }
 
+        [HttpPut("upload-image")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateImage([FromForm] IFormFile image)
+        {
+            var result = await _settingService.UpdateLogoAsync(image);
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest("Something go wrong.");
+        }
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Get()

@@ -14,12 +14,8 @@ export const BRANDS = '/brand';
 export const SUPPLIERS = '/supply';
 export const LOCATIONS = '/location';
 export const USER = '/user';
-export const DEPARTMENTS = '/department';
+export const SETTING = '/setting';
 
 export const NOTFOUND = '/notfound';
-
-// export const CREATE_ASSET = '/asset/createAsset';
-// export const EDIT_ASSET = '/asset/edit/:id';
-// export const EDIT_ASSET_ID = (id: string | number) => `/asset/edit/${id}`;
 
 export const REPORT= '/report';

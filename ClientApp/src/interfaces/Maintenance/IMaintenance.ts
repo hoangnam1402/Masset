@@ -7,7 +7,7 @@ export default interface IMaintenance {
     asset:IAsset,
     supplierID:number,
     supplier:ISupplier,
-    maintenanceType:number,
+    type:number,
     startDate:Date,
     endDate:Date,
     createDay:Date,
