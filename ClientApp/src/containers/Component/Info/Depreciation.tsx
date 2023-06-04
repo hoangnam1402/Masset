@@ -29,25 +29,22 @@ type Props = {
 const Depreciation: React.FC<Props> = ({componentID}) => {
     const dispatch = useAppDispatch();
     const { depreciation } = useAppSelector(state => state.componentReducer);
-    
     const [queue, setQueue] = useState<Items[]>([]);
-    const [value, setValue] = useState(0);
 
     useEffect(() => {
         if (depreciation) {
-            const DepreciationPercentage = (depreciation.value / depreciation.period).toFixed(2);
-            const Amount = ((depreciation.component.cost - depreciation.value) / depreciation.period).toFixed(2);
+            const DepreciationPercentage = (100 / depreciation.period).toFixed(2);
+            const Amount = ((depreciation.asset.cost - depreciation.value) / depreciation.period).toFixed(2);
             for(let i = 0; i < depreciation.period; i++){
                 const newElement: Items = {
                     period: i,
-                    bookValue: (depreciation.component.cost - value).toFixed(2),
+                    bookValue: (depreciation.asset.cost - parseFloat(Amount)*i).toFixed(2),
                     depreciationPercentage: DepreciationPercentage,
                     amount: Amount,
-                    accumulatedDepreciation: (value + depreciation.value).toFixed(2),
-                    endingBookValue: (depreciation.component.cost - value - depreciation.value).toFixed(2),
+                    accumulatedDepreciation: (parseFloat(Amount)*(i+1)).toFixed(2),
+                    endingBookValue: (depreciation.asset.cost - parseFloat(Amount)*(i+1)).toFixed(2),
                 }
                 setQueue(prevArray => [...prevArray, newElement]);
-                setValue(prevArray => prevArray + depreciation.value);
             }
         }
     }, [depreciation]);

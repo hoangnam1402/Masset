@@ -11,6 +11,8 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import UserForm from "./UserForm";
 import UserTable from "./UserTable";
+import { LimitOptions } from "../../constants/selectOptions";
+import UserFDP from "./UserFDP";
 
 const User = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +28,8 @@ const User = () => {
   } as IQueryModel);
 
   const [search, setSearch] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [limitSelected, setLimitSelected] = useState(5);
 
   const handleChangeSearch = (e : any) => {
     e.preventDefault();
@@ -46,6 +49,16 @@ const User = () => {
     setQuery({
       ...query,
       search,
+      page:1
+    });
+  };
+
+  const handleLimit = (e: any) => {
+    setLimitSelected(e.target.value)
+
+    setQuery({
+      ...query,
+      limit: e.target.value,
       page:1
     });
   };
@@ -82,6 +95,12 @@ const User = () => {
 
       <div>
         <div className="d-flex mb-5 intro-x">
+          {users && users.items && <div className="d-flex align-items-center w-md mr-5">
+            <div className="d-flex justify-content-center">
+              <UserFDP data={users.items}/>
+            </div>
+          </div>}
+
           <div className="d-flex align-items-center w-ld ml-auto">
             <div className="input-group">
               <input
@@ -108,6 +127,8 @@ const User = () => {
           deleteUsers={deleteUser}
           handlePage={handlePage}
           handleSort={handleSort}
+          handleLimit={handleLimit}
+          limit={limitSelected}
           sortState={{
             columnValue: query.sortColumn,
             orderBy: query.sortOrder,

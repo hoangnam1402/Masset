@@ -3,7 +3,7 @@ export default interface IUser {
     userName: string,
     role: number,
     email: string,
-    phongNumber: string,
+    phoneNumber: string,
     createDay:Date,
     updateDay:Date,
 }

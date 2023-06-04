@@ -22,7 +22,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteLocations?: ILocation
+  deleteLocations?: ILocation;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const LocationTable: React.FC<Props> = ({
@@ -31,6 +33,8 @@ const LocationTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteLocations,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -87,6 +91,8 @@ const LocationTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: locations?.currentPage,
           totalPage: locations?.totalPages,

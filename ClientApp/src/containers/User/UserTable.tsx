@@ -26,7 +26,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteUsers?: IUser
+  deleteUsers?: IUser;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const UserTable: React.FC<Props> = ({
@@ -35,6 +37,8 @@ const UserTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteUsers,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
   const { account } = useAppSelector(state => state.authReducer);
@@ -104,6 +108,8 @@ const UserTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: users?.currentPage,
           totalPage: users?.totalPages,
@@ -119,7 +125,7 @@ const UserTable: React.FC<Props> = ({
             <td className="py-1">{data.userName} </td>
             <td className="py-1">{data.email}</td>
             <td className="py-1">{getUserRoleTypeName(data.role)}</td>
-            <td className="py-1">{data.phongNumber}</td>
+            <td className="py-1">{data.phoneNumber}</td>
 
             <td className="d-flex py-1">
               <ButtonIcon onClick={() => handleEdit(data)} 

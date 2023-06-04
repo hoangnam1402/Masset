@@ -3,5 +3,5 @@ export default interface IUserForm {
     userName?: string,
     role?: number,
     email?: string,
-    phongNumber?: string,
+    phoneNumber?: string,
 }

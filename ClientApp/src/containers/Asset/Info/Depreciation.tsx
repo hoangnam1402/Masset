@@ -33,7 +33,6 @@ const Depreciation: React.FC<Props> = ({assetID}) => {
 
     useEffect(() => {
         if (depreciation) {
-            console.log(depreciation)
             const DepreciationPercentage = (100 / depreciation.period).toFixed(2);
             const Amount = ((depreciation.asset.cost - depreciation.value) / depreciation.period).toFixed(2);
             for(let i = 0; i < depreciation.period; i++){

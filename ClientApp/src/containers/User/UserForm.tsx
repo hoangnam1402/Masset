@@ -17,14 +17,14 @@ const initialFormValues: IUserForm = {
     userName:undefined,
     role: undefined,
     email: undefined,
-    phongNumber: undefined,
+    phoneNumber: undefined,
 };
 
 const validationSchema = Yup.object().shape({
     userName: Yup.string().required('Required'),
     role: Yup.string().required('Required'),
     email: Yup.string().required('Required'),
-    phongNumber: Yup.string().required('Required'),
+    phoneNumber: Yup.string().required('Required'),
 });
 
 type Props = {
@@ -119,9 +119,9 @@ const UserForm: React.FC<Props> = ({ user, handleClose }) => {
                             name="email" 
                             label="Email" 
                             isrequired={true}/>
-                        <TextField id="phongNumber"
-                            name="phongNumber" 
-                            label="Phong Number" 
+                        <TextField id="phoneNumber"
+                            name="phoneNumber" 
+                            label="Phone Number" 
                             isrequired={true}/>
 
                         <div className="text-center mt-3 float-right">

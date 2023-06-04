@@ -6,6 +6,8 @@ import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } 
 import IQueryModel from "../../../interfaces/IQueryModel";
 import Table from "../../../components/Table";
 import { Search } from "react-feather";
+import { LimitOptions } from "../../../constants/selectOptions";
+import ComponentCheckFDP from "./ComponentCheckFDP";
 
 const columns: IColumnOption[] = [
     { columnName: "Name", columnValue: "component.name" },
@@ -23,6 +25,7 @@ const Component: React.FC<Props> = ({assetID}) => {
     const dispatch = useAppDispatch();
     const [search, setSearch] = useState("");
     const { componentCheck } = useAppSelector(state => state.assetReducer);
+    const [limitSelected, setLimitSelected] = useState(5);
     
     const [query, setQuery] = useState({
         page: componentCheck?.currentPage ?? 1,
@@ -48,6 +51,16 @@ const Component: React.FC<Props> = ({assetID}) => {
         });
     };
 
+    const handleLimit = (e: any) => {
+        setLimitSelected(e.target.value)
+    
+        setQuery({
+          ...query,
+          limit: e.target.value,
+          page:1
+        });
+    };
+
     const handlePage = (page: number) => {
         setQuery({
           ...query,
@@ -61,7 +74,7 @@ const Component: React.FC<Props> = ({assetID}) => {
           search,
           page:1
         });
-      };    
+    };    
 
     const fetchData = () => {
         dispatch(getComponentCheck({query: query,id: Number(assetID)}));
@@ -75,6 +88,12 @@ const Component: React.FC<Props> = ({assetID}) => {
         <>
             <div>
                 <div className="d-flex mb-5 intro-x">
+                    {componentCheck && componentCheck.items && <div className="d-flex align-items-center w-md mr-5">
+                        <div className="d-flex justify-content-center">
+                        <ComponentCheckFDP data={componentCheck.items}/>
+                        </div>
+                    </div>}
+
                     <div className="d-flex align-items-center w-ld ml-auto">
                         <div className="input-group">
                             <input
@@ -93,6 +112,8 @@ const Component: React.FC<Props> = ({assetID}) => {
                 <Table
                     columns={columns}
                     handleSort={handleSort}
+                    handleLimit={handleLimit}
+                    limit={limitSelected}  
                     sortState={{
                         columnValue: query.sortColumn,
                         orderBy: query.sortOrder,

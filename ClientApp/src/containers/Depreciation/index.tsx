@@ -11,6 +11,8 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import DepreciationForm from "./DepreciationForm";
 import DepreciationTable from "./DepreciationTable";
+import { LimitOptions } from "../../constants/selectOptions";
+import DepreciationFDP from "./DepreciationFDP";
 
 const Depreciation = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +28,8 @@ const Depreciation = () => {
   } as IQueryModel);
 
   const [search, setSearch] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [limitSelected, setLimitSelected] = useState(5);
 
   const handleChangeSearch = (e : any) => {
     e.preventDefault();
@@ -46,6 +49,16 @@ const Depreciation = () => {
     setQuery({
       ...query,
       search,
+      page:1
+    });
+  };
+
+  const handleLimit = (e: any) => {
+    setLimitSelected(e.target.value)
+
+    setQuery({
+      ...query,
+      limit: e.target.value,
       page:1
     });
   };
@@ -82,6 +95,12 @@ const Depreciation = () => {
 
       <div>
         <div className="d-flex mb-5 intro-x">
+          {depreciations && depreciations.items && <div className="d-flex align-items-center w-md mr-5">
+            <div className="d-flex justify-content-center">
+              <DepreciationFDP data={depreciations.items}/>
+            </div>
+          </div>}
+
           <div className="d-flex align-items-center w-ld ml-auto">
             <div className="input-group">
               <input
@@ -108,6 +127,8 @@ const Depreciation = () => {
           deleteDepr={deleteDepreciation}
           handlePage={handlePage}
           handleSort={handleSort}
+          handleLimit={handleLimit}
+          limit={limitSelected}
           sortState={{
             columnValue: query.sortColumn,
             orderBy: query.sortOrder,

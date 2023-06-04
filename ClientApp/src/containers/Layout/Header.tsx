@@ -86,7 +86,6 @@ const Header = () => {
     }
     if (account) {
       dispatch(getSetting());
-      console.log("call")
     }
   }, [] );
 

@@ -11,6 +11,8 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import LocationForm from "./LocationForm";
 import LocationTable from "./LocationTable";
+import { LimitOptions } from "../../constants/selectOptions";
+import LocationFDP from "./LocationFDP";
 
 const Location = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +28,8 @@ const Location = () => {
   } as IQueryModel);
 
   const [search, setSearch] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [limitSelected, setLimitSelected] = useState(5);
 
   const handleChangeSearch = (e : any) => {
     e.preventDefault();
@@ -60,6 +63,16 @@ const Location = () => {
     });
   };
 
+  const handleLimit = (e: any) => {
+    setLimitSelected(e.target.value)
+
+    setQuery({
+      ...query,
+      limit: e.target.value,
+      page:1
+    });
+  };
+
   const handleCreate = () => {
     setShowCreateForm(true);
   }
@@ -82,6 +95,12 @@ const Location = () => {
 
       <div>
         <div className="d-flex mb-5 intro-x">
+          {locations && locations.items && <div className="d-flex align-items-center w-md mr-5">
+            <div className="d-flex justify-content-center">
+              <LocationFDP data={locations.items}/>
+            </div>
+          </div>}
+
           <div className="d-flex align-items-center w-ld ml-auto">
             <div className="input-group">
               <input
@@ -108,6 +127,8 @@ const Location = () => {
           deleteLocations={deleteLocation}
           handlePage={handlePage}
           handleSort={handleSort}
+          handleLimit={handleLimit}
+          limit={limitSelected}
           sortState={{
             columnValue: query.sortColumn,
             orderBy: query.sortOrder,

@@ -13,9 +13,10 @@ import {
 } from "../../../constants/paging";
 import AssetTable from "./AssetTable";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
-import { AssetStateOptions } from "../../../constants/selectOptions";
+import { AssetStateOptions, LimitOptions } from "../../../constants/selectOptions";
 import AssetForm from "./AssetForm";
 import ISelectOption from "../../../interfaces/ISelectOption";
+import AssetFDP from "./AssetFDP";
 
 const AssetList = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,8 @@ const AssetList = () => {
 
   const [stateSelected, setStateSelected] = useState(AssetStateOptions);
   const [search, setSearch] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [limitSelected, setLimitSelected] = useState(5);
 
   const handleChangeSearch = (e : any) => {
     e.preventDefault();
@@ -86,6 +88,16 @@ const AssetList = () => {
     });
   };
 
+  const handleLimit = (e: any) => {
+    setLimitSelected(e.target.value)
+
+    setQuery({
+      ...query,
+      limit: e.target.value,
+      page:1
+    });
+  };
+
   const handleSearch = () => {
     setQuery({
       ...query,
@@ -118,11 +130,14 @@ const AssetList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [query, deleteAsset, stateSelected, assetResult, assetChecking]);
+  }, [query, deleteAsset, assetResult, assetChecking]);
 
   return (
     <>
-      <div className="primaryColor text-title intro-x">Asset List</div>
+      <div className="d-flex">
+        <div className="d-flex primaryColor text-title intro-x">Asset List</div>
+        {assets && assets.items && <AssetFDP data={assets.items}/>}
+      </div>
 
       <div>
         <div className="d-flex mb-5 intro-x">
@@ -169,6 +184,8 @@ const AssetList = () => {
           deleteAsset={deleteAsset}
           handlePage={handlePage}
           handleSort={handleSort}
+          handleLimit={handleLimit}
+          limit={limitSelected}
           sortState={{
             columnValue: query.sortColumn,
             orderBy: query.sortOrder,

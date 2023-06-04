@@ -30,7 +30,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteMainten?: IMaintenance
+  deleteMainten?: IMaintenance;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const MaintenanceTable: React.FC<Props> = ({
@@ -39,6 +41,8 @@ const MaintenanceTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteMainten,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -122,6 +126,8 @@ const MaintenanceTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: maintenances?.currentPage,
           totalPage: maintenances?.totalPages,

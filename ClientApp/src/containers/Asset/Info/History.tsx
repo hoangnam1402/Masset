@@ -6,6 +6,8 @@ import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } 
 import IQueryModel from "../../../interfaces/IQueryModel";
 import Table from "../../../components/Table";
 import { Search } from "react-feather";
+import { LimitOptions } from "../../../constants/selectOptions";
+import AssetCheckFDP from "./AssetCheckFDP";
 
 const columns: IColumnOption[] = [
     { columnName: "Date", columnValue: "checkDay" },
@@ -22,6 +24,7 @@ const History: React.FC<Props> = ({assetID}) => {
     const dispatch = useAppDispatch();
     const [search, setSearch] = useState("");
     const { historyCheck } = useAppSelector(state => state.assetReducer);
+    const [limitSelected, setLimitSelected] = useState(5);
 
     const [query, setQuery] = useState({
         page: historyCheck?.currentPage ?? 1,
@@ -65,7 +68,17 @@ const History: React.FC<Props> = ({assetID}) => {
           search,
           page:1
         });
-    };    
+    };
+
+    const handleLimit = (e: any) => {
+        setLimitSelected(e.target.value)
+    
+        setQuery({
+          ...query,
+          limit: e.target.value,
+          page:1
+        });
+    };
 
     const fetchData = () => {
         dispatch(getHistoryCheck({query: query,id: assetID}));
@@ -73,13 +86,18 @@ const History: React.FC<Props> = ({assetID}) => {
 
     useEffect(() => {
     fetchData();
-    console.log(query)
     }, [query, assetID]);
 
     return (
         <>
             <div>
                 <div className="d-flex mb-5 intro-x">
+                    {historyCheck && historyCheck.items && <div className="d-flex align-items-center w-md mr-5">
+                        <div className="d-flex justify-content-center">
+                        <AssetCheckFDP data={historyCheck.items}/>
+                        </div>
+                    </div>}
+
                     <div className="d-flex align-items-center w-ld ml-auto">
                         <div className="input-group">
                             <input
@@ -98,6 +116,8 @@ const History: React.FC<Props> = ({assetID}) => {
                 <Table
                     columns={columns}
                     handleSort={handleSort}
+                    handleLimit={handleLimit}
+                    limit={limitSelected}  
                     sortState={{
                         columnValue: query.sortColumn,
                         orderBy: query.sortOrder,
@@ -119,7 +139,6 @@ const History: React.FC<Props> = ({assetID}) => {
                         <td className="py-1">{data.isCheckOut ? "Check out" : "Check in"}</td>
                     </tr>
                     ))}
-                    
                 </Table>
             </div>
         </>

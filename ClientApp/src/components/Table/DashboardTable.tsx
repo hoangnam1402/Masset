@@ -3,8 +3,6 @@ import { CaretDownFill, CaretUpFill } from "react-bootstrap-icons";
 import IColumnOption from "../../interfaces/IColumnOption";
 
 import Paging, { PageType } from "./Paging";
-import { LimitOptions } from "../../constants/selectOptions";
-import Limit from "./Limit";
 
 export type SortType = {
   columnValue: string;
@@ -29,18 +27,14 @@ type Props = {
   sortState: SortType;
   handleSort: (colValue: string) => void;
   page?: PageType;
-  handleLimit: (e: any) => void;
-  limit: number;
 };
 
-const Table: React.FC<Props> = ({
+const DashboardTable: React.FC<Props> = ({
   columns,
   children,
   page,
   sortState,
   handleSort,
-  handleLimit,
-  limit,
 }) => {
 
   return (
@@ -87,12 +81,6 @@ const Table: React.FC<Props> = ({
         </table>
       </div>
 
-      {!!(page && page.totalPage && page.totalPage >= 1) && (
-        <div className="w-100 d-flex align-items-center mt-3">
-          <Limit handleLimit={handleLimit} limit={limit}/>
-          <Paging {...page} />
-        </div>
-      )}
       {!!!(page && page.totalPage && page.totalPage >= 1) && (
         <p className="text-center">No record</p>
       )}
@@ -100,4 +88,4 @@ const Table: React.FC<Props> = ({
   );
 };
 
-export default Table;
+export default DashboardTable;

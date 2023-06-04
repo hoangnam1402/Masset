@@ -40,7 +40,6 @@ namespace Business.Services
 
             var result = await userQuery
                 .AsNoTracking()
-                .Where(x => x.Id != id)
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);

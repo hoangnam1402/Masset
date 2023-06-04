@@ -38,6 +38,9 @@ body {
     margin-bottom: 2rem;
 }
 
+.btn-info {
+    color: white;
+}
 .pointer:hover {
     cursor: pointer;
     opacity: 0.5;
@@ -88,6 +91,10 @@ body {
 
 .ml-3, .mx-3 {
     margin-left: 1rem!important;
+}
+
+.ml-2, .mx-2 {
+    margin-left: 0.5rem!important;
 }
 
 .mr-2, .mx-2 {

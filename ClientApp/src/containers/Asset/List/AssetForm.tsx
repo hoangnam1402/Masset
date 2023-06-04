@@ -75,7 +75,6 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
     const locationList = createSelectOption(locations);
     const brandList = createSelectOption(brands);
     const supplierList = createSelectOption(suppliers);
-    console.log(typeList);
 
     typeList.shift();
     locationList.shift();

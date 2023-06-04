@@ -46,81 +46,79 @@ const Paging: React.FC<PageType> = ({ currentPage = 1, totalPage = 1, handleChan
     };
 
     return (
-        <div className="w-100 d-flex align-items-center mt-3">
-            <ul className="pagination">
-                <li className="intro-x">
-                    <a onClick={onPrev} className={prePageStyle}>
-                        Previous
-                    </a>
-                </li>
+        <ul className="pagination mt-2">
+            <li className="intro-x">
+                <a onClick={onPrev} className={prePageStyle}>
+                    Previous
+                </a>
+            </li>
 
 
-                {currentPage > 3 && (
-                <li>
-                    <a
-                    onClick={(e) => onPageNumber( 
-                        e,
-                        totalPage - currentPage < 3 ? 
-                        totalPage - pageLength :
-                        currentPage - 3 
-                        )
-                    }
-                    className={pageStyle(
-                        totalPage - currentPage < 3 ? 
-                        totalPage - pageLength :
-                        currentPage - 3
-                        )}
-                    >
-                        <ThreeDots/>
-                    </a>
-                </li>
-                )}
-
-
-                {[...Array(limitPage).keys()]
-                    .map((i) => {
-                        const limitPerSide = Math.floor(pageLength / 2);
-                        if (currentPage <= limitPerSide)
-                        return i + Math.ceil(currentPage / limitPerSide);
-                        if (currentPage > totalPage - limitPerSide)
-                        return i + totalPage + 1 - limitPage;
-                        return i + currentPage - limitPerSide;
-                    })
-                    .map((i) => (
-                        <li key={i}>
-                        <a onClick={(e) => onPageNumber(e, i)} className={pageStyle(i)}>
-                            {i}
-                        </a>
-                        </li>
-                    ))
+            {currentPage > 3 && (
+            <li>
+                <a
+                onClick={(e) => onPageNumber( 
+                    e,
+                    totalPage - currentPage < 3 ? 
+                    totalPage - pageLength :
+                    currentPage - 3 
+                    )
                 }
+                className={pageStyle(
+                    totalPage - currentPage < 3 ? 
+                    totalPage - pageLength :
+                    currentPage - 3
+                    )}
+                >
+                    <ThreeDots/>
+                </a>
+            </li>
+            )}
 
-                {currentPage < (totalPage - 2 ) && (
-                <li>
-                    <a
-                    onClick={(e) => onPageNumber( 
-                        e,
-                        currentPage < 3 ? 
-                        pageLength + 1 :
-                        currentPage + 3
-                        )
-                    }
-                    className={pageStyle(
-                        currentPage < 3 ? 
-                        pageLength :
-                        currentPage + 3 
-                        )}
-                    >
-                        <ThreeDots/>
+
+            {[...Array(limitPage).keys()]
+                .map((i) => {
+                    const limitPerSide = Math.floor(pageLength / 2);
+                    if (currentPage <= limitPerSide)
+                    return i + Math.ceil(currentPage / limitPerSide);
+                    if (currentPage > totalPage - limitPerSide)
+                    return i + totalPage + 1 - limitPage;
+                    return i + currentPage - limitPerSide;
+                })
+                .map((i) => (
+                    <li key={i}>
+                    <a onClick={(e) => onPageNumber(e, i)} className={pageStyle(i)}>
+                        {i}
                     </a>
-                </li>
-                )}
+                    </li>
+                ))
+            }
 
-                <li className="intro-x">
-                    <a onClick={onNext} className={nextPageStyle}>Next</a>
-                </li>
-            </ul>
-        </div>
+            {currentPage < (totalPage - 2 ) && (
+            <li>
+                <a
+                onClick={(e) => onPageNumber( 
+                    e,
+                    currentPage < 3 ? 
+                    pageLength + 1 :
+                    currentPage + 3
+                    )
+                }
+                className={pageStyle(
+                    currentPage < 3 ? 
+                    pageLength :
+                    currentPage + 3 
+                    )}
+                >
+                    <ThreeDots/>
+                </a>
+            </li>
+            )}
+
+            <li className="intro-x">
+                <a onClick={onNext} className={nextPageStyle}>Next</a>
+            </li>
+        </ul>
     );
 };
 

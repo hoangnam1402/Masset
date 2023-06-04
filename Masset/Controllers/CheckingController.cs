@@ -177,5 +177,31 @@ namespace Masset.Controllers
             else
                 return BadRequest("Somethink go wrong.");
         }
+
+        [HttpGet("AssetActive")]
+        [Authorize]
+        public async Task<IActionResult> GetAssetActive([FromQuery] BaseQueryCriteria queryCriteria,
+                                                               CancellationToken cancellationToken)
+        {
+            var result = await _checkingService.GetByPageAssetAsync(queryCriteria, cancellationToken);
+
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest("Somethink go wrong.");
+        }
+
+        [HttpGet("ComponentActive")]
+        [Authorize]
+        public async Task<IActionResult> GetComponentActive([FromQuery] BaseQueryCriteria queryCriteria,
+                                                       CancellationToken cancellationToken)
+        {
+            var result = await _checkingService.GetByPageComponentAsync(queryCriteria, cancellationToken);
+
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest("Somethink go wrong.");
+        }
     }
 }

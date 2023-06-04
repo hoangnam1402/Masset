@@ -8,6 +8,9 @@ import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } 
 import { TypeMaintenance, TypeCalibration, TypeCalibrationLabel, TypeHardwareSupport, TypeTesting,
     TypeHardwareSupportLabel, TypeMaintenanceLabel, TypeRepair, TypeRepairLabel, TypeSoftwareSupport,
     TypeSoftwareSupportLabel, TypeTestingLabel, TypeUpgrade, TypeUpgradeLabel } from "../../../constants/maintenanceConstants";
+import { Search } from "react-feather";
+import { LimitOptions } from "../../../constants/selectOptions";
+import MaintenanceFDP from "../../Maintenance/MaintenanceFDP";
 
 const columns: IColumnOption[] = [
     { columnName: "Asset", columnValue: "asset" },
@@ -24,6 +27,8 @@ type Props = {
 const Maintenances: React.FC<Props> = ({assetID}) => {
     const dispatch = useAppDispatch();
     const { maintenances } = useAppSelector(state => state.assetReducer);
+    const [search, setSearch] = useState("");
+    const [limitSelected, setLimitSelected] = useState(5);
 
     const [query, setQuery] = useState({
         page: maintenances?.currentPage ?? 1,
@@ -46,6 +51,31 @@ const Maintenances: React.FC<Props> = ({assetID}) => {
         setQuery({
           ...query,
           page,
+        });
+    };
+
+    const handleSearch = () => {
+        setQuery({
+          ...query,
+          search,
+          page:1
+        });
+    };
+
+    const handleChangeSearch = (e : any) => {
+        e.preventDefault();
+    
+        const search = e.target.value;
+        setSearch(search);
+    };
+
+    const handleLimit = (e: any) => {
+        setLimitSelected(e.target.value)
+    
+        setQuery({
+          ...query,
+          limit: e.target.value,
+          page:1
         });
     };
 
@@ -78,33 +108,58 @@ const Maintenances: React.FC<Props> = ({assetID}) => {
     
     return(
         <>
-            <Table
-                columns={columns}
-                handleSort={handleSort}
-                sortState={{
-                    columnValue: query.sortColumn,
-                    orderBy: query.sortOrder,
-                }}
-                page={{
-                currentPage: maintenances?.currentPage,
-                totalPage: maintenances?.totalPages,
-                handleChange: handlePage,
-                }}
-            >
-                {maintenances?.items.map((data, index) => (
-                <tr 
-                    key={index} 
-                    className=""
+            <div>
+                <div className="d-flex mb-5 intro-x">
+                    {maintenances && maintenances.items && <div className="d-flex align-items-center w-md mr-5">
+                        <div className="d-flex justify-content-center">
+                        <MaintenanceFDP data={maintenances.items}/>
+                        </div>
+                    </div>}
+
+                    <div className="d-flex align-items-center w-ld ml-auto">
+                        <div className="input-group">
+                            <input
+                                onChange={handleChangeSearch}
+                                value={search}
+                                type="text"
+                                className="form-control"
+                            />
+                            <span onClick={handleSearch} className="border p-2 pointer">
+                                <Search />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <Table
+                    columns={columns}
+                    handleSort={handleSort}
+                    handleLimit={handleLimit}
+                    limit={limitSelected}
+                    sortState={{
+                        columnValue: query.sortColumn,
+                        orderBy: query.sortOrder,
+                    }}
+                    page={{
+                    currentPage: maintenances?.currentPage,
+                    totalPage: maintenances?.totalPages,
+                    handleChange: handlePage,
+                    }}
                 >
-                    <td className="py-1">{data.asset.name}</td>
-                    <td className="py-1">{data.supplier.name} </td>
-                    <td className="py-1">{getMaintenanceTypeName(data.type)}</td>
-                    <td className="py-1">{new Date(data.startDate).toLocaleDateString()}</td>
-                    <td className="py-1">{new Date(data.endDate).toLocaleDateString()}</td>
-                </tr>
-                ))}
-                
-            </Table>
+                    {maintenances?.items.map((data, index) => (
+                    <tr 
+                        key={index} 
+                        className=""
+                    >
+                        <td className="py-1">{data.asset.name}</td>
+                        <td className="py-1">{data.supplier.name} </td>
+                        <td className="py-1">{getMaintenanceTypeName(data.type)}</td>
+                        <td className="py-1">{new Date(data.startDate).toLocaleDateString()}</td>
+                        <td className="py-1">{new Date(data.endDate).toLocaleDateString()}</td>
+                    </tr>
+                    ))}
+                </Table>
+            </div>
         </>
     );
 };

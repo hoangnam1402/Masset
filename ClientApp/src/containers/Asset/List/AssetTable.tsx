@@ -30,7 +30,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteAsset?: IAsset
+  deleteAsset?: IAsset;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const AssetTable: React.FC<Props> = ({
@@ -39,6 +41,8 @@ const AssetTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteAsset,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -112,6 +116,8 @@ const AssetTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: assets?.currentPage,
           totalPage: assets?.totalPages,

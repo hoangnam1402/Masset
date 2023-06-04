@@ -19,6 +19,55 @@ namespace Business.Services
             _mapper = mapper;
         }
 
+        public async Task<PagedResponseModel<CheckingDto>> GetByPageAssetAsync(
+            BaseQueryCriteria baseQueryCriteria,
+            CancellationToken cancellationToken)
+        {
+            var result = await _checkingRepository.Entities.AsQueryable()
+                .AsNoTracking()
+                .Include(s => s.User)
+                .Include(s => s.Asset)
+                .ThenInclude(x => x!.Location)
+                .Where(x => x.Component == null)
+                .PaginateAsync(
+                    baseQueryCriteria,
+                    cancellationToken);
+
+            var dtos = _mapper.Map<IList<CheckingDto>>(result.Items);
+            return new PagedResponseModel<CheckingDto>
+            {
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                TotalItems = result.TotalItems,
+                Items = dtos
+            };
+        }
+
+        public async Task<PagedResponseModel<CheckingDto>> GetByPageComponentAsync(
+            BaseQueryCriteria baseQueryCriteria,
+            CancellationToken cancellationToken)
+        {
+            var result = await _checkingRepository.Entities.AsQueryable()
+                .AsNoTracking()
+                .Include(s => s.Component)
+                .Include(s => s.Component)
+                .ThenInclude(x => x!.Location)
+                .Include(s => s.Asset)
+                .Where(x => x.User == null && x.Quantity > 0)
+                .PaginateAsync(
+                    baseQueryCriteria,
+                    cancellationToken);
+
+            var dtos = _mapper.Map<IList<CheckingDto>>(result.Items);
+            return new PagedResponseModel<CheckingDto>
+            {
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                TotalItems = result.TotalItems,
+                Items = dtos
+            };
+        }
+
         public async Task<CheckingDto?> CreateAsync(CheckingCreateDto createRequest)
         {
             var checking = _mapper.Map<Checking>(createRequest);
@@ -127,12 +176,14 @@ namespace Business.Services
             if (checking == null)
                 return null;
 
-            var quantity = checking.Quantity;
-            checking = _mapper.Map(updateRequest, checking);
-            checking.Quantity = quantity - updateRequest.Quantity;
+            checking.Quantity = checking.Quantity - updateRequest.Quantity;
+            var update = await _checkingRepository.Update(checking);
+            if (update == null)
+                return null;
 
-            var result = await _checkingRepository.Update(checking);
-
+            var checkIn = _mapper.Map<Checking>(updateRequest);
+            checkIn.IsEffective = true;
+            var result = await _checkingRepository.Add(checking);
             if (result != null)
                 return _mapper.Map<CheckingDto>(result);
             else

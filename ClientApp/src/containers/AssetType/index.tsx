@@ -11,6 +11,8 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import AssetTypeForm from "./AssetTypeForm";
 import AssetTypeTable from "./AssetTypeTable";
+import { LimitOptions } from "../../constants/selectOptions";
+import TypeFDP from "./TypeFDP";
 
 const AssetType = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +28,8 @@ const AssetType = () => {
   } as IQueryModel);
 
   const [search, setSearch] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [limitSelected, setLimitSelected] = useState(5);
 
   const handleChangeSearch = (e : any) => {
     e.preventDefault();
@@ -60,6 +63,16 @@ const AssetType = () => {
     });
   };
 
+  const handleLimit = (e: any) => {
+    setLimitSelected(e.target.value)
+
+    setQuery({
+      ...query,
+      limit: e.target.value,
+      page:1
+    });
+  };
+
   const handleCreate = () => {
     setShowCreateForm(true);
   }
@@ -80,8 +93,14 @@ const AssetType = () => {
     <>
       <div className="primaryColor text-title intro-x">Asset Type List</div>
 
-      <div>
+      <div>        
         <div className="d-flex mb-5 intro-x">
+          {assetTypes && assetTypes.items && <div className="d-flex align-items-center w-md mr-5">
+            <div className="d-flex justify-content-center">
+              <TypeFDP data={assetTypes.items}/>
+            </div>
+          </div>}
+
           <div className="d-flex align-items-center w-ld ml-auto">
             <div className="input-group">
               <input
@@ -105,6 +124,8 @@ const AssetType = () => {
 
         <AssetTypeTable
           assetTypes={assetTypes}
+          handleLimit={handleLimit}
+          limit={limitSelected}  
           deleteType={deleteAssetType}
           handlePage={handlePage}
           handleSort={handleSort}

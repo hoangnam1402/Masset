@@ -12,10 +12,11 @@ import {
   DEFAULT_PAGE_LIMIT,
 } from "../../../constants/paging";
 import ComponentTable from "./ComponentTable";
-import { AssetStateOptions } from "../../../constants/selectOptions";
+import { AssetStateOptions, LimitOptions } from "../../../constants/selectOptions";
 import ComponentForm from "./ComponentForm";
 import ISelectOption from "../../../interfaces/ISelectOption";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
+import ComponentFDP from "./ComponentFDP";
 
 const ComponentList = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,8 @@ const ComponentList = () => {
 
   const [stateSelected, setStateSelected] = useState(AssetStateOptions);
   const [search, setSearch] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [limitSelected, setLimitSelected] = useState(5);
 
   const handleChangeSearch = (e : any) => {
     e.preventDefault();
@@ -94,6 +96,16 @@ const ComponentList = () => {
     });
   };
 
+  const handleLimit = (e: any) => {
+    setLimitSelected(e.target.value)
+
+    setQuery({
+      ...query,
+      limit: e.target.value,
+      page:1
+    });
+  };
+
   const handleSort = (sortColumn: string) => {
     const sortOrder = query.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
 
@@ -122,7 +134,10 @@ const ComponentList = () => {
 
   return (
     <>
-      <div className="primaryColor text-title intro-x">Component List</div>
+      <div className="d-flex">
+        <div className="d-flex primaryColor text-title intro-x">Component List</div>
+        {components && components.items && <ComponentFDP data={components.items}/>}
+      </div>
 
       <div>
         <div className="d-flex mb-5 intro-x">
@@ -169,6 +184,8 @@ const ComponentList = () => {
           deleteComp={deleteComponent}
           handlePage={handlePage}
           handleSort={handleSort}
+          handleLimit={handleLimit}
+          limit={limitSelected}
           sortState={{
             columnValue: query.sortColumn,
             orderBy: query.sortOrder,

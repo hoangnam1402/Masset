@@ -39,3 +39,10 @@ export const DepreciationCategoryOption: ISelectOption[] = [
   { id: 1, label: AssetLabel, value: Asset },
   { id: 2, label: ComponentLabel, value: Component },
 ]
+
+export const LimitOptions: ISelectOption[] = [
+  { id: 1, label: "5", value: 5 },
+  { id: 2, label: "10", value: 10 },
+  { id: 3, label: "25", value: 25 },
+  { id: 4, label: "50", value: 50 },
+]

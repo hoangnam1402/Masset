@@ -26,7 +26,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteDepr?: IDepreciation
+  deleteDepr?: IDepreciation;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const DepreciationTable: React.FC<Props> = ({
@@ -35,6 +37,8 @@ const DepreciationTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteDepr,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -107,6 +111,8 @@ const DepreciationTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: depreciations?.currentPage,
           totalPage: depreciations?.totalPages,

@@ -31,11 +31,16 @@ const Setting = () => {
     phone: Yup.string().required('Required'),
   });
 
+  const fetchData = () => {
+    dispatch(getSetting());
+  };
+
   const handleResult = (result: boolean, message: string) => {
     if (result) {
         NotificationManager.success(
-            'Update Successful',
-            2000,
+          'Update Successful',
+          fetchData,
+          2000,
         );
 
         setTimeout(() => {
@@ -48,6 +53,8 @@ const Setting = () => {
 
   return (
     <>
+      <div className="primaryColor text-title intro-x">Setting</div>
+
       <Formik
         initialValues={initialFormValues}
         enableReinitialize
@@ -55,12 +62,12 @@ const Setting = () => {
         validateOnMount={true}
         onSubmit={(values) => {
           setLoading(true);
-
           setTimeout(() => {
             if (selectedFile)
             {
               dispatch(updateLogo(selectedFile));
             }
+            dispatch(updateSetting({ handleResult, formValues: values }));
             setLoading(false);
           }, 1000);
         }}

@@ -6,6 +6,8 @@ const Endpoints = {
 	Logo: apiurl+"api/setting/upload-image",
 
 	Dashboard: apiurl+"api/dashboard",
+	AssetChecking: apiurl+"api/checking/AssetActive",
+	ComponentChecking: apiurl+"api/checking/ComponentActive",
 
 	User: apiurl+"api/user",
 	UserId: (id: number | string): string => apiurl + `api/user/${id}`,

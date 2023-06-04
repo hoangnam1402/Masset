@@ -28,7 +28,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteComp?: IComponent
+  deleteComp?: IComponent;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const ComponentTable: React.FC<Props> = ({
@@ -37,6 +39,8 @@ const ComponentTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteComp,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -109,6 +113,8 @@ const ComponentTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: components?.currentPage,
           totalPage: components?.totalPages,

@@ -11,6 +11,8 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import MaintenanceTable from "./MaintenanceTable";
 import MaintenanceForm from "./MaintenanceForm";
+import { LimitOptions } from "../../constants/selectOptions";
+import MaintenanceFDP from "./MaintenanceFDP";
 
 const Maintenance = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +28,8 @@ const Maintenance = () => {
   } as IQueryModel);
 
   const [search, setSearch] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [limitSelected, setLimitSelected] = useState(5);
 
   const handleChangeSearch = (e : any) => {
     e.preventDefault();
@@ -39,6 +42,16 @@ const Maintenance = () => {
     setQuery({
       ...query,
       page,
+    });
+  };
+
+  const handleLimit = (e: any) => {
+    setLimitSelected(e.target.value)
+
+    setQuery({
+      ...query,
+      limit: e.target.value,
+      page:1
     });
   };
 
@@ -82,6 +95,12 @@ const Maintenance = () => {
 
       <div>
         <div className="d-flex mb-5 intro-x">
+          {maintenances && maintenances.items && <div className="d-flex align-items-center w-md mr-5">
+            <div className="d-flex justify-content-center">
+              <MaintenanceFDP data={maintenances.items}/>
+            </div>
+          </div>}
+          
           <div className="d-flex align-items-center w-ld ml-auto">
             <div className="input-group">
               <input
@@ -108,6 +127,8 @@ const Maintenance = () => {
           deleteMainten={deleteMaintenance}
           handlePage={handlePage}
           handleSort={handleSort}
+          handleLimit={handleLimit}
+          limit={limitSelected}
           sortState={{
             columnValue: query.sortColumn,
             orderBy: query.sortOrder,

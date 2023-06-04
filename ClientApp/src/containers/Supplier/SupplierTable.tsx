@@ -26,7 +26,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteSuppliers?: ISupplier
+  deleteSuppliers?: ISupplier;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const SupplierTable: React.FC<Props> = ({
@@ -35,6 +37,8 @@ const SupplierTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteSuppliers,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -91,6 +95,8 @@ const SupplierTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: suppliers?.currentPage,
           totalPage: suppliers?.totalPages,

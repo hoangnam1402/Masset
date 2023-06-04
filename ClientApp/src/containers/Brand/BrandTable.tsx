@@ -22,7 +22,9 @@ type Props = {
   handlePage: (page: number) => void;
   handleSort: (colValue: string) => void;
   sortState: SortType;
-  deleteBrands?: IBrand
+  deleteBrands?: IBrand;
+  handleLimit: (e: any) => void;
+  limit: number;
 };
 
 const BrandTable: React.FC<Props> = ({
@@ -31,6 +33,8 @@ const BrandTable: React.FC<Props> = ({
   handleSort,
   sortState,
   deleteBrands,
+  handleLimit,
+  limit,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -87,12 +91,13 @@ const BrandTable: React.FC<Props> = ({
         columns={columns}
         handleSort={handleSort}
         sortState={sortState}
+        handleLimit={handleLimit}
+        limit={limit}
         page={{
           currentPage: brands?.currentPage,
           totalPage: brands?.totalPages,
           handleChange: handlePage,
         }}
-      
       >
         {brands?.items.map((data, index) => (
           <tr 

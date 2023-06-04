@@ -3,23 +3,57 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { NavLink, Route, useNavigate } from "react-router-dom";
 import { logout } from "../Authorize/reducer";
 import { ASSETS, COMPONENTS, LOGIN, MAINTENANCES, USER } from "../../constants/pages";
-import { getDashboard } from "./reducer";
+import { getAssetChecking, getComponentChecking, getDashboard } from "./reducer";
 import { Link45deg } from "react-bootstrap-icons";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { StateArchivedLabel, StateBrokenLabel, StateLostLabel, StateOutOfRepairLabel,
   StatePendingLabel, StateReadyToDeployLabel } from "../../constants/assetConstants";
+import Table, { SortType } from "../../components/Table";
+import IColumnOption from "../../interfaces/IColumnOption";
+import IQueryModel from "../../interfaces/IQueryModel";
+import { ACCSENDING, DECSENDING, CHECKING_SORT_COLUMN_NAME } from "../../constants/paging";
+
+const assetColumns: IColumnOption[] = [
+  { columnName: "Asset", columnValue: "asset.name" },
+  { columnName: "Employee", columnValue: "user.userName" },
+  { columnName: "Status", columnValue: "isCheckOut" },
+  { columnName: "Location", columnValue: "asset.location.name" },
+  { columnName: "Date", columnValue: "checkDay" },
+];
+
+const componentColumns: IColumnOption[] = [
+  { columnName: "Component", columnValue: "component.name" },
+  { columnName: "Asset", columnValue: "asset.name" },
+  { columnName: "Quantity", columnValue: "quantity" },
+  { columnName: "Status", columnValue: "isCheckOut" },
+  { columnName: "Location", columnValue: "component.location.name" },
+];
 
 const Dashboard = () => {
   ChartJS.register(ArcElement, Tooltip, Legend);
   const { account } = useAppSelector((state) => state.authReducer);
-  const { dashboard } = useAppSelector((state) => state.dashboardReducer);
+  const { dashboard, assetChecking, componentChecking } = useAppSelector((state) => state.dashboardReducer);
   const dispatch = useAppDispatch();
   const history = useNavigate();
   if (account?.firstLogin || account?.isActive == false) {
     dispatch(logout());
     history(LOGIN);
   }
+
+  const [assetQuery, setAssetQuery] = useState({
+    page: assetChecking?.currentPage ?? 1,
+    limit: 10,
+    sortOrder: DECSENDING,
+    sortColumn: CHECKING_SORT_COLUMN_NAME,
+  } as IQueryModel);
+
+  const [componentQuery, setComponentQuery] = useState({
+    page: componentChecking?.currentPage ?? 1,
+    limit: 10,
+    sortOrder: DECSENDING,
+    sortColumn: CHECKING_SORT_COLUMN_NAME,
+  } as IQueryModel);
 
   const LabelsOfType: string[] = [];
   const NumbersOfType: number[] = [];
@@ -57,7 +91,7 @@ const Dashboard = () => {
       },
     ],
   }
-
+  
   const AssetByStatus = {
     labels: LabelsOfStatus,
     datasets: [
@@ -68,11 +102,60 @@ const Dashboard = () => {
     ],
   }
   
+  const handleLimit = (e: any) => {
+  };
+  
+  const handlePage = (page: number) => {
+  };
+
+  const handleAssetSort = (sortColumn: string) => {
+    const sortOrder = assetQuery.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
+
+    setAssetQuery({
+      ...assetQuery,
+      sortColumn,
+      sortOrder,
+    });
+  };
+
+  const handleComponentSort = (sortColumn: string) => {
+    const sortOrder = componentQuery.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
+
+    setComponentQuery({
+      ...componentQuery,
+      sortColumn,
+      sortOrder,
+    });
+  };
+
+  const checkStatus = (id: boolean | undefined) => {
+		switch(id) {
+			case true:
+				return "Check Out";
+			case false:
+				return "Check In";
+			default:
+				return "";
+		}
+	};
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString();
+  }
+  
   useEffect(() => {
     if (account) {
       dispatch(getDashboard());
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(getAssetChecking(assetQuery));
+  }, [assetQuery]);
+
+  useEffect(() => {
+    dispatch(getComponentChecking(assetQuery));
+  }, [componentQuery]);
  
   return (
     <>
@@ -226,6 +309,86 @@ const Dashboard = () => {
               </div>
               <div className="content">
                 <Pie data={AssetByStatus} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br/>
+
+        <div className="row">
+          <div className="col-md-6">
+            <div className="card">
+              <div className="header">
+                <h5 className="title text-center">Recent asset activity</h5>
+              </div>
+              <div className="carbody">
+                <Table
+                  columns={assetColumns}
+                  handleSort={handleAssetSort}
+                  sortState={{
+                    columnValue: assetQuery.sortColumn,
+                    orderBy: assetQuery.sortOrder,
+                  }}
+                  handleLimit={handleLimit}
+                  limit={10}
+                  page={{
+                    currentPage: assetChecking?.currentPage,
+                    totalPage: assetChecking?.totalPages,
+                    handleChange: handlePage,
+                  }}
+                >
+                  {assetChecking?.items.map((data, index) => (
+                    <tr 
+                      key={index} 
+                      className=""
+                    >
+                      <td className="py-1">{data.asset.name}</td>
+                      <td className="py-1">{data.user.userName} </td>
+                      <td className="py-1">{checkStatus(data.isCheckOut)}</td>
+                      <td className="py-1">{data.asset.location.name}</td>
+                      <td className="py-1">{formatDate(data.checkDay)}</td>
+                    </tr>
+                  ))}
+                </Table>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-6">
+            <div className="card">
+              <div className="header">
+                <h5 className="title text-center">Recent component activity</h5>
+              </div>
+              <div className="carbody">
+                <Table
+                  columns={componentColumns}
+                  handleSort={handleComponentSort}
+                  sortState={{
+                    columnValue: componentQuery.sortColumn,
+                    orderBy: componentQuery.sortOrder,
+                  }}
+                  handleLimit={handleLimit}
+                  limit={10}
+                  page={{
+                    currentPage: assetChecking?.currentPage,
+                    totalPage: assetChecking?.totalPages,
+                    handleChange: handlePage,
+                  }}
+                >
+                  {assetChecking?.items.map((data, index) => (
+                    <tr 
+                      key={index} 
+                      className=""
+                    >
+                      <td className="py-1">{data.component.name}</td>
+                      <td className="py-1">{data.asset.name} </td>
+                      <td className="py-1">{data.quantity}</td>
+                      <td className="py-1">{checkStatus(data.isCheckOut)}</td>
+                      <td className="py-1">{data.asset.location.name}</td>
+                    </tr>
+                  ))}
+                </Table>
               </div>
             </div>
           </div>

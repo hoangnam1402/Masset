@@ -24,6 +24,7 @@ const Details: React.FC<Props> = ({component}) => {
     const dispatch = useAppDispatch();
     const [showCheckingForm, setShowCheckingForm] = useState(false);
     const [checkDetail, setCheckDetail] = useState(undefined as IChecking | undefined);
+    const [limitSelected, setLimitSelected] = useState(5);
 
     const { componentCheck } = useAppSelector(state => state.componentReducer);
 
@@ -48,6 +49,17 @@ const Details: React.FC<Props> = ({component}) => {
         setQuery({
           ...query,
           page,
+        });
+    };
+
+    
+    const handleLimit = (e: any) => {
+        setLimitSelected(e.target.value)
+
+        setQuery({
+        ...query,
+        limit: e.target.value,
+        page:1
         });
     };
 
@@ -79,6 +91,8 @@ const Details: React.FC<Props> = ({component}) => {
             <Table
                 columns={columns}
                 handleSort={handleSort}
+                handleLimit={handleLimit}
+                limit={limitSelected}
                 sortState={{
                     columnValue: query.sortColumn,
                     orderBy: query.sortOrder,
