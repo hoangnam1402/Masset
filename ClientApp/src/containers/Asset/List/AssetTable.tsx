@@ -18,6 +18,7 @@ import { Modal } from "react-bootstrap";
 import CheckAssetForm from "./CheckAssetForm";
 
 const columns: IColumnOption[] = [
+  { columnName: "Picture", columnValue: "" },
   { columnName: "Asset Tag", columnValue: "tag" },
   { columnName: "Asset Name", columnValue: "name" },
   { columnName: "Type", columnValue: "type" },
@@ -56,6 +57,7 @@ const AssetTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Asset ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteAsset = undefined;
@@ -130,11 +132,14 @@ const AssetTable: React.FC<Props> = ({
             key={index} 
             className=""
           >
-            <td className="py-1">{data.tag}</td>
-            <td className="py-1">{data.name} </td>
-            <td className="py-1">{data.type.name}</td>
-            <td className="py-1">{data.brand.name}</td>
-            <td className="py-1">{data.location.name}</td>
+            <td className="py-1 py-1-custome">
+              {data.image && <img id="image" src={`data:image/jpeg;base64,${data?.image}`} alt={data?.name} />}  
+            </td>
+            <td className="py-1 py-1-custome">{data.tag}</td>
+            <td className="py-1 py-1-custome">{data.name} </td>
+            <td className="py-1 py-1-custome">{data.type.name}</td>
+            <td className="py-1 py-1-custome">{data.brand.name}</td>
+            <td className="py-1 py-1-custome">{data.location.name}</td>
 
             <td className="d-flex py-1">
               <ButtonIcon onClick={() => handleShowCheckingForm(data)} title={data.isCheckOut ? "Check In" : "Check Out"}>

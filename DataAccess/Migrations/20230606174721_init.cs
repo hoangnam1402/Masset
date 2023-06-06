@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -14,158 +13,148 @@ namespace DataAccess.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySQL:Charset", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AssetTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    Description = table.Column<string>(type: "longtext", nullable: true),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AssetTypes", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    Description = table.Column<string>(type: "longtext", nullable: true),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Brands", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    Description = table.Column<string>(type: "longtext", nullable: true),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Locations", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Setting",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    Address = table.Column<string>(type: "longtext", nullable: true),
-                    Email = table.Column<string>(type: "longtext", nullable: true),
-                    Phone = table.Column<string>(type: "longtext", nullable: true),
-                    Logo = table.Column<byte[]>(type: "longblob", nullable: true)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Logo = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Setting", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Supplier",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    Email = table.Column<string>(type: "longtext", nullable: true),
-                    Phone = table.Column<string>(type: "longtext", nullable: true),
-                    City = table.Column<string>(type: "longtext", nullable: true),
-                    Country = table.Column<string>(type: "longtext", nullable: true),
-                    Address = table.Column<string>(type: "longtext", nullable: true),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Supplier", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    FirstLogin = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    FirstLogin = table.Column<bool>(type: "bit", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -176,33 +165,32 @@ namespace DataAccess.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Assets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    Tag = table.Column<string>(type: "longtext", nullable: true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TypeID = table.Column<int>(type: "int", nullable: false),
                     SupplierID = table.Column<int>(type: "int", nullable: false),
                     LocationID = table.Column<int>(type: "int", nullable: false),
                     BrandID = table.Column<int>(type: "int", nullable: false),
-                    Serial = table.Column<string>(type: "longtext", nullable: true),
+                    Serial = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cost = table.Column<int>(type: "int", nullable: true),
                     Warranty = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "longtext", nullable: true),
-                    PurchaseDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    IsCheckOut = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    IsDepreciation = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Img = table.Column<byte[]>(type: "longblob", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PurchaseDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsCheckOut = table.Column<bool>(type: "bit", nullable: false),
+                    IsDepreciation = table.Column<bool>(type: "bit", nullable: false),
+                    Img = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -231,17 +219,16 @@ namespace DataAccess.Migrations
                         principalTable: "Supplier",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Components",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
-                    Serial = table.Column<string>(type: "longtext", nullable: true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Serial = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     AvailableQuantity = table.Column<int>(type: "int", nullable: true),
                     TypeID = table.Column<int>(type: "int", nullable: false),
@@ -249,13 +236,13 @@ namespace DataAccess.Migrations
                     LocationID = table.Column<int>(type: "int", nullable: false),
                     BrandID = table.Column<int>(type: "int", nullable: false),
                     Cost = table.Column<int>(type: "int", nullable: false),
-                    PurchaseDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    PurchaseDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Warranty = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "longtext", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -284,18 +271,17 @@ namespace DataAccess.Migrations
                         principalTable: "Supplier",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "UserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -306,17 +292,16 @@ namespace DataAccess.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "UserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "longtext", nullable: true),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -327,15 +312,14 @@ namespace DataAccess.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -352,17 +336,16 @@ namespace DataAccess.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "UserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Value = table.Column<string>(type: "longtext", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -373,23 +356,22 @@ namespace DataAccess.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Maintenances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AssetID = table.Column<int>(type: "int", nullable: false),
                     SupplierID = table.Column<int>(type: "int", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -405,22 +387,23 @@ namespace DataAccess.Migrations
                         column: x => x.SupplierID,
                         principalTable: "Supplier",
                         principalColumn: "Id");
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Checking",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<string>(type: "varchar(255)", nullable: true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     AssetID = table.Column<int>(type: "int", nullable: true),
                     ComponentID = table.Column<int>(type: "int", nullable: true),
-                    CheckDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsCheckOut = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    IsEffective = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    CheckDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsCheckOut = table.Column<bool>(type: "bit", nullable: false),
+                    IsEffective = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -440,23 +423,22 @@ namespace DataAccess.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "Id");
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Depreciations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Category = table.Column<int>(type: "int", nullable: false),
                     AssetID = table.Column<int>(type: "int", nullable: true),
                     ComponentID = table.Column<int>(type: "int", nullable: true),
                     Period = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<int>(type: "int", nullable: false),
-                    CreateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateDay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -471,17 +453,16 @@ namespace DataAccess.Migrations
                         column: x => x.ComponentID,
                         principalTable: "Components",
                         principalColumn: "Id");
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "862a8e67-0ce9-4bc4-ad32-d4b354266f7b", "4daf9db0-ac21-46b9-a560-e907174a6f93", "Staff", "STAFF" },
-                    { "c3365850-6d1a-496c-b6ac-313773b2cd88", "8dea42bf-57f4-44dd-9ec1-28cd10a6a00d", "Admin", "ADMIN" },
-                    { "ca66c7da-ebbd-4010-963c-0fffdb96cd2d", "276e0587-b300-4583-a960-010f1f1a9a7f", "Manager", "MANAGER" }
+                    { "38f47051-cffb-458d-8646-16f91c7b60a3", "a3e8f15a-4a79-4d77-a403-a218a1931268", "Manager", "MANAGER" },
+                    { "5d2d9fa3-3a1b-47b7-b9d2-292683c1abcc", "043ba7b9-5718-4f9c-9672-e4cb529cf816", "Admin", "ADMIN" },
+                    { "f63d9bf0-9e82-4345-b1c4-bca9f54f7be5", "9aa74a50-c548-48bb-9e34-efe9d4294da8", "Staff", "STAFF" }
                 });
 
             migrationBuilder.InsertData(
@@ -492,12 +473,12 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDay", "Email", "EmailConfirmed", "FirstLogin", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UpdateDay", "UserName" },
-                values: new object[] { "c724c2e7-65e4-41a0-b57a-cce87e7e0def", 0, "023b5c22-98f6-47de-9119-81505119828e", new DateTime(2023, 6, 3, 18, 44, 27, 489, DateTimeKind.Local).AddTicks(8826), null, false, false, true, false, null, null, "TEST", "AQAAAAEAACcQAAAAEHYoVRSrpdEetbE/tyu7UNqrclOsusud8ldwhbHg4x6gruYIio1e/n8w4RvNwOsqUg==", null, false, 1, "6529bd34-1f8b-4130-9fd1-5b0786036947", false, new DateTime(2023, 6, 3, 18, 44, 27, 489, DateTimeKind.Local).AddTicks(8842), "Test" });
+                values: new object[] { "2d81233d-154f-49e3-a097-69634dce0c85", 0, "7ed2962b-44be-44cd-b05e-89e59b06b3d7", new DateTime(2023, 6, 7, 0, 47, 21, 165, DateTimeKind.Local).AddTicks(8276), null, false, false, true, false, null, null, "TEST", "AQAAAAEAACcQAAAAEMW1eoFSJkbHu+p/wOLc3cUK+IzijlKtRzhBOQwGCgNjnrUINwkw98Jbs6tEH5P4jw==", null, false, 1, "d58b2b11-d78a-44c0-b5df-332410978bee", false, new DateTime(2023, 6, 7, 0, 47, 21, 165, DateTimeKind.Local).AddTicks(8285), "Test" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "c3365850-6d1a-496c-b6ac-313773b2cd88", "c724c2e7-65e4-41a0-b57a-cce87e7e0def" });
+                values: new object[] { "5d2d9fa3-3a1b-47b7-b9d2-292683c1abcc", "2d81233d-154f-49e3-a097-69634dce0c85" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assets_BrandID",
@@ -583,7 +564,8 @@ namespace DataAccess.Migrations
                 name: "RoleNameIndex",
                 table: "Roles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
@@ -609,7 +591,8 @@ namespace DataAccess.Migrations
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         /// <inheritdoc />

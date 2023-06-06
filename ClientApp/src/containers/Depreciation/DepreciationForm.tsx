@@ -23,32 +23,6 @@ const initialFormValues: IDepreciationForm = {
     value:undefined,
 };
 
-const validationSchema = Yup.object().shape({
-    category: Yup.number().required('Required'),
-    period: Yup.string().required('Required'),
-    value: Yup.string().required('Required'),
-    assetID: Yup.number().test('test-assetID', 'Required',
-        function(value, context)
-        {
-            if (!value && context.parent.category == 1) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    ),
-    componentID: Yup.number().test('test-componentID', 'Required',
-    function(value, context)
-    {
-        if (!value && context.parent.category == 2) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-),
-});
-
 type Props = {
     depreciation: IDepreciation | undefined;
     handleClose: () => void;
@@ -70,6 +44,45 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
     const { assets, components } = useAppSelector(
         (state) => state.depreciationReducer
       );
+
+      const validationSchema = Yup.object().shape({
+        category: Yup.number().required('Required'),
+        period: Yup.number().required('Required'),
+        value: Yup.number().required('Required').test(
+            'test-value', 
+            'Input value is too large',
+            function(value) {
+                const { category, assetID, componentID } = this.parent;
+                if (category == 1) {
+                    return Yup.number().max((Number)(assets?.find(item => item.id === Number(assetID))?.cost)).isValidSync(value); 
+                } else if (category == 2) {
+                    return Yup.number().max((Number)(components?.find(item => item.id === Number(componentID))?.cost)).isValidSync(value); 
+                } else {
+                    return true;
+                }
+            }
+        ),
+        assetID: Yup.number().test('test-assetID', 'Required',
+            function(value, context)
+            {
+                if (!value && context.parent.category == 1) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        ),
+        componentID: Yup.number().test('test-componentID', 'Required',
+        function(value, context)
+        {
+            if (!value && context.parent.category == 2) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    ),
+    });
 
     const assetList = createSelectOption(assets);
     const componentList = createSelectOption(components);

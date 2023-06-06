@@ -50,9 +50,6 @@ const DepreciationSlice = createSlice({
 
     setDepreciations: (state, action: PayloadAction<IPagedModel<IDepreciation>>): DepreciationState => {
       const depreciations = action.payload;
-      if(state.depreciationResult){
-        depreciations.items.unshift(state.depreciationResult);
-      }
 
       return {
           ...state,

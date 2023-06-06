@@ -51,8 +51,8 @@ namespace Business.Services
                 .AsNoTracking()
                 .Include(s => s.Component)
                 .Include(s => s.Component)
-                .ThenInclude(x => x!.Location)
                 .Include(s => s.Asset)
+                .ThenInclude(x => x!.Location)
                 .Where(x => x.User == null && x.Quantity > 0)
                 .PaginateAsync(
                     baseQueryCriteria,
@@ -73,6 +73,8 @@ namespace Business.Services
             var checking = _mapper.Map<Checking>(createRequest);
 
             checking.IsEffective = true;
+            checking.UpdateDay = DateTime.Now;
+            checking.CreateDay = DateTime.Now;
 
             var result = await _checkingRepository.Add(checking);
             if (result != null)
@@ -126,7 +128,7 @@ namespace Business.Services
                 .Include(s => s.Component)
                 .ThenInclude(x => x!.Brand)
                 .Include(s => s.Asset)
-                .Where(x => x.Asset != null && x.Asset.Id == id && x.Quantity > 0)
+                .Where(x => x.Asset != null && x.Asset.Id == id && x.Quantity > 0 && x.IsEffective == true)
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
@@ -154,7 +156,7 @@ namespace Business.Services
                 .AsNoTracking()
                 .Include(s => s.Component)
                 .Include(s => s.Asset)
-                .Where(x => x.Component != null && x.Component.Id == id && x.Quantity > 0)
+                .Where(x => x.Component != null && x.Component.Id == id && x.Quantity > 0 && x.IsEffective == true)
                 .PaginateAsync(
                     baseQueryCriteria,
                     cancellationToken);
@@ -177,13 +179,16 @@ namespace Business.Services
                 return null;
 
             checking.Quantity = checking.Quantity - updateRequest.Quantity;
+            checking.UpdateDay = DateTime.Now;
             var update = await _checkingRepository.Update(checking);
             if (update == null)
                 return null;
 
             var checkIn = _mapper.Map<Checking>(updateRequest);
-            checkIn.IsEffective = true;
-            var result = await _checkingRepository.Add(checking);
+            checkIn.IsEffective = false;
+            checkIn.UpdateDay = DateTime.Now;
+            checkIn.CreateDay = DateTime.Now;
+            var result = await _checkingRepository.Add(checkIn);
             if (result != null)
                 return _mapper.Map<CheckingDto>(result);
             else
@@ -197,6 +202,7 @@ namespace Business.Services
             if (checking == null)
                 return null;
 
+            checking.UpdateDay = DateTime.Now;
             checking.IsEffective = false;
 
             var deleteCheking = await _checkingRepository.Update(checking);
@@ -266,9 +272,7 @@ namespace Business.Services
             if (!string.IsNullOrEmpty(baseQueryCriteria.Search))
             {
                 checkingQuery = checkingQuery.Where(b =>
-                    (b.Asset != null && b.Asset.Name != null && b.Asset.Name.Contains(baseQueryCriteria.Search)) ||
-                    (b.CheckDay != null && b.CheckDay.ToString().Contains(baseQueryCriteria.Search.ToString()))
-                    );
+                    (b.Asset != null && b.Asset.Name != null && b.Asset.Name.Contains(baseQueryCriteria.Search)));
             }
 
             return checkingQuery;

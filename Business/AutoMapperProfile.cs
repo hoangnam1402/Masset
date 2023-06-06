@@ -98,8 +98,7 @@ namespace Business
                 .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
             CreateMap<Asset, AssetCreateDto>()
                 .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
-            CreateMap<Asset, AssetUpdateDto>()
-                .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
+            CreateMap<Asset, AssetUpdateDto>();
 
             //Component
             CreateMap<Component, ComponentDto>();

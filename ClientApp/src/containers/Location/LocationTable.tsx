@@ -46,6 +46,7 @@ const LocationTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Location ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteLocations = undefined;

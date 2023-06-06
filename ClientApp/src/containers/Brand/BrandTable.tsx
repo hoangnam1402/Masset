@@ -46,6 +46,7 @@ const BrandTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Brand ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteBrands = undefined;

@@ -39,10 +39,10 @@ const Setting = () => {
     if (result) {
         NotificationManager.success(
           'Update Successful',
-          fetchData,
           2000,
         );
 
+        fetchData();
         setTimeout(() => {
         }, 1000);
 

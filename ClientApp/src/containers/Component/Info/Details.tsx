@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getComponentCheck } from "../reducer";
+import { getComponentCheck, getDepreciation } from "../reducer";
 import IColumnOption from "../../../interfaces/IColumnOption";
 import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } from "../../../constants/paging";
 import IQueryModel from "../../../interfaces/IQueryModel";
@@ -79,6 +79,7 @@ const Details: React.FC<Props> = ({component}) => {
 
     const fetchData = () => {
         dispatch(getComponentCheck({query: query,id: component.id}));
+        dispatch(getDepreciation({id: Number(component.id)}));
     };
 
     useEffect(() => {

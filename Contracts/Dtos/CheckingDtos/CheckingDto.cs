@@ -17,6 +17,8 @@ namespace Contracts.Dtos.CheckingDtos
         public DateTime? CheckDay { get; set; }
         public bool IsCheckOut { get; set; }
         public bool IsEffective { get; set; }
+        public DateTime? CreateDay { get; set; }
+        public DateTime? UpdateDay { get; set; }
 
     }
 }

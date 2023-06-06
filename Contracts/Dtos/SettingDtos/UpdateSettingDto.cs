@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Contracts.Dtos.SettingDtos
+﻿namespace Contracts.Dtos.SettingDtos
 {
     public class UpdateSettingDto
     {

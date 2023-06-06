@@ -44,10 +44,6 @@ const BrandSlice = createSlice({
 
     setBrands: (state, action: PayloadAction<IPagedModel<IBrand>>): BrandState => {
       const brands = action.payload;
-      if(state.brandResult){
-        brands.items.unshift(state.brandResult);
-      }
-
       return {
           ...state,
           brands,

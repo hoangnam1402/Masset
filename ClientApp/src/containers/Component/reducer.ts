@@ -86,9 +86,6 @@ const ComponentSlice = createSlice({
 
     setComponents: (state, action: PayloadAction<IPagedModel<IComponent>>): ComponentState => {
       const components = action.payload;
-      if(state.componentResult){
-        components.items.unshift(state.componentResult);
-      }
 
       return {
           ...state,

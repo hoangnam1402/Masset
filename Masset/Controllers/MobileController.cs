@@ -69,6 +69,7 @@ namespace Masset.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(userRequest.UserName);
+            var roles = await _userManager.GetRolesAsync(user);
             var token = await _authService.CreateToken();
 
             if (!user.IsActive)
@@ -83,11 +84,14 @@ namespace Masset.Controllers
 
             UserResponseDto result = new UserResponseDto()
             {
+                Token = token,
                 Id = user.Id,
                 UserName = user.UserName,
+                Role = roles[0],
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsActive = user.IsActive,
+                FirstLogin = user.FirstLogin,
                 Error = false,
                 Message = "",
             };
@@ -97,7 +101,7 @@ namespace Masset.Controllers
         [HttpGet("GetAsset/{id}/{tag}")]
         public async Task<AssetResponseDto> GetAsset([FromRoute] string id, string tag)
         {
-            if (!await _userService.IsExist(id) || !await _assetService.IsExist(tag))
+            if (!await _userService.IsExistById(id) || !await _assetService.IsExist(tag))
             {
                 var error = "User or Asset not exist!!!";
                 return new AssetResponseDto
@@ -107,7 +111,7 @@ namespace Masset.Controllers
                 };
             }
 
-            if (await _userService.IsActive(id) || await _assetService.IsDelete(tag))
+            if (!await _userService.IsActive(id) || await _assetService.IsDelete(tag))
             {
                 var error = "User or Asset not available!!!";
                 return new AssetResponseDto
@@ -144,6 +148,7 @@ namespace Masset.Controllers
                 Description = asset.Description,
                 CreateDay = asset.CreateDay,
                 UpdateDay = asset.UpdateDay,
+                Image = asset.Image,
                 Error = false,
                 Message = "",
             };
@@ -178,7 +183,7 @@ namespace Masset.Controllers
                 };
             }
 
-            if (!await _userService.IsExist(id) || !await _assetService.IsExist(tag))
+            if (!await _userService.IsExistById(id) || !await _assetService.IsExist(tag))
             {
                 var error = "User or Asset not exist!!!";
                 return new AssetResponseDto
@@ -188,7 +193,7 @@ namespace Masset.Controllers
                 };
             }
 
-            if (await _userService.IsActive(id) || await _assetService.IsDelete(tag))
+            if (!await _userService.IsActive(id) || await _assetService.IsDelete(tag))
             {
                 var error = "User or Asset not available!!!";
                 return new AssetResponseDto
@@ -225,6 +230,30 @@ namespace Masset.Controllers
                 Description = asset.Description,
                 CreateDay = asset.CreateDay,
                 UpdateDay = asset.UpdateDay,
+                Error = false,
+                Message = "",
+            };
+
+            return result;
+        }
+
+        [HttpPut("upload-image/{id}/{tag}")]
+        public async Task<AssetResponseDto> UpdateAsset([FromRoute] string id, string tag,
+                                                [FromForm] IFormFile image)
+        {
+            var asset = await _assetService.UpdateImageAsync(tag, image);
+            if (asset == null)
+            {
+                var error = "Something go wrong";
+                return new AssetResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            AssetResponseDto result = new AssetResponseDto()
+            {
                 Error = false,
                 Message = "",
             };

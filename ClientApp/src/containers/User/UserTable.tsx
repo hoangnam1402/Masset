@@ -50,6 +50,7 @@ const UserTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful User ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteUsers = undefined;
@@ -129,15 +130,15 @@ const UserTable: React.FC<Props> = ({
 
             <td className="d-flex py-1">
               <ButtonIcon onClick={() => handleEdit(data)} 
-                disable={account?.role == getUserRoleTypeName(data.role) ||
-                        (account?.role == "manager" && data.role != 3) ||
-                        account?.role == "staff" ? true : false}>
+                disable={(account?.role == getUserRoleTypeName(data.role) && account.id != data.id) ||
+                        (account?.role == "Manager" && data.role != 3 && account.id != data.id) ||
+                        (account?.role == "Staff" && account.id != data.id) ? true : false}>
                 <PencilFill className="text-black mx-2" />
               </ButtonIcon>
               <ButtonIcon onClick={() => handleDelete(data.id)} 
                 disable={account?.role == getUserRoleTypeName(data.role) ||
-                  (account?.role == "manager" && data.role != 3) ||
-                  account?.role == "staff" ? true : false}>
+                  (account?.role == "Manager" && data.role != 3) ||
+                  account?.role == "Staff" ? true : false}>
                 <XCircle className="text-danger mx-2" />
               </ButtonIcon>
             </td>

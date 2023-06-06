@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getDepreciation } from "../reducer";
 import StaticTable from "../../../components/Table/StaticTable";
 import IColumnOption from "../../../interfaces/IColumnOption";
 
@@ -27,7 +26,6 @@ type Props = {
 };
 
 const Depreciation: React.FC<Props> = ({componentID}) => {
-    const dispatch = useAppDispatch();
     const { depreciation } = useAppSelector(state => state.componentReducer);
     const [queue, setQueue] = useState<Items[]>([]);
 
@@ -48,14 +46,6 @@ const Depreciation: React.FC<Props> = ({componentID}) => {
             }
         }
     }, [depreciation]);
-
-    const fetchData = () => {
-        dispatch(getDepreciation({id: Number(componentID)}));
-    };
-
-    useEffect(() => {
-    fetchData();
-    }, []);
 
     return (
         <>

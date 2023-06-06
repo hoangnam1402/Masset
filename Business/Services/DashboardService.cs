@@ -43,7 +43,7 @@ namespace Business.Services
             dashboard.TotalAsset = assets.Where(x => x.IsDeleted == false).Count();
             dashboard.TotalComponent = components.Where(x => x.IsDeleted == false).Count();
             dashboard.TotalMaintenance = maintenances.Where(x => x.IsDeleted == false).Count();
-            dashboard.TotalEmployee = users.Where(x => x.IsActive == true && x.Role == UserRoleEnums.Staff).Count();
+            dashboard.TotalEmployee = users.Where(x => x.IsActive == true && x.Role != UserRoleEnums.Admin).Count();
             dashboard.NumberOfStatus1 = assets.Where(x => x.IsDeleted == false && x.Status == AssetStatusEnums.ReadyToDeploy).Count();
             dashboard.NumberOfStatus2 = assets.Where(x => x.IsDeleted == false && x.Status == AssetStatusEnums.Pending).Count();
             dashboard.NumberOfStatus3 = assets.Where(x => x.IsDeleted == false && x.Status == AssetStatusEnums.Archived).Count();

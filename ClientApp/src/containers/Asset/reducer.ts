@@ -84,6 +84,11 @@ export type GetByTagAction = {
   tag: string,
 }
 
+export type PutImage = {
+  file: File,
+  tag: string,
+}
+
 const AssetSlice = createSlice({
   name: "Asset",
   initialState,
@@ -97,9 +102,6 @@ const AssetSlice = createSlice({
 
     setAssets: (state, action: PayloadAction<IPagedModel<IAsset>>): AssetState => {
       const assets = action.payload;
-      if(state.assetResult){
-          assets.items.unshift(state.assetResult);
-      }
 
       return {
           ...state,
@@ -364,6 +366,13 @@ const AssetSlice = createSlice({
         assetChecking,
       }
     },
+
+    updateImage: (state, action: PayloadAction<PutImage>) => {
+      return {
+        ...state,
+        loading: true,
+      }
+    },
   },
 });
 
@@ -374,7 +383,7 @@ export const
     deleteAssets, createAsset, setAsset, updateAsset, setAssetGetById, setQrCode, getQrCode,
     getMaintenance, setMaintenance, getDepreciation, setDepreciation, getHistoryCheck,
     setHistoryCheck, getComponentCheck, setComponentCheck, getAssetCheckIn, getAssetCheckOut,
-    setAssetChecking, getUsers, setUsers
+    setAssetChecking, getUsers, setUsers, updateImage
 } = AssetSlice.actions;
 
 export default AssetSlice.reducer;

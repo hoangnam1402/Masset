@@ -9,10 +9,10 @@ import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { StateArchivedLabel, StateBrokenLabel, StateLostLabel, StateOutOfRepairLabel,
   StatePendingLabel, StateReadyToDeployLabel } from "../../constants/assetConstants";
-import Table, { SortType } from "../../components/Table";
 import IColumnOption from "../../interfaces/IColumnOption";
 import IQueryModel from "../../interfaces/IQueryModel";
 import { ACCSENDING, DECSENDING, CHECKING_SORT_COLUMN_NAME } from "../../constants/paging";
+import DashboardTable from "../../components/Table/DashboardTable";
 
 const assetColumns: IColumnOption[] = [
   { columnName: "Asset", columnValue: "asset.name" },
@@ -102,9 +102,6 @@ const Dashboard = () => {
     ],
   }
   
-  const handleLimit = (e: any) => {
-  };
-  
   const handlePage = (page: number) => {
   };
 
@@ -150,12 +147,11 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getAssetChecking(assetQuery));
-  }, [assetQuery]);
-
-  useEffect(() => {
-    dispatch(getComponentChecking(assetQuery));
-  }, [componentQuery]);
+    if (account) {
+      dispatch(getAssetChecking(assetQuery));
+      dispatch(getComponentChecking(componentQuery));
+      }
+  }, [assetQuery, componentQuery]);
  
   return (
     <>
@@ -323,15 +319,13 @@ const Dashboard = () => {
                 <h5 className="title text-center">Recent asset activity</h5>
               </div>
               <div className="carbody">
-                <Table
+                <DashboardTable
                   columns={assetColumns}
                   handleSort={handleAssetSort}
                   sortState={{
                     columnValue: assetQuery.sortColumn,
                     orderBy: assetQuery.sortOrder,
                   }}
-                  handleLimit={handleLimit}
-                  limit={10}
                   page={{
                     currentPage: assetChecking?.currentPage,
                     totalPage: assetChecking?.totalPages,
@@ -350,7 +344,7 @@ const Dashboard = () => {
                       <td className="py-1">{formatDate(data.checkDay)}</td>
                     </tr>
                   ))}
-                </Table>
+                </DashboardTable>
               </div>
             </div>
           </div>
@@ -361,22 +355,20 @@ const Dashboard = () => {
                 <h5 className="title text-center">Recent component activity</h5>
               </div>
               <div className="carbody">
-                <Table
+                <DashboardTable
                   columns={componentColumns}
                   handleSort={handleComponentSort}
                   sortState={{
                     columnValue: componentQuery.sortColumn,
                     orderBy: componentQuery.sortOrder,
                   }}
-                  handleLimit={handleLimit}
-                  limit={10}
                   page={{
-                    currentPage: assetChecking?.currentPage,
-                    totalPage: assetChecking?.totalPages,
+                    currentPage: componentChecking?.currentPage,
+                    totalPage: componentChecking?.totalPages,
                     handleChange: handlePage,
                   }}
                 >
-                  {assetChecking?.items.map((data, index) => (
+                  {componentChecking?.items.map((data, index) => (
                     <tr 
                       key={index} 
                       className=""
@@ -388,7 +380,7 @@ const Dashboard = () => {
                       <td className="py-1">{data.asset.location.name}</td>
                     </tr>
                   ))}
-                </Table>
+                </DashboardTable>
               </div>
             </div>
           </div>

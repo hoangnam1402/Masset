@@ -89,6 +89,19 @@ const Header = () => {
     }
   }, [] );
 
+  useEffect(() => {
+    if (account?.error) {
+      if (account.message == "Password is incorrect. Please try again") {
+        setNotificationNewPass("Password is incorrect. Please try again");
+        dispatch(logout());
+      }
+      if (account.message == "The new password cannot be the same as the old password") {
+        setNotificationNewPass("The new password cannot be the same as the old password");
+      }
+    }
+  }, [account] );
+
+
   return (
     <>
       <div className="header align-items-center font-weight-bold">
@@ -162,9 +175,13 @@ const Header = () => {
             <Formik
               initialValues={initialChangePasswordValues}
               enableReinitialize
-              onSubmit={(values, actions) => {
+              onSubmit={() => {
                 if (newpass.length < 5) {
                   setNotificationNewPass("Password min length 5 characters");
+                  return;
+                }
+                if (newpass == pass) {
+                  setNotificationNewPass("The new password cannot be the same as the old password");
                   return;
                 }
                 const a: IChangePassword = {
@@ -178,7 +195,7 @@ const Header = () => {
                 <Form className="intro-y">
                   <PasswordField
                     name="currentPassword"
-                    label="Curr password"
+                    label="Current password"
                     isrequired={true}
                     onChange={(e) => setPass(e.target.value)}
                     value={pass}

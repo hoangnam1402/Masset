@@ -120,13 +120,12 @@ namespace Business.Services
                 return false;
         }
 
-        public async Task<bool> DisableUserAsync(string id, string role)
+        public async Task<bool> DisableUserAsync(string id)
         {
             var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
-            if (user == null ||
-                (user.Role != UserRoleEnums.Staff && role != "Admin"))
+            if (user == null)
                 return false;
-            user.IsActive = true;
+            user.IsActive = false;
 
             var result = await _userRepository.Update(user);
             if (result == null)
@@ -137,7 +136,7 @@ namespace Business.Services
         public async Task<IList<UserDto>> GetAll()
         {
             var result = await _userRepository.GetAll();
-            result = result.Where(x => x.IsActive == true && x.Role == UserRoleEnums.Staff);
+            result = result.Where(x => x.IsActive == true && x.Role != UserRoleEnums.Admin);
             return _mapper.Map<IList<UserDto>>(result);
         }
 

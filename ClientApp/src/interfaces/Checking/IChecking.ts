@@ -14,4 +14,6 @@ export default interface IChecking {
     checkDay:Date,
     isCheckOut:boolean,
     isEffective:boolean,
+    createDay:Date,
+    updateDay:Date,
 }

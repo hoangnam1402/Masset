@@ -10,7 +10,7 @@ namespace DataAccess
         public static void AddDataAccessorLayer(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(config.GetConnectionString("MySqlDbConnection"), b =>
+                options.UseSqlServer(config.GetConnectionString("DbConnectionOnline"), b =>
                     b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                 ));
         }

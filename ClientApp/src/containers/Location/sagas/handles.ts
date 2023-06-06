@@ -69,7 +69,7 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
     try {
         const { data } = yield call(updateRequest, formValues);
 
-        handleResult(true, data);
+        handleResult(true, data.name);
 
         yield put(setLocation(data));
         

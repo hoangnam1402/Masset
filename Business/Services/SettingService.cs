@@ -69,9 +69,6 @@ namespace Business.Services
                 setting.Logo = ms.ToArray();
             }
             var result = await _settingRepository.Update(setting);
-
-            var test = await _settingRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == 1);
             return null!=result;
         }
 

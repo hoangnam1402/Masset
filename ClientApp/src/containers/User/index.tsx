@@ -16,6 +16,7 @@ import UserFDP from "./UserFDP";
 
 const User = () => {
   const dispatch = useAppDispatch();
+  const { account } = useAppSelector(state => state.authReducer);
   const { users, deleteUser, userResult } = useAppSelector(
     (state) => state.userReducer
   );
@@ -116,7 +117,7 @@ const User = () => {
           </div>
 
           <div className="d-flex align-items-center ml-3">
-            <button type="button" onClick={() => handleCreate()} className="btn btn-danger">
+            <button type="button" disabled={account?.role == "Staff" ? true : false} onClick={() => handleCreate()} className="btn btn-danger">
               Create new User
             </button>
           </div>

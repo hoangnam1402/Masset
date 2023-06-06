@@ -51,9 +51,6 @@ const MaintenanceSlice = createSlice({
 
     setMaintenances: (state, action: PayloadAction<IPagedModel<IMaintenance>>): MaintenanceState => {
       const maintenances = action.payload;
-      if(state.maintenanceResult){
-        maintenances.items.unshift(state.maintenanceResult);
-      }
 
       return {
           ...state,

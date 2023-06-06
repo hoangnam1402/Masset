@@ -52,7 +52,7 @@ const UserForm: React.FC<Props> = ({ user, handleClose }) => {
             }, 1000);
 
         } else {
-            NotificationManager.error(message, 'Create failed', 2000);
+            NotificationManager.error(message, `${isUpdate ? 'Update' : 'Create'} failed`, 2000);
         }
     }
 

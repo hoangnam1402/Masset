@@ -69,6 +69,7 @@ const CheckAssetForm: React.FC<Props> = ({ asset, handleClose, isCheckOut }) => 
         if (result) {
             NotificationManager.success(
                 `${isCheckOut ? 'Check Out' : 'Check In'} Successful Asset ${message}`,
+                `${isCheckOut ? 'Check Out' : 'Check In'} Successful`,
                 handleClose(),
                 2000,
             );

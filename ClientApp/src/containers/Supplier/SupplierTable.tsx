@@ -50,6 +50,7 @@ const SupplierTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Supplier ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteSuppliers = undefined;

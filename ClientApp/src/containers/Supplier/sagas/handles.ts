@@ -69,7 +69,7 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
     try {
         const { data } = yield call(updateRequest, formValues);
 
-        handleResult(true, data);
+        handleResult(true, data.name);
 
         yield put(setSupplier(data));
         
@@ -77,6 +77,6 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
 
         const errorModel = error.response.data as IError;
 
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }

@@ -60,7 +60,8 @@ export function* handleCreate(action: PayloadAction<CreateAction>) {
         const { data } = yield call(createRequest, formValues);
         if (data)
         {
-            handleResult(true, data.name);
+            handleResult(true, data.asset.name);
+            console.log(data)
         }
 
         yield put(setStatus({
@@ -71,7 +72,7 @@ export function* handleCreate(action: PayloadAction<CreateAction>) {
     } catch (error: any) {
         const errorModel = error.response.data as IError;
 
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -99,7 +100,7 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
     try {
         const { data } = yield call(updateRequest, formValues);
 
-        handleResult(true, data);
+        handleResult(true, data.asset.name);
 
         yield put(setMaintenance(data));
         

@@ -46,6 +46,7 @@ const AssetTypeTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Asset Type ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteType = undefined;

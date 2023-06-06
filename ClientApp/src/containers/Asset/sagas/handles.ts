@@ -8,11 +8,12 @@ import { setStatus, setAssets, setAssetTypes, CreateAction, setDeleteAsset, setA
     setQrCode, GetByTagAction, DeleteAction, setLocations, setBrands, setSupplies, GetByIdAction, 
     setMaintenance, GetByAssetIdAction, setDepreciation, setHistoryCheck, setComponentCheck, CheckAction,
     setAssetChecking,
-    setUsers} from "../reducer";
+    setUsers,
+    PutImage} from "../reducer";
 import { createAssetRequest, getAssetTypeRequest, getAssetsRequest, deleteAssetRequest, GeneratingQRCode,
     putAssetsRequest, getBrandsRequest, getLocationRequest, getSupplierRequest, getAssetByIdRequest, 
     getMaintenanceRequest, getDepreciationRequest, getHistoryCheckRequest, getComponentCheckRequest,
-    postCheckInRequest, postCheckOutRequest, getUsersRequest} from './request';
+    postCheckInRequest, postCheckOutRequest, getUsersRequest, updateLogoRequest} from './request';
 
 export function* handleGetAssets(action: PayloadAction<IQueryAssetModel>) {
     const query = action.payload;
@@ -56,9 +57,7 @@ export function* handleGetDepreciation(action: PayloadAction<GetByIdAction>) {
     try {
         const { data } = yield call(getDepreciationRequest, id);
         
-        if (data) {
-            yield put(setDepreciation(data));
-        }
+        yield put(setDepreciation(data));
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -125,7 +124,6 @@ export function* handleGetLocation() {
     try {
         const { data } = yield call(getLocationRequest);
         yield put(setLocations(data))
-        
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -138,7 +136,6 @@ export function* handleGetBrand() {
     try {
         const { data } = yield call(getBrandsRequest);
         yield put(setBrands(data))
-        
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -151,7 +148,6 @@ export function* handleGetSupplier() {
     try {
         const { data } = yield call(getSupplierRequest);
         yield put(setSupplies(data))
-        
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -164,7 +160,6 @@ export function* handleGetUsers() {
     try {
         const { data } = yield call(getUsersRequest);
         yield put(setUsers(data))
-        
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -179,7 +174,6 @@ export function* handleGetMaintenance(action: PayloadAction<GetByAssetIdAction>)
     try {
         const { data } = yield call(getMaintenanceRequest, query, id);
         yield put(setMaintenance(data))
-        
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -205,7 +199,7 @@ export function* handleCreateAsset(action: PayloadAction<CreateAction>) {
     } catch (error: any) {
         const errorModel = error.response.data as IError;
 
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -223,7 +217,7 @@ export function* handleDeleteAsset(action: PayloadAction<DeleteAction>) {
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -241,7 +235,7 @@ export function* handleCheckIn(action: PayloadAction<CheckAction>) {
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -259,7 +253,7 @@ export function* handleCheckOut(action: PayloadAction<CheckAction>) {
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -277,7 +271,7 @@ export function* handleUpdateAsset(action: PayloadAction<CreateAction>) {
 
         const errorModel = error.response.data as IError;
 
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -297,5 +291,17 @@ export function* handleQRCodeGenerator(action: PayloadAction<GetByTagAction>) {
             status: Status.Failed,
             error: errorModel,
         }));
+    }
+}
+
+export function* handleUpdateImage(action: PayloadAction<PutImage>) {
+    const {file, tag} = action.payload;
+
+    try {
+        yield call(updateLogoRequest, file, tag);
+
+    } catch (error: any) {
+        const errorModel = error.response.data as IError;
+        console.log(errorModel);
     }
 }

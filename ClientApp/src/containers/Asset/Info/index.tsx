@@ -49,6 +49,8 @@ const AssetInfo = () => {
 
   const fetchData = () => {
     dispatch(getAssetById({id: Number(id)}));
+    dispatch(getDepreciation({id: Number(id)}));
+
   };
 
   useEffect(() => {

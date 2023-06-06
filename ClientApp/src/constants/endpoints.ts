@@ -24,6 +24,7 @@ const Endpoints = {
 	ComponentOfAsset: (id: number | string): string => apiurl+`api/checking/componentOfAsset/${id}`,
 	AssetCheckIn: apiurl+"api/checking/checkInAsset",
 	AssetCheckOut: apiurl+"api/checking/checkOutAsset",
+	Image: (tag: string): string => apiurl+`api/asset/upload-image/${tag}`,
 
 	AssetHistory: apiurl+"api/assetHistory",
 	UnreadAssetHistory: apiurl+"api/assetHistory/Unread",

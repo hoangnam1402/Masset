@@ -27,7 +27,7 @@ export function* handleUpdateSetting(action: PayloadAction<UpdateAction>) {
 console.log(formValues)
     try {
         const { data } = yield call(updateSettingRequest, formValues);
-        handleResult(true, data);
+        handleResult(true, data.name);
         yield put(setSetting(data));
 
     } catch (error: any) {

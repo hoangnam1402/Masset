@@ -53,6 +53,7 @@ const ComponentTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Component ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteComp = undefined;

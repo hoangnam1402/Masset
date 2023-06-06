@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import StaticTable from "../../../components/Table/StaticTable";
 import IColumnOption from "../../../interfaces/IColumnOption";
-import { getDepreciation } from "../reducer";
 
 const columns: IColumnOption[] = [
     { columnName: "Period (Month)", columnValue: "period" },
@@ -27,11 +26,11 @@ type Props = {
 };
 
 const Depreciation: React.FC<Props> = ({assetID}) => {
-    const dispatch = useAppDispatch();
     const { depreciation, } = useAppSelector(state => state.assetReducer);
     const [queue, setQueue] = useState<Items[]>([]);
-
+    
     useEffect(() => {
+        setQueue([])
         if (depreciation) {
             const DepreciationPercentage = (100 / depreciation.period).toFixed(2);
             const Amount = ((depreciation.asset.cost - depreciation.value) / depreciation.period).toFixed(2);
@@ -48,10 +47,6 @@ const Depreciation: React.FC<Props> = ({assetID}) => {
             }
         }
     }, [depreciation]);
-
-    useEffect(() => {
-        dispatch(getDepreciation({id: assetID}));
-    }, []);
 
     return (
         <>

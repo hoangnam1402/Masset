@@ -26,8 +26,26 @@ const validationSchema = Yup.object().shape({
     assetID: Yup.string().required('Required'),
     type: Yup.string().required('Required'),
     supplierID: Yup.string().required('Required'),
-    startDate: Yup.date().nullable().required('Required'),
-    endDate: Yup.date().nullable().required('Required'),
+    startDate: Yup.date().nullable().required('Required').test(
+        'test-startDate', 
+        'End Date must be greater than Start Date',
+        function(value) {
+            const { endDate } = this.parent;
+            if (endDate)
+                return endDate > value;
+            return true
+        }
+    ),
+    endDate: Yup.date().nullable().required('Required').test(
+        'test-endDate', 
+        'End Date must be greater than Start Date',
+        function(value) {
+            const { startDate } = this.parent;
+            if (startDate)
+                return startDate && value > startDate;
+            return true;
+        }
+    ),
 });
 
 type Props = {
@@ -77,7 +95,7 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
             }, 1000);
 
         } else {
-            NotificationManager.error(message, 'Create failed', 2000);
+            NotificationManager.error(message, `${isUpdate ? 'Update' : 'Create'} Failed`, 2000);
         }
     }
 

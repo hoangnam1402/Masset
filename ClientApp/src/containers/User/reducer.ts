@@ -44,10 +44,6 @@ const UserSlice = createSlice({
 
     setUsers: (state, action: PayloadAction<IPagedModel<IUser>>): UserState => {
       const users = action.payload;
-      if(state.userResult){
-        users.items.unshift(state.userResult);
-      }
-
       return {
           ...state,
           users,

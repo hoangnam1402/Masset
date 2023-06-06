@@ -34,11 +34,11 @@ export function createRequest(form: IMaintenanceForm): Promise<AxiosResponse<IMa
 }
 
 export function deleteRequest(id: number): Promise<AxiosResponse<IMaintenance>> {
-    return RequestService.axios.delete(EndPoints.ComponentId(id ?? -1))
+    return RequestService.axios.delete(EndPoints.MaintenanceId(id ?? -1))
 }
 
 export function updateRequest(form: IMaintenanceForm): Promise<AxiosResponse<IMaintenance>> {
-    return RequestService.axios.put(EndPoints.ComponentId(form.id ?? -1), form, {
+    return RequestService.axios.put(EndPoints.MaintenanceId(form.id ?? -1), form, {
         paramsSerializer: {
             serialize: (params) => qs.stringify(params)
         }

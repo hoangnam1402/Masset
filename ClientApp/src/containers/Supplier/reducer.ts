@@ -44,10 +44,6 @@ const SupplierSlice = createSlice({
 
     setSuppliers: (state, action: PayloadAction<IPagedModel<ISupplier>>): SupplierState => {
       const suppliers = action.payload;
-      if(state.supplierResult){
-        suppliers.items.unshift(state.supplierResult);
-      }
-
       return {
           ...state,
           suppliers,

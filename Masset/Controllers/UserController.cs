@@ -40,7 +40,7 @@ namespace Masset.Controllers
         [Authorize]
         public async Task<IActionResult> GetById(string id)
         {
-            if(!await _userService.IsExist(id))
+            if(!await _userService.IsExistById(id))
                 return BadRequest("Not User with id: " + id);
 
             var result = await _userService.GetById(id);
@@ -80,9 +80,9 @@ namespace Masset.Controllers
             if (string.IsNullOrEmpty(userRequest.UserName))
                 return BadRequest("Username and Status is required.");
 
-            if (!await _userService.IsExist(id))
+            if (!await _userService.IsExistById(id))
                 return BadRequest("User not exist!!!");
-            if (await _userService.IsActive(id))
+            if (!await _userService.IsActive(id))
                 return BadRequest("User have not been active!!!");
 
             var result = await _userService.UpdateAsync(id, userRequest);
@@ -96,14 +96,12 @@ namespace Masset.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Delete([FromRoute] string id)
         {
-            if (!await _userService.IsExist(id))
+            if (!await _userService.IsExistById(id))
                 return BadRequest("User not exist!!!");
-            if (await _userService.IsActive(id))
+            if (!await _userService.IsActive(id))
                 return BadRequest("User has been disable before.");
 
-            var userRole = GetUserRole();
-
-            var result = await _userService.DisableUserAsync(id, userRole);
+            var result = await _userService.DisableUserAsync(id);
             if (result)
                 return Ok(result);
             else

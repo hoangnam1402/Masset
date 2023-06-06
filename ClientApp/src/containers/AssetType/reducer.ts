@@ -44,9 +44,6 @@ const AssetTypeSlice = createSlice({
 
     setAssetTypes: (state, action: PayloadAction<IPagedModel<IType>>): AssetTypeState => {
       const assetTypes = action.payload;
-      if(state.assetTypeResult){
-        assetTypes.items.unshift(state.assetTypeResult);
-      }
 
       return {
           ...state,

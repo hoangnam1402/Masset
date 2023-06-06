@@ -55,9 +55,7 @@ export function* handleGetDepreciation(action: PayloadAction<GetByIdAction>) {
     try {
         const { data } = yield call(getDepreciationRequest, id);
         
-        if (data) {
-            yield put(setDepreciation(data));
-        }
+        yield put(setDepreciation(data));
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
@@ -179,7 +177,7 @@ export function* handleUpdateComponent(action: PayloadAction<CreateAction>) {
     try {
         const { data } = yield call(putComponentRequest, formValues);
 
-        handleResult(true, data);
+        handleResult(true, data.name);
 
         yield put(setComponent(data));
         
@@ -205,7 +203,8 @@ export function* handleCheckIn(action: PayloadAction<CheckAction>) {
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
+        console.log(errorModel)
     }
 }
 

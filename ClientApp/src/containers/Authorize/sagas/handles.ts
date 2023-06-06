@@ -14,7 +14,8 @@ export function* handleLogin(action: PayloadAction<ILoginModel>) {
     
     try {
         const {data} = yield call(loginRequest, loginModel);
-        
+        console.log(data)
+
         yield put(setAccount(data));
 
     } catch (error: any) {

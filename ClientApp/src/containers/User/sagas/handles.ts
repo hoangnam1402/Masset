@@ -30,7 +30,7 @@ export function* handleCreate(action: PayloadAction<CreateAction>) {
         const { data } = yield call(createRequest, formValues);
         if (data)
         {
-            handleResult(true, data.name);
+            handleResult(true, data.userName);
         }
 
         yield put(setStatus({
@@ -41,7 +41,7 @@ export function* handleCreate(action: PayloadAction<CreateAction>) {
     } catch (error: any) {
         const errorModel = error.response.data as IError;
 
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -59,7 +59,7 @@ export function* handleDelete(action: PayloadAction<DeleteAction>) {
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }
 
@@ -69,7 +69,7 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
     try {
         const { data } = yield call(updateRequest, formValues);
 
-        handleResult(true, data);
+        handleResult(true, data.userName);
 
         yield put(setUser(data));
         
@@ -77,6 +77,6 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
 
         const errorModel = error.response.data as IError;
 
-        handleResult(false, errorModel.message);
+        handleResult(false, errorModel);
     }
 }

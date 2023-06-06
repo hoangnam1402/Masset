@@ -5,6 +5,7 @@ using Contracts;
 using Contracts.Dtos.AssetDtos;
 using DataAccess.Entities;
 using DataAccess.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
@@ -88,7 +89,6 @@ namespace Business.Services
             return result;
         }
 
-
         public async Task<AssetDto?> CreateAsync(AssetCreateDto createRequest)
         {
             var newAsset = _mapper.Map<Asset>(createRequest);
@@ -99,25 +99,9 @@ namespace Business.Services
             newAsset.IsCheckOut = false;
             newAsset.IsDepreciation = false;
 
-            if (createRequest.Image != null)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await createRequest.Image.CopyToAsync(memoryStream);
-                    newAsset.Img = memoryStream.ToArray();
-                }
-            }
-
-            var success = await _assetRepository.Add(newAsset);
-            if (success != null)
-            {
-                var result = _mapper.Map<AssetDto>(success);
-                if (success.Img != null)
-                {
-                    result.Image = Convert.ToBase64String(success.Img);
-                }
-                return result;
-            }
+            var result = await _assetRepository.Add(newAsset);
+            if (result != null)
+                return _mapper.Map<AssetDto>(newAsset);
             return null;
         }
 
@@ -130,14 +114,6 @@ namespace Business.Services
             asset = _mapper.Map(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
-            if (updateRequest.Image != null)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await updateRequest.Image.CopyToAsync(memoryStream);
-                    asset.Img = memoryStream.ToArray();
-                }
-            }
 
             var success = await _assetRepository.Update(asset);
             if (success != null)
@@ -161,14 +137,6 @@ namespace Business.Services
             asset = _mapper.Map(updateRequest, asset);
 
             asset.UpdateDay = DateTime.Now;
-            if (updateRequest.Image != null)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await updateRequest.Image.CopyToAsync(memoryStream);
-                    asset.Img = memoryStream.ToArray();
-                }
-            }
 
             var result = await _assetRepository.Update(asset);
             if (result != null)
@@ -176,6 +144,22 @@ namespace Business.Services
                 return _mapper.Map<AssetDto>(result);
             }
             return null;
+        }
+
+        public async Task<bool?> UpdateImageAsync(string tag, IFormFile image)
+        {
+            var asset = await _assetRepository.Entities
+                .FirstOrDefaultAsync(x => x.Tag == tag);
+            if (asset == null)
+                return null;
+
+            using var ms = new MemoryStream();
+            {
+                await image.CopyToAsync(ms);
+                asset.Img = ms.ToArray();
+            }
+            var result = await _assetRepository.Update(asset);
+            return null!=result;
         }
 
         public async Task<bool> UpdateCheckingAsync(int id)

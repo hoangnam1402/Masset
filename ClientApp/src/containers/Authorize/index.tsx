@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { changePassword, cleanUp, login, logout } from "./reducer";
 import { useNavigate } from "react-router-dom";
 import IChangePassword from "../../interfaces/IChangePassword";
-import ErrorMessage from "../../constants/errorMessage";
 import PasswordField from "../../components/FormInputs/PasswordField";
 import { DASHBOARD, LOGIN } from "../../constants/pages";
 
@@ -53,16 +52,16 @@ const Login = () => {
 		if (isAuth) {
 			if (account?.firstLogin) {
 				handleShow();
-			} else if (!(account?.isActive)) {
-				setNotification(ErrorMessage.DisableAccount);
+			} else if (!(account?.isActive) && !account?.error) {
+				setNotification("Your account is disabled. Please contact with IT Team");
 				dispatch(logout());
 			} else if (account?.error) {
-				if (account.message == ErrorMessage.WrongPassword) {
-					setNotification(ErrorMessage.WrongPassword);
+				if (account.message == "Username or password is incorrect. Please try again") {
+					setNotification("Username or password is incorrect. Please try again");
 					dispatch(logout());
 				}
-				if (account.message == ErrorMessage.SamePassword) {
-					setNotificationNewPass(ErrorMessage.SamePassword);
+				if (account.message == "The new password cannot be the same as the old password") {
+					setNotificationNewPass("The new password cannot be the same as the old password");
 				}
 			} else {
 				history(DASHBOARD);

@@ -54,6 +54,7 @@ const MaintenanceTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Maintenance ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteMainten = undefined;
@@ -88,8 +89,8 @@ const MaintenanceTable: React.FC<Props> = ({
   }
   
   const handleEdit = (maintenance: IMaintenance) => {
-    setShowEditForm(true);
     setMaintenanceDetail(maintenance)
+    setShowEditForm(true);
   }
 
   const handleCloseEditForm = () => {

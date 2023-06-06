@@ -29,7 +29,6 @@ namespace Contracts.Dtos.AssetDtos
         public bool IsDeleted { get; set; }
         public DateTime? PurchaseDay { get; set; }
         public bool IsCheckOut { get; set; }
-        public bool IsActive { get; set; }
         public bool IsDepreciation { get; set; }
         public string? Image { get; set; }
     }

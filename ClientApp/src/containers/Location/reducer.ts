@@ -44,10 +44,6 @@ const LocationSlice = createSlice({
 
     setLocations: (state, action: PayloadAction<IPagedModel<ILocation>>): LocationState => {
       const locations = action.payload;
-      if(state.locationResult){
-        locations.items.unshift(state.locationResult);
-      }
-
       return {
           ...state,
           locations,

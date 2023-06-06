@@ -50,6 +50,7 @@ const DepreciationTable: React.FC<Props> = ({
     if (result) {
       NotificationManager.success(
           `Delete Successful Depreciation ${message}`,
+          `Delete Successful`,
           2000,
       );
       deleteDepr = undefined;

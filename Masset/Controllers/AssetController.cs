@@ -102,6 +102,18 @@ namespace Masset.Controllers
                 return BadRequest("Somethink go wrong.");
         }
 
+        [HttpPut("upload-image/{tag}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateImage([FromRoute] string tag,
+                                        [FromForm] IFormFile image)
+        {
+            var result = await _assetService.UpdateImageAsync(tag, image);
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest("Somethink go wrong.");
+        }
+
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
