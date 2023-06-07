@@ -16,6 +16,7 @@ namespace DataAccess.Data.Seeds
                     Address = "University street",
                     Email = "University@gmail.com",
                     Phone = "123456789",
+                    Currency = "USD",
                     Logo = ReadFile("Img/logo.PNG")
                 }
             );

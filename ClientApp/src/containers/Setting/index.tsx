@@ -21,6 +21,7 @@ const Setting = () => {
     address: setting?.address,
     email: setting?.email,
     phone: setting?.phone,
+    currency: setting?.currency,
     image:undefined,
   };
 
@@ -29,6 +30,7 @@ const Setting = () => {
     address: Yup.string().required('Required'),
     email: Yup.string().required('Required'),
     phone: Yup.string().required('Required'),
+    currency: Yup.string().required('Required'),
   });
 
   const fetchData = () => {
@@ -86,6 +88,9 @@ const Setting = () => {
           <TextAreaField id='address'
             name="address"
             label="Address"/>
+          <TextField id="currency"
+            name="currency" 
+            label="Currency unit" />
           <div className="mb-3 row">
             <label className="col-4 col-form-label d-flex">
                 Logo

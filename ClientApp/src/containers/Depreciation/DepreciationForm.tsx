@@ -31,6 +31,7 @@ type Props = {
 const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
+    const { setting } = useAppSelector((state) => state.settingReducer);
 
     const fetchData = () => {
         dispatch(getAssets());
@@ -189,7 +190,7 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                         <TextField id='value'
                             name="value"
                             label="Value"
-                            endingText="USD"
+                            endingText={setting?.currency}
                             isrequired={true} />
 
                         <div className="text-center mt-3 float-right">

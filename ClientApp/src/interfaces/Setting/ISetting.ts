@@ -4,5 +4,6 @@ export default interface ISetting {
     address:string,
     email:string,
     phone:string,
+    currency:string,
     image:string | undefined,
 }

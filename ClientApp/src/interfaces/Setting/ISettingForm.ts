@@ -4,5 +4,6 @@ export default interface ISettingForm {
     address?:string,
     email?:string,
     phone?:string,
+    currency?:string,
     image?: File,
 }

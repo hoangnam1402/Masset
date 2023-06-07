@@ -54,6 +54,7 @@ type Props = {
 const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
+    const { setting } = useAppSelector((state) => state.settingReducer);
 
     const fetchData = () => {
         dispatch(getAssetTypes());
@@ -189,7 +190,7 @@ const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
                         <TextField id="cost"
                             name="cost" 
                             label="Cost" 
-                            endingText="USD"
+                            endingText={setting?.currency}
                             isrequired={true}/>
                         <DateField id='purchaseDay'
                             name="purchaseDay"

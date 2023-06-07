@@ -55,6 +55,7 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File>();
+    const { setting } = useAppSelector((state) => state.settingReducer);
 
     const fetchData = () => {
         dispatch(getAssetTypes());
@@ -196,7 +197,7 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                         <TextField id="cost"
                             name="cost" 
                             label="Cost" 
-                            endingText="USD"
+                            endingText={setting?.currency}
                             isrequired={true}/>
                         <TextField id="warranty"
                             name="warranty" 
