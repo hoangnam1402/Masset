@@ -1,5 +1,6 @@
 import React, { InputHTMLAttributes, useEffect } from 'react';
 import { useField } from 'formik';
+import 'bootstrap'
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     defaultValue?: string;
@@ -8,11 +9,12 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     name: string;
     isrequired?: boolean;
     notvalidate?: boolean;
+    endingText?: string;
 };
 
 const TextField: React.FC<InputFieldProps> = (props) => {
     const [field, { error, touched }, meta] = useField(props);
-    const { label, isrequired, notvalidate, defaultValue } = props;
+    const { label, isrequired, notvalidate, defaultValue, endingText } = props;
 
     const validateClass = () => {
         if (touched && error) return 'is-invalid';
@@ -33,8 +35,11 @@ const TextField: React.FC<InputFieldProps> = (props) => {
                         <div className="invalid ml-1">(*)</div>
                     )}
                 </label>
-                <div className="col">
+                <div className="col input-group">
                     <input className={`form-control ${validateClass()}`} {...field} {...props}/>
+                    {endingText && <div className="input-group-append">
+                        <span className="input-group-text">{endingText}</span>
+                    </div> }                   
                     {error && touched && (
                         <div className='invalid'>{error}</div>
                     )}

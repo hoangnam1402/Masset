@@ -44,13 +44,10 @@ namespace Masset.Controllers
         public async Task<IActionResult> Create([FromBody] AssetCreateDto createDto)
         {
             if (string.IsNullOrEmpty(createDto.Name) || 
-                string.IsNullOrEmpty(createDto.Tag) ||
                 string.IsNullOrEmpty(createDto.Serial) ||
                 createDto.Warranty is 0 ||
                 createDto.Cost is 0)
                 return BadRequest("Asset serial, warranty and cost are required.");
-            if (await _assetService.IsExist(createDto.Tag))
-                return BadRequest("Asset tag has been used before!!!");
             if (!await _assetTypeService.IsExist(createDto.TypeID) || 
                 await _assetTypeService.IsDelete(createDto.TypeID))
                 return BadRequest("AssetType not exist!!!");

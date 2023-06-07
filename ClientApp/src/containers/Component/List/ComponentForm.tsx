@@ -189,6 +189,7 @@ const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
                         <TextField id="cost"
                             name="cost" 
                             label="Cost" 
+                            endingText="USD"
                             isrequired={true}/>
                         <DateField id='purchaseDay'
                             name="purchaseDay"
@@ -197,6 +198,7 @@ const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
                         <TextField id="warranty"
                             name="warranty" 
                             label="Warranty" 
+                            endingText="Month(s)"
                             isrequired={true}/>
                         <SelectField id="status"
                             name="status"
@@ -206,6 +208,7 @@ const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
                             defaultValue={isUpdate ? initialFormValues.status : 0}/>
                         <TextAreaField id="description"
                             name="description" 
+                            isrequired={isUpdate ? true : false}
                             label="Description"/>
 
                         <div className="text-center mt-3 float-right">

@@ -7,6 +7,7 @@ using DataAccess.Entities;
 using DataAccess.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace Business.Services
 {
@@ -98,7 +99,12 @@ namespace Business.Services
             newAsset.IsDeleted = false;
             newAsset.IsCheckOut = false;
             newAsset.IsDepreciation = false;
-
+            newAsset.Tag = GetRandomTag();
+            while (newAsset.Tag != null &&
+                (await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Tag == newAsset.Tag) != null))
+            {
+                newAsset.Tag = GetRandomTag();
+            }
             var result = await _assetRepository.Add(newAsset);
             if (result != null)
                 return _mapper.Map<AssetDto>(newAsset);
@@ -314,6 +320,18 @@ namespace Business.Services
             assetQuery = assetQuery.Where(x => x.IsDeleted == false);
 
             return assetQuery;
+        }
+
+        private string GetRandomTag()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            var result = new StringBuilder();
+            for (int i = 0; i < 6; i++)
+            {
+                result.Append(chars[random.Next(chars.Length)]);
+            }
+            return result.ToString();
         }
 
         #endregion

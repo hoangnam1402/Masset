@@ -183,11 +183,13 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                             defaultValue={isUpdate ? initialFormValues.componentID : values.componentID}/>}
                         <TextField id="period"
                             name="period" 
-                            label="Period (Month)" 
+                            endingText="Month(s)"
+                            label="Period" 
                             isrequired={true}/>
                         <TextField id='value'
                             name="value"
                             label="Value"
+                            endingText="USD"
                             isrequired={true} />
 
                         <div className="text-center mt-3 float-right">

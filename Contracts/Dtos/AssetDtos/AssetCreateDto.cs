@@ -7,7 +7,6 @@ namespace Contracts.Dtos.AssetDtos
     public class AssetCreateDto
     {
         public string? Name { get; set; }
-        public string? Tag { get; set; }
         public int TypeID { get; set; }
         public int SupplierID { get; set; }
         public int LocationID { get; set; }

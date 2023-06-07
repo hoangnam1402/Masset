@@ -34,7 +34,6 @@ const initialFormValues: IAssetForm = {
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
-    tag: Yup.string().required('Required'),
     supplierID: Yup.string().required('Required'),
     brandID: Yup.string().required('Required'),
     locationID: Yup.string().required('Required'),
@@ -161,10 +160,11 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                             name="name" 
                             label="Name" 
                             isrequired={true}/>
-                        <TextField id="tag"
+                        {isUpdate &&<TextField id="tag"
                             name="tag" 
                             label="Asset tag" 
-                            isrequired={true}/>
+                            disabled={true}
+                            isrequired={false}/>}
                         <SelectField id="typeID"
                             name="typeID"
                             label="Asset type"
@@ -196,10 +196,12 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                         <TextField id="cost"
                             name="cost" 
                             label="Cost" 
+                            endingText="USD"
                             isrequired={true}/>
                         <TextField id="warranty"
                             name="warranty" 
                             label="Warranty" 
+                            endingText="Month(s)"
                             isrequired={true}/>
                         <DateField id='purchaseDay'
                             name="purchaseDay"
@@ -214,18 +216,19 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                         <TextAreaField id="description"
                             name="description" 
                             label="Description"
+                            isrequired={isUpdate ? true : false}
                             defaultValue={isUpdate ? initialFormValues.description : undefined}/>
-                        <div className="mb-3 row">
+                        {isUpdate && <div className="mb-3 row">
                             <label className="col-4 col-form-label d-flex">
                                 Image
                             </label>
                             <div className="col">
-                            <input className={`form-control`} name="image" type="file" onChange={(e) => {
+                            <input className={`form-control`} title="Choose a video please" name="image" type="file" onChange={(e) => {
                             const input = e.target as HTMLInputElement;
                             if (input.files && input.files[0])
                                 setSelectedFile(input.files[0])}} />
                             </div>
-                        </div>
+                        </div>}
 
                         <div className="text-center mt-3 float-right">
                             <button
