@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { PencilFill, XCircle } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import { PencilFill, Trash3 } from "react-bootstrap-icons";
 import ButtonIcon from "../../components/ButtonIcon";
 import Table, { SortType } from "../../components/Table";
 import IColumnOption from "../../interfaces/IColumnOption";
 import IPagedModel from "../../interfaces/IPagedModel";
 import { NotificationManager } from 'react-notifications';
-import { useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { deleteDepreciation } from "./reducer";
 import DeleteModal from "../../components/DeleteModal";
 import IDepreciation from "../../interfaces/Depreciation/IDepreciation";
@@ -41,7 +41,7 @@ const DepreciationTable: React.FC<Props> = ({
   limit,
 }) => {
   const dispatch = useAppDispatch();
-
+  const { account } = useAppSelector((state) => state.authReducer);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [depreciationDetail, setDepreciationDetail] = useState(undefined as IDepreciation | undefined);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -84,7 +84,7 @@ const DepreciationTable: React.FC<Props> = ({
 	};
 
   const handleDelete = (id: number) => {
-    const depreciation = depreciations?.items.find((item) => item.id == id);
+    const depreciation = depreciations?.items.find((item) => item.id === id);
 
     if(depreciation)
     {
@@ -99,11 +99,6 @@ const DepreciationTable: React.FC<Props> = ({
       setShowConfirmDelete(false);
       dispatch(deleteDepreciation({ handleResult, formValues: depreciationDetail }));
     }
-  }
-
-  const handleDay = (day: Date) => {
-    const customDay = new Date(day).toLocaleDateString();
-    return customDay
   }
   
   return (
@@ -126,19 +121,21 @@ const DepreciationTable: React.FC<Props> = ({
             key={index} 
             className=""
           >
-            <td className="py-1">{data.category == 1 ? data.asset.name : data.component.name} </td>
-            <td className="py-1">{data.category == 1 ? data.asset.cost : data.component.cost}</td>
+            <td className="py-1">{data.category === 1 ? data.asset.name : data.component.name} </td>
+            <td className="py-1">{data.category === 1 ? data.asset.cost : data.component.cost}</td>
             <td className="py-1">{data.period}</td>
             <td className="py-1">{getCategoryName(data.category)}</td>
             <td className="py-1">{data.value}</td>
 
-            <td className="d-flex py-1">
-              <ButtonIcon onClick={() => handleEdit(data)}>
-                <PencilFill className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleDelete(data.id)}>
-                <XCircle className="text-danger mx-2" />
-              </ButtonIcon>
+            <td className="py-1">
+              <div className="row">
+                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
+                  <PencilFill className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
+                  <Trash3 className="text-black mx-2" />
+                </ButtonIcon>
+              </div>
             </td>
           </tr>
         ))}

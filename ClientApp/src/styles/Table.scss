@@ -1,11 +1,6 @@
 .table-container {
     overflow-x: auto;
 
-    table {
-        border-collapse: separate;
-        border-spacing: 1rem 0;
-    }
-
     .table {
         width: 100%;
         text-align: left;
@@ -15,34 +10,23 @@
            
             a {
                 font-weight: bold;
-                // white-space: nowrap;
                 font-size: 14.5px;
             }
         }
     
         td {
-            border-bottom: 2px solid #dee2e6;
-            padding: 0;
-            border-top: none;
+            border: 2px solid #dee2e6;
         }
-    
-        td:last-child {
-            border: none;
-        }
-    
+        
         th {
             padding: 0;
-            border-bottom: 0 2px solid #dee2e6;
-            border-top: none;
+            border: 2px solid #dee2e6;
         }
 
         th .checkRow{
             border: none;
         }
 
-        tr:hover {
-            cursor: pointer;
-        }
     }
 }
 

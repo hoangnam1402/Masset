@@ -10,11 +10,10 @@ import { NotificationManager } from 'react-notifications';
 
 import { ASSET_ID } from "../../../constants/pages";
 import IAsset from "../../../interfaces/Asset/IAsset";
-import { useAppDispatch } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { deleteAssets } from "../reducer";
 import DeleteModal from "../../../components/DeleteModal";
 import AssetForm from "./AssetForm";
-import { Modal } from "react-bootstrap";
 import CheckAssetForm from "./CheckAssetForm";
 
 const columns: IColumnOption[] = [
@@ -24,6 +23,7 @@ const columns: IColumnOption[] = [
   { columnName: "Type", columnValue: "type" },
   { columnName: "Brand", columnValue: "brand" },
   { columnName: "Location", columnValue: "location" },
+  { columnName: "Action", columnValue: "" },
 ];
 
 type Props = {
@@ -46,7 +46,7 @@ const AssetTable: React.FC<Props> = ({
   limit,
 }) => {
   const dispatch = useAppDispatch();
-
+  const { account } = useAppSelector((state) => state.authReducer);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [assetDetail, setAssetDetail] = useState(undefined as IAsset | undefined);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -85,7 +85,7 @@ const AssetTable: React.FC<Props> = ({
   }
 
   const handleDelete = (id: number) => {
-    const asset = assets?.items.find((item) => item.id == id);
+    const asset = assets?.items.find((item) => item.id === id);
 
     if(asset)
     {
@@ -141,22 +141,21 @@ const AssetTable: React.FC<Props> = ({
             <td className="py-1 py-1-custome">{data.brand.name}</td>
             <td className="py-1 py-1-custome">{data.location.name}</td>
 
-            <td className="d-flex py-1">
-              <ButtonIcon onClick={() => handleShowCheckingForm(data)} title={data.isCheckOut ? "Check In" : "Check Out"}>
-                <Check className="text-black mx-2" />
-              </ButtonIcon>
-
-              <hr/>
-
-              <ButtonIcon onClick={() => handleShowDetail(data.id)}>
-                <FileEarmarkText className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleEdit(data)}>
-                <PencilFill className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleDelete(data.id)}>
-                <Trash3 className="text-black mx-2" />
-              </ButtonIcon>
+            <td className="py-1 py-1-custome">
+              <div className="row">
+                <ButtonIcon className="col-2" onClick={() => handleShowCheckingForm(data)} title={data.isCheckOut ? "Check In" : "Check Out"}>
+                  <Check className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon onClick={() => handleShowDetail(data.id)} title="Detail" className="col-2">
+                  <FileEarmarkText className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
+                  <PencilFill className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
+                  <Trash3 className="text-black mx-2" />
+                </ButtonIcon>
+              </div>
             </td>
           </tr>
         ))}

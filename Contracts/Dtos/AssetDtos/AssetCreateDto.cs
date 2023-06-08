@@ -18,6 +18,5 @@ namespace Contracts.Dtos.AssetDtos
         public DateTime? PurchaseDay { get; set; }
         [EnumDataType(typeof(AssetStatusEnums))]
         public AssetStatusEnums Status { get; set; }
-        public IFormFile? Image { get; set; }
     }
 }

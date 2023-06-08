@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { PencilFill, XCircle } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import { PencilFill, Trash3 } from "react-bootstrap-icons";
 import ButtonIcon from "../../components/ButtonIcon";
 import Table, { SortType } from "../../components/Table";
 import IColumnOption from "../../interfaces/IColumnOption";
 import IPagedModel from "../../interfaces/IPagedModel";
 import { NotificationManager } from 'react-notifications';
-import { useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { deleteBrand } from "./reducer";
 import DeleteModal from "../../components/DeleteModal";
 import BrandForm from "./BrandForm";
@@ -37,7 +37,7 @@ const BrandTable: React.FC<Props> = ({
   limit,
 }) => {
   const dispatch = useAppDispatch();
-
+  const { account } = useAppSelector((state) => state.authReducer);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [brandDetail, setBrandDetail] = useState(undefined as IBrand | undefined);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -69,7 +69,7 @@ const BrandTable: React.FC<Props> = ({
   }
 
   const handleDelete = (id: number) => {
-    const a = brands?.items.find((item) => item.id == id);
+    const a = brands?.items.find((item) => item.id === id);
 
     if(a)
     {
@@ -108,13 +108,15 @@ const BrandTable: React.FC<Props> = ({
             <td className="py-1">{data.name} </td>
             <td className="py-1">{data.description}</td>
 
-            <td className="d-flex py-1">
-              <ButtonIcon onClick={() => handleEdit(data)}>
-                <PencilFill className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleDelete(data.id)}>
-                <XCircle className="text-danger mx-2" />
-              </ButtonIcon>
+            <td className="py-1">
+              <div className="row">
+                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
+                  <PencilFill className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
+                  <Trash3 className="text-black mx-2" />
+                </ButtonIcon>
+              </div>
             </td>
           </tr>
         ))}

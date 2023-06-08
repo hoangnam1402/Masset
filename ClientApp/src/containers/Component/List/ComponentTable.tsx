@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Check, FileEarmarkText, PencilFill, XCircle } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import { Check, FileEarmarkText, PencilFill, Trash3 } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 import ButtonIcon from "../../../components/ButtonIcon";
 import Table, { SortType } from "../../../components/Table";
@@ -20,7 +20,7 @@ const columns: IColumnOption[] = [
   { columnName: "Brand", columnValue: "brand" },
   { columnName: "Quantity", columnValue: "quantity" },
   { columnName: "Available Quantity", columnValue: "availableQuantity" },
-  { columnName: "", columnValue: "" },
+  { columnName: "Action", columnValue: "" },
 ];
 
 type Props = {
@@ -43,7 +43,7 @@ const ComponentTable: React.FC<Props> = ({
   limit,
 }) => {
   const dispatch = useAppDispatch();
-
+  const { account } = useAppSelector((state) => state.authReducer);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [componentDetail, setComponentDetail] = useState(undefined as IComponent | undefined);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -82,7 +82,7 @@ const ComponentTable: React.FC<Props> = ({
 
 
   const handleDelete = (id: number) => {
-    const component = components?.items.find((item) => item.id == id);
+    const component = components?.items.find((item) => item.id === id);
 
     if(component)
     {
@@ -134,19 +134,21 @@ const ComponentTable: React.FC<Props> = ({
             <td className="py-1">{data.quantity}</td>
             <td className="py-1">{data.availableQuantity}</td>
 
-            <td className="d-flex py-1">
-              <ButtonIcon onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity == 0 ? true : false}>
-                <Check className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleShowDetail(data.id)}>
-                <FileEarmarkText className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleEdit(data)}>
-                <PencilFill className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleDelete(data.id)}>
-                <XCircle className="text-danger mx-2" />
-              </ButtonIcon>
+            <td className="py-1">
+              <div className="row">
+                <ButtonIcon title="Check Out" className="col-2" onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity === 0 ? true : false}>
+                  <Check className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon onClick={() => handleShowDetail(data.id)} title="Detail" className="col-2">
+                  <FileEarmarkText className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
+                  <PencilFill className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
+                  <Trash3 className="text-black mx-2" />
+                </ButtonIcon>
+              </div>
             </td>
           </tr>
         ))}

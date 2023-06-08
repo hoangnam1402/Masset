@@ -59,7 +59,7 @@ namespace Masset.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!await _locationService.IsExist(id))

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { PencilFill, XCircle } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import { PencilFill, Trash3 } from "react-bootstrap-icons";
 import ButtonIcon from "../../components/ButtonIcon";
 import Table, { SortType } from "../../components/Table";
 import IColumnOption from "../../interfaces/IColumnOption";
@@ -86,7 +86,7 @@ const UserTable: React.FC<Props> = ({
   }
 
   const handleDelete = (id: string) => {
-    const a = users?.items.find((item) => item.id == id);
+    const a = users?.items.find((item) => item.id === id);
 
     if(a)
     {
@@ -128,19 +128,21 @@ const UserTable: React.FC<Props> = ({
             <td className="py-1">{getUserRoleTypeName(data.role)}</td>
             <td className="py-1">{data.phoneNumber}</td>
 
-            <td className="d-flex py-1">
-              <ButtonIcon onClick={() => handleEdit(data)} 
-                disable={(account?.role == getUserRoleTypeName(data.role) && account.id != data.id) ||
-                        (account?.role == "Manager" && data.role != 3 && account.id != data.id) ||
-                        (account?.role == "Staff" && account.id != data.id) ? true : false}>
-                <PencilFill className="text-black mx-2" />
-              </ButtonIcon>
-              <ButtonIcon onClick={() => handleDelete(data.id)} 
-                disable={account?.role == getUserRoleTypeName(data.role) ||
-                  (account?.role == "Manager" && data.role != 3) ||
-                  account?.role == "Staff" ? true : false}>
-                <XCircle className="text-danger mx-2" />
-              </ButtonIcon>
+            <td className="py-1">
+              <div className="row">
+                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2"
+                  disable={(account?.role === getUserRoleTypeName(data.role) && account.id !== data.id) ||
+                    (account?.role === "Manager" && data.role !== 3 && account.id !== data.id) ||
+                    (account?.role === "Staff" && account.id !== data.id) ? true : false}>
+                  <PencilFill className="text-black mx-2" />
+                </ButtonIcon>
+                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} 
+                  disable={account?.role === getUserRoleTypeName(data.role) ||
+                    (account?.role === "Manager" && data.role !== 3) ||
+                    account?.role === "Staff" ? true : false}>
+                  <Trash3 className="text-black mx-2" />
+                </ButtonIcon>
+              </div>
             </td>
           </tr>
         ))}

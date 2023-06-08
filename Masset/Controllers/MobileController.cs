@@ -24,6 +24,8 @@ namespace Masset.Controllers
         private readonly IBrandService _brandService;
         private readonly ILocationService _locationService;
         private readonly ISupplierService _supplierService;
+        private readonly ISettingService _settingService;
+
         public MobileController(IAuthService authService,
             UserManager<User> userManager,
             IAssetService assetService, 
@@ -32,7 +34,8 @@ namespace Masset.Controllers
             IBrandService brandService,
             ILocationService locationService,
             ISupplierService supplierService,
-            IUserService userService)
+            IUserService userService,
+            ISettingService settingService)
         {
             _authService = authService;
             _userManager = userManager;
@@ -43,6 +46,7 @@ namespace Masset.Controllers
             _locationService=locationService;
             _supplierService=supplierService;
             _userService=userService;
+            _settingService=settingService;
         }
 
         [HttpPost("Login")]
@@ -153,6 +157,55 @@ namespace Masset.Controllers
                 Message = "",
             };
 
+            return result;
+        }
+
+        [HttpGet("GetSetting/{id}")]
+        public async Task<SettingResponseDto> GetSetting([FromRoute] string id)
+        {
+            if (!await _userService.IsExistById(id))
+            {
+                var error = "User not exist!!!";
+                return new SettingResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (!await _userService.IsActive(id))
+            {
+                var error = "User not available!!!";
+                return new SettingResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var setting = await _settingService.GetAsync();
+            if (setting == null)
+            {
+                var error = "Something go wrong";
+                return new SettingResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            SettingResponseDto result = new SettingResponseDto()
+            {
+                Id = setting.Id,
+                Name = setting.Name,
+                Address = setting.Address,
+                Email = setting.Email,
+                Phone = setting.Phone,
+                Currency = setting.Currency,
+                Image = setting.Image,
+                Error = false,
+                Message = "",
+            };
             return result;
         }
 
