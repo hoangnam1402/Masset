@@ -134,7 +134,7 @@ namespace Business.Services
             return null;
         }
 
-        public async Task<AssetDto?> UpdateAsync(string tag, AssetUpdateDto updateRequest)
+        public async Task<AssetDto?> UpdateMobileAsync(string tag, MobileAssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
                 .FirstOrDefaultAsync(x => x.Tag==tag && x.IsDeleted == false);

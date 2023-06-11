@@ -2,6 +2,7 @@
 using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.MaintenanceDtos;
+using Contracts.Dtos.SupplierDtos;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
 using DataAccess.Enums;
@@ -211,31 +212,8 @@ namespace Masset.Controllers
 
         [HttpPut("UpdateAsset/{id}/{tag}")]
         public async Task<AssetResponseDto> UpdateAsset([FromRoute] string id, string tag,
-                                                        [FromBody] AssetUpdateDto assetequest)
+                                                        [FromBody] MobileAssetUpdateDto assetequest)
         {
-            if (string.IsNullOrEmpty(assetequest.Name))
-            {
-                var error = "Asset name is required.";
-                return new AssetResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
-            if ((!await _assetTypeService.IsExist(assetequest.TypeID)) ||
-                (!await _brandService.IsExist(assetequest.BrandID)) ||
-                (!await _locationService.IsExist(assetequest.LocationID)) ||
-                (!await _supplierService.IsExist(assetequest.SupplierID)))
-            {
-                var error = "AssetType, Brand, Location or Supplier not exist!!!";
-                return new AssetResponseDto
-                {
-                    Error = true,
-                    Message = error,
-                };
-            }
-
             if (!await _userService.IsExistById(id) || !await _assetService.IsExist(tag))
             {
                 var error = "User or Asset not exist!!!";
@@ -256,7 +234,7 @@ namespace Masset.Controllers
                 };
             }
 
-            var asset = await _assetService.UpdateAsync(tag, assetequest);
+            var asset = await _assetService.UpdateMobileAsync(tag, assetequest);
             if (asset == null)
             {
                 var error = "Something go wrong";
@@ -404,7 +382,57 @@ namespace Masset.Controllers
                 Error = false,
                 Message = "",
             };
+            return result;
+        }
 
+        [HttpGet("GetSupplierList/{id}")]
+        public async Task<SupplierResponseDto> GetSupplier([FromRoute] string id)
+        {
+            if (!await _userService.IsExistById(id))
+            {
+                var error = "User not exist!!!";
+                return new SupplierResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (!await _userService.IsActive(id))
+            {
+                var error = "User has been deleted!!!";
+                return new SupplierResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+            var supplier = await _supplierService.GetAll();
+            if (supplier == null)
+            {
+                var error = "Something go wrong";
+                return new SupplierResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            int[] supplierId = new int[supplier.Count];
+            string[] supplierName = new string[supplier.Count];
+            for (int i = 0; i < supplier.Count; i++)
+            {
+                supplierId[i] = supplier[i].Id;
+                supplierName[i] = supplier[i].Name;
+            }
+
+            SupplierResponseDto result = new SupplierResponseDto()
+            {
+                Id = supplierId,
+                Name = supplierName,
+                Error = false,
+                Message = "",
+            };
             return result;
 
         }

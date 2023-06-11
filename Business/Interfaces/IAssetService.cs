@@ -13,7 +13,7 @@ namespace Business.Interfaces
         Task<AssetDto?> GetByIdAsync(int id);
         Task<AssetDto?> CreateAsync(AssetCreateDto createRequest);
         Task<AssetDto?> UpdateAsync(int id, AssetUpdateDto updateRequest);
-        Task<AssetDto?> UpdateAsync(string tag, AssetUpdateDto updateRequest);
+        Task<AssetDto?> UpdateMobileAsync(string tag, MobileAssetUpdateDto updateRequest);
         Task<bool?> UpdateImageAsync(string tag, IFormFile image);
         Task<bool> UpdateCheckingAsync(int id);
         Task<bool> UpdateDepreciationAsync(int id);
