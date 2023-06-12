@@ -337,11 +337,11 @@ const Dashboard = () => {
                       key={index} 
                       className=""
                     >
-                      <td className="py-1">{data.asset.name}</td>
-                      <td className="py-1">{data.user.userName} </td>
-                      <td className="py-1">{checkStatus(data.isCheckOut)}</td>
-                      <td className="py-1">{data.asset.location.name}</td>
-                      <td className="py-1">{formatDate(data.checkDay)}</td>
+                      <td className="py-1 py-1-custome">{data.asset.name}</td>
+                      <td className="py-1 py-1-custome">{data.user.userName} </td>
+                      <td className="py-1 py-1-custome">{checkStatus(data.isCheckOut)}</td>
+                      <td className="py-1 py-1-custome">{data.asset.location.name}</td>
+                      <td className="py-1 py-1-custome">{formatDate(data.checkDay)}</td>
                     </tr>
                   ))}
                 </DashboardTable>
@@ -373,11 +373,11 @@ const Dashboard = () => {
                       key={index} 
                       className=""
                     >
-                      <td className="py-1">{data.component.name}</td>
-                      <td className="py-1">{data.asset.name} </td>
-                      <td className="py-1">{data.quantity}</td>
-                      <td className="py-1">{checkStatus(data.isCheckOut)}</td>
-                      <td className="py-1">{data.asset.location.name}</td>
+                      <td className="py-1 py-1-custome">{data.component.name}</td>
+                      <td className="py-1 py-1-custome">{data.asset.name} </td>
+                      <td className="py-1 py-1-custome">{data.quantity}</td>
+                      <td className="py-1 py-1-custome">{checkStatus(data.isCheckOut)}</td>
+                      <td className="py-1 py-1-custome">{data.asset.location.name}</td>
                     </tr>
                   ))}
                 </DashboardTable>
