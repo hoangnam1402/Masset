@@ -90,12 +90,9 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
             NotificationManager.error(message, `${isUpdate ? 'Update' : 'Create'} Failed`, 2000);
+            setLoading(false);
         }
     }
 
@@ -136,8 +133,6 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
                         else {
                             dispatch(createMaintenance({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >

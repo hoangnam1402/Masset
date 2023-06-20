@@ -153,6 +153,7 @@ namespace Masset.Controllers
                 Description = asset.Description,
                 CreateDay = asset.CreateDay,
                 UpdateDay = asset.UpdateDay,
+                PurchaseDay = asset.PurchaseDay,
                 Image = asset.Image,
                 Error = false,
                 Message = "",
@@ -261,6 +262,7 @@ namespace Masset.Controllers
                 Description = asset.Description,
                 CreateDay = asset.CreateDay,
                 UpdateDay = asset.UpdateDay,
+                PurchaseDay = asset.PurchaseDay,
                 Error = false,
                 Message = "",
             };

@@ -73,15 +73,9 @@ const CheckAssetForm: React.FC<Props> = ({ asset, handleClose, isCheckOut }) => 
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
-            NotificationManager.error(
-                message, 
-                `${isCheckOut ? 'Check Out' : 'Check In'} Faile`,
-                2000);
+            NotificationManager.error(message, `${isCheckOut ? 'Check Out' : 'Check In'} Faile`,2000);
+            setLoading(false);
         }
     }
 
@@ -121,8 +115,6 @@ const CheckAssetForm: React.FC<Props> = ({ asset, handleClose, isCheckOut }) => 
                         else {
                             dispatch(getAssetCheckIn({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >

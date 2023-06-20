@@ -47,13 +47,10 @@ const UserForm: React.FC<Props> = ({ user, handleClose }) => {
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
             NotificationManager.error(message, `${isUpdate ? 'Update' : 'Create'} failed`, 2000);
-        }
+            setLoading(false);
+        };
     }
 
     useEffect(() => {
@@ -98,8 +95,6 @@ const UserForm: React.FC<Props> = ({ user, handleClose }) => {
                         else {
                             dispatch(createUser({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >

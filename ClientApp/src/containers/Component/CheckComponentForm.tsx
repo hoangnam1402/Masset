@@ -79,18 +79,13 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
         if (result) {
             NotificationManager.success(
                 `${isCheckOut ? 'Check Out' : 'Check In'} Successful for Asset ${message}`,
+                `${isCheckOut ? 'Check Out' : 'Check In'} Successful`,
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
-            NotificationManager.error(
-                message, 
-                `${isCheckOut ? 'Check Out' : 'Check In'} Faile`,
-                2000);
+            NotificationManager.error(message,`${isCheckOut ? 'Check Out' : 'Check In'} Faile`,2000);
+            setLoading(false);
         }
     }
 
@@ -130,8 +125,6 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
                         else {
                             dispatch(getCheckIn({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >

@@ -105,12 +105,9 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
             NotificationManager.error(message, 'Create failed', 2000);
+            setLoading(false);
         }
     }
 
@@ -157,8 +154,6 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                             }
                             dispatch(createDepreciation({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >

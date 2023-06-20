@@ -42,12 +42,9 @@ const LocationForm: React.FC<Props> = ({ location, handleClose }) => {
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
             NotificationManager.error(message, 'Create failed', 2000);
+            setLoading(false);
         }
     }
 
@@ -88,8 +85,6 @@ const LocationForm: React.FC<Props> = ({ location, handleClose }) => {
                         else {
                             dispatch(createLocation({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >

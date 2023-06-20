@@ -97,12 +97,9 @@ const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
             NotificationManager.error(message, 'Create failed', 2000);
+            setLoading(false);
         }
     }
 
@@ -144,8 +141,6 @@ const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
                         else {
                             dispatch(createComponent({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >

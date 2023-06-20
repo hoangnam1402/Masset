@@ -39,18 +39,12 @@ const Setting = () => {
 
   const handleResult = (result: boolean, message: string) => {
     if (result) {
-        NotificationManager.success(
-          'Update Successful',
-          2000,
-        );
-
-        fetchData();
-        setTimeout(() => {
-        }, 1000);
-
+      NotificationManager.success('Update Successful',2000,);
+      fetchData();
     } else {
-        NotificationManager.error(message, 'Update failed', 2000);
+      NotificationManager.error(message, 'Update failed', 2000);
     }
+    setLoading(false);
   }
 
   return (
@@ -70,7 +64,6 @@ const Setting = () => {
               dispatch(updateLogo(selectedFile));
             }
             dispatch(updateSetting({ handleResult, formValues: values }));
-            setLoading(false);
           }, 1000);
         }}
       >

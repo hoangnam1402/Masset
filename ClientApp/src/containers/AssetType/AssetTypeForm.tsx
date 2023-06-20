@@ -42,12 +42,9 @@ const AssetTypeForm: React.FC<Props> = ({ assetType, handleClose }) => {
                 handleClose(),
                 2000,
             );
-
-            setTimeout(() => {
-            }, 1000);
-
         } else {
             NotificationManager.error(message, 'Create failed', 2000);
+            setLoading(false);
         }
     }
 
@@ -88,8 +85,6 @@ const AssetTypeForm: React.FC<Props> = ({ assetType, handleClose }) => {
                         else {
                             dispatch(createAssetType({ handleResult, formValues: values }));
                         }
-    
-                        setLoading(false);
                     }, 1000);
                 }}
                     >
