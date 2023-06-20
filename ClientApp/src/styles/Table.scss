@@ -1,34 +1,33 @@
-.table-container {
-    overflow-x: auto;
-
-    .table {
-        width: 100%;
-        text-align: left;
-    
-        thead th {
-            //text-transform: capitalize;
-           
-            a {
-                font-weight: bold;
-                font-size: 14.5px;
-            }
-        }
-    
-        td {
-            border: 2px solid #dee2e6;
-        }
-        
-        th {
-            padding: 0;
-            border: 2px solid #dee2e6;
-        }
-
-        th .checkRow{
-            border: none;
-        }
-
-    }
+.container-table {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 0px 10px 10px 10px;
 }
+
+.table {
+    width: 100%;
+    text-align: left;
+
+    thead th {
+        //text-transform: capitalize;
+       
+        a {
+            font-weight: bold;
+            font-size: 13px;
+        }
+    }
+
+    th {
+        padding: 0;
+        height: 20px;
+    }
+
+    th .checkRow{
+        border: none;
+    }
+
+}
+
 
 .table-bordered th td {
     border: 1px solid #dee2e6;
@@ -77,6 +76,18 @@
 
 .py-1-custome {
     vertical-align: middle;
-    text-align: center;
+    text-align: left;
+}
+.dropdown-toggle {
+    background-color: transparent;
+    height: 25px;
+    border-radius: 8px;
 }
 
+.dropdown-toggle::after {
+    color: red;
+  }
+  
+.dropdown-menu {
+    width: 80px;
+}
