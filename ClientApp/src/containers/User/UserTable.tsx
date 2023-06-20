@@ -123,24 +123,24 @@ const UserTable: React.FC<Props> = ({
             key={index} 
             className=""
           >
-            <td className="py-1">{data.userName} </td>
-            <td className="py-1">{data.email}</td>
-            <td className="py-1">{getUserRoleTypeName(data.role)}</td>
-            <td className="py-1">{data.phoneNumber}</td>
+            <td className="py-1 py-1-custome">{data.userName} </td>
+            <td className="py-1 py-1-custome">{data.email}</td>
+            <td className="py-1 py-1-custome">{getUserRoleTypeName(data.role)}</td>
+            <td className="py-1 py-1-custome">{data.phoneNumber}</td>
 
-            <td className="py-1">
+            <td className="py-1 py-1-custome">
               <div className="row">
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2"
                   disable={(account?.role === getUserRoleTypeName(data.role) && account.id !== data.id) ||
                     (account?.role === "Manager" && data.role !== 3 && account.id !== data.id) ||
                     (account?.role === "Staff" && account.id !== data.id) ? true : false}>
-                  <PencilFill className="text-black mx-2" />
+                  <PencilFill className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} 
                   disable={account?.role === getUserRoleTypeName(data.role) ||
                     (account?.role === "Manager" && data.role !== 3) ||
                     account?.role === "Staff" ? true : false}>
-                  <Trash3 className="text-black mx-2" />
+                  <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>
             </td>

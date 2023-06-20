@@ -56,11 +56,11 @@ const Login = () => {
 				setNotification("Your account is disabled. Please contact with IT Team");
 				dispatch(logout());
 			} else if (account?.error) {
-				if (account.message == "Username or password is incorrect. Please try again") {
+				if (account.message === "Username or password is incorrect. Please try again") {
 					setNotification("Username or password is incorrect. Please try again");
 					dispatch(logout());
 				}
-				if (account.message == "The new password cannot be the same as the old password") {
+				if (account.message === "The new password cannot be the same as the old password") {
 					setNotificationNewPass("The new password cannot be the same as the old password");
 				}
 			} else {
@@ -112,13 +112,15 @@ const Login = () => {
 									{error?.error && (
 										<div className="invalid">{error.message}</div>
 									)}
-									<button
-										className="btn btn-danger w-25 float-right"
-										type="submit"
-										disabled={SubmitButton()}
-									>
-										Login
-									</button>
+									<div className="text-center float-right">
+										<button
+											className="btn btn-danger"
+											type="submit"
+											disabled={(SubmitButton() || loading)}
+										>
+											Login {(loading) && <img src="/oval.svg" className='w-4 h-4 ml-2 inline-block' />}
+										</button>
+									</div>
 								</Form>
 							)}
 						</Formik>

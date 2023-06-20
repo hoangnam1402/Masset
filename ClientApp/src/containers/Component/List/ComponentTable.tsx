@@ -128,25 +128,25 @@ const ComponentTable: React.FC<Props> = ({
             key={index} 
             className=""
           >
-            <td className="py-1">{data.name} </td>
-            <td className="py-1">{data.type.name}</td>
-            <td className="py-1">{data.brand.name}</td>
-            <td className="py-1">{data.quantity}</td>
-            <td className="py-1">{data.availableQuantity}</td>
+            <td className="py-1 py-1-custome">{data.name} </td>
+            <td className="py-1 py-1-custome">{data.type.name}</td>
+            <td className="py-1 py-1-custome">{data.brand.name}</td>
+            <td className="py-1 py-1-custome">{data.quantity}</td>
+            <td className="py-1 py-1-custome">{data.availableQuantity}</td>
 
-            <td className="py-1">
+            <td className="py-1 py-1-custome">
               <div className="row">
                 <ButtonIcon title="Check Out" className="col-2" onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity === 0 ? true : false}>
-                  <Check className="text-black mx-2" />
+                  <Check className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon onClick={() => handleShowDetail(data.id)} title="Detail" className="col-2">
-                  <FileEarmarkText className="text-black mx-2" />
+                  <FileEarmarkText className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
-                  <PencilFill className="text-black mx-2" />
+                  <PencilFill className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
-                  <Trash3 className="text-black mx-2" />
+                  <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>
             </td>

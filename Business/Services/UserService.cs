@@ -90,6 +90,7 @@ namespace Business.Services
             user = _mapper.Map(userRequest, user);
             user.UpdateDay = DateTime.Now;
             var result = await _userRepository.Update(user);
+            await _userManager.UpdateAsync(user);
             if (result == null)
                 return null;
             return _mapper.Map<UserDto>(result);

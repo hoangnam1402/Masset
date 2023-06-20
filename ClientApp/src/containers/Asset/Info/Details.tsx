@@ -63,7 +63,7 @@ const Details: React.FC<Props> = ({asset}) => {
                                     <p className="mb-0 font-bold">Cost: </p>
                                 </td>
                                 <td>
-                                    <p className="mb-0">{asset.cost} <CurrencyDollar/></p>
+                                    <p className="mb-0">{asset.cost.toLocaleString()} <CurrencyDollar/></p>
                                 </td>
                             </tr>
                             <tr>

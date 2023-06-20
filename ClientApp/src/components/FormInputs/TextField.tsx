@@ -20,7 +20,7 @@ const TextField: React.FC<InputFieldProps> = (props) => {
         if (touched && error) return 'is-invalid';
         if (notvalidate) return '';
     };
-    
+
     useEffect(() => {
         if(defaultValue){
             meta.setValue(defaultValue)
@@ -35,11 +35,13 @@ const TextField: React.FC<InputFieldProps> = (props) => {
                         <div className="invalid ml-1">(*)</div>
                     )}
                 </label>
-                <div className="col input-group">
-                    <input className={`form-control ${validateClass()}`} {...field} {...props}/>
-                    {endingText && <div className="input-group-append">
-                        <span className="input-group-text">{endingText}</span>
-                    </div> }                   
+                <div className="col">
+                    <div className="input-group">
+                        <input className={`form-control ${validateClass()}`} {...field} {...props}/>
+                        {endingText && <div className="input-group-append">
+                            <span className="input-group-text">{endingText}</span>
+                        </div> }       
+                    </div>            
                     {error && touched && (
                         <div className='invalid'>{error}</div>
                     )}

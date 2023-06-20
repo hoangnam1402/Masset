@@ -143,7 +143,6 @@ const ComponentSlice = createSlice({
 
     setAssetTypes: (state, action: PayloadAction<IAssetType[]>): ComponentState => {
       const assetTypes = action.payload;
-      console.log(assetTypes);
       return {
         ...state,
         assetTypes,

@@ -39,7 +39,7 @@ const validationSchema = Yup.object().shape({
     locationID: Yup.string().required('Required'),
     typeID: Yup.string().required('Required'),
     serial: Yup.string().required('Required'),
-    cost: Yup.string().required('Required'),
+    cost: Yup.number().typeError("Number only").required('Required'),
     warranty: Yup.string().required('Required'),
     description: Yup.string(),
     status: Yup.string().required('Required'),
@@ -116,10 +116,10 @@ const ComponentForm: React.FC<Props> = ({ component, handleClose }) => {
             dialogClassName="modal-dialog-centered" 
         >
             <Modal.Header className="align-items-center headerModal">
-            {isUpdate == true && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isUpdate === true && (<Modal.Title id="detail-modal" className="primaryColor">
                 Edit Component
             </Modal.Title>)}
-            {isUpdate == false && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isUpdate === false && (<Modal.Title id="detail-modal" className="primaryColor">
                 Create Component
             </Modal.Title>)}
             <XSquare

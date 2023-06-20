@@ -144,16 +144,16 @@ const AssetTable: React.FC<Props> = ({
             <td className="py-1 py-1-custome">
               <div className="row">
                 <ButtonIcon className="col-2" onClick={() => handleShowCheckingForm(data)} title={data.isCheckOut ? "Check In" : "Check Out"}>
-                  <Check className="text-black mx-2" />
+                  <Check className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon onClick={() => handleShowDetail(data.id)} title="Detail" className="col-2">
-                  <FileEarmarkText className="text-black mx-2" />
+                  <FileEarmarkText className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
-                  <PencilFill className="text-black mx-2" />
+                  <PencilFill className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
-                  <Trash3 className="text-black mx-2" />
+                  <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>
             </td>

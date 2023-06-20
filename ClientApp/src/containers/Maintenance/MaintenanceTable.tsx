@@ -141,20 +141,20 @@ const MaintenanceTable: React.FC<Props> = ({
             key={index} 
             className=""
           >
-            <td className="py-1">{data.asset.tag} </td>
-            <td className="py-1">{data.asset.name}</td>
-            <td className="py-1">{data.supplier.name}</td>
-            <td className="py-1">{getMaintenanceTypeName(data.type)}</td>
-            <td className="py-1">{handleDay(data.startDate)}</td>
-            <td className="py-1">{handleDay(data.endDate)}</td>
+            <td className="py-1 py-1-custome">{data.asset.tag} </td>
+            <td className="py-1 py-1-custome">{data.asset.name}</td>
+            <td className="py-1 py-1-custome">{data.supplier.name}</td>
+            <td className="py-1 py-1-custome">{getMaintenanceTypeName(data.type)}</td>
+            <td className="py-1 py-1-custome">{handleDay(data.startDate)}</td>
+            <td className="py-1 py-1-custome">{handleDay(data.endDate)}</td>
 
-            <td className="py-1">
+            <td className="py-1 py-1-custome">
               <div className="row">
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
-                  <PencilFill className="text-black mx-2" />
+                  <PencilFill className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
-                  <Trash3 className="text-black mx-2" />
+                  <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>
             </td>

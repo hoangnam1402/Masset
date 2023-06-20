@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { XSquare } from "react-bootstrap-icons";
+
 import IAsset from "../../../interfaces/Asset/IAsset";
 import { NotificationManager } from 'react-notifications';
 import TextField from '../../../components/FormInputs/TextField';
@@ -39,7 +40,7 @@ const validationSchema = Yup.object().shape({
     locationID: Yup.string().required('Required'),
     typeID: Yup.string().required('Required'),
     serial: Yup.string().required('Required'),
-    cost: Yup.string().required('Required'),
+    cost: Yup.number().typeError("Number only").required('Required'),
     warranty: Yup.string().required('Required'),
     description: Yup.string(),
     status: Yup.string().required('Required'),
@@ -117,10 +118,10 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
             dialogClassName="modal-dialog-centered" 
         >
             <Modal.Header className="align-items-center headerModal">
-            {isUpdate == true && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isUpdate === true && (<Modal.Title id="detail-modal" className="primaryColor">
                 Edit Asset
             </Modal.Title>)}
-            {isUpdate == false && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isUpdate === false && (<Modal.Title id="detail-modal" className="primaryColor">
                 Create Asset
             </Modal.Title>)}
             <XSquare
