@@ -17,6 +17,7 @@ import { AssetStateOptions, LimitOptions } from "../../../constants/selectOption
 import AssetForm from "./AssetForm";
 import ISelectOption from "../../../interfaces/ISelectOption";
 import AssetFDP from "./AssetFDP";
+import { propertyLabelConstants } from "../../../constants/PropertyLabelConstants";
 
 const AssetList = () => {
   const dispatch = useAppDispatch();
@@ -135,7 +136,7 @@ const AssetList = () => {
   return (
     <>
       <div className="d-flex">
-        <div className="d-flex primaryColor text-title intro-x">Asset List</div>
+        <div className="d-flex primaryColor text-title intro-x">{propertyLabelConstants.TITLE}</div>
         {assets && assets.items && <AssetFDP data={assets.items}/>}
       </div>
 
@@ -174,7 +175,7 @@ const AssetList = () => {
 
           <div className="d-flex align-items-center ml-3">
             <button type="button" onClick={() => handleCreate()} className="btn btn-danger">
-              Create new Asset
+              {propertyLabelConstants.CREATE_NEW_PROPERTY}
             </button>
           </div>
         </div>
