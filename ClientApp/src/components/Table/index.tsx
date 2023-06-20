@@ -45,8 +45,9 @@ const Table: React.FC<Props> = ({
 
   return (
     <>
-      <div className="table-container">
-        <table className="table">
+    <div className="container-table">
+      <div className="container-child-table">
+      <table className="table table-striped">
           <thead>
             <tr className="text center text-lg-nowrap">
               {columns.map((col, i) => (
@@ -74,20 +75,14 @@ const Table: React.FC<Props> = ({
                       </a>
                     </div>
                   )}
-                  {col.columnValue == "" && col.columnName == "" && (
-                    <div className="d-flex">
-                    </div>
-                  )}
                 </th>
               ))}
             </tr>
           </thead>
-
           <tbody>{children}</tbody>
         </table>
       </div>
-
-      {!!(page && page.totalPage && page.totalPage >= 1) && (
+        {!!(page && page.totalPage && page.totalPage >= 1) && (
         <div className="w-100 d-flex align-items-center mt-3">
           <Limit handleLimit={handleLimit} limit={limit}/>
           <Paging {...page} />
@@ -96,6 +91,7 @@ const Table: React.FC<Props> = ({
       {!!!(page && page.totalPage && page.totalPage >= 1) && (
         <p className="text-center">No record</p>
       )}
+    </div>
     </>
   );
 };

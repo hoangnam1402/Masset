@@ -16,6 +16,7 @@ import TextAreaField from '../../../components/FormInputs/TextAreaField';
 import { AssetStateOptions } from "../../../constants/selectOptions";
 import createSelectOption from '../../../utils/createSelectOption';
 import ISelectOption from '../../../interfaces/ISelectOption';
+import { propertyLabelConstants } from '../../../constants/PropertyLabelConstants';
 
 const initialFormValues: IAssetForm = {
     name: "",
@@ -116,10 +117,10 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
         >
             <Modal.Header className="align-items-center headerModal">
             {isUpdate === true && (<Modal.Title id="detail-modal" className="primaryColor">
-                Edit Asset
+                {propertyLabelConstants.EDIT_PROPERTY}
             </Modal.Title>)}
             {isUpdate === false && (<Modal.Title id="detail-modal" className="primaryColor">
-                Create Asset
+                {propertyLabelConstants.CREATE_PROPERTY}
             </Modal.Title>)}
             <XSquare
                 onClick={handleClose}

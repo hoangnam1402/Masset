@@ -58,10 +58,10 @@ const AssetTypeForm: React.FC<Props> = ({ assetType, handleClose }) => {
         >
             <Modal.Header className="align-items-center headerModal">
             {isUpdate && (<Modal.Title id="detail-modal" className="primaryColor">
-                Edit Asset Type
+                Edit Property Type
             </Modal.Title>)}
             {!isUpdate && (<Modal.Title id="detail-modal" className="primaryColor">
-                Create Asset Type
+                Create Property Type
             </Modal.Title>)}
             <XSquare
                 onClick={handleClose}
