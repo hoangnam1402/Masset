@@ -33,8 +33,10 @@ namespace Business
             //Asset
             CreateMap<AssetDto, Asset>(memberList: AutoMapper.MemberList.None)
                 .ForMember(src => src.Img, act => act.Ignore()).ReverseMap();
-            CreateMap<AssetCreateDto, Asset>(memberList: AutoMapper.MemberList.None);
-            CreateMap<AssetUpdateDto, Asset>(memberList: AutoMapper.MemberList.None);
+            CreateMap<AssetCreateDto, Asset>(memberList: AutoMapper.MemberList.None)
+                .ForMember(src => src.Img, act => act.Ignore()).ReverseMap();
+            CreateMap<AssetUpdateDto, Asset>(memberList: AutoMapper.MemberList.None)
+                .ForMember(src => src.Img, act => act.Ignore()).ReverseMap();
             CreateMap<MobileAssetUpdateDto, Asset>(memberList: AutoMapper.MemberList.None);
 
             //Component
@@ -95,8 +97,10 @@ namespace Business
             //Asset
             CreateMap<Asset, AssetDto>()
                 .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
-            CreateMap<Asset, AssetCreateDto>();
-            CreateMap<Asset, AssetUpdateDto>();
+            CreateMap<Asset, AssetCreateDto>()
+                .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
+            CreateMap<Asset, AssetUpdateDto>()
+                .ForMember(src => src.Image, act => act.Ignore()).ReverseMap();
             CreateMap<Asset, MobileAssetUpdateDto>();
 
             //Component

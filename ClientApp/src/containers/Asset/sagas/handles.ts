@@ -13,7 +13,7 @@ import { setStatus, setAssets, setAssetTypes, CreateAction, setDeleteAsset, setA
 import { createAssetRequest, getAssetTypeRequest, getAssetsRequest, deleteAssetRequest, GeneratingQRCode,
     putAssetsRequest, getBrandsRequest, getLocationRequest, getSupplierRequest, getAssetByIdRequest, 
     getMaintenanceRequest, getDepreciationRequest, getHistoryCheckRequest, getComponentCheckRequest,
-    postCheckInRequest, postCheckOutRequest, getUsersRequest, updateLogoRequest} from './request';
+    postCheckInRequest, postCheckOutRequest, getUsersRequest} from './request';
 
 export function* handleGetAssets(action: PayloadAction<IQueryAssetModel>) {
     const query = action.payload;
@@ -291,17 +291,5 @@ export function* handleQRCodeGenerator(action: PayloadAction<GetByTagAction>) {
             status: Status.Failed,
             error: errorModel,
         }));
-    }
-}
-
-export function* handleUpdateImage(action: PayloadAction<PutImage>) {
-    const {file, tag} = action.payload;
-
-    try {
-        yield call(updateLogoRequest, file, tag);
-
-    } catch (error: any) {
-        const errorModel = error.response.data as IError;
-        console.log(errorModel);
     }
 }

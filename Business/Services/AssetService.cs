@@ -94,6 +94,12 @@ namespace Business.Services
         {
             var newAsset = _mapper.Map<Asset>(createRequest);
 
+            if (createRequest.Image != null)
+            {
+                byte[] imageBytes = Convert.FromBase64String(createRequest.Image);
+                newAsset.Img = imageBytes;
+            }
+
             newAsset.CreateDay = DateTime.Now;
             newAsset.UpdateDay = DateTime.Now;
             newAsset.IsDeleted = false;
@@ -118,6 +124,12 @@ namespace Business.Services
             if (asset == null)
                 return null;
             asset = _mapper.Map(updateRequest, asset);
+
+            if (updateRequest.Image != null)
+            {
+                byte[] imageBytes = Convert.FromBase64String(updateRequest.Image);
+                asset.Img = imageBytes;
+            }
 
             asset.UpdateDay = DateTime.Now;
 

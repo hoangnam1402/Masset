@@ -10,7 +10,7 @@ import TextField from '../../../components/FormInputs/TextField';
 import DateField from '../../../components/FormInputs/DateField';
 import SelectField from '../../../components/FormInputs/SelectField';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { createAsset, getAssetTypes, getBrands, getLocations, getSuppliers, updateAsset, updateImage } from '../reducer';
+import { createAsset, getAssetTypes, getBrands, getLocations, getSuppliers, updateAsset } from '../reducer';
 import IAssetForm from '../../../interfaces/Asset/IAssetForm';
 import TextAreaField from '../../../components/FormInputs/TextAreaField';
 import { AssetStateOptions } from "../../../constants/selectOptions";
@@ -55,7 +55,7 @@ type Props = {
 const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
-    const [selectedFile, setSelectedFile] = useState<File>();
+    const [selectedFile, setSelectedFile] = useState<Blob>();
     const { setting } = useAppSelector((state) => state.settingReducer);
 
     const fetchData = () => {
@@ -139,17 +139,23 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                 onSubmit={(values) => {
                     setLoading(true);
 
+                    if (selectedFile != null)
+                    {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(selectedFile);
+
+                        reader.onload = () => {
+                            const base64Image = reader.result as string;
+                            values.image = base64Image.split(',')[1];
+                        };
+                    }
+
                     setTimeout(() => {            
                         if (isUpdate) {
                             dispatch(updateAsset({ handleResult, formValues: values }));
                         }
                         else {
                             dispatch(createAsset({ handleResult, formValues: values }));
-                        }
-
-                        if (selectedFile && values.tag)
-                        {
-                          dispatch(updateImage({file: selectedFile, tag: values.tag}));
                         }
     
                         setLoading(false);
@@ -220,7 +226,7 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                             label="Description"
                             isrequired={isUpdate ? true : false}
                             defaultValue={isUpdate ? initialFormValues.description : undefined}/>
-                        {isUpdate && <div className="mb-3 row">
+                        <div className="mb-3 row">
                             <label className="col-4 col-form-label d-flex">
                                 Image
                             </label>
@@ -230,7 +236,7 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
                             if (input.files && input.files[0])
                                 setSelectedFile(input.files[0])}} />
                             </div>
-                        </div>}
+                        </div>
 
                         <div className="text-center mt-3 float-right">
                             <button

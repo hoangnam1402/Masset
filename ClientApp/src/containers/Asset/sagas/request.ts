@@ -119,14 +119,3 @@ export function putAssetsRequest(assetForm: IAssetForm): Promise<AxiosResponse<I
 export function GeneratingQRCode(tag: string): Promise<AxiosResponse<ImageResponse>> {
     return RequestService.axios.get(EndPoints.generatingQRCode(tag ?? -1), { responseType: 'blob' });
 }
-
-export function updateLogoRequest(file: File, tag: string): Promise<AxiosResponse<IAsset>> {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    return RequestService.axios.put(EndPoints.Image(tag), formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-}

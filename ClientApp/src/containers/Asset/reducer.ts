@@ -366,13 +366,6 @@ const AssetSlice = createSlice({
         assetChecking,
       }
     },
-
-    updateImage: (state, action: PayloadAction<PutImage>) => {
-      return {
-        ...state,
-        loading: true,
-      }
-    },
   },
 });
 
@@ -383,7 +376,7 @@ export const
     deleteAssets, createAsset, setAsset, updateAsset, setAssetGetById, setQrCode, getQrCode,
     getMaintenance, setMaintenance, getDepreciation, setDepreciation, getHistoryCheck,
     setHistoryCheck, getComponentCheck, setComponentCheck, getAssetCheckIn, getAssetCheckOut,
-    setAssetChecking, getUsers, setUsers, updateImage
+    setAssetChecking, getUsers, setUsers
 } = AssetSlice.actions;
 
 export default AssetSlice.reducer;

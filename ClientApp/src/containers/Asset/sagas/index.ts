@@ -2,11 +2,11 @@ import { takeLatest } from 'redux-saga/effects';
 
 import { getAssets, getAssetTypes, getBrands, getLocations, getAssetById, getQrCode, getMaintenance,
     getSuppliers, deleteAssets, createAsset, updateAsset, getDepreciation, getHistoryCheck, 
-    getComponentCheck, getAssetCheckIn, getAssetCheckOut, getUsers, updateImage } from '../reducer';
+    getComponentCheck, getAssetCheckIn, getAssetCheckOut, getUsers } from '../reducer';
 import { handleGetAssets, handleGetAssetType, handleGetBrand, handleGetLocation, handleGetAssetById,
     handleQRCodeGenerator, handleGetSupplier, handleDeleteAsset, handleCreateAsset, handleUpdateAsset,
     handleGetMaintenance, handleGetDepreciation, handleGetHistoryCheck, handleGetComponentCheckOfAsset, 
-    handleCheckIn, handleCheckOut, handleGetUsers, handleUpdateImage } from './handles';
+    handleCheckIn, handleCheckOut, handleGetUsers } from './handles';
 
 export default function* assetSagas() {
     yield takeLatest(deleteAssets.type, handleDeleteAsset);
@@ -26,5 +26,4 @@ export default function* assetSagas() {
     yield takeLatest(getAssetCheckIn.type,handleCheckIn);
     yield takeLatest(getAssetCheckOut.type,handleCheckOut);
     yield takeLatest(getUsers.type, handleGetUsers);
-    yield takeLatest(updateImage.type, handleUpdateImage);
 }
