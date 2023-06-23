@@ -93,7 +93,7 @@ const Maintenance = () => {
       <div className="primaryColor text-title intro-x">Maintenance List</div>
 
       <div>
-        <div className="d-flex mb-5 intro-x">
+        <div className="d-flex mb-4 intro-x">
           {maintenances && maintenances.items && <div className="d-flex align-items-center w-md mr-5">
             <div className="d-flex justify-content-center">
               <MaintenanceFDP data={maintenances.items}/>

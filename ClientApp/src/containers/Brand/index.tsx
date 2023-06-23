@@ -93,7 +93,7 @@ const Brand = () => {
       <div className="primaryColor text-title intro-x">Brand List</div>
 
       <div>
-        <div className="d-flex mb-5 intro-x">
+        <div className="d-flex mb-4 intro-x">
           {brands && brands.items && <div className="d-flex align-items-center w-md mr-5">
             <div className="d-flex justify-content-center">
               <BrandFDP data={brands.items}/>

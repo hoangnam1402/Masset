@@ -8,7 +8,7 @@ import Depreciation from "./Depreciation";
 
 const ComponentInfo = () => {
   const dispatch = useAppDispatch();
-  const { compGetById, checkings } = useAppSelector(state => state.componentReducer);
+  const { compGetById, checkings, loading } = useAppSelector(state => state.componentReducer);
   const { id } = useParams<{ id: string }>();
 
   const fetchData = () => {
@@ -21,7 +21,12 @@ const ComponentInfo = () => {
 
   return (
     <>
-      <div className='ml-5'>
+      {loading && <div className="text-center">
+        <div className="spinner-border" role="status"/>
+        <div> Loading </div>
+      </div>}
+
+      {!loading && <div className='ml-5'>
         <div className='primaryColor text-title intro-x row'>
           <div className='col-md-9'>Component detail</div>
         </div>
@@ -58,7 +63,7 @@ const ComponentInfo = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
     </>
   );
 };

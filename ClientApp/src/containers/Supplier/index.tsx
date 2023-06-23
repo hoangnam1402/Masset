@@ -93,7 +93,7 @@ const Supplier = () => {
       <div className="primaryColor text-title intro-x">Supplier List</div>
 
       <div>
-        <div className="d-flex mb-5 intro-x">
+        <div className="d-flex mb-4 intro-x">
           {suppliers && suppliers.items && <div className="d-flex align-items-center w-md mr-5">
             <div className="d-flex justify-content-center">
               <SupplierFDP data={suppliers.items}/>

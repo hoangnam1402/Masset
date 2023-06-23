@@ -80,7 +80,6 @@ const ComponentSlice = createSlice({
     getComponents: (state, action: PayloadAction<IQueryAssetModel>): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -88,17 +87,15 @@ const ComponentSlice = createSlice({
       const components = action.payload;
 
       return {
-          ...state,
-          components,
-          componentResult: undefined,
-          loading: false,
+        ...state,
+        components,
+        componentResult: undefined,
       };
     },
 
     deleteComponent: (state, action: PayloadAction<CreateAction>): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -113,8 +110,7 @@ const ComponentSlice = createSlice({
 
     updateComponent: (state, action: PayloadAction<CreateAction>): ComponentState => {
       return {
-          ...state,
-          loading: true,
+        ...state,
       }
     },
 
@@ -129,15 +125,14 @@ const ComponentSlice = createSlice({
       const componentResult = action.payload;
 
       return {
-          ...state,
-          componentResult,
-          loading: false,
+        ...state,
+        componentResult,
       }
-  },
+    },
+
     getAssetTypes: (state): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -146,14 +141,12 @@ const ComponentSlice = createSlice({
       return {
         ...state,
         assetTypes,
-        loading: false,
       };
     },
 
     getBrands: (state): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -162,14 +155,12 @@ const ComponentSlice = createSlice({
       return {
         ...state,
         brands,
-        loading: false,
       };
     },
 
     getLocations: (state): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -178,14 +169,12 @@ const ComponentSlice = createSlice({
       return {
         ...state,
         locations,
-        loading: false,
       };
     },
 
     getSuppliers: (state): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -194,14 +183,12 @@ const ComponentSlice = createSlice({
       return {
         ...state,
         suppliers,
-        loading: false,
       };
     },
 
     getDepreciation:  (state, action: PayloadAction<GetByIdAction>): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -210,7 +197,6 @@ const ComponentSlice = createSlice({
       return {
         ...state,
         depreciation,
-        loading: false,
       };
     },
 
@@ -228,14 +214,12 @@ const ComponentSlice = createSlice({
     createComponent: (state, action: PayloadAction<CreateAction>): ComponentState => {
       return {
           ...state,
-          loading: true,
       }
     },
 
     getAssets: (state): ComponentState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -244,7 +228,6 @@ const ComponentSlice = createSlice({
       return {
         ...state,
         assets,
-        loading: false,
       };
     },
 
@@ -261,18 +244,16 @@ const ComponentSlice = createSlice({
 
     getCheckIn: (state, action: PayloadAction<CheckAction>) =>
     {
-        return {
-            ...state,
-            loading: false,
-        }
+      return {
+        ...state,
+      }
     },
 
     getCheckOut: (state, action: PayloadAction<CheckAction>) =>
     {
-        return {
-            ...state,
-            loading: false,
-        }
+      return {
+        ...state,
+      }
     },
 
     setChecking: ( state, action: PayloadAction<IChecking>): ComponentState => {
@@ -287,7 +268,6 @@ const ComponentSlice = createSlice({
     getComponentCheck:  (state, action: PayloadAction<GetByComponentIdAction>) => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -296,7 +276,6 @@ const ComponentSlice = createSlice({
       return {
         ...state,
         componentCheck,
-        loading: false,
       };
     },
 

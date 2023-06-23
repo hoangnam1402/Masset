@@ -9,7 +9,7 @@ const Layout = ({ children }: any) => {
       <Header />
 
       <div className="container-lg-min container-fluid">
-        <div className="row mt-5">
+        <div className="row mt-4 mb-5">
 
           <div className="col-lg-3 col-md-4 col-12 mr-5">
             <SideBar />
@@ -19,7 +19,6 @@ const Layout = ({ children }: any) => {
             {children}
           </div>
         </div>
-
       </div>
     </>
   );

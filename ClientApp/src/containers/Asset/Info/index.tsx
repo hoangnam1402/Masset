@@ -16,7 +16,7 @@ import History from "./History";
 
 const AssetInfo = () => {
   const dispatch = useAppDispatch();
-  const { assetGetById } = useAppSelector(state => state.assetReducer);
+  const { assetGetById, loading } = useAppSelector(state => state.assetReducer);
   const { id } = useParams<{ id: string }>();
   const [showQrCode, setShowQrCode] = useState(false);
 
@@ -59,7 +59,12 @@ const AssetInfo = () => {
 
   return (
     <>
-      <div className='ml-5'>
+      {loading && <div className="text-center">
+        <div className="spinner-border" role="status"/>
+        <div> Loading </div>
+      </div>}
+
+      {!loading && <div className='ml-5'>
         <div className='primaryColor text-title intro-x row'>
           <div className='col-md-9'>Asset detail</div>
           <div className="col-md-3 text-md-right">
@@ -118,7 +123,7 @@ const AssetInfo = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       {assetGetById && showQrCode && (
         <QrCodeGenerator asset={assetGetById} handleClose={handleCloseQrCode} />

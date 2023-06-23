@@ -141,11 +141,12 @@ const AssetList = () => {
       </div>
 
       <div>
-        <div className="d-flex mb-5 intro-x">
+        <div className="d-flex mb-4 intro-x">
           <div className="d-flex align-items-center w-md mr-5">
             <div className="d-flex justify-content-center">
-              <p className="mr-2 mt-2">State:</p>
+              <p className="mr-2 mt-3">State:</p>
               <MultiSelect
+                className="mt-2"
                 options={AssetStateOptions}
                 labelledBy="State"
                 value={stateSelected}
@@ -153,7 +154,7 @@ const AssetList = () => {
                 disableSearch={true}
               />
 
-              <div className="border p-2">
+              <div className="border p-2 mt-2">
                 <FunnelFill />
               </div>
             </div>

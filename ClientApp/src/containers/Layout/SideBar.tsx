@@ -9,8 +9,20 @@ const SideBar = () => {
   const firstPathName = "/"+pathnameSplit[1]
   const { setting } = useAppSelector((state) => state.settingReducer);
 
+  const sidebar = document.querySelector('.nav-left');
+  
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 51 && sidebar) {
+      sidebar.classList.add('nav-left-2');
+      sidebar.classList.remove('nav-left-1');
+    } else if (window.pageYOffset <= 51 && sidebar) {
+      sidebar.classList.add('nav-left-1');
+      sidebar.classList.remove('nav-left-2');
+    }
+  });
+
   return (
-    <div className="nav-left mb-5">
+    <div className="nav-left nav-left-1 mb-4">
       {setting?.image && <img id="logo" src={`data:image/jpeg;base64,${setting?.image}`} alt={setting?.name} />}
       {setting && <p id="tiles" className="brand intro-x">{setting?.name}</p>}
 

@@ -1,6 +1,12 @@
 .nav-left {
     font-size: 20px;
     font-weight: bold;
+    position: fixed;
+    left: 0;
+    padding: 10px;
+    width: inherit;
+    overflow-y: scroll;
+    box-sizing: border-box;
 
     .navItem button {
         width: 100%;
@@ -17,4 +23,23 @@
     .brand {
         color: rgba(207,35,56,1);
     }
+}
+
+.nav-left::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.nav-left {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.nav-left-1 {
+    top: 51px;
+    height: calc(100% - 51px);
+}
+
+.nav-left-2 {
+    top: 0;
+    height: 100%;
 }

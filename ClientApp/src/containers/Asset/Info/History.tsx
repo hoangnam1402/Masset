@@ -90,7 +90,7 @@ const History: React.FC<Props> = ({assetID}) => {
     return (
         <>
             <div>
-                <div className="d-flex mb-5 intro-x">
+                <div className="d-flex mb-4 intro-x">
                     {historyCheck && historyCheck.items && <div className="d-flex align-items-center w-md mr-5">
                         <div className="d-flex justify-content-center">
                         <AssetCheckFDP data={historyCheck.items}/>

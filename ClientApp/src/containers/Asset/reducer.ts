@@ -91,7 +91,6 @@ const AssetSlice = createSlice({
     getAssets: (state, action: PayloadAction<IQueryAssetModel>): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -99,17 +98,15 @@ const AssetSlice = createSlice({
       const assets = action.payload;
 
       return {
-          ...state,
-          assets,
-          assetResult: undefined,
-          loading: false,
+        ...state,
+        assets,
+        assetResult: undefined,
       };
     },
 
     deleteAssets: (state, action: PayloadAction<DeleteAction>): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -124,8 +121,7 @@ const AssetSlice = createSlice({
 
     updateAsset: (state, action: PayloadAction<CreateAction>): AssetState => {
       return {
-          ...state,
-          loading: true,
+        ...state,
       }
     },
 
@@ -140,15 +136,14 @@ const AssetSlice = createSlice({
       const assetResult = action.payload;
 
       return {
-          ...state,
-          assetResult,
-          loading: false,
+        ...state,
+        assetResult,
       }
-  },
+    },
+
     getAssetTypes: (state): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -157,14 +152,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         assetTypes,
-        loading: false,
       };
     },
 
     getBrands: (state): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -173,14 +166,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         brands,
-        loading: false,
       };
     },
 
     getLocations: (state): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -189,14 +180,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         locations,
-        loading: false,
       };
     },
 
     getSuppliers: (state): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -205,14 +194,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         suppliers,
-        loading: false,
       };
     },
 
     getUsers: (state): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -221,14 +208,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         users,
-        loading: false,
       };
     },
 
     getMaintenance: (state, action: PayloadAction<GetByAssetIdAction>): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -237,14 +222,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         maintenances,
-        loading: false,
       };
     },
 
     getDepreciation:  (state, action: PayloadAction<GetByIdAction>): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -253,14 +236,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         depreciation,
-        loading: false,
       };
     },
 
     getHistoryCheck:  (state, action: PayloadAction<GetByAssetIdAction>): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -269,14 +250,12 @@ const AssetSlice = createSlice({
       return {
         ...state,
         historyCheck,
-        loading: false,
       };
     },
 
     getComponentCheck:  (state, action: PayloadAction<GetByAssetIdAction>): AssetState => {
       return {
         ...state,
-        loading: true,
       };
     },
 
@@ -285,7 +264,6 @@ const AssetSlice = createSlice({
       return {
         ...state,
         componentCheck,
-        loading: false,
       };
     },
 
@@ -303,54 +281,49 @@ const AssetSlice = createSlice({
     createAsset: (state, action: PayloadAction<CreateAction>): AssetState => {
       return {
           ...state,
-          loading: true,
       }
     },
 
     setAssetGetById: (state: AssetState, action: PayloadAction<IAsset|undefined>) =>
     {
-        const assetGetById= action.payload;
+      const assetGetById= action.payload;
 
-        return {
-            ...state,
-            assetGetById,
-            loading: false,
-        }
+      return {
+        ...state,
+        assetGetById,
+        loading: false,
+      }
     },
 
     getQrCode: (state, action: PayloadAction<GetByTagAction>) =>
     {
-        return {
-            ...state,
-            loading: false,
-        }
+      return {
+        ...state,
+      }
     },
 
     setQrCode: (state: AssetState, action: PayloadAction<string>) =>
     {
-        const qrCode= action.payload;
+      const qrCode= action.payload;
 
-        return {
-            ...state,
-            qrCode,
-            loading: false,
-        }
+      return {
+        ...state,
+        qrCode,
+      }
     },
 
     getAssetCheckIn: (state, action: PayloadAction<CheckAction>) =>
     {
-        return {
-            ...state,
-            loading: false,
-        }
+      return {
+        ...state,
+      }
     },
 
     getAssetCheckOut: (state, action: PayloadAction<CheckAction>) =>
     {
-        return {
-            ...state,
-            loading: false,
-        }
+      return {
+        ...state,
+      }
     },
 
     setAssetChecking: ( state, action: PayloadAction<IChecking>): AssetState => {

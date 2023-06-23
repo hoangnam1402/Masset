@@ -163,11 +163,10 @@ const Dashboard = () => {
                 <div className="row">
                   <div className="col-md-3">
                     <div className="text-center">
-                      <img src="/icon-asset.png" alt="icon-asset" className="icon-asset" />
+                      <img src="/icon-asset.png" alt="icon-asset" className="icon" />
                     </div>
                   </div>
-                  <div className="col-md-1 "/>
-                  <div className="col-md-7 ">
+                  <div className="col-md-9 ">
                     <div className="numbers">
                       <p>Property</p>
                       <span className="totalhead totalasset">{dashboard?.totalAsset}</span>
@@ -194,12 +193,11 @@ const Dashboard = () => {
                 <div className="row">
                   <div className="col-md-3">
                     <div className="text-center">
-                      <img src="/icon-component.png" alt="icon-component" className="icon-component" />
+                      <img src="/icon-component.png" alt="icon-component" className="icon" />
                     </div>
                   </div>
 
-                  <div className="col-md-1 "/>
-                  <div className="col-md-7 ">
+                  <div className="col-md-9 ">
                     <div className="numbers">
                       <p>Component</p>
                       <span className="totalhead totalcomponent">{dashboard?.totalComponent}</span>
@@ -226,12 +224,11 @@ const Dashboard = () => {
                 <div className="row">
                   <div className="col-md-3">
                     <div className="text-center">
-                      <img src="/icon-maintenance.png" alt="icon-maintenance" className="icon-maintenance" />
+                      <img src="/icon-maintenance.png" alt="icon-maintenance" className="icon" />
                     </div>
                   </div>
                   
-                  <div className="col-md-1 "/>
-                  <div className="col-md-7 ">
+                  <div className="col-md-9 ">
                     <div className="numbers">
                       <p>Maintenance</p>
                       <span className="totalhead totalmaintenance">{dashboard?.totalMaintenance}</span>
@@ -258,12 +255,11 @@ const Dashboard = () => {
                 <div className="row">
                   <div className="col-md-3">
                     <div className="text-center">
-                      <img src="/icon-employee.png" alt="icon-employee" className="icon-employee" />
+                      <img src="/icon-employee.png" alt="icon-employee" className="icon" />
                     </div>
                   </div>
 
-                  <div className="col-md-2 "/>
-                  <div className="col-md-7 ">
+                  <div className="col-md-9 ">
                     <div className="numbers">
                       <p>User</p>
                       <span className="totalhead totalemployee">{dashboard?.totalEmployee}</span>
