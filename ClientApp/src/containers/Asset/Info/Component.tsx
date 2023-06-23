@@ -134,7 +134,6 @@ const Component: React.FC<Props> = ({assetID}) => {
                         <td className="py-1">{data.component.brand.name}</td>
                         <td className="py-1">{data.component.quantity}</td>
                         <td className="py-1">{data.component.availableQuantity}</td>
-                        <td className=""></td>
                     </tr>
                     ))}
                     
