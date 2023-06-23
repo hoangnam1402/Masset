@@ -140,7 +140,7 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
                     <Form className="intro-y col-lg-12 col-12">
                         <SelectField id="assetID"
                             name="assetID"
-                            label="Asset"
+                            label="Property"
                             isrequired={true}
                             options={assetSelectOptions}  
                             defaultValue={isUpdate ? initialFormValues.assetID : 0}/>

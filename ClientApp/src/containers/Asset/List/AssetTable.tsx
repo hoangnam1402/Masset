@@ -19,7 +19,7 @@ import CheckAssetForm from "./CheckAssetForm";
 const columns: IColumnOption[] = [
     { columnName: "Picture", columnValue: "" },
     { columnName: "Tag", columnValue: "tag" },
-    { columnName: "Asset Name", columnValue: "name" },
+    { columnName: "Property Name", columnValue: "name" },
     { columnName: "Type", columnValue: "type" },
     { columnName: "Brand", columnValue: "brand" },
     { columnName: "Location", columnValue: "location" },

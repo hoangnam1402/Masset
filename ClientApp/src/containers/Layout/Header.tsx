@@ -91,11 +91,11 @@ const Header = () => {
 
   useEffect(() => {
     if (account?.error) {
-      if (account.message == "Password is incorrect. Please try again") {
+      if (account.message === "Password is incorrect. Please try again") {
         setNotificationNewPass("Password is incorrect. Please try again");
         dispatch(logout());
       }
-      if (account.message == "The new password cannot be the same as the old password") {
+      if (account.message === "The new password cannot be the same as the old password") {
         setNotificationNewPass("The new password cannot be the same as the old password");
       }
     }
@@ -180,7 +180,7 @@ const Header = () => {
                   setNotificationNewPass("Password min length 5 characters");
                   return;
                 }
-                if (newpass == pass) {
+                if (newpass === pass) {
                   setNotificationNewPass("The new password cannot be the same as the old password");
                   return;
                 }

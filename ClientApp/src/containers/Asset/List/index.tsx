@@ -13,7 +13,7 @@ import {
 } from "../../../constants/paging";
 import AssetTable from "./AssetTable";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";
-import { AssetStateOptions, LimitOptions } from "../../../constants/selectOptions";
+import { AssetStateOptions } from "../../../constants/selectOptions";
 import AssetForm from "./AssetForm";
 import ISelectOption from "../../../interfaces/ISelectOption";
 import AssetFDP from "./AssetFDP";

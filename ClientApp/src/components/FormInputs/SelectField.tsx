@@ -1,6 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
 import { useField } from 'formik';
-import { Form } from 'react-bootstrap';
 import ISelectOption from '../../interfaces/ISelectOption';
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -11,9 +10,9 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const SelectField: React.FC<InputFieldProps> = (props) => {
-    const [field, { error, touched, value }, { setValue }] = useField(props);
+    const [field, { value }, { setValue }] = useField(props);
 
-    const { name, options, label, isrequired, defaultValue,disabled } = props;
+    const { options, label, isrequired, defaultValue,disabled } = props;
 
     const handleChange = (e: any) => {
         setValue(e.target.value)

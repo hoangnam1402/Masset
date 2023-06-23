@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { getMaintenance } from "../reducer";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import IColumnOption from "../../../interfaces/IColumnOption";
-import Table, { SortType } from "../../../components/Table";
+import Table from "../../../components/Table";
 import IQueryModel from "../../../interfaces/IQueryModel";
 import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } from "../../../constants/paging";
 import { TypeMaintenance, TypeCalibration, TypeCalibrationLabel, TypeHardwareSupport, TypeTesting,
     TypeHardwareSupportLabel, TypeMaintenanceLabel, TypeRepair, TypeRepairLabel, TypeSoftwareSupport,
-    TypeSoftwareSupportLabel, TypeTestingLabel, TypeUpgrade, TypeUpgradeLabel } from "../../../constants/maintenanceConstants";
+    TypeSoftwareSupportLabel, TypeTestingLabel, TypeUpgradeLabel } from "../../../constants/maintenanceConstants";
 import { Search } from "react-feather";
-import { LimitOptions } from "../../../constants/selectOptions";
 import MaintenanceFDP from "../../Maintenance/MaintenanceFDP";
 
 const columns: IColumnOption[] = [
-    { columnName: "Asset", columnValue: "asset" },
+    { columnName: "Property", columnValue: "asset" },
     { columnName: "Supplier", columnValue: "supplier" },
     { columnName: "Type", columnValue: "type" },
     { columnName: "Start date", columnValue: "startDate" },

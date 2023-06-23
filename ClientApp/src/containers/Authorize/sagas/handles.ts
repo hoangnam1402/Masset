@@ -52,7 +52,10 @@ export function* handleChangePassword(action: PayloadAction<IChangePassword>) {
 
     } catch (error: any) {
         const errorModel = error.response.data as IError;
-        yield put(setStatus({}));
+        console.log(errorModel)
+        yield put(setStatus({
+            status: Status.Failed
+        }));
     }
 }
 

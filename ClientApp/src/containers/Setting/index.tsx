@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getSetting, updateSetting, updateLogo } from "./reducer";
 import * as Yup from 'yup';
@@ -100,7 +100,7 @@ const Setting = () => {
             <button
             className="btn btn-danger mr-3"
             type="submit"
-            disabled={(!isValid||loading||account?.role != 'Admin')}
+            disabled={(!isValid||loading||account?.role !== 'Admin')}
             >
               Update {(loading) && <img src="/oval.svg" className='w-4 h-4 ml-2 inline-block' />}
             </button>

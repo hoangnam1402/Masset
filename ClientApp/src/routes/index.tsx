@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { ASSET_TYPES, BRANDS, DASHBOARD, DEPRECIATIONS, LOCATIONS, LOGIN, MAINTENANCES, MANAGE_ASSETS, 
   MANAGE_COMPONENTS, SUPPLIERS, USER, SETTING} from "../constants/pages";
 import InLineLoader from "../components/InlineLoader";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppDispatch } from "../hooks/redux";
 import { me } from "../containers/Authorize/reducer";
 import PrivateRoute from "./PrivateRoute";
 import Asset from "../containers/Asset";

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { XSquare } from "react-bootstrap-icons";
 import { NotificationManager } from 'react-notifications';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import { createLocation, updateLocation } from './reducer';
 import TextField from '../../components/FormInputs/TextField';
 import ILocationForm from '../../interfaces/Location/ILocationForm';

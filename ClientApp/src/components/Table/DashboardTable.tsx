@@ -2,7 +2,7 @@ import React from "react";
 import { CaretDownFill, CaretUpFill } from "react-bootstrap-icons";
 import IColumnOption from "../../interfaces/IColumnOption";
 
-import Paging, { PageType } from "./Paging";
+import { PageType } from "./Paging";
 
 export type SortType = {
   columnValue: string;
@@ -45,7 +45,7 @@ const DashboardTable: React.FC<Props> = ({
             <tr className="text center text-lg-nowrap">
               {columns.map((col, i) => (
                 <th key={i}>
-                  {col.columnValue != "" && (
+                  {col.columnValue !== "" && (
                     <div className="d-flex align-items-center">
                       <a
                         className="btn"
@@ -59,7 +59,7 @@ const DashboardTable: React.FC<Props> = ({
                       />
                     </div>
                   )}
-                  {col.columnValue == "" && col.columnName != "" && (
+                  {col.columnValue === "" && col.columnName !== "" && (
                     <div className="d-flex align-items-center">
                       <a
                         className="btn"
@@ -68,7 +68,7 @@ const DashboardTable: React.FC<Props> = ({
                       </a>
                     </div>
                   )}
-                  {col.columnValue == "" && col.columnName == "" && (
+                  {col.columnValue === "" && col.columnName === "" && (
                     <div className="d-flex">
                     </div>
                   )}

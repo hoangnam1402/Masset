@@ -135,19 +135,48 @@ const ComponentTable: React.FC<Props> = ({
             <td className="py-1 py-1-custome">{data.availableQuantity}</td>
 
             <td className="py-1 py-1-custome">
-              <div className="row">
-                <ButtonIcon title="Check Out" className="col-2" onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity === 0 ? true : false}>
-                  <Check className="text-black" />
-                </ButtonIcon>
-                <ButtonIcon onClick={() => handleShowDetail(data.id)} title="Detail" className="col-2">
-                  <FileEarmarkText className="text-black" />
-                </ButtonIcon>
-                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
-                  <PencilFill className="text-black" />
-                </ButtonIcon>
-                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
-                  <Trash3 className="text-black" />
-                </ButtonIcon>
+              <div className="dropdown">
+                  <button
+                      className="btn btn-secondary btn-sm dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                  ></button>
+                  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <ButtonIcon title="Check Out" className="dropdown-item" onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity === 0 ? true : false}>
+                        <Check className="text-black" />
+                        <span className="p-2">Check-out</span>
+                      </ButtonIcon>
+                    </li>
+                    <li>
+                      <div className="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <ButtonIcon onClick={() => handleShowDetail(data.id)} title="Detail" className="dropdown-item">
+                        <FileEarmarkText className="text-black" />
+                        <span className="p-2">Detail</span>
+                      </ButtonIcon>
+                    </li>
+                    <li>
+                      <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="dropdown-item">
+                        <PencilFill className="text-black" />
+                        <span className="p-2">Edit</span>
+                      </ButtonIcon>
+                    </li>
+                    <li>
+                      <ButtonIcon
+                        className="dropdown-item"
+                        title="Delete"
+                        onClick={() => handleDelete(data.id)}
+                        disable={account?.role === "Staff" ? true : false}
+                      >
+                        <Trash3 className="text-black" />
+                        <span className="p-2">Delete</span>
+                      </ButtonIcon>
+                    </li>
+                  </ul>
               </div>
             </td>
           </tr>

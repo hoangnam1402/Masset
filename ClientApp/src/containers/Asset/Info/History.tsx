@@ -6,12 +6,11 @@ import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } 
 import IQueryModel from "../../../interfaces/IQueryModel";
 import Table from "../../../components/Table";
 import { Search } from "react-feather";
-import { LimitOptions } from "../../../constants/selectOptions";
 import AssetCheckFDP from "./AssetCheckFDP";
 
 const columns: IColumnOption[] = [
     { columnName: "Date", columnValue: "checkDay" },
-    { columnName: "Asset Name", columnValue: "asset.name" },
+    { columnName: "Property Name", columnValue: "asset.name" },
     { columnName: "User", columnValue: "user" },
     { columnName: "Action", columnValue: "" },
 ];

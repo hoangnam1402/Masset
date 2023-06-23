@@ -1,4 +1,4 @@
-import { CurrencyDollar } from "react-bootstrap-icons";
+import { useAppSelector } from '../../../hooks/redux';
 import IAsset from "../../../interfaces/Asset/IAsset";
 
 type Props = {
@@ -6,6 +6,8 @@ type Props = {
 };
   
 const Details: React.FC<Props> = ({asset}) => {
+    const { setting } = useAppSelector((state) => state.settingReducer);
+
     const daysInMonth = (year: number, month: number) => {
         return new Date(year, month + 1, 0).getDate();
     }
@@ -63,7 +65,7 @@ const Details: React.FC<Props> = ({asset}) => {
                                     <p className="mb-0 font-bold">Cost: </p>
                                 </td>
                                 <td>
-                                    <p className="mb-0">{asset.cost.toLocaleString()} <CurrencyDollar/></p>
+                                    <p className="mb-0">{asset.cost.toLocaleString()} {setting?.currency}</p>
                                 </td>
                             </tr>
                             <tr>

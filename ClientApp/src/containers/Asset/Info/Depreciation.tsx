@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { useAppSelector } from "../../../hooks/redux";
 import StaticTable from "../../../components/Table/StaticTable";
 import IColumnOption from "../../../interfaces/IColumnOption";
 

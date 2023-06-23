@@ -84,11 +84,6 @@ export type GetByTagAction = {
   tag: string,
 }
 
-export type PutImage = {
-  file: File,
-  tag: string,
-}
-
 const AssetSlice = createSlice({
   name: "Asset",
   initialState,

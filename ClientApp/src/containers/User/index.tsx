@@ -11,7 +11,6 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import UserForm from "./UserForm";
 import UserTable from "./UserTable";
-import { LimitOptions } from "../../constants/selectOptions";
 import UserFDP from "./UserFDP";
 
 const User = () => {
@@ -117,7 +116,7 @@ const User = () => {
           </div>
 
           <div className="d-flex align-items-center ml-3">
-            <button type="button" disabled={account?.role == "Staff" ? true : false} onClick={() => handleCreate()} className="btn btn-danger">
+            <button type="button" disabled={account?.role === "Staff" ? true : false} onClick={() => handleCreate()} className="btn btn-danger">
               Create new User
             </button>
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { getQrCode } from '../reducer';
 import IAsset from "../../../interfaces/Asset/IAsset";

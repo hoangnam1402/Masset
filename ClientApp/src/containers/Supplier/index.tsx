@@ -11,7 +11,6 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import SupplierForm from "./SupplierForm";
 import SupplierTable from "./SupplierTable";
-import { LimitOptions } from "../../constants/selectOptions";
 import SupplierFDP from "./SupplierPDP";
 
 const Supplier = () => {

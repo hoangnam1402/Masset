@@ -10,7 +10,7 @@ import IChecking from "../../../interfaces/Checking/IChecking";
 import CheckComponentForm from "../CheckComponentForm";
 
 const columns: IColumnOption[] = [
-    { columnName: "Asset", columnValue: "asset.name" },
+    { columnName: "Property", columnValue: "asset.name" },
     { columnName: "Quantity", columnValue: "quantity" },
     { columnName: "Date", columnValue: "checkDay" },
     { columnName: "Action", columnValue: ""},

@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { XSquare } from "react-bootstrap-icons";
-import IAsset from "../../interfaces/Asset/IAsset";
 import { NotificationManager } from 'react-notifications';
 import TextField from '../../components/FormInputs/TextField';
 import DateField from '../../components/FormInputs/DateField';
@@ -97,10 +96,10 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
             size='lg'
         >
             <Modal.Header className="align-items-center headerModal">
-            {isCheckOut == true && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isCheckOut === true && (<Modal.Title id="detail-modal" className="primaryColor">
                 Check Out
             </Modal.Title>)}
-            {isCheckOut == false && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isCheckOut === false && (<Modal.Title id="detail-modal" className="primaryColor">
                 Check In
             </Modal.Title>)}
             <XSquare

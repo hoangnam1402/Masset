@@ -11,7 +11,6 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import LocationForm from "./LocationForm";
 import LocationTable from "./LocationTable";
-import { LimitOptions } from "../../constants/selectOptions";
 import LocationFDP from "./LocationFDP";
 
 const Location = () => {

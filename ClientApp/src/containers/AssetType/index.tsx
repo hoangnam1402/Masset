@@ -11,7 +11,6 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import AssetTypeForm from "./AssetTypeForm";
 import AssetTypeTable from "./AssetTypeTable";
-import { LimitOptions } from "../../constants/selectOptions";
 import TypeFDP from "./TypeFDP";
 
 const AssetType = () => {

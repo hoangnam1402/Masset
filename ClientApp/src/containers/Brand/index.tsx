@@ -11,7 +11,6 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import BrandForm from "./BrandForm";
 import BrandTable from "./BrandTable";
-import { LimitOptions } from "../../constants/selectOptions";
 import BrandFDP from "./BrandFDP";
 
 const Brand = () => {

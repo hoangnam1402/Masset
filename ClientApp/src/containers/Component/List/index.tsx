@@ -12,7 +12,7 @@ import {
   DEFAULT_PAGE_LIMIT,
 } from "../../../constants/paging";
 import ComponentTable from "./ComponentTable";
-import { AssetStateOptions, LimitOptions } from "../../../constants/selectOptions";
+import { AssetStateOptions } from "../../../constants/selectOptions";
 import ComponentForm from "./ComponentForm";
 import ISelectOption from "../../../interfaces/ISelectOption";
 import IQueryAssetModel from "../../../interfaces/Asset/IQueryAssetModel";

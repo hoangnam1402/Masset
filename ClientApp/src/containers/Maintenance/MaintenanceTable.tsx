@@ -16,8 +16,8 @@ import { TypeMaintenance, TypeCalibration, TypeCalibrationLabel, TypeHardwareSup
 } from "../../constants/maintenanceConstants";
 
 const columns: IColumnOption[] = [
-  { columnName: "Asset tag", columnValue: "tag" },
-  { columnName: "Asset", columnValue: "name" },
+  { columnName: "Property tag", columnValue: "tag" },
+  { columnName: "Property", columnValue: "name" },
   { columnName: "Supplier", columnValue: "supplier" },
   { columnName: "Type", columnValue: "type" },
   { columnName: "Start date", columnValue: "startDate" },
@@ -150,10 +150,10 @@ const MaintenanceTable: React.FC<Props> = ({
 
             <td className="py-1 py-1-custome">
               <div className="row">
-                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2">
+                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-6">
                   <PencilFill className="text-black" />
                 </ButtonIcon>
-                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
+                <ButtonIcon className="col-6" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
                   <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>

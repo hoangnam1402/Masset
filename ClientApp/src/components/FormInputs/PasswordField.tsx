@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useEffect, useState } from "react";
+import React, { InputHTMLAttributes, useState } from "react";
 import { useField } from "formik";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 type PasswordFieldProps = InputHTMLAttributes<HTMLInputElement> & {

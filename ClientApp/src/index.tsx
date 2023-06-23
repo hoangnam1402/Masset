@@ -1,9 +1,7 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import NProgress from "nprogress";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createRoot } from 'react-dom/client';
 
 import store from "./redux/store";
 import Routes from "./routes";

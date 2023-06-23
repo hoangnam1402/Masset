@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { NavLink, Route, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../Authorize/reducer";
 import { ASSETS, COMPONENTS, LOGIN, MAINTENANCES, USER } from "../../constants/pages";
 import { getAssetChecking, getComponentChecking, getDashboard } from "./reducer";
@@ -15,7 +15,7 @@ import { ACCSENDING, DECSENDING, CHECKING_SORT_COLUMN_NAME } from "../../constan
 import DashboardTable from "../../components/Table/DashboardTable";
 
 const assetColumns: IColumnOption[] = [
-  { columnName: "Asset", columnValue: "asset.name" },
+  { columnName: "Property", columnValue: "asset.name" },
   { columnName: "Employee", columnValue: "user.userName" },
   { columnName: "Status", columnValue: "isCheckOut" },
   { columnName: "Location", columnValue: "asset.location.name" },
@@ -24,7 +24,7 @@ const assetColumns: IColumnOption[] = [
 
 const componentColumns: IColumnOption[] = [
   { columnName: "Component", columnValue: "component.name" },
-  { columnName: "Asset", columnValue: "asset.name" },
+  { columnName: "Property", columnValue: "asset.name" },
   { columnName: "Quantity", columnValue: "quantity" },
   { columnName: "Status", columnValue: "isCheckOut" },
   { columnName: "Location", columnValue: "component.location.name" },
@@ -36,7 +36,7 @@ const Dashboard = () => {
   const { dashboard, assetChecking, componentChecking } = useAppSelector((state) => state.dashboardReducer);
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  if (account?.firstLogin || account?.isActive == false) {
+  if (account?.firstLogin || account?.isActive === false) {
     dispatch(logout());
     history(LOGIN);
   }
@@ -169,7 +169,7 @@ const Dashboard = () => {
                   <div className="col-md-1 "/>
                   <div className="col-md-7 ">
                     <div className="numbers">
-                      <p>Asset</p>
+                      <p>Property</p>
                       <span className="totalhead totalasset">{dashboard?.totalAsset}</span>
                     </div>
                   </div>
@@ -291,7 +291,7 @@ const Dashboard = () => {
           <div className="col-lg-6 col-sm-6">
             <div className="card">
               <div className="header">
-                <h5 className="title text-center">Asset by type</h5>
+                <h5 className="title text-center">Property by type</h5>
               </div>
               <div className="content">
                 <Pie data={AssetByType} />
@@ -301,7 +301,7 @@ const Dashboard = () => {
           <div className="col-lg-6 col-sm-6">
             <div className="card">
               <div className="header">
-                <h5 className="title text-center">Asset by status</h5>
+                <h5 className="title text-center">Property by status</h5>
               </div>
               <div className="content">
                 <Pie data={AssetByStatus} />
@@ -316,7 +316,7 @@ const Dashboard = () => {
           <div className="col-md-6">
             <div className="card">
               <div className="header">
-                <h5 className="title text-center">Recent asset activity</h5>
+                <h5 className="title text-center">Recent property activity</h5>
               </div>
               <div className="carbody">
                 <DashboardTable

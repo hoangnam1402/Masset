@@ -3,7 +3,6 @@ import { CaretDownFill, CaretUpFill } from "react-bootstrap-icons";
 import IColumnOption from "../../interfaces/IColumnOption";
 
 import Paging, { PageType } from "./Paging";
-import { LimitOptions } from "../../constants/selectOptions";
 import Limit from "./Limit";
 
 export type SortType = {
@@ -52,7 +51,7 @@ const Table: React.FC<Props> = ({
             <tr className="text center text-lg-nowrap">
               {columns.map((col, i) => (
                 <th key={i}>
-                  {col.columnValue != "" && (
+                  {col.columnValue !== "" && (
                     <div className="d-flex align-items-center">
                       <a
                         className="btn"
@@ -66,7 +65,7 @@ const Table: React.FC<Props> = ({
                       />
                     </div>
                   )}
-                  {col.columnValue == "" && col.columnName != "" && (
+                  {col.columnValue === "" && col.columnName !== "" && (
                     <div className="d-flex align-items-center">
                       <a
                         className="btn"

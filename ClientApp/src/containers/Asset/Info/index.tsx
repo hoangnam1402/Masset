@@ -77,7 +77,7 @@ const AssetInfo = () => {
                   <div className="col-md-9">
                     <p className="title-detail font-bold">
                       <span className="assetName">{assetGetById?.name}</span>
-                      <span className="assetTag"> {assetGetById?.tag}</span>
+                      <span className="assetTag"> ({assetGetById?.tag})</span>
                     </p>
                     <p className="assetDetail">
                       <span className="assetType">{assetGetById?.type.name}</span>

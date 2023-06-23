@@ -11,7 +11,6 @@ import {
 import IQueryModel from "../../interfaces/IQueryModel";
 import DepreciationForm from "./DepreciationForm";
 import DepreciationTable from "./DepreciationTable";
-import { LimitOptions } from "../../constants/selectOptions";
 import DepreciationFDP from "./DepreciationFDP";
 
 const Depreciation = () => {

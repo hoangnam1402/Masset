@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getComponentCheck, getDepreciation } from "../reducer";
+import { getComponentCheck } from "../reducer";
 import IColumnOption from "../../../interfaces/IColumnOption";
 import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } from "../../../constants/paging";
 import IQueryModel from "../../../interfaces/IQueryModel";
 import Table from "../../../components/Table";
 import { Search } from "react-feather";
-import { LimitOptions } from "../../../constants/selectOptions";
 import ComponentCheckFDP from "./ComponentCheckFDP";
 
 const columns: IColumnOption[] = [

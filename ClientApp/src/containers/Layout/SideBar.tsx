@@ -19,7 +19,7 @@ const SideBar = () => {
           <button className="btnCustom">Dashboard</button>
         </NavLink>
         <NavLink className={`navItem intro-x ${firstPathName===ASSETS?"active":""}`} to={ASSETS}>
-          <button className="btnCustom">Assets</button>
+          <button className="btnCustom">Properties</button>
         </NavLink>
         <NavLink className={`navItem intro-x ${firstPathName===COMPONENTS?"active":""}`} to={COMPONENTS}>
           <button className="btnCustom">Components</button>

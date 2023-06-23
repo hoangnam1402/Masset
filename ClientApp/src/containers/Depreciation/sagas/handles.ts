@@ -58,7 +58,7 @@ export function* handleCreate(action: PayloadAction<CreateAction>) {
         const { data } = yield call(createRequest, formValues);
         if (data)
         {
-            if (data.category == 1)
+            if (data.category === 1)
                 handleResult(true, data.asset.name);
             else 
                 handleResult(true, data.component.name);
@@ -81,7 +81,7 @@ export function* handleDelete(action: PayloadAction<DeleteAction>) {
     try {
         const { data } = yield call(deleteRequest, formValues.id);
         if(data) {
-            if (data.category == 1)
+            if (data.category === 1)
                 handleResult(true, data.asset.name);
             else 
                 handleResult(true, data.component.name);
@@ -104,7 +104,7 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
         const { data } = yield call(updateRequest, formValues);
 
         if(data) {
-            if (data.category == 1)
+            if (data.category === 1)
                 handleResult(true, data.asset.name);
             else 
                 handleResult(true, data.component.name);

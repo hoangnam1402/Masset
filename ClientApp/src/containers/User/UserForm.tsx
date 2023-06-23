@@ -54,7 +54,7 @@ const UserForm: React.FC<Props> = ({ user, handleClose }) => {
     }
 
     useEffect(() => {
-        if (account?.role == "manager")
+        if (account?.role === "manager")
             UserRoleOptions.shift();
     }, []);    
 

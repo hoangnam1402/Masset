@@ -130,13 +130,13 @@ const UserTable: React.FC<Props> = ({
 
             <td className="py-1 py-1-custome">
               <div className="row">
-                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-2"
+                <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-6"
                   disable={(account?.role === getUserRoleTypeName(data.role) && account.id !== data.id) ||
                     (account?.role === "Manager" && data.role !== 3 && account.id !== data.id) ||
                     (account?.role === "Staff" && account.id !== data.id) ? true : false}>
                   <PencilFill className="text-black" />
                 </ButtonIcon>
-                <ButtonIcon className="col-2" title="Delete" onClick={() => handleDelete(data.id)} 
+                <ButtonIcon className="col-6" title="Delete" onClick={() => handleDelete(data.id)} 
                   disable={account?.role === getUserRoleTypeName(data.role) ||
                     (account?.role === "Manager" && data.role !== 3) ||
                     account?.role === "Staff" ? true : false}>

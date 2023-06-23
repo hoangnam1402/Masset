@@ -8,8 +8,7 @@ import { setStatus, setAssets, setAssetTypes, CreateAction, setDeleteAsset, setA
     setQrCode, GetByTagAction, DeleteAction, setLocations, setBrands, setSupplies, GetByIdAction, 
     setMaintenance, GetByAssetIdAction, setDepreciation, setHistoryCheck, setComponentCheck, CheckAction,
     setAssetChecking,
-    setUsers,
-    PutImage} from "../reducer";
+    setUsers} from "../reducer";
 import { createAssetRequest, getAssetTypeRequest, getAssetsRequest, deleteAssetRequest, GeneratingQRCode,
     putAssetsRequest, getBrandsRequest, getLocationRequest, getSupplierRequest, getAssetByIdRequest, 
     getMaintenanceRequest, getDepreciationRequest, getHistoryCheckRequest, getComponentCheckRequest,

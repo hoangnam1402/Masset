@@ -1,4 +1,4 @@
-import React, { Fragment, lazy, useEffect, useState } from "react";
+import React, { Fragment, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { INFO } from '../../constants/pages';
 
