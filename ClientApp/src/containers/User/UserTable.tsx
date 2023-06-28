@@ -132,7 +132,7 @@ const UserTable: React.FC<Props> = ({
               <div className="row">
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-6"
                   disable={(account?.role === getUserRoleTypeName(data.role) && account.id !== data.id) ||
-                    (account?.role === "Manager" && data.role !== 3 && account.id !== data.id) ||
+                    (account?.role === "Manager" && getUserRoleTypeName(data.role) !== "Staff") ||
                     (account?.role === "Staff" && account.id !== data.id) ? true : false}>
                   <PencilFill className="text-black" />
                 </ButtonIcon>

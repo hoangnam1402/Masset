@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from 'formik';
+import { useNavigate } from "react-router";
 import * as Yup from 'yup';
 import { XSquare } from "react-bootstrap-icons";
 import { NotificationManager } from 'react-notifications';
@@ -11,6 +12,7 @@ import IUserForm from '../../interfaces/User/IUserForm';
 import IUser from '../../interfaces/User/IUser';
 import SelectField from '../../components/FormInputs/SelectField';
 import { UserRoleOptions } from '../../constants/selectOptions';
+import { SETTING } from "../../constants/pages";
 
 const initialFormValues: IUserForm = {
     id: undefined,
@@ -34,6 +36,7 @@ type Props = {
   
 const UserForm: React.FC<Props> = ({ user, handleClose }) => {
     const dispatch = useAppDispatch();
+    const history = useNavigate();
     const [loading, setLoading] = useState(false);
     const { account } = useAppSelector(state => state.authReducer);
     const isUpdate = user ? true : false;
@@ -55,7 +58,19 @@ const UserForm: React.FC<Props> = ({ user, handleClose }) => {
 
     useEffect(() => {
         if (account?.role === "manager")
+        {    
             UserRoleOptions.shift();
+            UserRoleOptions.shift();
+        }
+        if (account?.role === "staff" && !isUpdate)
+        {
+            history(SETTING)
+        }
+        if (account?.role === "staff" && isUpdate)
+        {
+            UserRoleOptions.shift();
+            UserRoleOptions.shift();
+        }
     }, []);    
 
     return (

@@ -72,7 +72,7 @@ namespace Masset.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(
             [FromRoute] string id,
             [FromBody] UserUpdateDto userRequest)
