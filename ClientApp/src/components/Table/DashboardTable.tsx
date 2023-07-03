@@ -15,7 +15,7 @@ type ColumnIconType = {
 };
 
 const ColumnIcon: React.FC<ColumnIconType> = ({ colValue, sortState }) => {
-  if (colValue === sortState.columnValue && sortState.orderBy === "Decsending")
+  if (colValue == sortState.columnValue && sortState.orderBy == "Decsending")
     return <CaretUpFill />;
 
   return <CaretDownFill />;
@@ -45,7 +45,7 @@ const DashboardTable: React.FC<Props> = ({
             <tr className="text center text-lg-nowrap">
               {columns.map((col, i) => (
                 <th key={i}>
-                  {col.columnValue !== "" && (
+                  {col.columnValue != "" && (
                     <div className="d-flex align-items-center">
                       <a
                         className="btn"
@@ -59,7 +59,7 @@ const DashboardTable: React.FC<Props> = ({
                       />
                     </div>
                   )}
-                  {col.columnValue === "" && col.columnName !== "" && (
+                  {col.columnValue == "" && col.columnName != "" && (
                     <div className="d-flex align-items-center">
                       <a
                         className="btn"
@@ -68,7 +68,7 @@ const DashboardTable: React.FC<Props> = ({
                       </a>
                     </div>
                   )}
-                  {col.columnValue === "" && col.columnName === "" && (
+                  {col.columnValue == "" && col.columnName == "" && (
                     <div className="d-flex">
                     </div>
                   )}

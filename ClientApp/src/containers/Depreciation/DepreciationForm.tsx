@@ -32,7 +32,6 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
     const { setting } = useAppSelector((state) => state.settingReducer);
-
     const fetchData = () => {
         dispatch(getAssets());
         dispatch(getComponents());
@@ -46,18 +45,18 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
         (state) => state.depreciationReducer
       );
 
-      const validationSchema = Yup.object().shape({
+      const validationCreateSchema = Yup.object().shape({
         category: Yup.number().required('Required'),
-        period: Yup.number().required('Required'),
-        value: Yup.number().required('Required').test(
+        period: Yup.number().required('Required').typeError("Number only"),
+        value: Yup.number().typeError("Number only").required('Required').test(
             'test-value', 
             'Input value is too large',
             function(value) {
                 const { category, assetID, componentID } = this.parent;
-                if (category === 1) {
-                    return Yup.number().max((Number)(assets?.find(item => item.id === Number(assetID))?.cost)).isValidSync(value); 
-                } else if (category === 2) {
-                    return Yup.number().max((Number)(components?.find(item => item.id === Number(componentID))?.cost)).isValidSync(value); 
+                if (category == 1 && assetID != null) {
+                    return Yup.number().max((Number)(assets?.find(item => item.id == Number(assetID))?.cost)).isValidSync(value); 
+                } else if (category == 2 && componentID != null) {
+                    return Yup.number().max((Number)(components?.find(item => item.id == Number(componentID))?.cost)).isValidSync(value); 
                 } else {
                     return true;
                 }
@@ -66,7 +65,7 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
         assetID: Yup.number().test('test-assetID', 'Required',
             function(value, context)
             {
-                if (!value && context.parent.category === 1) {
+                if (!value && context.parent.category == 1) {
                     return false;
                 } else {
                     return true;
@@ -74,15 +73,33 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
             }
         ),
         componentID: Yup.number().test('test-componentID', 'Required',
-        function(value, context)
-        {
-            if (!value && context.parent.category === 2) {
-                return false;
-            } else {
-                return true;
+            function(value, context)
+            {
+                if (!value && context.parent.category == 2) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
-        }
-    ),
+        ),
+    });
+
+    const validationUpdateSchema = Yup.object().shape({
+        period: Yup.number().required('Required').typeError("Number only"),
+        value: Yup.number().typeError("Number only").required('Required').test(
+            'test-value', 
+            'Input value is too large',
+            function(value) {
+                const { category, assetID, componentID } = this.parent;
+                if (category == 1 && assetID != null) {
+                    return Yup.number().max((Number)(assets?.find(item => item.id == Number(assetID))?.cost)).isValidSync(value); 
+                } else if (category == 2 && componentID != null) {
+                    return Yup.number().max((Number)(components?.find(item => item.id == Number(componentID))?.cost)).isValidSync(value); 
+                } else {
+                    return true;
+                }
+            }
+        ),
     });
 
     const assetList = createSelectOption(assets);
@@ -136,7 +153,7 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                 <Formik
                 initialValues={initialValues}
                 enableReinitialize
-                validationSchema={validationSchema}
+                validationSchema={isUpdate ? validationUpdateSchema : validationCreateSchema}
                 validateOnMount={true}
                 onSubmit={(values) => {
                     setLoading(true);
@@ -146,7 +163,7 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                             dispatch(updateDepreciation({ handleResult, formValues: values }));
                         }
                         else {
-                            if (values.category === 1) 
+                            if (values.category == 1) 
                             {
                                 values.componentID = undefined;
                             } else {
@@ -163,15 +180,17 @@ const DepreciationForm: React.FC<Props> = ({ depreciation, handleClose }) => {
                             name="category"
                             label="Category"
                             isrequired={true}
-                            options={DepreciationCategoryOption}  
+                            options={DepreciationCategoryOption}
+                            disabled={isUpdate}
                             defaultValue={isUpdate ? initialFormValues.category : 0}/>
-                        {values.category === 1 && <SelectField id="assetID"
+                        {values.category == 1 && <SelectField id="assetID"
                             name="assetID"
                             label="Property"
                             isrequired={true}
                             options={assetSelectOptions}  
+                            disabled={isUpdate}
                             defaultValue={isUpdate ? initialFormValues.assetID : values.assetID}/>}
-                        {values.category === 2 && <SelectField id="componentID"
+                        {values.category == 2 && <SelectField id="componentID"
                             name="componentID"
                             label="Component"
                             isrequired={true}

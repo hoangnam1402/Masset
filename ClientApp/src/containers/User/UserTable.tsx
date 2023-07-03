@@ -86,7 +86,7 @@ const UserTable: React.FC<Props> = ({
   }
 
   const handleDelete = (id: string) => {
-    const a = users?.items.find((item) => item.id === id);
+    const a = users?.items.find((item) => item.id == id);
 
     if(a)
     {
@@ -131,15 +131,15 @@ const UserTable: React.FC<Props> = ({
             <td className="py-1 py-1-custome">
               <div className="row">
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-6"
-                  disable={(account?.role === getUserRoleTypeName(data.role) && account.id !== data.id) ||
-                    (account?.role === "Manager" && getUserRoleTypeName(data.role) !== "Staff") ||
-                    (account?.role === "Staff" && account.id !== data.id) ? true : false}>
+                  disable={(account?.role == getUserRoleTypeName(data.role) && account.id != data.id) ||
+                    (account?.role == "Manager" && getUserRoleTypeName(data.role) != "Staff") ||
+                    (account?.role == "Staff" && account.id != data.id) ? true : false}>
                   <PencilFill className="text-black" />
                 </ButtonIcon>
                 <ButtonIcon className="col-6" title="Delete" onClick={() => handleDelete(data.id)} 
-                  disable={account?.role === getUserRoleTypeName(data.role) ||
-                    (account?.role === "Manager" && data.role !== 3) ||
-                    account?.role === "Staff" ? true : false}>
+                  disable={account?.role == getUserRoleTypeName(data.role) ||
+                    (account?.role == "Manager" && data.role != 3) ||
+                    account?.role == "Staff" ? true : false}>
                   <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>

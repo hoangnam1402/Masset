@@ -100,7 +100,7 @@ const Setting = () => {
             <button
             className="btn btn-danger mr-3"
             type="submit"
-            disabled={(!isValid||loading||account?.role !== 'Admin')}
+            disabled={(!isValid||loading||account?.role != 'Admin')}
             >
               Update {(loading) && <img src="/oval.svg" className='w-4 h-4 ml-2 inline-block' />}
             </button>

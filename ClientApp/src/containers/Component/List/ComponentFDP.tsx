@@ -40,7 +40,7 @@ const ComponentFDP: React.FC<Props> = ({ data }) => {
 
         const header = [[ 'Name', 'Cost', 'Quantity', 'Available Quantity', 'Type', 'Brand', 'Location',
             'status', 'Purchase Day']];
-        const rows = data.map(x => [ x.name, x.cost, x.quantity, x.availableQuantity, x.type.name,
+        const rows = data.map(x => [ x.name, x.cost.toLocaleString(), x.quantity, x.availableQuantity, x.type.name,
             x.brand.name, x.location.name, getAssetStateTypeName(x.status), formatDate(x.purchaseDay)]);
 
         autoTable(doc, {

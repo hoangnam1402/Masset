@@ -64,7 +64,7 @@ const User = () => {
   };
 
   const handleSort = (sortColumn: string) => {
-    const sortOrder = query.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
+    const sortOrder = query.sortOrder == ACCSENDING ? DECSENDING : ACCSENDING;
 
     setQuery({
       ...query,
@@ -116,7 +116,7 @@ const User = () => {
           </div>
 
           <div className="d-flex align-items-center ml-3">
-            <button type="button" disabled={account?.role === "Staff" ? true : false} onClick={() => handleCreate()} className="btn btn-danger">
+            <button type="button" disabled={account?.role == "Staff" ? true : false} onClick={() => handleCreate()} className="btn btn-danger">
               Create new User
             </button>
           </div>

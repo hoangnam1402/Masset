@@ -53,7 +53,7 @@ const Brand = () => {
   };
 
   const handleSort = (sortColumn: string) => {
-    const sortOrder = query.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
+    const sortOrder = query.sortOrder == ACCSENDING ? DECSENDING : ACCSENDING;
 
     setQuery({
       ...query,

@@ -15,7 +15,7 @@ const Limit: React.FC<LimitType> = ({   handleLimit, limit }) => {
                 <select className="custom-select" onChange={handleLimit} defaultValue={limit}>
                     {
                     LimitOptions.map(({ id, label: optionLabel, value: optionValue }) => (
-                        <option key={id} value={optionValue} selected = {optionValue === limit}>
+                        <option key={id} value={optionValue} selected = {optionValue == limit}>
                         {optionLabel}
                         </option>
                     ))

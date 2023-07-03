@@ -82,7 +82,7 @@ const ComponentTable: React.FC<Props> = ({
 
 
   const handleDelete = (id: number) => {
-    const component = components?.items.find((item) => item.id === id);
+    const component = components?.items.find((item) => item.id == id);
 
     if(component)
     {
@@ -145,7 +145,7 @@ const ComponentTable: React.FC<Props> = ({
                   ></button>
                   <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li>
-                      <ButtonIcon title="Check Out" className="dropdown-item" onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity === 0 ? true : false}>
+                      <ButtonIcon title="Check Out" className="dropdown-item" onClick={() => handleShowCheckingForm(data)} disable={data.availableQuantity == 0 ? true : false}>
                         <Check className="text-black" />
                         <span className="p-2">Check-out</span>
                       </ButtonIcon>
@@ -170,7 +170,7 @@ const ComponentTable: React.FC<Props> = ({
                         className="dropdown-item"
                         title="Delete"
                         onClick={() => handleDelete(data.id)}
-                        disable={account?.role === "Staff" ? true : false}
+                        disable={account?.role == "Staff" ? true : false}
                       >
                         <Trash3 className="text-black" />
                         <span className="p-2">Delete</span>

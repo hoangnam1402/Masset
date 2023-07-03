@@ -38,13 +38,13 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
 
     const validationForCheckOutSchema = Yup.object().shape({
         assetID: Yup.string().required('Required'),
-        quantity: Yup.number().required('Required').max(component.availableQuantity).min(1),
+        quantity: Yup.number().typeError("Number only").required('Required').max(component.availableQuantity).min(1),
         checkDay: Yup.date().nullable().required('Required'),
     });
     
     const validationForCheckInSchema = Yup.object().shape({
         checkDay: Yup.date().nullable().required('Required'),
-        quantity: Yup.number().required('Required').max(checking ? checking.quantity : 100).min(1),
+        quantity: Yup.number().typeError("Number only").required('Required').max(checking ? checking.quantity : 100).min(1),
     });
 
     const fetchData = () => {
@@ -96,10 +96,10 @@ const CheckComponentForm: React.FC<Props> = ({ component, handleClose, isCheckOu
             size='lg'
         >
             <Modal.Header className="align-items-center headerModal">
-            {isCheckOut === true && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isCheckOut == true && (<Modal.Title id="detail-modal" className="primaryColor">
                 Check Out
             </Modal.Title>)}
-            {isCheckOut === false && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isCheckOut == false && (<Modal.Title id="detail-modal" className="primaryColor">
                 Check In
             </Modal.Title>)}
             <XSquare

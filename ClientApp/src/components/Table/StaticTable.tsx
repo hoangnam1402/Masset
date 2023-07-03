@@ -19,14 +19,14 @@ const StaticTable: React.FC<Props> = ({
             <tr className="text center text-lg-nowrap">
               {columns.map((col, i) => (
                 <th key={i}>
-                  {col.columnValue !== "" && (
+                  {col.columnValue != "" && (
                     <div className="d-flex align-items-center">
                       <a className="btn">
                         {col.columnName}
                       </a>
                     </div>
                   )}
-                  {col.columnValue === "" && col.columnName !== "" && (
+                  {col.columnValue == "" && col.columnName != "" && (
                     <div className="d-flex align-items-center">
                       <a
                         className="btn"
@@ -35,7 +35,7 @@ const StaticTable: React.FC<Props> = ({
                       </a>
                     </div>
                   )}
-                  {col.columnValue === "" && col.columnName === "" && (
+                  {col.columnValue == "" && col.columnName == "" && (
                     <div className="d-flex">
                     </div>
                   )}

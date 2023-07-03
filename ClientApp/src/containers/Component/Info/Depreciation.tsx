@@ -32,15 +32,15 @@ const Depreciation: React.FC<Props> = ({componentID}) => {
     useEffect(() => {
         if (depreciation) {
             const DepreciationPercentage = (100 / depreciation.period).toFixed(2);
-            const Amount = ((depreciation.asset.cost - depreciation.value) / depreciation.period).toFixed(2);
+            const Amount = ((depreciation.asset.cost - depreciation.value) / depreciation.period).toString();
             for(let i = 0; i < depreciation.period; i++){
                 const newElement: Items = {
                     period: i,
-                    bookValue: (depreciation.asset.cost - parseFloat(Amount)*i).toFixed(2),
+                    bookValue: (depreciation.asset.cost - parseFloat(Amount)*i).toLocaleString(),
                     depreciationPercentage: DepreciationPercentage,
-                    amount: Amount,
-                    accumulatedDepreciation: (parseFloat(Amount)*(i+1)).toFixed(2),
-                    endingBookValue: (depreciation.asset.cost - parseFloat(Amount)*(i+1)).toFixed(2),
+                    amount: ((depreciation.asset.cost - depreciation.value) / depreciation.period).toLocaleString(),
+                    accumulatedDepreciation: (parseFloat(Amount)*(i+1)).toLocaleString(),
+                    endingBookValue: (depreciation.asset.cost - parseFloat(Amount)*(i+1)).toLocaleString(),
                 }
                 setQueue(prevArray => [...prevArray, newElement]);
             }

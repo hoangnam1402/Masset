@@ -55,7 +55,7 @@ const UserForm: React.FC<Props> = ({ user, handleClose }) => {
     }
 
     useEffect(() => {
-        if (account?.role !== "admin")
+        if (account?.role != "admin")
         {    
             UserRoleOptions.shift();
             UserRoleOptions.shift();

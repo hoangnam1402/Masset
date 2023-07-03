@@ -73,7 +73,7 @@ const AssetTable: React.FC<Props> = ({ assets, handlePage, handleSort, sortState
     };
 
     const handleDelete = (id: number) => {
-        const asset = assets?.items.find((item) => item.id === id);
+        const asset = assets?.items.find((item) => item.id == id);
 
         if (asset) {
             setShowConfirmDelete(true);
@@ -162,7 +162,7 @@ const AssetTable: React.FC<Props> = ({ assets, handlePage, handleSort, sortState
                                             className="dropdown-item"
                                             title="Delete"
                                             onClick={() => handleDelete(data.id)}
-                                            disable={account?.role === "Staff" ? true : false}
+                                            disable={account?.role == "Staff" ? true : false}
                                         >
                                             <Trash3 className="text-black" />
                                             <span className="p-2">Delete</span>

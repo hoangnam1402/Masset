@@ -36,7 +36,7 @@ const Dashboard = () => {
   const { dashboard, assetChecking, componentChecking } = useAppSelector((state) => state.dashboardReducer);
   const dispatch = useAppDispatch();
   const history = useNavigate();
-  if (account?.firstLogin || account?.isActive === false) {
+  if (account?.firstLogin || account?.isActive == false) {
     dispatch(logout());
     history(LOGIN);
   }
@@ -106,7 +106,7 @@ const Dashboard = () => {
   };
 
   const handleAssetSort = (sortColumn: string) => {
-    const sortOrder = assetQuery.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
+    const sortOrder = assetQuery.sortOrder == ACCSENDING ? DECSENDING : ACCSENDING;
 
     setAssetQuery({
       ...assetQuery,
@@ -116,7 +116,7 @@ const Dashboard = () => {
   };
 
   const handleComponentSort = (sortColumn: string) => {
-    const sortOrder = componentQuery.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
+    const sortOrder = componentQuery.sortOrder == ACCSENDING ? DECSENDING : ACCSENDING;
 
     setComponentQuery({
       ...componentQuery,

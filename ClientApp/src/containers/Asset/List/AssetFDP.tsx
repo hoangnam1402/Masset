@@ -40,7 +40,7 @@ const AssetFDP: React.FC<Props> = ({ data }) => {
 
         const header = [[ 'Name', 'Tag', 'Type', 'Brand', 'Location', 'Cost', 'Status', 'Purchase Day']];
         const rows = data.map(x => [ x.name, x.tag, x.type.name, x.brand.name, x.location.name, 
-            x.cost, getAssetStateTypeName(x.status), formatDate(x.purchaseDay)]);
+            x.cost.toLocaleString(), getAssetStateTypeName(x.status), formatDate(x.purchaseDay)]);
 
         autoTable(doc, {
             head: header,

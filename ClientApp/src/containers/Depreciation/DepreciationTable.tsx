@@ -84,7 +84,7 @@ const DepreciationTable: React.FC<Props> = ({
 	};
 
   const handleDelete = (id: number) => {
-    const depreciation = depreciations?.items.find((item) => item.id === id);
+    const depreciation = depreciations?.items.find((item) => item.id == id);
 
     if(depreciation)
     {
@@ -121,18 +121,18 @@ const DepreciationTable: React.FC<Props> = ({
             key={index} 
             className=""
           >
-            <td className="py-1 py-1-custome">{data.category === 1 ? data.asset.name : data.component.name} </td>
-            <td className="py-1 py-1-custome">{data.category === 1 ? data.asset.cost : data.component.cost}</td>
+            <td className="py-1 py-1-custome">{data.category == 1 ? data.asset.name : data.component.name} </td>
+            <td className="py-1 py-1-custome">{data.category == 1 ? data.asset.cost.toLocaleString() : data.component.cost.toLocaleString()}</td>
             <td className="py-1 py-1-custome">{data.period}</td>
             <td className="py-1 py-1-custome">{getCategoryName(data.category)}</td>
-            <td className="py-1 py-1-custome">{data.value}</td>
+            <td className="py-1 py-1-custome">{data.value.toLocaleString()}</td>
 
             <td className="py-1 py-1-custome">
               <div className="row">
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-6">
                   <PencilFill className="text-black" />
                 </ButtonIcon>
-                <ButtonIcon className="col-6" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
+                <ButtonIcon className="col-6" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role == "Staff" ? true : false}>
                   <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>

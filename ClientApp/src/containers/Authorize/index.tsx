@@ -56,11 +56,11 @@ const Login = () => {
 				setNotification("Your account is disabled. Please contact with IT Team");
 				dispatch(logout());
 			} else if (account?.error) {
-				if (account.message === "Username or password is incorrect. Please try again") {
+				if (account.message == "Username or password is incorrect. Please try again") {
 					setNotification("Username or password is incorrect. Please try again");
 					dispatch(logout());
 				}
-				if (account.message === "The new password cannot be the same as the old password") {
+				if (account.message == "The new password cannot be the same as the old password") {
 					setNotificationNewPass("The new password cannot be the same as the old password");
 				}
 			} else {

@@ -124,6 +124,7 @@ namespace Business.Services
         public async Task<MaintenanceDto?> UpdateAsync(int id, MaintenanceUpdateDto updateRequest)
         {
             var maintenance = await _maintenanceRepository.Entities
+                .Include(s => s.Asset)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (maintenance == null)
                 return null;

@@ -69,7 +69,7 @@ const AssetTypeTable: React.FC<Props> = ({
   }
 
   const handleDelete = (id: number) => {
-    const assetType = assetTypes?.items.find((item) => item.id === id);
+    const assetType = assetTypes?.items.find((item) => item.id == id);
 
     if(assetType)
     {
@@ -114,7 +114,7 @@ const AssetTypeTable: React.FC<Props> = ({
                 <ButtonIcon onClick={() => handleEdit(data)} title="Edit" className="col-6">
                   <PencilFill className="text-black" />
                 </ButtonIcon>
-                <ButtonIcon className="col-6" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role === "Staff" ? true : false}>
+                <ButtonIcon className="col-6" title="Delete" onClick={() => handleDelete(data.id)} disable={account?.role == "Staff" ? true : false}>
                   <Trash3 className="text-black" />
                 </ButtonIcon>
               </div>

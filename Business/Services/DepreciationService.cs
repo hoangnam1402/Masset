@@ -99,6 +99,8 @@ namespace Business.Services
         public async Task<DepreciationDto?> UpdateAsync(int id, DepreciationUpdateDto updateRequest)
         {
             var depreciation = await _depreciatioRepository.Entities
+                .Include(s => s.Asset)
+                .Include(s => s.Component)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (depreciation == null)
                 return null;

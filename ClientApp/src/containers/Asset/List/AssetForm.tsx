@@ -116,10 +116,10 @@ const AssetForm: React.FC<Props> = ({ asset, handleClose }) => {
             dialogClassName="modal-dialog-centered" 
         >
             <Modal.Header className="align-items-center headerModal">
-            {isUpdate === true && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isUpdate == true && (<Modal.Title id="detail-modal" className="primaryColor">
                 {propertyLabelConstants.EDIT_PROPERTY}
             </Modal.Title>)}
-            {isUpdate === false && (<Modal.Title id="detail-modal" className="primaryColor">
+            {isUpdate == false && (<Modal.Title id="detail-modal" className="primaryColor">
                 {propertyLabelConstants.CREATE_PROPERTY}
             </Modal.Title>)}
             <XSquare

@@ -45,7 +45,7 @@ const AssetList = () => {
   };
 
   const handleState = (selected: ISelectOption[]) => {
-    if (selected.length === 0) {
+    if (selected.length == 0) {
       setQuery({
         ...query,
         state: [],
@@ -56,10 +56,10 @@ const AssetList = () => {
       return;
     }
 
-    const selectedAll = selected.find((item) => item.id === 0);
+    const selectedAll = selected.find((item) => item.id == 0);
 
     setStateSelected((prevSelected) => {
-      if (!prevSelected.some((item) => item.id === 0) && selectedAll) {
+      if (!prevSelected.some((item) => item.id == 0) && selectedAll) {
         setQuery({
           ...query,
           state: [],
@@ -69,7 +69,7 @@ const AssetList = () => {
         return [selectedAll];
       }
 
-      const newSelected = selected.filter((item) => item.id !== 0);
+      const newSelected = selected.filter((item) => item.id != 0);
       const state = newSelected.map((item) => item.value as number);
 
       setQuery({
@@ -108,7 +108,7 @@ const AssetList = () => {
   };
 
   const handleSort = (sortColumn: string) => {
-    const sortOrder = query.sortOrder === ACCSENDING ? DECSENDING : ACCSENDING;
+    const sortOrder = query.sortOrder == ACCSENDING ? DECSENDING : ACCSENDING;
 
     setQuery({
       ...query,

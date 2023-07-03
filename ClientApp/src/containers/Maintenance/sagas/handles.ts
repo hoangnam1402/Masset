@@ -61,7 +61,6 @@ export function* handleCreate(action: PayloadAction<CreateAction>) {
         if (data)
         {
             handleResult(true, data.asset.name);
-            console.log(data)
         }
 
         yield put(setStatus({

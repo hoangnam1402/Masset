@@ -44,14 +44,19 @@ namespace Masset.Controllers
 
             if (!await _assetService.IsExist(createDto.AssetID))
                 return BadRequest("No Asset with id: " + createDto.AssetID);
+
             var asset = await _assetService.GetByIdAsync(createDto.AssetID);
             if (asset == null)
                 return BadRequest("Not Found Asset!");
-
             if (asset.Status == AssetStatusEnums.OutOfRepair && createDto.Type == MaintenanceTypeEnums.Repair)
                 return BadRequest("Asset was Out Of Repair");
             if (asset.Status == AssetStatusEnums.Lost)
                 return BadRequest("Asset was Lost");
+
+            if (!await _supplierService.IsExist(createDto.SupplierID))
+                return BadRequest("No Supplier with id: " + createDto.AssetID);
+            if (await _supplierService.IsDelete(createDto.SupplierID))
+                return BadRequest("Supplier have been delete.");
 
             var result = await _maintenanceService.CreateAsync(createDto);
             if (result != null)

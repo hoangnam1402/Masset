@@ -8,11 +8,11 @@ export type PageType = {
 }
 
 const Paging: React.FC<PageType> = ({ currentPage = 1, totalPage = 1, handleChange }) => {
-    const prePageStyle = currentPage !== 1 ? 'pagination__link' : 'pagination__link link-disable';
+    const prePageStyle = currentPage != 1 ? 'pagination__link' : 'pagination__link link-disable';
     const nextPageStyle = currentPage + 1 <= totalPage ? 'pagination__link' : 'pagination__link link-disable';
 
     const pageStyle = (page: number) => {
-        if (page === currentPage) return 'pagination__link link-active';
+        if (page == currentPage) return 'pagination__link link-active';
         return 'pagination__link';
     };
 
@@ -27,7 +27,7 @@ const Paging: React.FC<PageType> = ({ currentPage = 1, totalPage = 1, handleChan
     const onPrev = (e: any) => {
         e.preventDefault();
 
-        if (currentPage !== 1) {
+        if (currentPage != 1) {
             handleChange(currentPage - 1);
         }
     };

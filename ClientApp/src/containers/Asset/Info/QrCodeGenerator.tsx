@@ -44,7 +44,7 @@ const QrCodeGenerator: React.FC<Props> = ({ asset, handleClose }) => {
 
                 <Modal.Body className="bodyModal">
                     <div>
-                    {qrCode !== undefined && <img src={qrCode} alt="qr code" width="100%" height="100%"/>}
+                    {qrCode != undefined && <img src={qrCode} alt="qr code" width="100%" height="100%"/>}
                     </div>
                 </Modal.Body>
             </Modal>
