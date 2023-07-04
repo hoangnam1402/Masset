@@ -13,6 +13,7 @@ import createSelectOption from '../../utils/createSelectOption';
 import ISelectOption from '../../interfaces/ISelectOption';
 import IMaintenance from '../../interfaces/Maintenance/IMaintenance';
 import IMaintenanceForm from '../../interfaces/Maintenance/IMaintenanceForm';
+import IAsset from '../../interfaces/Asset/IAsset';
 
 const initialFormValues: IMaintenanceForm = {
     assetID:undefined,
@@ -81,6 +82,12 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
 
     const isUpdate = maintenance ? true : false;
     const initialValues = maintenance ? maintenance : initialFormValues;
+    const chooseAsset = (id: number): any => {
+        const selectOne: (IAsset | undefined) = assets ? assets.find((obj) => {
+            return obj.id == id;
+        }) : undefined
+        return selectOne ? selectOne.supplierID : 0
+    }
 
     const handleResult = (result: boolean, message: string) => {
         if (result) {
@@ -136,19 +143,22 @@ const MaintenanceForm: React.FC<Props> = ({ maintenance, handleClose }) => {
                     }, 1000);
                 }}
                     >
-                {({isValid}) => (
+                {({isValid, values}) => (
                     <Form className="intro-y col-lg-12 col-12">
                         <SelectField id="assetID"
                             name="assetID"
                             label="Property"
                             isrequired={true}
-                            options={assetSelectOptions}  
+                            options={assetSelectOptions}
+                            disabled={isUpdate}
                             defaultValue={isUpdate ? initialFormValues.assetID : 0}/>
                         <SelectField id="supplierID"
                             name="supplierID"
                             label="Supplier"
                             isrequired={true}
+                            disabled={true}
                             options={supplierSelectOptions}  
+                            autoSetValue={chooseAsset(values.assetID ? values.assetID : 0)}
                             defaultValue={isUpdate ? initialFormValues.supplierID : 0}/>
                         <SelectField id="type"
                             name="type"

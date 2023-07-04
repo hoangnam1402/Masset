@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes, useEffect } from 'react';
 import { useField } from 'formik';
 import ISelectOption from '../../interfaces/ISelectOption';
 
@@ -7,16 +7,25 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     name: string;
     isrequired?: boolean;
     options: ISelectOption[];
+    autoSetValue?: number | string;
 };
 
 const SelectField: React.FC<InputFieldProps> = (props) => {
     const [field, { value }, { setValue }] = useField(props);
 
-    const { options, label, isrequired, defaultValue,disabled } = props;
+    const { options, label, isrequired, defaultValue, disabled, autoSetValue } = props;
 
     const handleChange = (e: any) => {
         setValue(e.target.value)
     };
+
+    useEffect(() => {
+        if (autoSetValue && autoSetValue != 0)
+        {
+            setValue(autoSetValue)
+        }
+    }, [autoSetValue])
+
 
     return (
         <>

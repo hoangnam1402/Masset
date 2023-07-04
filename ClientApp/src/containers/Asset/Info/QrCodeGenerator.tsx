@@ -34,7 +34,7 @@ const QrCodeGenerator: React.FC<Props> = ({ asset, handleClose }) => {
             >
                 <Modal.Header className="align-items-center headerModal">
                     <Modal.Title id="detail-modal" className="primaryColor">
-                        Asset QR Code
+                        Property QR Code
                     </Modal.Title>
                     <XSquare
                         onClick={handleClose}

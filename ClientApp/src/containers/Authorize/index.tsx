@@ -71,8 +71,7 @@ const Login = () => {
 
 	return (
 		<>
-			<Header></Header>
-			<div className="container d-flex justify-content-center flex-column align-items-center mt-5">
+			<div className="container login-container d-flex justify-content-center flex-column align-items-center mt-5">
 				<Card>
 					<Card.Header className="text-monospace text-center lead text-danger font-weight-bold">
 						Welcome to Masset

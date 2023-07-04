@@ -153,10 +153,7 @@ namespace Business.Services
                     b.UserName.Contains(baseQueryCriteria.Search) || b.Email.Contains(baseQueryCriteria.Search));
             }
 
-            if ((int)userRole != 1)
-            {
-                query = query.Where(x => x.IsActive == true);
-            }
+            query = query.Where(x => x.IsActive == true);
 
             return query;
         }

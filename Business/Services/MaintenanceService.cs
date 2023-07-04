@@ -39,6 +39,7 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var maintenance = await _maintenanceRepository.Entities
+                .Include(s => s.Asset)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (maintenance == null)
                 return false;

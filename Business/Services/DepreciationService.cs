@@ -117,6 +117,8 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var depreciation = await _depreciatioRepository.Entities
+                .Include(s => s.Asset)
+                .Include(s => s.Component)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (depreciation == null)
                 return false;

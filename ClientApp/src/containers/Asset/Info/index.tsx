@@ -66,7 +66,7 @@ const AssetInfo = () => {
 
       {!loading && <div className='ml-5'>
         <div className='primaryColor text-title intro-x row'>
-          <div className='col-md-9'>Asset detail</div>
+          <div className='col-md-9'>Property detail</div>
           <div className="col-md-3 text-md-right">
             <a type="button" onClick={() => handleShowQrCode()} className="btn btn-danger"> 
               Generate QR Code
