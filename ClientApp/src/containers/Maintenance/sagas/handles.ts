@@ -81,7 +81,7 @@ export function* handleDelete(action: PayloadAction<DeleteAction>) {
     const {handleResult, formValues} = action.payload;
     try {
         const { data } = yield call(deleteRequest, formValues.id);
-        if (data.asset)
+        if (formValues.asset)
         {
             handleResult(true, formValues.asset.name);
         } else {
