@@ -2,7 +2,6 @@
 using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
 using Contracts.Dtos.MaintenanceDtos;
-using Contracts.Dtos.SupplierDtos;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
 using DataAccess.Enums;
@@ -20,6 +19,7 @@ namespace Masset.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
         private readonly IAssetService _assetService;
+        private readonly IComponentService _componentService;
         private readonly IMaintenanceService _maintenanceService;
         private readonly IAssetTypeService _assetTypeService;
         private readonly IBrandService _brandService;
@@ -36,7 +36,8 @@ namespace Masset.Controllers
             ILocationService locationService,
             ISupplierService supplierService,
             IUserService userService,
-            ISettingService settingService)
+            ISettingService settingService,
+            IComponentService componentService)
         {
             _authService = authService;
             _userManager = userManager;
@@ -48,6 +49,7 @@ namespace Masset.Controllers
             _supplierService=supplierService;
             _userService=userService;
             _settingService=settingService;
+            _componentService=componentService;
         }
 
         [HttpPost("Login")]
@@ -388,12 +390,12 @@ namespace Masset.Controllers
         }
 
         [HttpGet("GetSupplierList/{id}")]
-        public async Task<SupplierResponseDto> GetSupplier([FromRoute] string id)
+        public async Task<ListResponseDto> GetSupplier([FromRoute] string id)
         {
             if (!await _userService.IsExistById(id))
             {
                 var error = "User not exist!!!";
-                return new SupplierResponseDto
+                return new ListResponseDto
                 {
                     Error = true,
                     Message = error,
@@ -403,40 +405,161 @@ namespace Masset.Controllers
             if (!await _userService.IsActive(id))
             {
                 var error = "User has been deleted!!!";
-                return new SupplierResponseDto
+                return new ListResponseDto
                 {
                     Error = true,
                     Message = error,
                 };
             }
-            var supplier = await _supplierService.GetAll();
-            if (supplier == null)
+            var list = await _supplierService.GetAll();
+            if (list == null)
             {
                 var error = "Something go wrong";
-                return new SupplierResponseDto
+                return new ListResponseDto
                 {
                     Error = true,
                     Message = error,
                 };
             }
 
-            int[] supplierId = new int[supplier.Count];
-            string[] supplierName = new string[supplier.Count];
-            for (int i = 0; i < supplier.Count; i++)
+            int[] itemId = new int[list.Count];
+            string[] itemName = new string[list.Count];
+            for (int i = 0; i < list.Count; i++)
             {
-                supplierId[i] = supplier[i].Id;
-                supplierName[i] = supplier[i].Name;
+                itemId[i] = list[i].Id;
+                itemName[i] = list[i].Name;
             }
 
-            SupplierResponseDto result = new SupplierResponseDto()
+            ListResponseDto result = new ListResponseDto()
             {
-                Id = supplierId,
-                Name = supplierName,
+                Id = itemId,
+                Name = itemName,
                 Error = false,
                 Message = "",
             };
             return result;
-
         }
+
+        [HttpGet("GetLocationList/{id}")]
+        public async Task<ListResponseDto> GetLocation([FromRoute] string id)
+        {
+            if (!await _userService.IsExistById(id))
+            {
+                var error = "User not exist!!!";
+                return new ListResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (!await _userService.IsActive(id))
+            {
+                var error = "User has been deleted!!!";
+                return new ListResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+            var list = await _locationService.GetAll();
+            if (list == null)
+            {
+                var error = "Something go wrong";
+                return new ListResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            int[] itemId = new int[list.Count];
+            string[] itemName = new string[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                itemId[i] = list[i].Id;
+                itemName[i] = list[i].Name;
+            }
+
+            ListResponseDto result = new ListResponseDto()
+            {
+                Id = itemId,
+                Name = itemName,
+                Error = false,
+                Message = "",
+            };
+            return result;
+        }
+
+        [HttpGet("GetLocationAssetAndComponent/{id}/{locationId}")]
+        public async Task<ListResponseDto> GetLocationAssetAndComponent([FromRoute] string id, int locationId)
+        {
+            if (!await _userService.IsExistById(id))
+            {
+                var error = "User not exist!!!";
+                return new ListResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            if (!await _userService.IsActive(id))
+            {
+                var error = "User has been deleted!!!";
+                return new ListResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var listAsset = await _assetService.GetAllInLocation(locationId);
+            if (listAsset == null)
+            {
+                var error = "Something go wrong";
+                return new ListResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }            
+            
+            var listComponent = await _componentService.GetAllInLocation(locationId);
+            if (listComponent == null)
+            {
+                var error = "Something go wrong";
+                return new ListResponseDto
+                {
+                    Error = true,
+                    Message = error,
+                };
+            }
+
+            var listNumber = listAsset.Count + listComponent.Count;
+
+            int[] itemId = new int[listNumber];
+            string[] itemName = new string[listNumber];
+            for (int i = 0; i < listAsset.Count; i++)
+            {
+                itemId[i] = listAsset[i].Id;
+                itemName[i] = listAsset[i].Name;
+            }
+            for (int i = listAsset.Count; i < listNumber; i++)
+            {
+                itemId[i] = listComponent[i].Id;
+                itemName[i] = listComponent[i].Name;
+            }
+
+            ListResponseDto result = new ListResponseDto()
+            {
+                Id = itemId,
+                Name = itemName,
+                Error = false,
+                Message = "",
+            };
+            return result;
+        }
+
     }
 }

@@ -79,21 +79,13 @@ namespace Business.Services
                 }
             }
             return result;
-        }
-
-        public async Task<IList<AssetDto>> GetAllForDepreciation()
+        }        
+        
+        public async Task<IList<AssetDto>> GetAllInLocation(int locationId)
         {
             var asset = await _assetRepository.GetAll();
-            asset = asset.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost && x.IsDepreciation == false);
+            asset = asset.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost && x.LocationID == locationId);
             var result = _mapper.Map<IList<AssetDto>>(asset);
-            var assets = asset.ToArray();
-            for (int i = 0; i < assets.Length; i++)
-            {
-                if (assets[i].Img != null)
-                {
-                    result[i].Image = Convert.ToBase64String(assets[i].Img);
-                }
-            }
             return result;
         }
 

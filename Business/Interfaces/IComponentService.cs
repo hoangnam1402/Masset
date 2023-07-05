@@ -8,6 +8,7 @@ namespace Business.Interfaces
     {
         Task<PagedResponseModel<ComponentDto>> GetByPageAsync(AssetQueryCriteria baseQueryCriteria, CancellationToken cancellationToken);
         Task<IList<ComponentDto>> GetAll();
+        Task<IList<ComponentDto>> GetAllInLocation(int locationId);
         Task<ComponentDto?> GetByIdAsync(int id);
         Task<ComponentDto?> CreateAsync(ComponentCreateDto createRequest);
         Task<ComponentDto?> UpdateAsync(int id, ComponentUpdateDto updateRequest);

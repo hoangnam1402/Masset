@@ -111,6 +111,13 @@ namespace Business.Services
             return _mapper.Map<IList<ComponentDto>>(result);
         }
 
+        public async Task<IList<ComponentDto>> GetAllInLocation(int locationId)
+        {
+            var result = await _componentRepository.GetAll();
+            result = result.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost && x.LocationID == locationId);
+            return _mapper.Map<IList<ComponentDto>>(result);
+        }
+
         public async Task<bool> IsExist(int id)
         {
             if (await _componentRepository.Entities.FirstOrDefaultAsync(x => x.Id == id) != null)
