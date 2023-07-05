@@ -101,7 +101,7 @@ const Component: React.FC<Props> = ({assetID}) => {
                                 type="text"
                                 className="form-control"
                             />
-                            <span onClick={handleSearch} className="border p-2 pointer">
+                            <span onClick={handleSearch} className="border p-2 pointer search-icon">
                                 <Search />
                             </span>
                         </div>
