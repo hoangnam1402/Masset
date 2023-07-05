@@ -27,8 +27,8 @@ const UserFDP: React.FC<Props> = ({ data }) => {
             }
         };
 
-        const header = [[ 'Name', 'Role', 'Email', 'Phone']];
-        const rows = data.map(x => [ x.userName, getUserRoleTypeName(x.role), x.email, x.phoneNumber]);
+        const header = [['No.', 'Name', 'Role', 'Email', 'Phone']];
+        const rows = data.map((x, index) => [ index, x.userName, getUserRoleTypeName(x.role), x.email, x.phoneNumber]);
 
         autoTable(doc, {
             head: header,

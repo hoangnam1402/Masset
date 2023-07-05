@@ -16,8 +16,8 @@ const BrandFDP: React.FC<Props> = ({ data }) => {
             return new Date(date).toLocaleDateString();
         }
 
-        const header = [[ 'Name', 'Description', 'Create Day', 'Update Day']];
-        const rows = data.map(x => [ x.name, x.description, formatDate(x.createDay), formatDate(x.updateDay)]);
+        const header = [['No.', 'Name', 'Description', 'Create Day', 'Update Day']];
+        const rows = data.map((x, index) => [ index, x.name, x.description, formatDate(x.createDay), formatDate(x.updateDay)]);
 
         autoTable(doc, {
             head: header,

@@ -1,6 +1,7 @@
 ﻿using Business.Interfaces;
 using Contracts.Dtos;
 using Contracts.Dtos.AssetDtos;
+using Contracts.Dtos.ComponentDtos;
 using Contracts.Dtos.MaintenanceDtos;
 using Contracts.Dtos.UserDtos;
 using DataAccess.Entities;
@@ -536,25 +537,61 @@ namespace Masset.Controllers
                 };
             }
 
-            var listNumber = listAsset.Count + listComponent.Count;
-
-            int[] itemId = new int[listNumber];
-            string[] itemName = new string[listNumber];
+            AssetResponseDto[] assets = new AssetResponseDto[listAsset.Count];
             for (int i = 0; i < listAsset.Count; i++)
             {
-                itemId[i] = listAsset[i].Id;
-                itemName[i] = listAsset[i].Name;
-            }
-            for (int i = listAsset.Count; i < listNumber; i++)
+                assets[i] = new AssetResponseDto()
+                {
+                    Id = listAsset[i].Id,
+                    Name = listAsset[i].Name,
+                    Tag = listAsset[i].Tag,
+                    Type = listAsset[i].Type?.Name,
+                    Supplier = listAsset[i].Supplier?.Name,
+                    Location = listAsset[i].Location?.Name,
+                    Brand = listAsset[i].Brand?.Name,
+                    Serial = listAsset[i].Serial,
+                    Cost = listAsset[i].Cost,
+                    Warranty = listAsset[i].Warranty,
+                    Status = listAsset[i].Status,
+                    Description = listAsset[i].Description,
+                    CreateDay = listAsset[i].CreateDay,
+                    UpdateDay = listAsset[i].UpdateDay,
+                    PurchaseDay = listAsset[i].PurchaseDay,
+                    Error = false,
+                    Message = "",
+                };
+            };
+
+            ComponentResponseDto[] components = new ComponentResponseDto[listComponent.Count];
+            for (int i = 0; i < listComponent.Count; i++)
             {
-                itemId[i] = listComponent[i].Id;
-                itemName[i] = listComponent[i].Name;
+                components[i] = new ComponentResponseDto()
+                {
+                    Id = listComponent[i].Id,
+                    Name = listComponent[i].Name,
+                    Quantity = listComponent[i].Quantity,
+                    AvailableQuantity = listComponent[i].AvailableQuantity,
+                    Type = listComponent[i].Type?.Name,
+                    Supplier = listComponent[i].Supplier?.Name,
+                    Location = listComponent[i].Location?.Name,
+                    Brand = listComponent[i].Brand?.Name,
+                    Serial = listComponent[i].Serial,
+                    Cost = listComponent[i].Cost,
+                    Warranty = listComponent[i].Warranty,
+                    Status = listComponent[i].Status,
+                    Description = listComponent[i].Description,
+                    CreateDay = listComponent[i].CreateDay,
+                    UpdateDay = listComponent[i].UpdateDay,
+                    PurchaseDay = listComponent[i].PurchaseDay,
+                    Error = false,
+                    Message = "",
+                };
             }
 
             ListResponseDto result = new ListResponseDto()
             {
-                Id = itemId,
-                Name = itemName,
+                Asset = assets,
+                Component = components,
                 Error = false,
                 Message = "",
             };

@@ -86,6 +86,15 @@ namespace Business.Services
             var asset = await _assetRepository.GetAll();
             asset = asset.Where(x => x.IsDeleted == false && x.Status != AssetStatusEnums.Lost && x.LocationID == locationId);
             var result = _mapper.Map<IList<AssetDto>>(asset);
+            var assets = asset.ToArray();
+            for (int i = 0; i < assets.Length; i++)
+            {
+                if (assets[i].Img != null)
+                {
+                    result[i].Image = Convert.ToBase64String(assets[i].Img);
+                }
+            }
+
             return result;
         }
 
@@ -119,6 +128,10 @@ namespace Business.Services
         public async Task<AssetDto?> UpdateAsync(int id, AssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
+                    .Include(s => s.Brand)
+                .Include(s => s.Supplier)
+                .Include(s => s.Type)
+                .Include(s => s.Location)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (asset == null)
                 return null;
@@ -148,6 +161,10 @@ namespace Business.Services
         public async Task<AssetDto?> UpdateMobileAsync(string tag, MobileAssetUpdateDto updateRequest)
         {
             var asset = await _assetRepository.Entities
+                .Include(s => s.Brand)
+                .Include(s => s.Supplier)
+                .Include(s => s.Type)
+                .Include(s => s.Location)
                 .FirstOrDefaultAsync(x => x.Tag==tag && x.IsDeleted == false);
             if (asset == null)
                 return null;

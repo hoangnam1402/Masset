@@ -16,8 +16,8 @@ const ComponentCheckFDP: React.FC<Props> = ({ data }) => {
             return new Date(date).toLocaleDateString();
         }
 
-        const header = [[ 'Asset', 'Component', 'Quantity', 'Check Day']];
-        const rows = data.map(x => [ x.asset.name, x.component.name, x.quantity, formatDate(x.checkDay)]);
+        const header = [['No.', 'Asset', 'Component', 'Quantity', 'Check Day']];
+        const rows = data.map((x, index) => [ index, x.asset.name, x.component.name, x.quantity, formatDate(x.checkDay)]);
 
         autoTable(doc, {
             head: header,

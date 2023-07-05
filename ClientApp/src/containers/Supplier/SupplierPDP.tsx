@@ -12,8 +12,8 @@ const SupplierFDP: React.FC<Props> = ({ data }) => {
     const handleClick = () => {
         const doc = new jsPDF();
 
-        const header = [[ 'Name', 'Email', 'Phone', 'City', 'Country', 'Address']];
-        const rows = data.map(x => [ x.name, x.email, x.phone, x.city, x.country, x.address]);
+        const header = [['No.', 'Name', 'Email', 'Phone', 'City', 'Country', 'Address']];
+        const rows = data.map((x, index) => [ index, x.name, x.email, x.phone, x.city, x.country, x.address]);
 
         autoTable(doc, {
             head: header,

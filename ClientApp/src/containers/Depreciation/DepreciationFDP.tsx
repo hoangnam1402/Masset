@@ -12,8 +12,8 @@ const DepreciationFDP: React.FC<Props> = ({ data }) => {
     const handleClick = () => {
         const doc = new jsPDF();
 
-        const header = [[ 'Asset', 'Component', 'Period (Months)', 'Value']];
-        const rows = data.map(x => [ x.asset.name, x.component.name, x.period, x.value]);
+        const header = [['No.', 'Asset', 'Component', 'Period (Months)', 'Value']];
+        const rows = data.map((x, index) => [ index, x.asset.name, x.component.name, x.period, x.value]);
 
         autoTable(doc, {
             head: header,

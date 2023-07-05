@@ -38,9 +38,9 @@ const ComponentFDP: React.FC<Props> = ({ data }) => {
             return new Date(date).toLocaleDateString();
         }
 
-        const header = [[ 'Name', 'Cost', 'Quantity', 'Available Quantity', 'Type', 'Brand', 'Location',
+        const header = [['No.', 'Name', 'Cost', 'Quantity', 'Available Quantity', 'Type', 'Brand', 'Location',
             'status', 'Purchase Day']];
-        const rows = data.map(x => [ x.name, x.cost.toLocaleString(), x.quantity, x.availableQuantity, x.type.name,
+        const rows = data.map((x, index) => [ index, x.name, x.cost.toLocaleString(), x.quantity, x.availableQuantity, x.type.name,
             x.brand.name, x.location.name, getAssetStateTypeName(x.status), formatDate(x.purchaseDay)]);
 
         autoTable(doc, {

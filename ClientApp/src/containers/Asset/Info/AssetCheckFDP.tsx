@@ -16,8 +16,8 @@ const AssetCheckFDP: React.FC<Props> = ({ data }) => {
             return new Date(date).toLocaleDateString();
         }
 
-        const header = [[ 'User', 'Asset', 'Check Day', 'Still Effective?']];
-        const rows = data.map(x => [ x.user.userName, x.asset.name, formatDate(x.checkDay), x.isEffective]);
+        const header = [['No.', 'User', 'Asset', 'Check Day', 'Still Effective?']];
+        const rows = data.map((x, index) => [ index, x.user.userName, x.asset.name, formatDate(x.checkDay), x.isEffective]);
 
         autoTable(doc, {
             head: header,

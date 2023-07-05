@@ -41,8 +41,8 @@ const MaintenanceFDP: React.FC<Props> = ({ data }) => {
             }
         };
 
-        const header = [[ 'Asset', 'Supplier', 'Type', 'Start Day', 'End Day']];
-        const rows = data.map(x => [ x.asset.name, x.supplier.name, getMaintenanceTypeName(x.type), 
+        const header = [['No.', 'Asset', 'Supplier', 'Type', 'Start Day', 'End Day']];
+        const rows = data.map((x, index) => [ index, x.asset.name, x.supplier.name, getMaintenanceTypeName(x.type), 
             formatDate(x.startDate), formatDate(x.endDate)]);
 
         autoTable(doc, {
