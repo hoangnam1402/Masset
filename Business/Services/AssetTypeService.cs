@@ -94,7 +94,7 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var assetType = await _assetTypeRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (assetType == null)
                 return false;
             assetType.IsDeleted = true;

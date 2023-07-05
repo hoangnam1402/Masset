@@ -193,8 +193,10 @@ export function* handleCheckIn(action: PayloadAction<CheckAction>) {
     const {handleResult, formValues} = action.payload;
     try {
         const { data } = yield call(postCheckInRequest, formValues, formValues.id);
-        if(data) {
+        if(data.asset) {
             handleResult(true, data.asset.name);
+        } else {
+            handleResult(true, data.id);
         }
         yield put(setStatus({
             status: Status.Success,
@@ -212,8 +214,10 @@ export function* handleCheckOut(action: PayloadAction<CheckAction>) {
     const {handleResult, formValues} = action.payload;
     try {
         const { data } = yield call(postCheckOutRequest, formValues);
-        if(data) {
+        if(data.asset) {
             handleResult(true, data.asset.name);
+        } else {
+            handleResult(true, data.id);
         }
         yield put(setStatus({
             status: Status.Success,

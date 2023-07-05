@@ -46,7 +46,7 @@ namespace Business.Services
         public async Task<SupplierDto?> GetByIdAsync(int id)
         {
             var result = await _supplierRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<SupplierDto>(result);
@@ -78,7 +78,7 @@ namespace Business.Services
         public async Task<SupplierDto?> UpdateAsync(int id, SupplierUpdateDto updateRequest)
         {
             var supplier = await _supplierRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (supplier == null)
                 return null;
             supplier = _mapper.Map(updateRequest, supplier);
@@ -95,7 +95,7 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var supplier = await _supplierRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (supplier == null)
                 return false;
             supplier.IsDeleted = true;

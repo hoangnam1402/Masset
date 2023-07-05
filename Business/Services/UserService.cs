@@ -84,7 +84,7 @@ namespace Business.Services
 
         public async Task<UserDto?> UpdateAsync(string id, UserUpdateDto userRequest)
         {
-            var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id && x.IsActive == true);
             if (user == null)
                 return null;
             user = _mapper.Map(userRequest, user);
@@ -123,7 +123,7 @@ namespace Business.Services
 
         public async Task<bool> DisableUserAsync(string id)
         {
-            var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _userRepository.Entities.FirstOrDefaultAsync(x => x.Id == id && x.IsActive == true);
             if (user == null)
                 return false;
             user.IsActive = false;

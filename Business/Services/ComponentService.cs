@@ -13,12 +13,14 @@ namespace Business.Services
     public class ComponentService : IComponentService
     {
         private readonly IBaseRepository<Component> _componentRepository;
+        private readonly IBaseRepository<Depreciation> _depreciatioRepository;
         private readonly IMapper _mapper;
 
-        public ComponentService(IBaseRepository<Component> componentRepository, IMapper mapper)
+        public ComponentService(IBaseRepository<Component> componentRepository, IMapper mapper, IBaseRepository<Depreciation> depreciatioRepository)
         {
             _componentRepository = componentRepository;
             _mapper = mapper;
+            _depreciatioRepository=depreciatioRepository;
         }
 
         public async Task<ComponentDto?> CreateAsync(ComponentCreateDto createRequest)
@@ -41,13 +43,21 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var component = await _componentRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (component == null)
                 return false;
             component.IsDeleted = true;
             component.UpdateDay = DateTime.Now;
 
             var result = await _componentRepository.Update(component);
+
+            var depreciation = await _depreciatioRepository.Entities
+                .FirstOrDefaultAsync(x => x.ComponentID == id && x.IsDeleted == false);
+            if (depreciation == null)
+                return false;
+            depreciation.IsDeleted = true;
+            depreciation.UpdateDay = DateTime.Now;
+            await _depreciatioRepository.Update(depreciation);
 
             return result!=null;
         }
@@ -87,7 +97,7 @@ namespace Business.Services
                 .Include(s => s.Type)
                 .Include(s => s.Location)
                 .Include(s => s.Brand)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<ComponentDto>(result);
@@ -129,7 +139,7 @@ namespace Business.Services
         public async Task<ComponentDto?> UpdateAsync(int id, ComponentUpdateDto updateRequest)
         {
             var component = await _componentRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (component == null)
                 return null;
             component = _mapper.Map(updateRequest, component);
@@ -147,7 +157,7 @@ namespace Business.Services
         public async Task<bool> UpdateAsync(int id, int? quantity, bool isCheckOut)
         {
             var component = await _componentRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (component == null)
                 return false;
 

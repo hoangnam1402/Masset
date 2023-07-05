@@ -74,7 +74,7 @@ namespace Business.Services
         {
             var result = await _depreciatioRepository.Entities
                 .Include(s => s.Component)
-                .FirstOrDefaultAsync(x => x.ComponentID == id);
+                .FirstOrDefaultAsync(x => x.ComponentID == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<DepreciationDto>(result);
@@ -101,7 +101,7 @@ namespace Business.Services
             var depreciation = await _depreciatioRepository.Entities
                 .Include(s => s.Asset)
                 .Include(s => s.Component)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (depreciation == null)
                 return null;
             depreciation = _mapper.Map(updateRequest, depreciation);
@@ -119,7 +119,7 @@ namespace Business.Services
             var depreciation = await _depreciatioRepository.Entities
                 .Include(s => s.Asset)
                 .Include(s => s.Component)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (depreciation == null)
                 return false;
             depreciation.IsDeleted = true;

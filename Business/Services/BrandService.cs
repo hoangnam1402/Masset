@@ -46,7 +46,7 @@ namespace Business.Services
         public async Task<BrandDto?> GetByIdAsync(int id)
         {
             var result = await _brandsRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<BrandDto>(result);
@@ -78,7 +78,7 @@ namespace Business.Services
         public async Task<BrandDto?> UpdateAsync(int id, BrandUpdateDto updateRequest)
         {
             var brand = await _brandsRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (brand == null)
                 return null;
             brand = _mapper.Map(updateRequest, brand);
@@ -94,7 +94,7 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var brand = await _brandsRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (brand == null)
                 return false;
             brand.IsDeleted = true;

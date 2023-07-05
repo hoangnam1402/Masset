@@ -14,12 +14,19 @@ namespace Business.Services
     public class AssetService : IAssetService
     {
         private readonly IBaseRepository<Asset> _assetRepository;
+        private readonly IBaseRepository<Depreciation> _depreciatioRepository;
+        private readonly IBaseRepository<Maintenance> _maintenanceRepository;
         private readonly IMapper _mapper;
 
-        public AssetService(IBaseRepository<Asset> assetRepository, IMapper mapper)
+        public AssetService(IMapper mapper,
+            IBaseRepository<Asset> assetRepository,
+            IBaseRepository<Maintenance> maintenanceRepository, 
+            IBaseRepository<Depreciation> depreciatioRepository)
         {
             _assetRepository = assetRepository;
             _mapper = mapper;
+            _depreciatioRepository = depreciatioRepository;
+            _maintenanceRepository = maintenanceRepository;
         }
 
         public async Task<PagedResponseModel<AssetDto>> GetByPageAsync(
@@ -167,7 +174,7 @@ namespace Business.Services
         public async Task<bool?> UpdateImageAsync(string tag, IFormFile image)
         {
             var asset = await _assetRepository.Entities
-                .FirstOrDefaultAsync(x => x.Tag == tag);
+                .FirstOrDefaultAsync(x => x.Tag == tag  && x.IsDeleted == false);
             if (asset == null)
                 return null;
 
@@ -216,7 +223,7 @@ namespace Business.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var asset = await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Id == id);
+            var asset = await _assetRepository.Entities.FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (asset == null)
                 return false;
 
@@ -224,6 +231,22 @@ namespace Business.Services
             asset.UpdateDay = DateTime.Now;
 
             var result = await _assetRepository.Update(asset);
+
+            var depreciation = await _depreciatioRepository.Entities
+                .FirstOrDefaultAsync(x => x.AssetID == id && x.IsDeleted == false);
+            if (depreciation == null)
+                return false;
+            depreciation.IsDeleted = true;
+            depreciation.UpdateDay = DateTime.Now;
+            await _depreciatioRepository.Update(depreciation);
+
+            var maintenance = await _maintenanceRepository.Entities
+                .FirstOrDefaultAsync(x => x.AssetID == id && x.IsDeleted == false);
+            if (maintenance == null)
+                return false;
+            maintenance.IsDeleted = true;
+            maintenance.UpdateDay = DateTime.Now;
+            await _maintenanceRepository.Update(maintenance);
 
             return result!=null;
         }

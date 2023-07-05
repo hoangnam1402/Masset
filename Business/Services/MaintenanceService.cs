@@ -40,7 +40,7 @@ namespace Business.Services
         {
             var maintenance = await _maintenanceRepository.Entities
                 .Include(s => s.Asset)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (maintenance == null)
                 return false;
             maintenance.IsDeleted = true;
@@ -126,7 +126,7 @@ namespace Business.Services
         {
             var maintenance = await _maintenanceRepository.Entities
                 .Include(s => s.Asset)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (maintenance == null)
                 return null;
             maintenance = _mapper.Map(updateRequest, maintenance);

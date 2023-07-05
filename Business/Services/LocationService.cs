@@ -46,7 +46,7 @@ namespace Business.Services
         public async Task<LocationDto?> GetByIdAsync(int id)
         {
             var result = await _locationRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
             if (result != null)
                 return _mapper.Map<LocationDto>(result);
@@ -77,7 +77,7 @@ namespace Business.Services
         public async Task<LocationDto?> UpdateAsync(int id, LocationUpdateDto updateRequest)
         {
             var location = await _locationRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (location == null)
                 return null;
             location = _mapper.Map(updateRequest, location);
@@ -94,7 +94,7 @@ namespace Business.Services
         public async Task<bool> DeleteAsync(int id)
         {
             var location = await _locationRepository.Entities
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
             if (location == null)
                 return false;
             location.IsDeleted = true;

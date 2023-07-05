@@ -58,9 +58,11 @@ export function* handleCreate(action: PayloadAction<CreateAction>) {
     const {handleResult, formValues} = action.payload;
     try {        
         const { data } = yield call(createRequest, formValues);
-        if (data)
+        if (data.asset)
         {
             handleResult(true, data.asset.name);
+        } else {
+            handleResult(true, data.id);
         }
 
         yield put(setStatus({
@@ -79,9 +81,13 @@ export function* handleDelete(action: PayloadAction<DeleteAction>) {
     const {handleResult, formValues} = action.payload;
     try {
         const { data } = yield call(deleteRequest, formValues.id);
-        if(data) {
+        if (data.asset)
+        {
             handleResult(true, formValues.asset.name);
+        } else {
+            handleResult(true, formValues.id);
         }
+        
         yield put(setStatus({
             status: Status.Success,
         }));
@@ -99,7 +105,12 @@ export function* handleUpdate(action: PayloadAction<CreateAction>) {
     try {
         const { data } = yield call(updateRequest, formValues);
 
-        handleResult(true, data.asset.name);
+        if (data.asset)
+        {
+            handleResult(true, data.asset.name);
+        } else {
+            handleResult(true, data.id);
+        }
 
         yield put(setMaintenance(data));
         
