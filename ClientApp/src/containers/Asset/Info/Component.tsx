@@ -5,7 +5,6 @@ import IColumnOption from "../../../interfaces/IColumnOption";
 import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } from "../../../constants/paging";
 import IQueryModel from "../../../interfaces/IQueryModel";
 import Table from "../../../components/Table";
-import { Search } from "react-feather";
 import ComponentCheckFDP from "./ComponentCheckFDP";
 
 const columns: IColumnOption[] = [
@@ -102,7 +101,7 @@ const Component: React.FC<Props> = ({assetID}) => {
                                 className="form-control"
                             />
                             <span onClick={handleSearch} className="border p-2 pointer search-icon">
-                                <Search />
+                                <img src="/search-icon.png" alt="search-icon" className="icon" />
                             </span>
                         </div>
                     </div>

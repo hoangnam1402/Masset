@@ -42,7 +42,8 @@ const ClickToShowField: React.FC<InputFieldProps> = (props) => {
                         <input className={`input-with-icon form-control ${validateClass()}`} {...field} {...props}
                             onKeyDown={(e) => e.preventDefault()}/>
                         <div className="p-2"  style={{justifyContent: "space-around"}}>
-                            <Search cursor="pointer" />
+                            <img src="/search-icon.png" alt="search-icon" className="icon" />
+                            {/* <Search cursor="pointer" /> */}
                         </div>
                     </label>
                     {error && touched && (

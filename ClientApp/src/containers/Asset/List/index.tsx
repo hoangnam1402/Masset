@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FunnelFill } from "react-bootstrap-icons";
-import { Search } from "react-feather";
 import { MultiSelect } from "react-multi-select-component";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
@@ -169,7 +168,7 @@ const AssetList = () => {
                 className="form-control"
               />
               <span onClick={handleSearch} className="border p-2 pointer search-icon">
-                <Search />
+                <img src="/search-icon.png" alt="search-icon" className="icon" />
               </span>
             </div>
           </div>

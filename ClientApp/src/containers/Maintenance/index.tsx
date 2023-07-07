@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Search } from "react-feather";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getMaintenances } from "./reducer";
 import {
@@ -109,7 +108,7 @@ const Maintenance = () => {
                 className="form-control"
               />
               <span onClick={handleSearch} className="border p-2 pointer search-icon">
-                <Search />
+                <img src="/search-icon.png" alt="search-icon" className="icon" />
               </span>
             </div>
           </div>

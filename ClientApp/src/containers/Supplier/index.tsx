@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Search } from "react-feather";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getSuppliers } from "./reducer";
 import {
@@ -109,7 +108,7 @@ const Supplier = () => {
                 className="form-control"
               />
               <span onClick={handleSearch} className="border p-2 pointer search-icon">
-                <Search />
+                <img src="/search-icon.png" alt="search-icon" className="icon" />
               </span>
             </div>
           </div>

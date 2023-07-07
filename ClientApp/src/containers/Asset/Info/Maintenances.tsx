@@ -8,7 +8,6 @@ import { ACCSENDING, DECSENDING, DEFAULT_PAGE_LIMIT, DEFAULT_SORT_COLUMN_NAME } 
 import { TypeMaintenance, TypeCalibration, TypeCalibrationLabel, TypeHardwareSupport, TypeTesting,
     TypeHardwareSupportLabel, TypeMaintenanceLabel, TypeRepair, TypeRepairLabel, TypeSoftwareSupport,
     TypeSoftwareSupportLabel, TypeTestingLabel, TypeUpgradeLabel } from "../../../constants/maintenanceConstants";
-import { Search } from "react-feather";
 import MaintenanceFDP from "../../Maintenance/MaintenanceFDP";
 
 const columns: IColumnOption[] = [
@@ -124,7 +123,7 @@ const Maintenances: React.FC<Props> = ({assetID}) => {
                                 className="form-control"
                             />
                             <span onClick={handleSearch} className="border p-2 pointer search-icon">
-                                <Search />
+                                <img src="/search-icon.png" alt="search-icon" className="icon" />
                             </span>
                         </div>
                     </div>
